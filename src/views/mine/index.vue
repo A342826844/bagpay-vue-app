@@ -1,7 +1,7 @@
 <template>
-    <div class="home">
-        <h1>home</h1>
-        <p @click="clickTest">{{testValue}}</p>
+    <div class="mine">
+        <h1>mine</h1>
+        <p @click="loginHandle">{{islogin ? '已登录' : '未登录'}}</p>
     </div>
 </template>
 
@@ -9,19 +9,19 @@
 import Vue from 'vue';
 
 type data = {
-    testValue: number;
+    islogin: boolean;
 }
 
 export default Vue.extend({
     name: 'Home',
     data(): data {
         return {
-            testValue: 2113,
+            islogin: false,
         };
     },
     methods: {
-        clickTest() {
-            this.testValue += 1;
+        loginHandle() {
+            this.islogin = !this.islogin;
         },
     },
 });
