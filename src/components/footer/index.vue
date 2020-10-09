@@ -4,7 +4,7 @@
             <div
                 @click="linkTo(item, index)"
                 :title="item.title"
-                class="flex__item nav-box"
+                class="flex-item-1 nav-box"
                 v-for="(item, index) in tabList"
                 :key="item.name"
             >
