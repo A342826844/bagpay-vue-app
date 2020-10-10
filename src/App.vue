@@ -36,13 +36,6 @@ export default Vue.extend({
             testValue: 2113,
         };
     },
-    methods: {
-        clickTest() {
-            console.log(this.testValue);
-            this.testValue = '12212';
-            console.log(this.$store.state);
-        },
-    },
 });
 </script>
 
