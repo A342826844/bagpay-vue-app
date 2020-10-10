@@ -40,11 +40,17 @@ export default Vue.extend({
         return {
             tabList: [
                 {
-                    path: '/',
+                    path: '/home',
                     name: 'home',
                     title: '首页',
                     defaultIcon: 'homeN',
                     activeIcon: 'homeS',
+                }, {
+                    path: '/otc',
+                    name: 'otc',
+                    title: 'OTC',
+                    defaultIcon: 'otcN',
+                    activeIcon: 'otcS',
                 }, {
                     path: '/mine',
                     name: 'mine',
@@ -58,14 +64,8 @@ export default Vue.extend({
     },
     methods: {
         linkTo(item: LinkItem) {
-            console.log(this.$route.name, item.name);
             if (this.$route.name === item.name) return;
-            if (item.needLogin) {
-                // this.$loginRoute(item.path);
-                this.$router.push(item.path);
-            } else {
-                this.$router.push(item.path);
-            }
+            this.$router.push(item.path);
         },
     },
 });

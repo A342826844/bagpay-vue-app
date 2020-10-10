@@ -24,6 +24,11 @@ const loadLocaleMessages = () => {
 
 export const { langs, messages } = loadLocaleMessages();
 
+/**
+ * 获取默认语言
+ * @param _lang 备选语言
+ *
+ */
 export const defaultLang = (_lang: string): string => {
     let lang = '';
     const thinkLanguage = window.localStorage.getItem('think_language') || navigator.language.toLowerCase() || '';
