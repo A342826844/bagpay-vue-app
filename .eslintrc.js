@@ -19,5 +19,6 @@ module.exports = {
         indent: ['error', 4],
         'max-len': ['error', { code: 150 }],
         '@typescript-eslint/no-explicit-any': ['off'], // 应许ts中使用any类型
+        '@typescript-eslint/no-var-requires': ['off'], // 应许ts中使用any类型
     },
 };

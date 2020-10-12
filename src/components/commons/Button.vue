@@ -52,9 +52,22 @@ export default Vue.extend({
     &.primary{
         .primary-bg;
     }
+    &.down{
+        .red-bg;
+    }
+    &.up{
+        .green-bg;
+    }
     &.info{
         .info-bg;
         border-color: @primary;
+    }
+    &.small{
+        width: 235px;
+    }
+    &.auto{
+        width: auto;
+        padding: 0 45px;
     }
 }
 </style>

@@ -5,9 +5,12 @@
             @click="clearHandle"
             :class="{focus}"
             v-show="clearable"
-            class="app-input-clear"
+            class="app-input-clear app-input-right"
             src="@/assets/img/common/clear.png" alt=""
         >
+        <div class="app-input-right">
+            <slot></slot>
+        </div>
     </div>
 </template>
 
@@ -94,7 +97,7 @@ export default Vue.extend({
 
 <style scoped lang="less">
 .app-input{
-    width: 664px;
+    width: 100%;
     height: 99px;
     background: #F5F7F9;
     border-radius: 10px;
@@ -106,15 +109,18 @@ export default Vue.extend({
         background: transparent;
         padding-left: 40px;
     }
-    &-clear{
+    &-right{
         position: absolute;
         right: 40px;
-        width: 60px;
-        height: auto;
         top: 0;
         bottom: 0;
         margin: auto;
-        // display: none;
+        height: 99px;
+        line-height: 99px;
+    }
+    &-clear{
+        height: auto;
+        width: 60px;
         opacity: 0;
         transition: 0.3s;
         &.focus{

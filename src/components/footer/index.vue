@@ -22,6 +22,13 @@
 <script lang="ts">
 import Vue from 'vue';
 
+const assetsN = require('@/assets/img/footer/assets_n.png');
+const assetsS = require('@/assets/img/footer/assets_s.png');
+const mineN = require('@/assets/img/footer/mine_n.png');
+const mineS = require('@/assets/img/footer/mine_s.png');
+const otcN = require('@/assets/img/footer/otc_n.png');
+const otcS = require('@/assets/img/footer/otc_s.png');
+
 interface LinkItem {
     path: string;
     name: string;
@@ -43,21 +50,21 @@ export default Vue.extend({
                     path: '/home',
                     name: 'home',
                     title: '首页',
-                    defaultIcon: 'homeN',
-                    activeIcon: 'homeS',
+                    defaultIcon: assetsN,
+                    activeIcon: assetsS,
                 }, {
                     path: '/otc',
                     name: 'otc',
                     title: 'OTC',
-                    defaultIcon: 'otcN',
-                    activeIcon: 'otcS',
+                    defaultIcon: otcN,
+                    activeIcon: otcS,
                 }, {
                     path: '/mine',
                     name: 'mine',
                     title: '我的',
                     needLogin: true,
-                    defaultIcon: 'contractN',
-                    activeIcon: 'contractS',
+                    defaultIcon: mineN,
+                    activeIcon: mineS,
                 },
             ],
         };

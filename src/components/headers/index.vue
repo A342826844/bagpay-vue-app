@@ -1,12 +1,12 @@
 <template>
-    <div class="app-headers">
-        <!-- <img
+    <div class="app-headers" :class="[theme]">
+        <img
             v-if="isBack"
             @click="goback"
             v-show="theme === 'dark'"
             class="goBack"
             src="@/assets/img/common/baise_go.png" alt=""
-        > -->
+        >
         <img
             v-if="isBack"
             @click="goback"
@@ -14,7 +14,7 @@
             class="goBack"
             src="@/assets/img/common/previous_page.png" alt=""
         >
-        <span class="title">{{title}}</span>
+        <span class="title" :class="[{'bold-title': bold}]">{{title}}</span>
         <span class="rightTitle" @click="$emit('right-click')">{{value}}</span>
         <span class="right"><slot></slot></span>
     </div>
@@ -33,6 +33,9 @@ export default Vue.extend({
         theme: {
             type: String,
             default: 'light', // light dark
+        },
+        bold: {
+            type: Boolean,
         },
         title: {
             type: String,
@@ -68,6 +71,10 @@ export default Vue.extend({
     color: #202025;
     top: 0;
     z-index: 1000;
+    &.dark{
+        background: transparent;
+        color: #fff;
+    }
     .rightTitle, .right{
         font-size: 28px;
         position: absolute;
@@ -89,6 +96,10 @@ export default Vue.extend({
         font-weight: normal;
         position: absolute;
         left:50%;
+        &.bold-title{
+            font-size: 45px;
+            font-weight: bold;
+        }
     }
     .right {
         float: right;

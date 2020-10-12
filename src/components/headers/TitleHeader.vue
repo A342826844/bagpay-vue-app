@@ -1,10 +1,10 @@
 <template>
     <div class="app-title-headers">
-        <Headers @back="goback"></Headers>
-        <h3 class="app-title-headers-title" v-if="!$slots.default" @click="testHandle">{{title}}</h3>
-        <div>
-            <slot></slot>
-        </div>
+        <Headers v-bind="$attrs" :theme="theme" @back="goback">
+            <slot name="header"></slot>
+        </Headers>
+        <h3 class="app-title-headers-title" :class="[theme]" >{{title}}</h3>
+        <slot></slot>
     </div>
 </template>
 
@@ -16,6 +16,10 @@ export default Vue.extend({
     props: {
         title: {
             type: String,
+        },
+        theme: {
+            type: String,
+            default: 'light', // light dark
         },
     },
     methods: {
@@ -44,6 +48,9 @@ export default Vue.extend({
         line-height: 45px;
         color: #282828;
         font-weight: bold;
+        &.dark{
+            color: #ffffff;
+        }
     }
 }
 </style>

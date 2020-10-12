@@ -4,9 +4,27 @@
         "home": "首页",
         "mine": "我的"
     },
+    "common": {
+        "save": "保存"
+    },
     "login": {
         "loginTitle": "登录账号",
-        "registerTitle": ""
+        "loginTip": "你将会拥有多链钱包",
+        "phone": "手机号",
+        "password": "登录密码",
+        "findAccount": "找回密码",
+        "login": "登 录",
+        "findAccountTitle": "找回账号",
+        "findAccountTip": "找回账号登录密码",
+        "vCode": "验证码",
+        "againEnter": "再次输入",
+        "done": "完 成",
+        "send": "发送",
+        "nickname": "昵称",
+        "register": "创 建",
+        "setPayPassTitle": "设置安全密码",
+        "setPayPassTip": "设置6位数安全密码，安全码将用于交易， 以及验证修改登录密码",
+        "registerTitle": "创建账号"
     },
     "entry": {
         "title1": "多币种钱包",
@@ -17,6 +35,17 @@
         "tip3": "安全放心 方便快捷"
     },
     "home": {
-
+        "assets": "资产",
+        "paymentTitle": "收款",
+        "paymentAddr": "钱包地址",
+        "chequesAddr": "收款地址",
+        "address": "地址",
+        "amount": "金额",
+        "password": "安全密码",
+        "passwordTip": "6位数安全密码",
+        "remark": "备注",
+        "transferIn": "转入",
+        "transferOut": "转出",
+        "paymentTip": "扫描二维码，转入"
     }
 }

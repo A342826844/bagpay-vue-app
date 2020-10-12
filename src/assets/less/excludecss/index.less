@@ -52,10 +52,22 @@
 .border-r {
   position: relative;
 }
-.border-b::after {.border-b();}
-.border-t::before {.border-t();}
-.border-r::before {.border-r();}
-.border-l::after {.border-l();}
+.border-b::after {
+    .border-b();
+    position: absolute;
+}
+.border-t::before {
+    .border-t();
+    position: absolute;
+}
+.border-r::before {
+    .border-r();
+    position: absolute;
+}
+.border-l::after {
+    .border-l();
+    position: absolute;
+}
 
 .scale-1px(@c:#C3C3CD, @radius: 4px){
     position: relative;
