@@ -6,7 +6,7 @@
                 {[`tab-list-size-${size}`] : size},
                 {sticky},
             ]"
-            class="tabbar"
+            class="tabbar app-padding40"
         >
             <p
                 v-for="(item, index) in tabList"
@@ -380,7 +380,6 @@ export default Vue.extend({
         align-items: flex-end;
         overflow-y: hidden;
         overflow-x: auto;
-        padding: 0 40px;
         padding-bottom: 35px;
         height: 93px;
         &.border{

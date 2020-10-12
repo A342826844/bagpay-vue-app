@@ -1,5 +1,5 @@
 <template>
-    <div class="app-headers" :class="[theme]">
+    <div class="app-headers app-padding40" :class="[theme]">
         <img
             v-if="isBack"
             @click="goback"
@@ -65,7 +65,6 @@ export default Vue.extend({
     width: 100%;
     text-align: left;
     line-height: 88px;
-    padding-left: 40px;
     padding-right: 21px;
     position: sticky;
     color: #202025;

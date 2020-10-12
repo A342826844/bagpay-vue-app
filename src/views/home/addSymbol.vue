@@ -1,7 +1,7 @@
 <template>
     <div class="add-symbol">
         <TitleHeader :title="$t('login.loginTitle')" />
-        <div class="add-symbol-list assets-symbol-list">
+        <div class="add-symbol-list assets-symbol-list app-padding40">
             <ul>
                 <li class="flex-between-c" v-for="item in symbolList" :key="item.symbol">
                     <div class="flex-start-c">
@@ -86,8 +86,5 @@ export default Vue.extend({
 .add-symbol{
     position: relative;
     height: 100%;
-    &-list{
-        padding: 0 40px;
-    }
 }
 </style>

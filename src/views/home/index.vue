@@ -1,5 +1,5 @@
 <template>
-    <div class="home">
+    <div class="home app-padding40">
         <div class="home-header flex-between-c">
             <div>
                 <img src="../../assets/img/common/menu.png" alt="">
@@ -101,7 +101,6 @@ export default Vue.extend({
 <style lang="less" scoped>
 @import './assets-symbol-list.less';
 .home{
-    padding: 0 40px;
     &-header{
         font-size: 45px;
         height: 100px;

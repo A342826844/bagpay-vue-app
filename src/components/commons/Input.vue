@@ -1,6 +1,14 @@
 <template>
     <div class="app-input">
-        <input ref="input" v-bind="{...$attrs}" @focus="focusHandle" @blur="blurHandle" v-model="inputV" :type="type" >
+        <input
+            ref="input"
+            class="app-padding40"
+            v-bind="{...$attrs}"
+            @focus="focusHandle"
+            @blur="blurHandle"
+            v-model="inputV"
+            :type="type"
+        >
         <img
             @click="clearHandle"
             :class="{focus}"
@@ -107,7 +115,6 @@ export default Vue.extend({
         width: 100%;
         height: 100%;
         background: transparent;
-        padding-left: 40px;
     }
     &-right{
         position: absolute;

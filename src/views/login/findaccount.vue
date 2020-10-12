@@ -1,7 +1,7 @@
 <template>
     <div class="login">
         <TitleHeader :title="$t('login.findAccountTitle')" />
-        <div class="login-box">
+        <div class="login-box app-padding40">
             <p class="login-tip">{{$t('login.findAccountTip')}}</p>
             <form @submit.prevent="" class="login-form" action="">
                 <Inputs

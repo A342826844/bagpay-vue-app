@@ -3,7 +3,7 @@
         <Headers v-bind="$attrs" :theme="theme" @back="goback">
             <slot name="header"></slot>
         </Headers>
-        <h3 class="app-title-headers-title" :class="[theme]" >{{title}}</h3>
+        <h3 class="app-title-headers-title app-padding40" :class="[theme]" >{{title}}</h3>
         <slot></slot>
     </div>
 </template>
@@ -42,7 +42,6 @@ export default Vue.extend({
 .app-title-headers {
     &-title{
         text-align: left;
-        padding-left: 40px;
         margin-top: 62px;
         font-size: 45px;
         line-height: 45px;

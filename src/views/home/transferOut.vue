@@ -2,7 +2,7 @@
     <div class="transfer-out">
         <TitleHeader :title="`${symbol.toUpperCase()} ${$t('home.transferOut')}`">
             <img class="transfer-out-qrcode" slot="header" src="../../assets/img/common/qrcode1.png" alt="">
-            <form class="transfer-out-form">
+            <form class="transfer-out-form app-padding40">
                 <div class="form-item">
                     <div class="lable" v-t="'home.chequesAddr'"></div>
                     <Inputs v-model="form.address" :placeholder="`${symbol.toUpperCase()} ${$t('home.address')}`">
@@ -90,7 +90,6 @@ export default Vue.extend({
         width: 50px;
     }
     &-form{
-        padding: 0 40px;
         padding-bottom: 150px;
         .form-item{
             margin-top: 76px;

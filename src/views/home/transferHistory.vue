@@ -22,7 +22,7 @@
                 >
                     <div class="transfer-list" slot="transferIn">
                         <ul>
-                            <li class="flex-between-c" v-for="(item, index) in renderList" :key="index">
+                            <li class="app-padding40 flex-between-c" v-for="(item, index) in renderList" :key="index">
                                 <div class="values">
                                     <h5 class="value" :class="sideMap[item.side].color">{{$t(sideMap[item.side].title)}}</h5>
                                     <p class="sub-value">E2jijdi2o1...23jiwajid</p>
@@ -36,7 +36,7 @@
                     </div>
                     <div class="transfer-list" slot="transferOut">
                         <ul>
-                            <li class="flex-between-c" v-for="(item, index) in renderList" :key="index">
+                            <li class="app-padding40 flex-between-c" v-for="(item, index) in renderList" :key="index">
                                 <div class="values">
                                     <h5 class="value" :class="sideMap[item.side].color">{{$t(sideMap[item.side].title)}}</h5>
                                     <p class="sub-value">E2jijdi2o1...23jiwajid</p>
@@ -166,7 +166,6 @@ export default Vue.extend({
             &>ul{
                 &>li{
                     height: 142px;
-                    padding: 0 40px;
                     .values{
                         &:first-child{
                             text-align: left;
