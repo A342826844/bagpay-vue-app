@@ -92,4 +92,18 @@ const sameValue = (one: any, tow: any) => {
         return false;
     }
 };
-export { deepCopy, merge, sameValue };
+
+// 判断参数是否是其中之一
+const oneOf = (value: string, validList: Array<any>) => {
+    // eslint-disable-next-line
+    for (let i = 0; i < validList.length; i++) {
+        if (value === validList[i]) {
+            return true;
+        }
+    }
+    return false;
+};
+
+export {
+    deepCopy, merge, sameValue, oneOf,
+};

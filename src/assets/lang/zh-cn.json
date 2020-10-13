@@ -5,7 +5,9 @@
         "mine": "我的"
     },
     "common": {
-        "save": "保存"
+        "send": "发 送",
+        "save": "保 存",
+        "name": "名称"
     },
     "login": {
         "loginTitle": "登录账号",
@@ -18,11 +20,13 @@
         "findAccountTip": "找回账号登录密码",
         "vCode": "验证码",
         "againEnter": "再次输入",
+        "payPassword": "安全密码",
         "done": "完 成",
         "send": "发送",
         "nickname": "昵称",
         "register": "创 建",
         "setPayPassTitle": "设置安全密码",
+        "payPasswordTip": "6位数安全密码",
         "setPayPassTip": "设置6位数安全密码，安全码将用于交易， 以及验证修改登录密码",
         "registerTitle": "创建账号"
     },
@@ -36,16 +40,37 @@
     },
     "home": {
         "assets": "资产",
+        "paymentTip": "扫描二维码，转入"
+    },
+    "mine": {
+        "safeSetting": "安全认证",
+        "realName": "实名认证",
+        "systemSetting": "系统设置",
+        "hideAmount": "隐藏余额",
+        "changeLang": "切换语言",
+        "unitPrice": "计价单位",
+        "logout": "退出账号",
+        "feedback": "意见反馈",
+        "aboutus": "关于我们",
+        "realName1": "上传证件正面",
+        "realName2": "上传证件反面",
+        "realName3": "手持证件正面",
+        "safePass": "安全密码"
+    },
+    "payment": {
         "paymentTitle": "收款",
-        "paymentAddr": "钱包地址",
-        "chequesAddr": "收款地址",
         "address": "地址",
         "amount": "金额",
-        "password": "安全密码",
-        "passwordTip": "6位数安全密码",
+        "paymentAddr": "钱包地址",
+        "addAddress": "添加地址",
+        "choiceAddress": "选择币种",
         "remark": "备注",
         "transferIn": "转入",
         "transferOut": "转出",
-        "paymentTip": "扫描二维码，转入"
+        "paymentTip": "扫描二维码，转入",
+        "chequesAddr": "收款地址",
+        "setPaymentTitle": "管理钱包",
+        "addTitle": "添加地址",
+        "selectSymbol": "选择币种"
     }
 }

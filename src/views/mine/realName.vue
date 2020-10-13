@@ -1,0 +1,205 @@
+<template>
+    <div class="realname">
+        <TitleHeader :title="$t('mine.realName')">
+            <p class="app-padding40 realname-tip">申请实名认证</p>
+            <form class="realname-form app-padding40" action="">
+                <div class="form-item">
+                    <Inputs v-model="form.userName" placeholder="姓名" clearable></Inputs>
+                </div>
+                <div class="form-item">
+                    <Inputs v-model="form.idCard"  placeholder="ID 号码" clearable></Inputs>
+                </div>
+                <ul>
+                    <li v-for="item in uploadList" :key="item.name">
+                        <input type="file" @change="fileChange($event, item.name)" accept="image/*" name="" />
+                        <div class="add-bg">
+                            <img :src="item.img" alt="">
+                            <p class="primary-color">{{$t(item.title)}}</p>
+                        </div>
+                        <div class="myProgress" v-show="!!item.percent">
+                            <Progress :percent="item.percent"/>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+            <div class="lxa-footer-btn">
+                <Button @click="saveHandle" v-t="'common.save'"></Button>
+            </div>
+        </TitleHeader>
+    </div>
+</template>
+
+<script lang="ts">
+import Vue from 'vue';
+import uploadQiniu from '@/commons/upload/index';
+import Progress from '../../components/Progress/index.vue';
+
+const idcard1 = require('../../assets/img/mine/idcard1.png');
+const idcard2 = require('../../assets/img/mine/idcard2.png');
+const idcard3 = require('../../assets/img/mine/idcard3.png');
+
+type data = {
+    form: {
+        userName: string;
+        idCard: string;
+    };
+    uploadList: Array<any>;
+}
+
+export default Vue.extend({
+    name: 'RealName',
+    components: {
+        Progress,
+    },
+    data(): data {
+        return {
+            form: {
+                userName: '',
+                idCard: '',
+            },
+            uploadList: [
+                {
+                    val: '',
+                    title: 'mine.realName1',
+                    img: idcard1,
+                    name: 'idcardimg1',
+                    percent: 0,
+                },
+                {
+                    val: '',
+                    title: 'mine.realName2',
+                    img: idcard2,
+                    name: 'idcardimg2',
+                    percent: 0,
+                },
+                {
+                    val: '',
+                    title: 'mine.realName3',
+                    img: idcard3,
+                    name: 'idcardimg3',
+                    percent: 0,
+                },
+            ],
+        };
+    },
+    methods: {
+        saveHandle() {
+            // TODO
+        },
+        fileChange(e: any, name: string) {
+            const file = e.target.files[0];
+            if (file.size > 10 * 1024 * 1024) {
+                // this.$normalToast(this.$t('setting.realName.IDCartRule4'));
+                return;
+            }
+            // 上传正确的图片格式
+            const imgName = [
+                'png',
+                'PNG',
+                'jpg',
+                'JPG',
+                'bmp',
+                'BMP',
+                'gif',
+                'GIF',
+                'jpeg',
+                'JPEG',
+            ];
+            if (file) {
+                const str1 = file.name.split('.');
+                const letn = str1.length;
+                const geImg = str1[letn - 1];
+                const isFlase = imgName.indexOf(geImg);
+                if (isFlase !== -1) {
+                    this.uploadImgHandle(file, name);
+                } else {
+                    // 格式
+                    // this.$normalToast(this.$t('setting.realName.IDCartRule4'));
+                }
+            }
+        },
+        uploadProgress(percent: number, name: string) {
+            this.uploadList = this.uploadList.map((item: any) => {
+                const res = { ...item };
+                if (item.name === name) {
+                    res.percent = percent;
+                }
+                return res;
+            });
+        },
+        async uploadImgHandle(file: any, name: string) {
+            const obj = await uploadQiniu(file, this.uploadProgress, this, name);
+            if (obj.isOk) {
+                this.replaceImg(file, name, obj.name);
+            } else {
+                // this.$normalToast('上传失败');
+            }
+        },
+        replaceImg(file: any, name: string, val: string) {
+            this.uploadList = this.uploadList.map((item) => {
+                const res = { ...item };
+                if (item.name === name) {
+                    res.img = URL.createObjectURL(file);
+                    res.val = val;
+                    res.percent = 0;
+                }
+                return res;
+            });
+        },
+    },
+});
+</script>
+
+<style lang="less" scoped>
+.realname{
+    height: 100%;
+    overflow: scroll;
+    font-size: 34px;
+    &-tip{
+        margin-top: 34px;
+        text-align: left;
+    }
+    &-form{
+        margin-top: 109px;
+        .form-item{
+            margin-top: 30px;
+        }
+        &>ul{
+            margin: auto;
+            width: 496px;
+            margin-top: 110px;
+            &>li{
+                position: relative;
+                width: 100%;
+                height: 311px;
+                margin-top: 32px;
+                img{
+                    width: 100%;
+                    max-width: 100%;
+                    max-height: 100%;
+                }
+                input{
+                    opacity: 0;
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    z-index: 1;
+                }
+                .add-bg{
+                    &>p{
+                        position: absolute;
+                        bottom: 48px;
+                        left: 0;
+                        right: 0;
+                        margin: auto;
+                    }
+                }
+            }
+        }
+    }
+}
+</style>

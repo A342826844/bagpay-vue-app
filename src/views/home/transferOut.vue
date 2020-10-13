@@ -1,25 +1,25 @@
 <template>
     <div class="transfer-out">
-        <TitleHeader :title="`${symbol.toUpperCase()} ${$t('home.transferOut')}`">
+        <TitleHeader :title="`${symbol.toUpperCase()} ${$t('payment.transferOut')}`">
             <img class="transfer-out-qrcode" slot="header" src="../../assets/img/common/qrcode1.png" alt="">
             <form class="transfer-out-form app-padding40">
                 <div class="form-item">
-                    <div class="lable" v-t="'home.chequesAddr'"></div>
-                    <Inputs v-model="form.address" :placeholder="`${symbol.toUpperCase()} ${$t('home.address')}`">
+                    <div class="lable" v-t="'payment.chequesAddr'"></div>
+                    <Inputs v-model="form.address" :placeholder="`${symbol.toUpperCase()} ${$t('payment.address')}`">
                         <img class="transfer-out-assets" src="../../assets/img/home/assets.png" alt="">
                     </Inputs>
                 </div>
                 <div class="form-item form-item-card">
-                    <div class="lable" v-t="'home.amount'"></div>
+                    <div class="lable" v-t="'payment.amount'"></div>
                     <Inputs class="amount-input" v-model="form.address" placeholder="0"></Inputs>
                     <div class="amount-line">
                         <div class="border-t"></div>
                     </div>
-                    <Inputs class="remark-input" v-model="form.address" :placeholder="$t('home.remark')"></Inputs>
+                    <Inputs class="remark-input" v-model="form.address" :placeholder="$t('payment.remark')"></Inputs>
                 </div>
                 <div class="form-item">
-                    <div class="lable" v-t="'home.password'"></div>
-                    <Inputs v-model="form.password" :placeholder="$t('home.passwordTip')"></Inputs>
+                    <div class="lable" v-t="'login.payPassword'"></div>
+                    <Inputs v-model="form.password" :placeholder="$t('login.payPasswordTip')"></Inputs>
                 </div>
                 <div class="form-item">
                     <div class="lable flex-between-c">

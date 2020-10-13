@@ -8,6 +8,7 @@
             @blur="blurHandle"
             v-model="inputV"
             :type="type"
+            :maxlength="maxlength"
         >
         <img
             @click="clearHandle"
@@ -16,6 +17,7 @@
             class="app-input-clear app-input-right"
             src="@/assets/img/common/clear.png" alt=""
         >
+        <span class="app-input-length app-input-right" v-show="maxlength">{{inputV.length}}/{{maxlength}}</span>
         <div class="app-input-right">
             <slot></slot>
         </div>
@@ -45,6 +47,9 @@ export default Vue.extend({
             type: Boolean,
             default: false,
         },
+        maxlength: {
+            type: [Number, String],
+        },
         clearable: {
             type: Boolean,
             default: false,
@@ -62,7 +67,7 @@ export default Vue.extend({
         };
     },
     created() {
-        this.inputV = this.value;
+        this.inputV = this.value || '';
     },
     watch: {
         value(value) {
@@ -133,6 +138,10 @@ export default Vue.extend({
         &.focus{
             opacity: 1;
         }
+    }
+    &-length{
+        font-size: 28px;
+        color: #b3b3b3;
     }
 }
 </style>

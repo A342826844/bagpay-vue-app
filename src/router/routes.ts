@@ -7,6 +7,16 @@ const Payment = () => import('@/views/home/payment.vue'); // 收款地址二维�
 const TransferOut = () => import('@/views/home/transferOut.vue'); // 转出
 
 const Mine = () => import('@/views/mine/index.vue');
+const SafeSetting = () => import('@/views/mine/safeSetting.vue');
+const RealName = () => import('@/views/mine/realName.vue');
+const SafePass = () => import('@/views/mine/safePass.vue');
+const SystemSetting = () => import('@/views/mine/systemSetting.vue');
+const Feedback = () => import('@/views/mine/feedback.vue');
+const Aboutus = () => import('@/views/mine/aboutus.vue');
+
+const SetPayment = () => import('@/views/setPayment/index.vue');
+const SetPaymentAdd = () => import('@/views/setPayment/add.vue');
+const ChoiseSymbol = () => import('@/views/setPayment/choiseSymbol.vue');
 const Otc = () => import('@/views/otc/index.vue');
 const Entry = () => import('@/views/entry/index.vue');
 const Login = () => import('@/views/login/index.vue');
@@ -92,6 +102,51 @@ const routes: Array<RouteConfig> = [
             needLogin: true,
             name: 'mine',
         },
+    },
+    {
+        path: '/mine/safesetting',
+        name: 'minesafesetting',
+        component: SafeSetting,
+    },
+    {
+        path: '/mine/realname',
+        name: 'minerealname',
+        component: RealName,
+    },
+    {
+        path: '/mine/safepass',
+        name: 'minesafepass',
+        component: SafePass,
+    },
+    {
+        path: '/mine/systemsetting',
+        name: 'systemsetting',
+        component: SystemSetting,
+    },
+    {
+        path: '/mine/feedback',
+        name: 'feedback',
+        component: Feedback,
+    },
+    {
+        path: '/mine/aboutus',
+        name: 'aboutus',
+        component: Aboutus,
+    },
+    {
+        path: '/setpayment',
+        name: 'setpayment',
+        component: SetPayment,
+    },
+    {
+        path: '/setpayment/add',
+        name: 'setpaymentadd',
+        component: SetPaymentAdd,
+    },
+    {
+        path: '/choisesymbol',
+        name: 'choisesymbol',
+        component: ChoiseSymbol,
     },
 ];
 

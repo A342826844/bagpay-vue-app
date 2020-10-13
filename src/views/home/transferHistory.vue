@@ -87,7 +87,7 @@ export default Vue.extend({
                     value: 1,
                     color: 'green-color',
                     bgColor: 'green-bg',
-                    title: 'home.transferIn',
+                    title: 'payment.transferIn',
                     type: 'up',
                     path: '/payment',
                 },
@@ -95,7 +95,7 @@ export default Vue.extend({
                     value: 1,
                     color: 'red-color',
                     bgColor: 'red-bg',
-                    title: 'home.transferOut',
+                    title: 'payment.transferOut',
                     type: 'down',
                     path: '/transferout',
                 },
@@ -112,10 +112,10 @@ export default Vue.extend({
         bodyTabList() {
             return [
                 {
-                    name: this.$t('home.transferIn'),
+                    name: this.$t('payment.transferIn'),
                     value: 'transferIn',
                 }, {
-                    name: this.$t('home.transferOut'),
+                    name: this.$t('payment.transferOut'),
                     value: 'transferOut',
                 },
             ];

@@ -1,13 +1,13 @@
 <template>
     <div class="payment primary-bg">
-        <TitleHeader theme="dark" :title="$t('home.paymentTitle')"/>
+        <TitleHeader theme="dark" :title="$t('payment.paymentTitle')"/>
         <div class="payment-card">
-            <h5 class="payment-card-title" v-t="'home.paymentTip'">USDT</h5>
+            <h5 class="payment-card-title" v-t="'payment.paymentTip'">USDT</h5>
             <div class="payment-card-qrcode">
                 <QrcodeVue class="qrcode-box" foreground="#5894EE" :size="size" :value="address"></QrcodeVue>
             </div>
             <div>
-                <h5 class="payment-card-title" v-t="'home.paymentAddr'"></h5>
+                <h5 class="payment-card-title" v-t="'payment.paymentAddr'"></h5>
                 <p class="payment-card-address">3W236F536R56WR52139E5A9D592QEE595</p>
             </div>
             <div class="payment-card-btn">
