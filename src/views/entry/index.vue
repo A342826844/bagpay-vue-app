@@ -30,6 +30,10 @@
 <script lang="ts">
 import Vue from 'vue';
 
+const banner1 = require('@/assets/img/entry/banner1.png');
+const banner2 = require('@/assets/img/entry/banner2.png');
+const banner3 = require('@/assets/img/entry/banner3.png');
+
 type ListItem = {
     img: unknown;
     title: string;
@@ -48,15 +52,15 @@ export default Vue.extend({
             activeTab: 0,
             list: [
                 {
-                    img: '',
+                    img: banner1,
                     title: 'entry.title1',
                     tip: 'entry.tip1',
                 }, {
-                    img: '',
+                    img: banner2,
                     title: 'entry.title2',
                     tip: 'entry.tip2',
                 }, {
-                    img: '',
+                    img: banner3,
                     title: 'entry.title3',
                     tip: 'entry.tip3',
                 },
@@ -76,8 +80,9 @@ export default Vue.extend({
     height: 100%;
     &-banner{
         width: 100%;
-        height: 400px;
+        height: 800px;
         overflow: hidden;
+        margin-top: 120px;
         &>ul{
             position: relative;
             transition: all 0.3s;
@@ -95,6 +100,18 @@ export default Vue.extend({
                 position: absolute;
                 width: 100vw;
                 // height: 400px;
+                img{
+                    width: 650px;
+                }
+                h5{
+                    font-size: 45px;
+                    line-height: 1;
+                }
+                p{
+                    margin-top: 47px;
+                    font-size: 34px;
+                    line-height: 1;
+                }
                 &.item0{
                     left: 0;
                 }
@@ -108,6 +125,7 @@ export default Vue.extend({
         }
     }
     &-btn{
+        margin: 120px 0 60px;
         &-item{
             &:last-child{
                 margin-top: 30px;
@@ -119,6 +137,7 @@ export default Vue.extend({
         position: absolute;
         bottom: 180px;
         width: 100%;
+        font-size: 28px;
         &-tab{
             position: relative;
             &>.active-tip, &>p{

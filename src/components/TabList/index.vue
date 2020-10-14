@@ -15,13 +15,10 @@
                 ref="tabbarTitle"
                 :style="{
                     'font-size': moveIng ? titleFontSize[index] : '',
-                    'height': moveIng ? titleFontSize[index] : '',
-                    'line-height': moveIng ? titleFontSize[index] : '',
-                    'opacity': moveIng ? titleOpacity[index] : '',
-                    'transition-duration': moveIng ? '' : '0.3s'
+                    'transition-duration': moveIng ? '' : '.3s'
                 }"
                 :class="{active:index==activeIndex}">
-                {{item[tabTitle]}}
+                {{item.title}}
             </p>
         </div>
         <div
@@ -36,7 +33,7 @@
             <div v-show="index === activeIndex || (moveIng && position === 'HORIZONTAL') || isMoveIng" :style="{
                 left: `${index * 100}%`,
             }" v-for="(item, index) in tabList" :key="item.id" class="tab-list-content">
-                <slot :name="item[tabName]"></slot>
+                <slot :name="item.value"></slot>
             </div>
         </div>
         <div class="tab-list-right">
@@ -73,8 +70,6 @@ type data = {
     beginTime: number;
 
     position: HORIZONTAL|VERTICAL|null;
-
-    defaultTabList: Array<any>;
 }
 
 const bigFontRate = 1.5;
@@ -91,17 +86,9 @@ export default Vue.extend({
         tabList: {
             type: Array,
         },
-        tabTitle: {
-            type: String,
-            default: 'title',
-        },
-        tabName: {
-            type: String,
-            default: 'name',
-        },
         size: {
             type: String,
-            default: 'default',
+            default: 'default', // big
         },
         defaultVal: {
             type: [Number, String],
@@ -150,28 +137,6 @@ export default Vue.extend({
             beginTime: 0,
 
             position: null,
-
-            defaultTabList: [
-                {
-                    name: 'USDT',
-                    coin: 'usdt',
-                }, {
-                    name: '',
-                    coin: 'disable',
-                }, {
-                    name: '',
-                    coin: 'disable',
-                }, {
-                    name: '',
-                    coin: 'disable',
-                }, {
-                    name: '',
-                    coin: 'disable',
-                }, {
-                    name: '',
-                    coin: 'disable',
-                },
-            ],
         };
     },
     computed: {
@@ -186,7 +151,7 @@ export default Vue.extend({
         defaultVal(value) {
             if (value === this.activeValue) return;
             this.tabList.forEach((item: any, index: number) => {
-                if (item[this.tabName] === value) {
+                if (item.value === value) {
                     this.changgeActiveHandle(index);
                 }
             });
@@ -207,7 +172,7 @@ export default Vue.extend({
         }
         this.activeValue = this.defaultVal;
         this.tabList.forEach((item: any, index: number) => {
-            if (item[this.tabName] === this.defaultVal) {
+            if (item.value === this.defaultVal) {
                 this.changgeActiveHandle(index);
             }
         });
@@ -217,8 +182,8 @@ export default Vue.extend({
             if (index === this.activeIndex) return;
             this.$emit('on-click', item);
             if (item.noChange) return;
-            this.$emit('input', item[this.tabName]);
-            this.activeValue = item[this.tabName];
+            this.$emit('input', item.value);
+            this.activeValue = item.value;
             this.$emit('change', item);
             this.changgeActiveHandle(index);
             if (!isMove) {
@@ -261,7 +226,6 @@ export default Vue.extend({
         },
 
         moveHandle(e: TouchEvent) {
-            console.log(21312);
             if (!this.swipeable) return;
             if (!this.moveIng) {
                 this.moveIng = true;
@@ -393,14 +357,11 @@ export default Vue.extend({
         }
         & >p{
             font-size: 28px;
-            line-height: 28px;
             transition-property: all;
             opacity: 0.8;
             &.active{
                 color: #333;
-                height: 33.6px;
                 font-size: 33.6px;
-                line-height: 33.6px;
                 opacity: 1;
                 font-weight: bold;
             }
@@ -408,11 +369,8 @@ export default Vue.extend({
         &.tab-list-size-big {
             & >p{
                 font-size: 30px;
-                line-height: 30px;
                 &.active{
-                    height: 45px;
                     font-size: 45px;
-                    line-height: 45px;
                 }
             }
         }
@@ -420,7 +378,6 @@ export default Vue.extend({
             margin-right: 57px;
             white-space: nowrap;
             text-align: left;
-            line-height: 1;
             &:last-child{
                 margin-right: 0;
             }

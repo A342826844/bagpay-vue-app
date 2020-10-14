@@ -8,12 +8,23 @@ import Button from '@/components/commons/Button.vue';
 import Input from '@/components/commons/Input.vue';
 import Switch from '@/components/commons/Switch.vue';
 import TabList from '@/components/TabList/index.vue';
+import NoData from '@/components/NoData/index.vue';
 
 import i18n from './i18n';
 import App from './App.vue';
 import router from './router';
 import store from './store';
 import './assets/less/index.less';
+import './plugins/vant';
+import './commons/index';
+
+declare module 'vue/types/vue' {
+// 3. 声明为 Vue 补充的东西
+    interface Vue {
+        _userInfo: any;
+        _loading: boolean;
+    }
+}
 
 Vue.config.productionTip = false;
 
@@ -23,11 +34,15 @@ Vue.component('Button', Button);
 Vue.component('Inputs', Input);
 Vue.component('Switchs', Switch);
 Vue.component('TabList', TabList);
+Vue.component('NoData', NoData);
 
 Vue.mixin({
     computed: {
-        userInfo() {
+        _userInfo() {
             return (this.$store as Store<any>).state.userInfo;
+        },
+        _loading() {
+            return (this.$store as Store<any>).state.loading;
         },
     },
 });

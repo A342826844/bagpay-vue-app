@@ -1,27 +1,33 @@
 <template>
-    <div class="mine">
-        <h1>otc</h1>
+    <div class="otc-index">
+        <router-view></router-view>
     </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
+<script>
+import { otcConfig } from '@/api/index';
 
-type data = {
-    islogin: boolean;
-}
-
-export default Vue.extend({
-    name: 'Home',
-    data(): data {
-        return {
-            islogin: false,
-        };
-    },
+export default {
     methods: {
-        loginHandle() {
-            this.islogin = !this.islogin;
+        getConfigData() {
+            otcConfig().then((res) => {
+                if (res.data.status === 200) {
+                    otcConfig = res.data.data;
+                    // TODO
+                }
+            });
         },
     },
-});
+    created() {
+        this.getConfigData();
+    },
+};
+
 </script>
+
+<style lang='less' scopde>
+.otc-index{
+    height: 100%;
+}
+
+</style>

@@ -27,6 +27,22 @@ td {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-touch-callout:text;
+    -webkit-user-select:text;
+    -khtml-user-select:text;
+    -moz-user-select:text;
+    -ms-user-select:text;
+    user-select:text;
+}
+
+
+span, a{
+    -webkit-touch-callout:text;
+    -webkit-user-select:text;
+    -khtml-user-select:text;
+    -moz-user-select:text;
+    -ms-user-select:text;
+    user-select:text;
 }
 
 h1,
@@ -79,7 +95,7 @@ button,
 select,
 a {
     outline: 0 none;
-    border: none
+    border: none;
 }
 
 a {
@@ -94,6 +110,18 @@ input {
     max-width: 100%;
 }
 
+//适配iPhone X
+.custom-footer{
+    bottom: 0 !important;
+    bottom: constant(safe-area-inset-bottom) !important;
+    bottom: env(safe-area-inset-bottom) !important;
+}
+
+// 去除 IOS移动端点击阴影
+* {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
+}
 
 body,
 html {

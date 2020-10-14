@@ -15,8 +15,6 @@
                     :defaultVal="active"
                     @change="tabChangeHandle"
                     @on-click="clickHandle"
-                    tabTitle="name"
-                    tabName="value"
                     class="transfer-tab"
                     :tabList="bodyTabList"
                 >
@@ -112,10 +110,10 @@ export default Vue.extend({
         bodyTabList() {
             return [
                 {
-                    name: this.$t('payment.transferIn'),
+                    title: this.$t('payment.transferIn'),
                     value: 'transferIn',
                 }, {
-                    name: this.$t('payment.transferOut'),
+                    title: this.$t('payment.transferOut'),
                     value: 'transferOut',
                 },
             ];

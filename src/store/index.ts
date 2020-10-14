@@ -6,11 +6,15 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         lang: 'zh-cn',
+        loading: false,
         userInfo: {
             token: '',
         },
     },
     mutations: {
+        changeLoading(state, loading) {
+            state.loading = loading;
+        },
     },
     actions: {
     },

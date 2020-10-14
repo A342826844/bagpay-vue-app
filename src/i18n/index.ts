@@ -5,10 +5,10 @@ Vue.use(VueI18n);
 
 declare module 'vue/types/vue' {
     // 3. 声明为 Vue 补充的东西
-        interface Vue {
-            $t: typeof VueI18n.prototype.t;
-        }
+    interface Vue {
+        $t: typeof VueI18n.prototype.t;
     }
+}
 
 const loadLocaleMessages = () => {
     const locales = require.context('@/assets/lang', true, /[A-Za-z0-9-_,\s]+\.json$/i);

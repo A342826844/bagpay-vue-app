@@ -17,7 +17,11 @@ const Aboutus = () => import('@/views/mine/aboutus.vue');
 const SetPayment = () => import('@/views/setPayment/index.vue');
 const SetPaymentAdd = () => import('@/views/setPayment/add.vue');
 const ChoiseSymbol = () => import('@/views/setPayment/choiseSymbol.vue');
+
 const Otc = () => import('@/views/otc/index.vue');
+const OtcEntry = () => import('@/views/otc/page/entry.vue');
+const OtcOrder = () => import('@/views/otc/page/order.vue');
+
 const Entry = () => import('@/views/entry/index.vue');
 const Login = () => import('@/views/login/index.vue');
 const Findaccount = () => import('@/views/login/findaccount.vue');
@@ -92,6 +96,20 @@ const routes: Array<RouteConfig> = [
             needLogin: true,
             name: 'otc',
         },
+        children: [{
+            path: 'entry',
+            name: 'otcentry',
+            component: OtcEntry,
+            meta: {
+                showFooter: true,
+                needLogin: true,
+                name: 'otc',
+            },
+        }, {
+            path: 'order',
+            name: 'otcorder',
+            component: OtcOrder,
+        }],
     },
     {
         path: '/mine',

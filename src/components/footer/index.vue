@@ -53,7 +53,7 @@ export default Vue.extend({
                     defaultIcon: assetsN,
                     activeIcon: assetsS,
                 }, {
-                    path: '/otc',
+                    path: '/otc/entry',
                     name: 'otc',
                     title: 'OTC',
                     defaultIcon: otcN,

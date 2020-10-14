@@ -65,6 +65,10 @@ export default Vue.extend({
     &.small{
         width: 235px;
     }
+    &.mini{
+        width: 186px;
+        height: 70px;
+    }
     &.auto{
         width: auto;
         padding: 0 45px;

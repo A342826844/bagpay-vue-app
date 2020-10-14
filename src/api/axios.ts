@@ -32,9 +32,16 @@ function resetConfig(config: AxiosRequestConfig, lang: string, Authorization?: s
     return resConfig;
 }
 
+const axiosJavaPromiseArr: Array<any> = [];
+const axiosGoPromiseArr: Array<any> = [];
+
 const axiosOfJava = axios.create();
 axiosOfJava.interceptors.request.use(
     (config) => {
+        // eslint-disable-next-line no-param-reassign
+        config.cancelToken = new axios.CancelToken((cancel) => {
+            axiosJavaPromiseArr.push({ cancel });
+        });
         // 语言国际化
         const { lang } = store.state;
         // 新增权限验证
@@ -64,6 +71,10 @@ axiosOfJava.interceptors.response.use(
 const axiosOfGoLang = axios.create();
 axiosOfGoLang.interceptors.request.use(
     (config) => {
+        // eslint-disable-next-line no-param-reassign
+        config.cancelToken = new axios.CancelToken((cancel) => {
+            axiosGoPromiseArr.push({ cancel });
+        });
         // 语言国际化
         const { lang } = store.state;
         const AUTH_TOKEN = store.state.userInfo.token;
@@ -93,4 +104,6 @@ export {
     axiosOfJava,
     axiosOfGoLang,
     axiosOfThird,
+    axiosJavaPromiseArr,
+    axiosGoPromiseArr,
 };
