@@ -43,7 +43,7 @@
                         </n-card-item>
                         <div class="loadMore-loading"><Loading type='component' :loading='loadMore'></Loading></div>
                         <p v-if="isEnd && list.length" class="color-gray">{{$t('暂无更多')}}</p>
-                        <noData v-if="!loading" :moDataShow='!list.length'  />
+                        <noData v-if="!_loading" :moDataShow='!list.length'  />
                     </V-Pull-Refresh>
                 </div>
             </div>
@@ -81,32 +81,32 @@ export default Vue.extend({
             size: 10,
             isEnd: false,
             isLoading: false,
-            // tabbar
-            // tabList:[{
-            //         title:"全部",
-            //         type:'-1'
-            //     },
-            //     {
-            //         title:"待付款",
-            //         type:'0'
-            //     },
-            //     {
-            //         title:"待释放",
-            //         type:'1'
-            //     },
-            //     {
-            //         title:"已完成",
-            //         type:'2'
-            //     },
-            //     {
-            //         title:"申诉中",
-            //         type:'4'
-            //     }],
-            // 渲染列表
             // eslint-disable-next-line @typescript-eslint/camelcase
             list: [{ taker_side: 1 }, { taker_side: 1 }, { taker_side: 1 }, { taker_side: 1 }, { taker_side: 1 },
             // eslint-disable-next-line @typescript-eslint/camelcase
                 { taker_side: 1 }, { taker_side: 1 }, { taker_side: 1 }, { taker_side: 1 }, { taker_side: 1 }, { taker_side: 1 }],
+            renderDataTree: [{
+                title: '状态',
+                key: 'state',
+                value: -1,
+                data: [
+                    { title: '待付款', state: 0 },
+                    { title: '待释放', state: 1 },
+                    { title: '已完成', state: 2 },
+                    { title: '已取消', state: 3 },
+                    { title: '申诉中', state: 4 },
+                    { title: '全部', state: -1 },
+                ],
+            }, {
+                title: '币种',
+                key: 'coin',
+                value: 0,
+                data: [
+                    { title: 'USDT', coin: 'usdt' },
+                    { title: 'USDC', coin: 'usdc' },
+                    { title: 'USTC', coin: 'ustc' },
+                ],
+            }],
         };
     },
     created() {
@@ -114,48 +114,14 @@ export default Vue.extend({
         this.loadData();
     },
     computed: {
-        // 全局loading
-        loading() {
-            return this.$store.state.loading;
-        },
         tabList() {
             return [{
-                title: this.$t('场外订单'),
+                title: '场外订单',
                 value: 'history',
             }];
         },
-        renderDataTree() {
-            return [
-                {
-                    type: '状态',
-                    value: -1,
-                    key: 'state',
-                    data: [
-                        { title: this.$t('待付款'), state: 0 },
-                        { title: this.$t('待释放'), state: 1 },
-                        { title: this.$t('已完成'), state: 2 },
-                        { title: this.$t('已取消'), state: 3 },
-                        { title: this.$t('申诉中'), state: 4 },
-                        { title: this.$t('全部'), state: -1 },
-                    ],
-                }, {
-                    type: '币种',
-                    value: '',
-                    key: 'coin',
-                    data: [
-                        { title: 'BTC', coin: 'btc' },
-                        { title: 'ETH', coin: 'eth' },
-                        { title: 'USDT', coin: 'usdt' },
-                        { title: 'ZXB', coin: 'zxb' },
-                        { title: 'NEWOS', coin: 'newos' },
-                        { title: this.$t('全部'), coin: '' },
-                    ],
-                },
-            ];
-        },
     },
     methods: {
-        // 下拉刷新
         onRefresh() {
             this.initParams();
         },
@@ -192,6 +158,15 @@ export default Vue.extend({
                 this.loadMore = true;
                 this.loadData();
             }
+        },
+        // 请求参数初始化
+        initParams() {
+            this.page = 1; // 页码
+            this.list = [];
+            this.$store.commit('changeLoading', true);
+            this.isEnd = false;
+            this.loadMore = false;
+            this.loadData();
         },
         // 加载数据
         loadData() {
@@ -261,15 +236,6 @@ export default Vue.extend({
             this.state = type;
             this.initParams();
         },
-        // 请求参数初始化
-        initParams() {
-            this.page = 1; // 页码
-            this.list = [];
-            this.$store.commit('changeLoading', true);
-            this.isEnd = false;
-            this.loadMore = false;
-            this.loadData();
-        },
         // 去广告详情页
         goAdvState(item: { id: any }) {
             this.$router.push({
@@ -278,6 +244,11 @@ export default Vue.extend({
             });
         },
     },
+    // methods: {
+    //     loadData() {
+    //         console.log(12);
+    //     },
+    // },
 });
 
 </script>
