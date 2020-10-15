@@ -1,9 +1,17 @@
 <template>
-    <div class="app-title-headers">
+    <div class="app-title-headers" :class="[theme]">
         <Headers v-bind="$attrs" :theme="theme" @back="goback">
             <slot name="header"></slot>
         </Headers>
-        <h3 class="app-title-headers-title app-padding40" :class="[theme]" >{{title}}</h3>
+        <div
+            class="app-title-headers-title app-padding40 flex-between-end"
+            :class="[{'border-b': border}, {'border-padding': border}]"
+        >
+            <h3>
+                {{title}}
+            </h3>
+            <slot name="right"></slot>
+        </div>
         <slot></slot>
     </div>
 </template>
@@ -16,6 +24,10 @@ export default Vue.extend({
     props: {
         title: {
             type: String,
+        },
+        border: {
+            type: Boolean,
+            default: false,
         },
         theme: {
             type: String,
@@ -40,14 +52,23 @@ export default Vue.extend({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 .app-title-headers {
+    background: #ffffff;
     &-title{
         text-align: left;
         margin-top: 62px;
-        font-size: 45px;
-        line-height: 45px;
-        color: #282828;
-        font-weight: bold;
-        &.dark{
+        // font-weight: bold;
+        h3{
+            color: #282828;
+            line-height: 45px;
+            font-size: 45px;
+        }
+        &.border-padding{
+            padding-bottom: 28px;
+        }
+    }
+    &.dark{
+        background: transparent;
+        h3{
             color: #ffffff;
         }
     }

@@ -1,14 +1,14 @@
 <template>
-    <div @click="$emit('click')" class="n_card_item">
-        <div class="card_title">
+    <div @click="$emit('click')" class="n_card_item app-padding40">
+        <div class="card_title flex-between-c">
             <div class="left_cont">
                 <slot name="title"></slot>
             </div>
             <div class="right_status" v-if="$slots.right">
                 <slot name="right"></slot>
-                <img v-show="showArrow" class="arrow_icon" src="@/assets/img/common/arrow_right1.png" alt="">
+                <img v-show="showArrow" class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt="">
             </div>
-            <img v-else class="arrow_icon" src="@/assets/img/common/arrow_right1.png" alt="">
+            <img v-show="showArrow" v-else class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt="">
         </div>
         <div v-for="(item, index) in lineNum" :key="item">
             <div class="text_row text_title">
@@ -32,7 +32,10 @@ export default {
             type: Number,
             default: 1,
         },
-        showArrow: Boolean,
+        showArrow: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {};
@@ -43,13 +46,12 @@ export default {
 <style lang="less">
 .n_card_item{
     border-bottom: 1px solid #DBDBDB;
-    padding: 30px 20px;
+    padding-top: 30px;
+    padding-bottom: 30px;
     .card_title{
         height: 48px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         font-size:34px;
+        line-height: 34px;
         color: #202025;
         // font-weight:bold;
         margin-bottom: 12px;
@@ -58,9 +60,7 @@ export default {
             &>span{
                 margin-right: 20px;
                 vertical-align: middle;
-                &:first-child{
                 font-weight:bold;
-                }
             }
         }
         .right_status{
@@ -69,12 +69,6 @@ export default {
             & span{
                 vertical-align: middle;
             }
-        }
-        .arrow_icon{
-            width:11px;
-            height:19px;
-            vertical-align: middle;
-            margin-left: 8px;
         }
     }
     .text_row{

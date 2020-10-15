@@ -24,6 +24,7 @@ const OtcOrder = () => import('@/views/otc/page/order.vue');
 const Adv = () => import('@/views/otc/page/advertising.vue');
 const AdvManage = () => import('@/views/otc/page/advManage.vue');
 const AdvBusiness = () => import('@/views/otc/page/advBusiness.vue');
+const OtcOrderDetail = () => import('@/views/otc/page/orderDetail.vue');
 
 const Entry = () => import('@/views/entry/index.vue');
 const Login = () => import('@/views/login/index.vue');
@@ -113,9 +114,17 @@ const routes: Array<RouteConfig> = [
             name: 'otcOrder',
             component: OtcOrder,
         }, {
+            path: 'order/detail',
+            name: 'orderdetail',
+            component: OtcOrderDetail,
+        }, {
             path: 'adv',
             name: 'otcAdv',
             component: Adv,
+        }, {
+            path: 'advBusiness',
+            name: 'otcAdvBusiness',
+            component: AdvBusiness,
         }, {
             path: 'advBusiness',
             name: 'otcAdvBusiness',

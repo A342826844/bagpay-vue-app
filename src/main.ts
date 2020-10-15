@@ -6,9 +6,12 @@ import Headers from '@/components/headers/index.vue';
 import TitleHeader from '@/components/headers/TitleHeader.vue';
 import Button from '@/components/commons/Button.vue';
 import Input from '@/components/commons/Input.vue';
+import Select from '@/components/commons/Select.vue';
 import Switch from '@/components/commons/Switch.vue';
 import TabList from '@/components/TabList/index.vue';
+import PullRefresh from '@/components/pull-refresh/index.vue';
 import NoData from '@/components/NoData/index.vue';
+import { Poptip, PoptipItem } from '@/components/Poptip/index';
 
 import i18n from './i18n';
 import App from './App.vue';
@@ -32,9 +35,13 @@ Vue.component('Headers', Headers);
 Vue.component('TitleHeader', TitleHeader);
 Vue.component('Button', Button);
 Vue.component('Inputs', Input);
+Vue.component('Select', Select);
 Vue.component('Switchs', Switch);
 Vue.component('TabList', TabList);
+Vue.component('PullRefresh', PullRefresh);
 Vue.component('NoData', NoData);
+Vue.component('Poptip', Poptip);
+Vue.component('PoptipItem', PoptipItem);
 
 Vue.mixin({
     computed: {

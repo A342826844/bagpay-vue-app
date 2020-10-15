@@ -1,4 +1,6 @@
 import Vue from 'vue';
+
+import './filter/index';
 import { normalToast } from './dom/index';
 
 declare module 'vue/types/vue' {

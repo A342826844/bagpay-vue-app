@@ -3,7 +3,7 @@
         @click="$emit('click')"
         :disabled="disabled"
         class="app-button"
-        :class="[type, size, {disabled}, {border}]"
+        :class="[type, size, {disabled}, {border}, {radius}]"
     >
         <slot></slot>
     </button>
@@ -18,11 +18,15 @@ export default Vue.extend({
         msg: String,
         type: {
             type: String,
-            default: 'primary', // primary, info
+            default: 'primary', // primary, info, cancel
         },
         disabled: {
             type: Boolean,
             default: false,
+        },
+        radius: {
+            type: Boolean,
+            default: true,
         },
         border: {
             type: Boolean,
@@ -42,12 +46,14 @@ export default Vue.extend({
 .app-button{
     border: none;
     outline: none;
-    border-radius: 10px;
     height: 99px;
     width: 662px;
     text-align: center;
     &.border{
         .scale-1px(@primary, 10px);
+    }
+    &.radius{
+        border-radius: 10px;
     }
     &.primary{
         .primary-bg;
@@ -61,6 +67,10 @@ export default Vue.extend({
     &.info{
         .info-bg;
         border-color: @primary;
+    }
+    &.cancel{
+        color: #A6A6A6;
+        background: #ffffff;
     }
     &.small{
         width: 235px;

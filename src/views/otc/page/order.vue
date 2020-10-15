@@ -3,48 +3,42 @@
         <Drawer position="right" v-model="isShow">
             <OrderFilter
                 ref="historyRef"
-                :title="$t('筛选')"
+                :title="'筛选'"
                 @choose="filterSubmit"
                 :renderData="renderDataTree"
             ></OrderFilter>
         </Drawer>
-        <TitleHeader :title="$t('场外订单')">
+        <TitleHeader :title="'场外订单'">
             <img slot="header" @click="isShow=!isShow" class="chooss" src="@/assets/img/common/screen.png" alt="">
             <div @scroll.capture="scrollLoad" class="lxa-history-body lxa-refresh-box">
                 <div class="body-content-slot" slot="history">
-                    <V-Pull-Refresh
+                    <PullRefresh
                         v-model="isLoading"
                         @refresh="onRefresh"
-                        :pulling-text="$t('下拉即可刷新')+'...'"
-                        :loosing-text="$t('释放即可刷新')+'...'"
-                        :loading-text="$t('加载中')+'...'"
                     >
-                        <n-card-item :showArrow="true" @click="goAdvState(item)" v-for="(item, index) in list" :key="index">
+                        <NCardItem :showArrow="true" @click="goAdvState(item)" v-for="(item, index) in list" :key="index">
                             <template slot="title">
-                                <span>
-                                    <span :class="takerSide(item, 1) == 1 ? 'color-green' : 'color-red'">{{$t('场外')}} {{takerSide(item)}}</span>
-                                    &nbsp;&nbsp;&nbsp;
-                                    <span>{{item.coin && item.coin.toUpperCase()}}</span>
-                                </span>
+                                <span>USDT</span>
+                                <span :class="1|orderSideColor">买入</span>
                             </template>
                             <template slot="right">
-                                <span>{{$t(renderTitle(item).title)}}</span>
+                                <span>待付款</span>
                             </template>
                             <template slot="lable">
-                                <span>{{$t("价格")}} (CNY)</span>
-                                <span>{{$t("数量")}} ({{item.coin && item.coin.toUpperCase()}})</span>
-                                <span>{{$t("成交额")}} (CNY)</span>
+                                <span>{{"价格"}} {{1|depositState}} (CNY)</span>
+                                <span>{{"数量"}} ({{item.coin && item.coin.toUpperCase()}})</span>
+                                <span>{{"成交额"}} (CNY)</span>
                             </template>
                             <template slot="value">
-                                <span>{{item.floating_rate ? $multipliedBy(item.floating_rate, item.price) : item.price}}</span>
-                                <span>{{item.volume}}</span>
-                                <span>{{item.amount}}</span>
+                                <span>21312</span>
+                                <span>42121</span>
+                                <span>55</span>
                             </template>
-                        </n-card-item>
+                        </NCardItem>
                         <div class="loadMore-loading"><Loading type='component' :loading='loadMore'></Loading></div>
-                        <p v-if="isEnd && list.length" class="color-gray">{{$t('暂无更多')}}</p>
+                        <p v-if="isEnd && list.length" class="color-gray">{{'暂无更多'}}</p>
                         <noData v-if="!_loading" :moDataShow='!list.length'  />
-                    </V-Pull-Refresh>
+                    </PullRefresh>
                 </div>
             </div>
         </TitleHeader>
@@ -123,17 +117,20 @@ export default Vue.extend({
     },
     methods: {
         onRefresh() {
-            this.initParams();
+            setTimeout(() => {
+                this.isLoading = false;
+            }, 3000);
+            // this.initParams();
         },
         takerSide(renderData: { taker_id: any; taker_side: 1|2 }, type = 0) {
             const side = [
                 {
-                    1: [this.$t('购买'), 1],
-                    2: [this.$t('出售'), 2],
+                    1: ['购买', 1],
+                    2: ['出售', 2],
                 },
                 {
-                    2: [this.$t('买入'), 1],
-                    1: [this.$t('卖出'), 2],
+                    2: ['买入', 1],
+                    1: ['卖出', 2],
                 }];
             if ((renderData.taker_id === this._userInfo.userId)) {
                 return side[0][renderData.taker_side][type];
@@ -206,31 +203,6 @@ export default Vue.extend({
                 this.loadMore = false;
             });
         },
-        renderTitle(item: { state: 0|1|2|3|4 }) {
-            const stateTitle = {
-                0: {
-                    title: '待付款',
-                    tip: '广告已发布，等待用户付款',
-                },
-                1: {
-                    title: '待释放',
-                    tip: '等待商家释放',
-                },
-                2: {
-                    title: '已完成',
-                    tip: '交易完成',
-                },
-                3: {
-                    title: '已取消',
-                    tip: '交易取消',
-                },
-                4: {
-                    title: '申诉中',
-                    tip: '广告申诉中',
-                },
-            };
-            return stateTitle[(item.state || 0)];
-        },
         // tabbar切换
         tabClick(type: string) {
             this.state = type;
@@ -238,10 +210,11 @@ export default Vue.extend({
         },
         // 去广告详情页
         goAdvState(item: { id: any }) {
-            this.$router.push({
-                name: 'orderState',
-                params: { id: item.id },
-            });
+            console.log(item);
+            // this.$router.push({
+            //     name: 'orderState',
+            //     params: { id: item.id },
+            // });
         },
     },
     // methods: {
