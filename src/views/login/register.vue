@@ -84,7 +84,6 @@ type data = {
   islogin: boolean;
   imgUrl: string;
   imgCode: string;
-  isImgCode: boolean;
   form: form;
 };
 
@@ -96,7 +95,6 @@ export default Vue.extend({
             islogin: false,
             imgUrl: '',
             imgCode: '',
-            isImgCode: true,
             form: {
                 code: '',
                 nickname: '',
@@ -115,18 +113,30 @@ export default Vue.extend({
         loginHandle() {
             if (!this.form.nickname) {
                 console.log('请输入昵称');
-            } else if (!this.form.phone) {
-                console.log('请输入手机号');
+            } else if (this.form.phone.length !== 11) {
+                console.log('请输入正确手机号');
             } else if (!this.form.imgCode) {
                 console.log('请输入图形码');
-            } else if (!this.form.code) {
-                console.log('请输入验证码');
+            } else if (this.form.code.length !== 4) {
+                console.log('请输入正确验证码');
             } else if (!this.form.password) {
                 console.log('请输入登录密码');
             } else if (this.form.password !== this.form.confirmPassword) {
                 console.log('请再次输入登录密码且一致');
             } else {
-                this.$api.register();
+                this.$api.register({
+                    nickname: this.form.nickname,
+                    passport: `86-${this.form.phone}`,
+                    password: this.$md5(`${this.form.password}bagpaysol`),
+                    verification_code: this.form.code,
+                }).then((res: any) => {
+                    if (res.code === 0) {
+                        this.$router.push({
+                            name: 'login',
+                        });
+                    }
+                    console.log(res);
+                });
             }
         },
         // 获取图片
@@ -134,7 +144,7 @@ export default Vue.extend({
             this.$api
                 .getImages()
                 .then((res: any) => {
-                    console.log(321, res);
+                    this.form.imgCode = '';
                     this.imgUrl = res.data.data;
                     this.imgCode = res.data.id;
                 });
@@ -150,9 +160,12 @@ export default Vue.extend({
                     type: 1,
                     captcha: this.imgUrl,
                     captcha_id: this.form.imgCode,
+                }).then((res: any) => {
+                    if (res.code === 0) {
+                        console.log('发送成功');
+                    }
                 });
             }
-            // TODO
         },
     },
 });
@@ -160,10 +173,4 @@ export default Vue.extend({
 
 <style lang="less" scoped>
 @import "./index.less";
-.code-img {
-  background-color: #5894ee;
-  vertical-align: middle;
-  margin-bottom: 5px;
-  margin-right: 10px;
-}
 </style>

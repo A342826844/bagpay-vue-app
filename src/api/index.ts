@@ -47,4 +47,11 @@ export const getImages = (data: params) => postGolang('/verification-code/captch
 // 注册
 export const register = (data: params) => postGolang('/user/sign-up', data);
 // 登录
-export const login = (data: params) => getJava('/VerifyCodeTypeLogin', data);
+export const login = (data: params) => postGolang('/user/sign-in', data);
+// 退出
+export const logout = (data: params) => postGolang('/user/sign-out', data);
+// 找回密码
+export const forgetPwd = (data: params) => postGolang('/user/forget-password', data);
+
+// 获取用户信息
+export const getUserInfo = (data: params) => postGolang('/user/profile', data);

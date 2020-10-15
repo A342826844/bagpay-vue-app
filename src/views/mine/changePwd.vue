@@ -1,8 +1,8 @@
 <template>
   <div class="login">
-    <TitleHeader :title="$t('login.findAccountTitle')" />
+    <TitleHeader :title="$t('mine.changePwd')" />
     <div class="login-box app-padding40">
-      <p class="login-tip">{{ $t("login.findAccountTip") }}</p>
+      <p class="login-tip">{{ $t("mine.changePwdTip") }}</p>
       <form @submit.prevent="" class="login-form" action="">
         <Inputs
           class="login-form-item"
@@ -77,7 +77,7 @@ type data = {
 };
 
 export default Vue.extend({
-    name: 'Findaccount',
+    name: 'ChangePwd',
     data(): data {
         return {
             islogin: false,
@@ -94,7 +94,8 @@ export default Vue.extend({
     },
     created() {
         this.getImg();
-        this.form.phone = (this.$route.query.phone as string) || '';
+        console.log(this._userInfo);
+        this.form.phone = this._userInfo.phone || '';
     },
     methods: {
         loginHandle() {
@@ -158,5 +159,5 @@ export default Vue.extend({
 </script>
 
 <style lang="less" scoped>
-@import "./index.less";
+@import "../login/index.less";
 </style>

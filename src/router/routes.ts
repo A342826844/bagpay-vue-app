@@ -13,6 +13,7 @@ const SafePass = () => import('@/views/mine/safePass.vue');
 const SystemSetting = () => import('@/views/mine/systemSetting.vue');
 const Feedback = () => import('@/views/mine/feedback.vue');
 const Aboutus = () => import('@/views/mine/aboutus.vue');
+const ChangePwd = () => import('@/views/mine/changePwd.vue');
 
 const SetPayment = () => import('@/views/setPayment/index.vue');
 const SetPaymentAdd = () => import('@/views/setPayment/add.vue');
@@ -135,6 +136,11 @@ const routes: Array<RouteConfig> = [
             needLogin: true,
             name: 'mine',
         },
+    },
+    {
+        path: '/mine/changePwd',
+        name: 'changePwd',
+        component: ChangePwd,
     },
     {
         path: '/mine/safesetting',

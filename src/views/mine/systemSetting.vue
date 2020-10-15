@@ -22,7 +22,7 @@
                     <img class="app-img-50" src="../../assets/img/common/arrow_right.png" alt="">
                 </div>
             </li>
-            <li class="flex-between-c">
+            <li class="flex-between-c" @click="logout">
                 <div v-t="'mine.logout'"></div>
                 <div>
                     <img class="app-img-50" src="../../assets/img/common/arrow_right.png" alt="">
@@ -49,6 +49,15 @@ export default Vue.extend({
     methods: {
         saveHandle() {
             // TODO
+        },
+        logout() {
+            this.$api.logout().then((res: any) => {
+                if (res.code === 0) {
+                    this.$router.push({
+                        name: 'login',
+                    });
+                }
+            });
         },
     },
 });

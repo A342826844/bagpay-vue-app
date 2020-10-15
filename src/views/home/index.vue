@@ -65,6 +65,9 @@ type data = {
 
 export default Vue.extend({
     name: 'Home',
+    created() {
+        this.init();
+    },
     data(): data {
         return {
             testValue: 2113,
@@ -88,6 +91,11 @@ export default Vue.extend({
         };
     },
     methods: {
+        init() {
+            this.$api.getUserInfo().then((res: any) => {
+                console.log(res);
+            });
+        },
         clickTest() {
             this.testValue += 1;
         },

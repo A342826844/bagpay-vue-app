@@ -56,7 +56,9 @@
         "realName1": "上传证件正面",
         "realName2": "上传证件反面",
         "realName3": "手持证件正面",
-        "safePass": "安全密码"
+        "safePass": "安全密码",
+        "changePwd": "修改密码",
+        "changePwdTip": "修改账号登录密码"
     },
     "payment": {
         "paymentTitle": "收款",
