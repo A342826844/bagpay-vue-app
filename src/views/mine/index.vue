@@ -2,7 +2,7 @@
     <div class="mine">
         <div class="app-padding40 mine-header flex-between-c">
             <div>
-                <h3 class="mine-header-coin">{{userInfo.nickName || '料子'}}</h3>
+                <h3 class="mine-header-coin">{{_userInfo.nickName || '料子'}}</h3>
             </div>
             <div>
                 <img class="app-img-50" src="../../assets/img/common/qrcode1.png" alt="">

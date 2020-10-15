@@ -45,10 +45,10 @@
                                             <div v-if="false" class="loadMore-loading">
                                                 <Loading type='component' :loading='loadMore'></Loading>
                                             </div>
-                                            <p class="color-gray" v-show="!globalLoading && paramsDate[active] && paramsDate[active].isEnd">
+                                            <p class="color-gray" v-show="!_loading && paramsDate[active] && paramsDate[active].isEnd">
                                                 {{$t('暂无更多')}}
                                             </p>
-                                            <NoData v-if="!globalLoading" :show='noDataShow'  />
+                                            <NoData v-if="!_loading" :show='noDataShow'  />
                                         </div>
                                     </div>
                                 </div>
@@ -64,8 +64,8 @@
                     class="more-item"
                     @click="clickShowMore(item)"
                     v-for="item in moreShade"
-                    v-show="!(item.needOtc && !userInfo.isOtc)"
-                    :key="item.url"
+                    v-show="!(item.needOtc && !_userInfo.isOtc)"
+                    :key="item.name"
                 >
                     <img :src="item.img" alt=""/>
                     <span>{{$t(item.title)}}</span>
@@ -176,31 +176,31 @@ export default Vue.extend({
                 {
                     img: fabu,
                     title: '发布广告',
-                    url: '/orderRecord',
+                    name: 'otcAdv',
                     needlogin: true,
                     isfabu: true,
                 }, {
                     img: manage,
                     title: '广告管理',
-                    url: '/otc/AdvManage',
+                    name: 'otcAdvManage',
                     needlogin: true,
                     neediRealAuth: false,
                     needOtc: true,
                 }, {
                     img: order,
                     title: '场外订单',
-                    url: '/otc/otcOrder',
+                    name: 'otcOrder',
                     needlogin: true,
                     neediRealAuth: false,
                 }, {
                     img: payment,
                     title: '收款方式',
-                    url: '/payment',
+                    name: '/payment',
                     needlogin: true,
                 }, {
                     img: business,
                     title: '广告商家',
-                    url: '/otc/merchants/3',
+                    name: 'otcAdvBusiness',
                     needlogin: false,
                     neediRealAuth: false,
                     // }, {
@@ -246,7 +246,10 @@ export default Vue.extend({
             }, 0);
             console.log('clickHandle');
         },
-        clickShowMore() {
+        clickShowMore(item: any) {
+            this.$router.push({
+                name: item.name,
+            });
             console.log('clickShowMore');
         },
     },

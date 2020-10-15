@@ -21,6 +21,9 @@ const ChoiseSymbol = () => import('@/views/setPayment/choiseSymbol.vue');
 const Otc = () => import('@/views/otc/index.vue');
 const OtcEntry = () => import('@/views/otc/page/entry.vue');
 const OtcOrder = () => import('@/views/otc/page/order.vue');
+const Adv = () => import('@/views/otc/page/advertising.vue');
+const AdvManage = () => import('@/views/otc/page/advManage.vue');
+const AdvBusiness = () => import('@/views/otc/page/advBusiness.vue');
 
 const Entry = () => import('@/views/entry/index.vue');
 const Login = () => import('@/views/login/index.vue');
@@ -107,8 +110,20 @@ const routes: Array<RouteConfig> = [
             },
         }, {
             path: 'order',
-            name: 'otcorder',
+            name: 'otcOrder',
             component: OtcOrder,
+        }, {
+            path: 'adv',
+            name: 'otcAdv',
+            component: Adv,
+        }, {
+            path: 'advBusiness',
+            name: 'otcAdvBusiness',
+            component: AdvBusiness,
+        }, {
+            path: 'advManage',
+            name: 'otcAdvManage',
+            component: AdvManage,
         }],
     },
     {
