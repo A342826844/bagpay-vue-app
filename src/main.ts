@@ -1,7 +1,10 @@
 import Vue from 'vue';
+import md5 from 'md5';
+
 import { Store } from 'vuex';
 import 'lib-flexible';
 
+import * as Api from '@/api/index.ts';
 import Headers from '@/components/headers/index.vue';
 import TitleHeader from '@/components/headers/TitleHeader.vue';
 import Button from '@/components/commons/Button.vue';
@@ -12,8 +15,6 @@ import TabList from '@/components/TabList/index.vue';
 import PullRefresh from '@/components/pull-refresh/index.vue';
 import NoData from '@/components/NoData/index.vue';
 import { Poptip, PoptipItem } from '@/components/Poptip/index';
-import * as Api from '@/api/index.ts';
-import md5 from 'md5';
 
 import i18n from './i18n';
 import App from './App.vue';
