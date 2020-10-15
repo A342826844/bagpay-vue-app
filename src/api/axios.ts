@@ -85,7 +85,7 @@ axiosOfGoLang.interceptors.request.use(
 // Add a response interceptor
 axiosOfGoLang.interceptors.response.use(
     (response) => {
-        if (response.data.code !== 200) {
+        if (response.data.code !== 0) {
             return Promise.reject(response.data);
         }
         return response.data;

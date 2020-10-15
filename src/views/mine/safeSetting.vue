@@ -9,6 +9,13 @@
                     <img class="app-img-50" src="../../assets/img/common/arrow_right.png" alt="">
                 </div>
             </li>
+            <li @click="$router.push('/mine/changePwd')" class="flex-between-c">
+                <div v-t="'mine.changePwd'"></div>
+                <div>
+                    <span class="vertical-m primary-color">已设置</span>
+                    <img class="app-img-50" src="../../assets/img/common/arrow_right.png" alt="">
+                </div>
+            </li>
             <li @click="$router.push('/mine/realname')" class="flex-between-c">
                 <div v-t="'mine.realName'"></div>
                 <div>

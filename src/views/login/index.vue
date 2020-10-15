@@ -56,7 +56,17 @@ export default Vue.extend({
     },
     methods: {
         loginHandle() {
-            console.log(this.form);
+            this.$api.login({
+                passport: `86-${this.form.phone}`,
+                password: this.$md5(`${this.form.password}bagpaysol`),
+            }).then((res: any) => {
+                if (res.code === 0) {
+                    this.$router.push({
+                        name: 'home',
+                    });
+                }
+                console.log(res);
+            });
         },
         goFindAccount() {
             this.$router.push(`/findaccount?phone=${this.form.phone}`);

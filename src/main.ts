@@ -12,6 +12,8 @@ import TabList from '@/components/TabList/index.vue';
 import PullRefresh from '@/components/pull-refresh/index.vue';
 import NoData from '@/components/NoData/index.vue';
 import { Poptip, PoptipItem } from '@/components/Poptip/index';
+import * as Api from '@/api/index.ts';
+import md5 from 'md5';
 
 import i18n from './i18n';
 import App from './App.vue';
@@ -24,6 +26,8 @@ import './commons/index';
 declare module 'vue/types/vue' {
 // 3. 声明为 Vue 补充的东西
     interface Vue {
+        $api: any;
+        $md5: any;
         _userInfo: any;
         _loading: boolean;
     }
@@ -53,6 +57,9 @@ Vue.mixin({
         },
     },
 });
+
+Vue.prototype.$api = Api;
+Vue.prototype.$md5 = md5;
 
 new Vue({
     router,
