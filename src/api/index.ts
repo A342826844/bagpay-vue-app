@@ -39,3 +39,12 @@ export const otcPostAdvReload = (id: string) => postGolang(`/wi/otc/v1/orders/re
 export const otcPostAdvCancel = (id: string) => postGolang(`/wi/otc/v1/orders/cancel/${id}`); // 下架广告
 export const merchantTradesInfo = (data: params) => getGolang('/otc/merchant/trades/info', data); // 查看商户信息
 export const otcConfig = () => getGolang('/otc/cfg');
+
+// 注册验证码
+export const registerCode = (data: params) => postGolang('/verification-code/phone/VerifyCodeTypeRegister', data);
+// 获取图片验证
+export const getImages = (data: params) => postGolang('/verification-code/captcha', data);
+// 注册
+export const register = (data: params) => postGolang('/user/sign-up', data);
+// 登录
+export const login = (data: params) => getJava('/VerifyCodeTypeLogin', data);

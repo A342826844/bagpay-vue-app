@@ -21,6 +21,8 @@ module.exports = {
         '@typescript-eslint/no-explicit-any': ['off'], // 应许ts中使用any类型
         '@typescript-eslint/no-var-requires': ['off'], // 应许使用requires引入文件
         'no-underscore-dangle': ['off'], // 使用下滑线是为了区分 全局mixin混入的变量
+        'import/extensions': ['off'], // 使用下滑线是为了区分 全局mixin混入的变量
+        '@typescript-eslint/camelcase': ['off'], // 使用下滑线是为了区分 全局mixin混入的变量
         // '@typescript-eslint/camelcase': ['off'], // 应许ts中使用any类型
     },
 };
