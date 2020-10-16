@@ -15,6 +15,7 @@ import TabList from '@/components/TabList/index.vue';
 import PullRefresh from '@/components/pull-refresh/index.vue';
 import NoData from '@/components/NoData/index.vue';
 import { Poptip, PoptipItem } from '@/components/Poptip/index';
+import { SelectPopup, SelectPopupItem } from '@/components/SelectPopup/index';
 
 import i18n from './i18n';
 import App from './App.vue';
@@ -31,6 +32,8 @@ declare module 'vue/types/vue' {
         $md5: any;
         _userInfo: any;
         _loading: boolean;
+        _unit: string;
+        changeLoading: Function;
     }
 }
 
@@ -47,6 +50,8 @@ Vue.component('PullRefresh', PullRefresh);
 Vue.component('NoData', NoData);
 Vue.component('Poptip', Poptip);
 Vue.component('PoptipItem', PoptipItem);
+Vue.component('SelectPopup', SelectPopup);
+Vue.component('SelectPopupItem', SelectPopupItem);
 
 Vue.mixin({
     computed: {
@@ -55,6 +60,14 @@ Vue.mixin({
         },
         _loading() {
             return (this.$store as Store<any>).state.loading;
+        },
+        _unit() {
+            return (this.$store as Store<any>).state.unit;
+        },
+    },
+    methods: {
+        changeLoading(state) {
+            this.$store.commit('changeLoading', state);
         },
     },
 });

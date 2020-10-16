@@ -127,10 +127,6 @@ const routes: Array<RouteConfig> = [
             name: 'otcAdvBusiness',
             component: AdvBusiness,
         }, {
-            path: 'advBusiness',
-            name: 'otcAdvBusiness',
-            component: AdvBusiness,
-        }, {
             path: 'advManage',
             name: 'otcAdvManage',
             component: AdvManage,

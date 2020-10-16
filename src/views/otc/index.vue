@@ -5,17 +5,17 @@
 </template>
 
 <script>
-import { otcConfig } from '@/api/index';
+// import { otcConfig } from '@/api/index';
 
 export default {
     methods: {
         getConfigData() {
-            otcConfig().then((res) => {
-                if (res.data.status === 200) {
-                    otcConfig = res.data.data;
-                    // TODO
-                }
-            });
+            // otcConfig().then((res) => {
+            //     if (res.data.status === 200) {
+            //         otcConfig = res.data.data;
+            //         // TODO
+            //     }
+            // });
         },
     },
     created() {

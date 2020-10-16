@@ -12,7 +12,11 @@ import 'vant/lib/tabs/style';
 import PullRefresh from 'vant/lib/pull-refresh';
 import 'vant/lib/pull-refresh/style';
 
+import Popup from 'vant/lib/popup';
+import 'vant/lib/popup/style';
+
 Vue.component('V-Button', Button);
 Vue.component('V-Tab', Tab);
 Vue.component('V-Tabs', Tabs);
 Vue.component('V-Pull-Refresh', PullRefresh);
+Vue.component('V-Popup', Popup);

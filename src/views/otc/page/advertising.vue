@@ -23,16 +23,16 @@
                                 <span class="form-item-select-coin vertical-m">{{form.coin}}</span>
                             </Select>
                         </div>
-                        <div class="form-item">
+                        <div @click="selectPopup = !selectPopup" class="form-item">
                             <Select>
-                                <span class="vertical-m">浮动价格</span>
+                                <span class="vertical-m">{{isfloatRate ? $t('otc.floatingPrice') : $t('otc.fixedPrice') }}</span>
                             </Select>
                         </div>
-                        <div class="form-item">
-                            <Inputs v-model="form.rate" placeholder="溢价率(30~50)">%</Inputs>
+                        <div class="form-item" :class="isfloatRate ? 'form-item-show' : 'form-item-hide'">
+                            <Inputs v-model="form.floating_rate" placeholder="溢价率(30~50)">%</Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs v-model="form.price" placeholder="买入价格">USD</Inputs>
+                            <Inputs decimal="8" type="number" v-model="form.price" placeholder="买入价格">{{_unit}}</Inputs>
                         </div>
                         <div class="form-item">
                             <Inputs v-model="form.amount" placeholder="买入数量">USDT</Inputs>
@@ -41,12 +41,12 @@
                             <Inputs readonly :value="total || '自动计算'">USDT</Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs v-model="form.min" placeholder="单笔最低限额">USD</Inputs>
+                            <Inputs v-model="form.min_value" placeholder="单笔最低限额">{{_unit}}</Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs v-model="form.max" placeholder="单笔最高限额">USD</Inputs>
+                            <Inputs v-model="form.max_value" placeholder="单笔最高限额">{{_unit}}</Inputs>
                         </div>
-                        <div class="form-item">
+                        <div @click="payPopup = !payPopup" class="form-item">
                             <Select>
                                 <span class="vertical-m">选择收付款方式</span>
                             </Select>
@@ -76,6 +76,13 @@
                 </div>
             </TabList>
         </div>
+        <SelectPopup v-model="selectPopup">
+            <SelectPopupItem @click="isfloatRate = true">{{$t('otc.floatingPrice')}}</SelectPopupItem>
+            <SelectPopupItem @click="isfloatRate = false">{{$t('otc.fixedPrice')}}</SelectPopupItem>
+        </SelectPopup>
+        <SelectPopup v-model="payPopup">
+            <SelectPopupItem v-for="item in PayType" :key="item" @click="isfloatRate = true">{{ item | payType }}</SelectPopupItem>
+        </SelectPopup>
         <div class="app-size-34 lxa-footer-btn">
             <Button>发 布</Button>
         </div>
@@ -84,20 +91,26 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { PayType } from '@/commons/config/index';
 
 type data = {
+    PayType: PayType;
     active: string;
-    total: string;
+    isfloatRate: boolean;
+    pay_types: Array<number>;
+    selectPopup: boolean;
+    payPopup: boolean;
     form: {
         price: string|number;
         amount: string|number;
-        value: string|number;
+        type: string|number;
         coin: string|number;
-        takerSide: string|number;
-        paytype: string|number;
-        rate: string|number;
-        min: string|number;
-        max: string|number;
+        country: number;
+        currency: number;
+        floating_rate: string|number;
+        remark: string|number;
+        min_value: string|number;
+        max_value: string|number;
     };
 }
 
@@ -105,18 +118,23 @@ export default Vue.extend({
     name: 'TransferHistory',
     data(): data {
         return {
+            PayType,
             active: 'buy',
-            total: '',
+            isfloatRate: true,
+            selectPopup: false,
+            payPopup: false,
+            pay_types: [],
             form: {
+                coin: '',
+                type: 1,
                 price: '',
                 amount: '',
-                value: '',
-                coin: '',
-                takerSide: '',
-                paytype: '',
-                rate: '',
-                min: '',
-                max: '',
+                min_value: '',
+                max_value: '',
+                floating_rate: 0,
+                remark: '',
+                country: 1,
+                currency: 1,
             },
         };
     },
@@ -127,14 +145,20 @@ export default Vue.extend({
                 { side: 2 }, { side: 2 }, { side: 1 }, { side: 2 },
             ];
         },
+        total() {
+            const res = Number((this as any).form.amount) * Number((this as any).form.price);
+            return res ? res.toFixed(2) : '';
+        },
         bodyTabList() {
             return [
                 {
                     title: '购买',
                     value: 'buy',
+                    type: 1,
                 }, {
                     title: '出售',
                     value: 'sell',
+                    type: 2,
                 },
             ];
         },
@@ -143,8 +167,18 @@ export default Vue.extend({
         this.form.coin = (this.$route.query.symbol as string) || '';
     },
     methods: {
-        tabChangeHandle(value: any) {
-            console.log(value);
+        tabChangeHandle(item: any) {
+            this.form.type = item.side;
+        },
+        otcOrderPlace() {
+            const params = {
+                ...this.form,
+                total: this.total,
+                pay_types: this.pay_types.join(','),
+            };
+            this.$api.otcOrderPlace(params).then((res: any) => {
+                console.log(res);
+            });
         },
         clickHandle(value: any) {
             console.log(value);
@@ -164,6 +198,14 @@ export default Vue.extend({
     &-form{
         .form-item{
             margin-bottom: 36px;
+            transition: all 0.3s;
+            &-show{
+                height: 100px;
+            }
+            &-hide{
+                height: 0;
+                margin-bottom: 0;
+            }
             &-select-coin{
                 margin-left: 25px;
             }

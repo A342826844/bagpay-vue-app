@@ -29,7 +29,7 @@ import Vue from 'vue';
 
 type data = {
     focus: boolean;
-    inputV: string|number;
+    inputV: string;
     timer: any;
 }
 
@@ -50,6 +50,9 @@ export default Vue.extend({
         maxlength: {
             type: [Number, String],
         },
+        decimal: {
+            type: [Number, String], // 保留小数位数
+        },
         clearable: {
             type: Boolean,
             default: false,
@@ -67,7 +70,7 @@ export default Vue.extend({
         };
     },
     created() {
-        this.inputV = this.value || '';
+        this.inputV = `${this.value}` || '';
     },
     watch: {
         value(value) {
@@ -76,6 +79,11 @@ export default Vue.extend({
             }
         },
         inputV(value) {
+            if (this.decimal) {
+                setTimeout(() => {
+                    this.decimalHandle(Number(this.decimal));
+                }, 0);
+            }
             if (!equal(value, this.value)) {
                 this.$emit('input', value);
             }
@@ -88,6 +96,20 @@ export default Vue.extend({
             this.timer = setTimeout(() => {
                 this.focus = true;
             }, 50);
+        },
+        // inputHandle() {
+        //     this.$emit('input');
+        //     if (this.decimal) {
+        //         this.decimalHandle(Number(this.decimal));
+        //     }
+        //     if (!equal(this.inputV, this.value)) {
+        //         this.$emit('input', this.inputV);
+        //     }
+        // },
+        decimalHandle(decimal: number) {
+            if ((this.inputV.includes('.') && this.inputV.split('.')[1].length) > decimal) {
+                this.inputV = `${this.inputV.split('.')[0]}.${this.inputV.split('.')[1].slice(0, decimal)}`;
+            }
         },
         blurHandle() {
             this.$emit('blur');

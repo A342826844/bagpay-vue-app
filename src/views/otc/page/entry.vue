@@ -4,7 +4,7 @@
             <OrderFilter
                 ref="historyRef"
                 size='small'
-                :title="$t('筛选')"
+                :title="$t('common.screen')"
                 @choose="selecTyoe"
                 :renderData="renderDataTree"
             ></OrderFilter>
@@ -12,7 +12,7 @@
         <TabList
             size="big"
             border
-            :defaultVal="activeType"
+            :defaultVal="side"
             @change="tabChangeHandle"
             @on-click="clickHandle"
             class="otc-tab"
@@ -23,9 +23,9 @@
                 <img class="app-img-50" @click="showMore=true" src="@/assets/img/common/more.png" alt="">
             </div>
             <div class="otc-list" v-for="item in bodyTabList" :key="item.value" :slot="item.value">
-                <div class="otc-tabbar" @scroll.capture="scrollLoad">
+                <div class="otc-tabbar" @scroll.capture="scrollLoad($event, loadData)">
                     <V-Tabs
-                        v-model="active"
+                        v-model="activeSymbol"
                         swipeable
                         line-height='0.053333rem'
                         line-width='0.693333rem'
@@ -36,17 +36,17 @@
                         :border='false'
                         @change='tabChangeHandle'
                         >
-                        <V-Tab v-for="(item, index) in coins" :title="item.name" :name="item.coin" :disabled="!item.name" :key="index">
+                        <V-Tab v-for="(item, index) in coins" :title="item.title" :name="item.symbol" :disabled="!item.symbol" :key="index">
                             <transition name="fade">
-                                <div class="otc-tabbar-page" v-show="item.coin === active">
+                                <div class="otc-tabbar-page" v-show="item.symbol === activeSymbol">
                                     <div class="otc-tabbar-content bg-white">
                                         <div class="content-list">
-                                            <GoodsCard v-for="item in renderData[active]" :renderData='item' :key="item.id"></GoodsCard>
+                                            <GoodsCard v-for="item in renderData[activeSymbol]" :renderData='item' :key="item.id"></GoodsCard>
                                             <div v-if="false" class="loadMore-loading">
                                                 <Loading type='component' :loading='loadMore'></Loading>
                                             </div>
-                                            <p class="color-gray" v-show="!_loading && paramsDate[active] && paramsDate[active].isEnd">
-                                                {{$t('暂无更多')}}
+                                            <p class="color-gray" v-show="!_loading && paramsDate[activeSymbol] && paramsDate[activeSymbol].isEnd">
+                                                {{$t('common.noMore')}}
                                             </p>
                                             <NoData v-if="!_loading" :show='noDataShow'  />
                                         </div>
@@ -89,6 +89,7 @@ import Vue from 'vue';
 import Drawer from '@/components/commons/Drawer.vue';
 import OrderFilter, { renderData } from '@/components/Orders/OrderFilter.vue';
 import Loading from '@/components/loading/index.vue';
+import scrollLoad from '@/minxin/scrollLoad';
 import GoodsCard from '../component/GoodsCard.vue';
 
 const business = require('../../../assets/img/otc/business.png');
@@ -100,16 +101,24 @@ const order = require('../../../assets/img/otc/order.png');
 type data = {
     screen: boolean;
     showMore: boolean;
-    loadMore: boolean;
+    // loadMore: boolean;
     noDataShow: boolean;
-    active: string;
-    activeType: string;
-    renderDataTree: renderData;
+    activeSymbol: string;
+    side: number;
     paramsDate: any;
     renderData: any;
     coins: Array<any>;
     moreShade: Array<any>;
 }
+
+const menuHandle = (data: Array<any>): Array<any> => {
+    if (data.length < 5) {
+        return menuHandle(data.concat({
+            symbol: '',
+        }));
+    }
+    return data;
+};
 
 export default Vue.extend({
     components: {
@@ -118,96 +127,65 @@ export default Vue.extend({
         Loading,
         OrderFilter,
     },
+    mixins: [scrollLoad],
     data(): data {
         return {
             screen: false,
             showMore: false,
-            loadMore: false,
             noDataShow: false,
-            active: 'usdt',
-            activeType: '',
-            renderDataTree: [{
-                title: '交易类型',
-                key: 'type',
-                value: 0,
-                data: [{
-                    title: '普通',
-                    type: 0,
-                }, {
-                    title: '大宗',
-                    type: 1,
-                }],
-            }, {
-                title: '支付方式',
-                key: 'pay',
-                value: 0,
-                data: [{
-                    title: '普通',
-                    pay: 0,
-                }, {
-                    title: '大宗',
-                    pay: 1,
-                }],
-            }],
-            renderData: {
-                usdt: [{}, {}, {}, {}, {}, {}, {}, {}],
-                usdc: [{}, {}, {}],
-            },
+            activeSymbol: 'usdt',
+            side: 1,
+            renderData: {},
             paramsDate: {},
             coins: [
                 {
-                    name: 'USDT',
-                    coin: 'usdt',
+                    title: 'USDT',
+                    symbol: 'usdt',
                 }, {
-                    name: 'USDC',
-                    coin: 'usdc',
+                    title: '',
+                    symbol: '',
                 }, {
-                    name: '',
-                    coin: 'disable',
+                    title: '',
+                    symbol: '',
                 }, {
-                    name: '',
-                    coin: 'disable',
+                    title: '',
+                    symbol: '',
                 }, {
-                    name: '',
-                    coin: 'disable',
+                    title: '',
+                    symbol: '',
                 },
             ],
             moreShade: [
                 {
                     img: fabu,
-                    title: '发布广告',
+                    title: 'otc.otcAdv',
                     name: 'otcAdv',
                     needlogin: true,
                     isfabu: true,
                 }, {
                     img: manage,
-                    title: '广告管理',
+                    title: 'otc.manage',
                     name: 'otcAdvManage',
                     needlogin: true,
                     neediRealAuth: false,
                     needOtc: true,
                 }, {
                     img: order,
-                    title: '场外订单',
+                    title: 'otc.order',
                     name: 'otcOrder',
                     needlogin: true,
                     neediRealAuth: false,
                 }, {
                     img: payment,
-                    title: '收款方式',
-                    name: '/payment',
+                    title: 'otc.payment',
+                    name: 'payment',
                     needlogin: true,
                 }, {
                     img: business,
-                    title: '广告商家',
+                    title: 'otc.business',
                     name: 'otcAdvBusiness',
                     needlogin: false,
                     neediRealAuth: false,
-                    // }, {
-                    //     img: require('@/assets/img/quickTrans/message.png'),
-                    //     title: '订单消息',
-                    //     url: '/setting/otcmsg',
-                    //     needlogin: false,
                 },
             ],
         };
@@ -218,12 +196,51 @@ export default Vue.extend({
                 {
                     title: this.$t('payment.transferIn'),
                     value: 'transferIn',
+                    side: 1,
                 }, {
                     title: this.$t('payment.transferOut'),
                     value: 'transferOut',
+                    side: 2,
                 },
             ];
         },
+        renderDataTree(): renderData {
+            return [{
+                title: this.$t('otc.tradeType'),
+                key: 'type',
+                value: 0,
+                data: [{
+                    title: this.$t('otc.normal'),
+                    type: 0,
+                }, {
+                    title: this.$t('otc.large'),
+                    type: 1,
+                }],
+            }, {
+                title: this.$t('common.payway'),
+                key: 'pay',
+                value: 0,
+                data: [{
+                    title: this.$t('common.bank'),
+                    pay: 1,
+                }, {
+                    title: this.$t('common.alipay'),
+                    pay: 2,
+                }, {
+                    title: this.$t('common.weixin'),
+                    pay: 3,
+                }, {
+                    title: this.$t('common.huione'),
+                    pay: 4,
+                }],
+            }];
+        },
+    },
+    beforeRouteEnter(to, fiom, next) {
+        next((vm: any) => {
+            vm.getCoinList();
+            vm.loadData();
+        });
     },
     methods: {
         selecTyoe(item: any) {
@@ -232,25 +249,53 @@ export default Vue.extend({
         checkType() {
             console.log('checkType');
         },
-        scrollLoad() {
-            console.log('scrollLoad');
+        // scrollLoad() {
+        //     console.log('scrollLoad');
+        // },
+        tabChangeHandle(item: any) {
+            this.side = item.side;
         },
-        tabChangeHandle() {
-            console.log('tabChangeHandle');
+        loadData() {
+            this.changeLoading(true);
+            this.renderData = [];
+            if (!this.renderData[this.activeSymbol]) {
+                this.$set(this.renderData, this.activeSymbol, []);
+            }
+            const params = {
+                coin: this.activeSymbol,
+                side: this.side,
+                offset: this.renderData[this.activeSymbol].length,
+                limit: 10,
+            };
+            this.$api.getOtcOrderList(params).then((res: any) => {
+                this.renderData[this.activeSymbol] = this.renderData[this.activeSymbol].concat(res);
+            });
+        },
+        getCoinList() {
+            this.$api.getCoinList().then((res: any) => {
+                let coins = res.data.filter((item: CoinInfo) => item.enable_otc);
+                coins = coins.map((item: CoinInfo) => ({
+                    ...item,
+                    title: item.symbol.toUpperCase(),
+                }));
+                this.coins = menuHandle(coins);
+                this.resizeTab();
+            });
         },
         clickHandle() {
+            this.resizeTab();
+        },
+        resizeTab() {
             setTimeout(() => {
                 (this.$refs.tabs as Element[]).forEach((item) => {
                     (item as any).resize();
                 });
             }, 0);
-            console.log('clickHandle');
         },
         clickShowMore(item: any) {
             this.$router.push({
                 name: item.name,
             });
-            console.log('clickShowMore');
         },
     },
 });

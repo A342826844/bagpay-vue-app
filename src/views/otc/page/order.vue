@@ -47,7 +47,6 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { otcDealsList } from '@/api/index';
 import { axiosGoPromiseArr } from '@/api/axios';
 import Loading from '@/components/loading/index.vue';
 // import navFilter from '../component/filter.vue';
@@ -186,22 +185,24 @@ export default Vue.extend({
                     delete axiosGoPromiseArr[index];
                 });
             }
-            otcDealsList(params).then((res) => {
-                this.$store.commit('changeLoading', false);
-                this.isLoading = false;
-                if (res.data.status === 200 && res.data.data.list) {
-                    this.loadMore = false;
-                    this.list = this.list.concat(res.data.data.list);
-                    this.page += 1;
-                    if (this.list.length >= res.data.data.total) {
-                        this.isEnd = true;
-                    }
-                }
-            }).catch(() => {
-                this.$store.commit('changeLoading', false);
-                this.isLoading = false;
-                this.loadMore = false;
-            });
+            // TODO
+            console.log(params);
+            // otcDealsList(params).then((res) => {
+            //     this.$store.commit('changeLoading', false);
+            //     this.isLoading = false;
+            //     if (res.data.status === 200 && res.data.data.list) {
+            //         this.loadMore = false;
+            //         this.list = this.list.concat(res.data.data.list);
+            //         this.page += 1;
+            //         if (this.list.length >= res.data.data.total) {
+            //             this.isEnd = true;
+            //         }
+            //     }
+            // }).catch(() => {
+            //     this.$store.commit('changeLoading', false);
+            //     this.isLoading = false;
+            //     this.loadMore = false;
+            // });
         },
         // tabbar切换
         tabClick(type: string) {

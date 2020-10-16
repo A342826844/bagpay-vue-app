@@ -7,7 +7,12 @@
     "common": {
         "send": "发 送",
         "save": "保 存",
+        "cancle": "取 消",
         "name": "名称",
+        "noMore": "暂无更多",
+        "noData": "暂无数据",
+        "webErQua": "网络问题",
+        "screen": "筛选",
         "poptip": "温馨提示",
         "waitSend": "等待发送",
         "waitReview": "等待审核",
@@ -37,7 +42,12 @@
         "typeBuyer": "买家",
         "typeSeller": "卖家",
         "sideBuy": "买入",
-        "sideSell": "卖出"
+        "sideSell": "卖出",
+        "payway": "支付方式",
+        "alipay": "支付宝",
+        "weixin": "微信",
+        "bank": "银行卡",
+        "huione": "汇旺"
     },
     "refresh": {
         "pulling": "下拉即可刷新...",
@@ -94,6 +104,18 @@
         "safePass": "安全密码",
         "changePwd": "修改密码",
         "changePwdTip": "修改账号登录密码"
+    },
+    "otc": {
+        "otcAdv": "发布广告",
+        "manage": "广告管理",
+        "order": "场外订单",
+        "payment": "收款方式",
+        "business": "广告商家",
+        "tradeType": "交易类型",
+        "normal": "普通",
+        "large": "大宗",
+        "floatingPrice": "浮动价格",
+        "fixedPrice": "固定价格"
     },
     "payment": {
         "paymentTitle": "收款",

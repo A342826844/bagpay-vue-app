@@ -29,8 +29,8 @@ export default Vue.extend({
     data() {
         return {
             textTitle: {
-                1: 'otherWT.webErQua', // 网络问题
-                2: 'newZh.noData', // 暂无数据
+                1: 'common.webErQua', // 网络问题
+                2: 'common.noData', // 暂无数据
             },
         };
     },

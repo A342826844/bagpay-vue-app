@@ -25,17 +25,18 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { TranslateResult } from 'vue-i18n';
 
 type subItem = {
-    title: string;
+    title: TranslateResult;
     // [title]: number|string;
-    [elem: string]: number|string|boolean;
+    [elem: string]: number|string|boolean|TranslateResult;
 }
 
 type itemData = {
-    title: string;
+    title: TranslateResult|string;
     key: string;
-    value: number|string;
+    value: number|TranslateResult;
     data: Array<subItem>;
 }
 

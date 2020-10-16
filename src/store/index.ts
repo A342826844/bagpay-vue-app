@@ -7,6 +7,7 @@ export default new Vuex.Store({
     state: {
         lang: 'zh-cn',
         loading: false,
+        unit: 'USD',
         userInfo: {
             token: '',
         },
