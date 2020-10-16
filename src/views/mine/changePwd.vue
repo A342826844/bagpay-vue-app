@@ -94,8 +94,10 @@ export default Vue.extend({
     },
     created() {
         this.getImg();
-        console.log(this._userInfo);
-        this.form.phone = this._userInfo.phone || '';
+        this.$nextTick(() => {
+            const phone = this._userInfo.phone.split('-');
+            this.form.phone = phone[1] || '';
+        });
     },
     methods: {
         loginHandle() {

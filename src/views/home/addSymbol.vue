@@ -1,6 +1,6 @@
 <template>
     <div class="add-symbol">
-        <TitleHeader :title="$t('login.loginTitle')" />
+        <TitleHeader :title="$t('home.addSymbol')" />
         <div class="add-symbol-list assets-symbol-list app-padding40">
             <ul>
                 <li class="flex-between-c" v-for="item in symbolList" :key="item.symbol">

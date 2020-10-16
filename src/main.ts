@@ -14,6 +14,8 @@ import Switch from '@/components/commons/Switch.vue';
 import TabList from '@/components/TabList/index.vue';
 import PullRefresh from '@/components/pull-refresh/index.vue';
 import NoData from '@/components/NoData/index.vue';
+import UserAuth from '@/components/userAuth/index.vue';
+import IconImg from '@/components/iconUrl/iconImg.vue';
 import { Poptip, PoptipItem } from '@/components/Poptip/index';
 
 import i18n from './i18n';
@@ -47,6 +49,8 @@ Vue.component('PullRefresh', PullRefresh);
 Vue.component('NoData', NoData);
 Vue.component('Poptip', Poptip);
 Vue.component('PoptipItem', PoptipItem);
+Vue.component('UserAuth', UserAuth);
+Vue.component('IconImg', IconImg);
 
 Vue.mixin({
     computed: {

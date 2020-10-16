@@ -20,9 +20,9 @@
                 >
                     <div class="transfer-list" slot="transferIn">
                         <ul>
-                            <li class="app-padding40 flex-between-c" v-for="(item, index) in renderList" :key="index">
+                            <li class="app-padding40 flex-between-c" v-for="(item, index) in rechargeList" :key="index">
                                 <div class="values">
-                                    <h5 class="value" :class="sideMap[item.side].color">{{$t(sideMap[item.side].title)}}</h5>
+                                    <h5 class="value green-color">{{$t('payment.transferIn')}}</h5>
                                     <p class="sub-value">E2jijdi2o1...23jiwajid</p>
                                 </div>
                                 <div class="values">
@@ -34,9 +34,9 @@
                     </div>
                     <div class="transfer-list" slot="transferOut">
                         <ul>
-                            <li class="app-padding40 flex-between-c" v-for="(item, index) in renderList" :key="index">
+                            <li class="app-padding40 flex-between-c" v-for="(item, index) in withdrawalList" :key="index">
                                 <div class="values">
-                                    <h5 class="value" :class="sideMap[item.side].color">{{$t(sideMap[item.side].title)}}</h5>
+                                    <h5 class="value red-color">{{$t('payment.transferOut')}}</h5>
                                     <p class="sub-value">E2jijdi2o1...23jiwajid</p>
                                 </div>
                                 <div class="values">
@@ -67,6 +67,8 @@ type data = {
     symbol: string;
     active: string;
     size: number;
+    rechargeList: Array<any>;
+    withdrawalList: Array<any>;
     sideMap: {
         [elem: string]: any;
     };
@@ -80,6 +82,8 @@ export default Vue.extend({
             size: 100,
             symbol: '',
             active: 'transferIn',
+            rechargeList: [],
+            withdrawalList: [],
             sideMap: {
                 1: {
                     value: 1,
@@ -120,9 +124,22 @@ export default Vue.extend({
         },
     },
     created() {
-        this.symbol = (this.$route.query.symbol as string) || '';
+        this.init();
     },
     methods: {
+        init() {
+            this.symbol = (this.$route.query.symbol as string) || '';
+            this.getCoinHistory();
+        },
+        getCoinHistory() {
+            this.$api.getCoinHistory({
+                coin: this.symbol,
+            }).then((res: any) => {
+                if (res.code === 0) {
+                    this.rechargeList = res.data || [{}];
+                }
+            });
+        },
         tabChangeHandle(value: any) {
             console.log(value);
         },

@@ -60,6 +60,7 @@ export default Vue.extend({
                 passport: `86-${this.form.phone}`,
                 password: this.$md5(`${this.form.password}bagpaysol`),
             }).then((res: any) => {
+                this.initUserInfo();
                 if (res.code === 0) {
                     this.$router.push({
                         name: 'home',
@@ -68,8 +69,16 @@ export default Vue.extend({
                 console.log(res);
             });
         },
+        // 获取用户信息
         goFindAccount() {
             this.$router.push(`/findaccount?phone=${this.form.phone}`);
+        },
+        initUserInfo() {
+            this.$api.getUserInfo().then((res: any) => {
+                if (res.code === 0) {
+                    sessionStorage.setItem('userInfo', JSON.stringify(res.data));
+                }
+            });
         },
     },
 });

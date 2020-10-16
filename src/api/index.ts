@@ -55,3 +55,22 @@ export const forgetPwd = (data: params) => postGolang('/user/forget-password', d
 
 // 获取用户信息
 export const getUserInfo = (data: params) => postGolang('/user/profile', data);
+// 修改登录密码
+export const changePwd = (data: params) => postGolang('/change-password', data);
+// 支付密码
+export const forgetPayPwd = (data: params) => postGolang('/user/forget-pay-password', data);
+// 添加提币地址
+export const addAddress = (data: params) => postGolang('/withdraw/address/add', data);
+
+// 获取所有币种余额
+export const getBalances = (data: params) => postGolang('/user/balances', data);
+// 获取指定币种余额
+export const getCoinBalances = (data: params) => postGolang(`/user/balance/${data.coin}`, data);
+// 获取指定币种余额变动
+export const getCoinLog = (data: params) => postGolang(`/user/balance-log/${data.coin}`, data);
+// 获取指定币种转入记录
+export const getCoinHistory = (data: params) => postGolang(`/deposit/history/${data.coin}`, data);
+// 获取指定币种转出记录
+export const getWithdrawHistory = (data: params) => postGolang(`/withdraw/history/${data.coin}`, data);
+// 获取所有币种
+export const getCoinList = (data: params) => getGolang('coin/list', data);

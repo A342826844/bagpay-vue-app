@@ -45,8 +45,8 @@ axiosOfJava.interceptors.request.use(
         // 语言国际化
         const { lang } = store.state;
         // 新增权限验证
-        const AUTH_TOKEN = store.state.userInfo.token;
-        return resetConfig(config, lang, AUTH_TOKEN);
+        // const AUTH_TOKEN = store.state.userInfo.token;
+        return resetConfig(config, lang);
     },
     (error) => Promise.reject(error),
 );
@@ -77,8 +77,8 @@ axiosOfGoLang.interceptors.request.use(
         });
         // 语言国际化
         const { lang } = store.state;
-        const AUTH_TOKEN = store.state.userInfo.token;
-        return resetConfig(config, lang, AUTH_TOKEN);
+        // const AUTH_TOKEN = store.state.userInfo.token;
+        return resetConfig(config, lang);
     },
     (error) => Promise.reject(error),
 );
