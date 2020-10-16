@@ -22,7 +22,7 @@ const loadLocaleMessages = () => {
             langs.push(locale);
         }
     });
-    const message = JSON.stringify(messages).replace(/_mark/g, process.env.VUE_APP_MARK);
+    const message = JSON.stringify(messages).replace(/_mark/g, (process.env.VUE_APP_MARK as string));
     return {
         messages: JSON.parse(message),
         langs,
@@ -47,7 +47,7 @@ export const defaultLang = (_lang: string): string => {
     return lang || _lang || thinkLanguage[0];
 };
 
-const locale = defaultLang(process.env.VUE_APP_I18N_LOCALE);
+const locale = defaultLang((process.env.VUE_APP_I18N_LOCALE as string));
 
 export default new VueI18n({
     locale,

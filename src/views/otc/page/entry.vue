@@ -190,52 +190,6 @@ export default Vue.extend({
             ],
         };
     },
-    computed: {
-        bodyTabList() {
-            return [
-                {
-                    title: this.$t('payment.transferIn'),
-                    value: 'transferIn',
-                    side: 1,
-                }, {
-                    title: this.$t('payment.transferOut'),
-                    value: 'transferOut',
-                    side: 2,
-                },
-            ];
-        },
-        renderDataTree(): renderData {
-            return [{
-                title: this.$t('otc.tradeType'),
-                key: 'type',
-                value: 0,
-                data: [{
-                    title: this.$t('otc.normal'),
-                    type: 0,
-                }, {
-                    title: this.$t('otc.large'),
-                    type: 1,
-                }],
-            }, {
-                title: this.$t('common.payway'),
-                key: 'pay',
-                value: 0,
-                data: [{
-                    title: this.$t('common.bank'),
-                    pay: 1,
-                }, {
-                    title: this.$t('common.alipay'),
-                    pay: 2,
-                }, {
-                    title: this.$t('common.weixin'),
-                    pay: 3,
-                }, {
-                    title: this.$t('common.huione'),
-                    pay: 4,
-                }],
-            }];
-        },
-    },
     beforeRouteEnter(to, fiom, next) {
         next((vm: any) => {
             vm.getCoinList();
@@ -271,6 +225,13 @@ export default Vue.extend({
                 this.renderData[this.activeSymbol] = this.renderData[this.activeSymbol].concat(res);
             });
         },
+        resizeTab() {
+            setTimeout(() => {
+                (this.$refs.tabs as Element[]).forEach((item) => {
+                    (item as any).resize();
+                });
+            }, 0);
+        },
         getCoinList() {
             this.$api.getCoinList().then((res: any) => {
                 let coins = res.data.filter((item: CoinInfo) => item.enable_otc);
@@ -285,17 +246,54 @@ export default Vue.extend({
         clickHandle() {
             this.resizeTab();
         },
-        resizeTab() {
-            setTimeout(() => {
-                (this.$refs.tabs as Element[]).forEach((item) => {
-                    (item as any).resize();
-                });
-            }, 0);
-        },
         clickShowMore(item: any) {
             this.$router.push({
                 name: item.name,
             });
+        },
+    },
+    computed: {
+        bodyTabList(): Array<any> {
+            return [{
+                title: this.$t('payment.transferIn'),
+                value: 'transferIn',
+                side: 1,
+            }, {
+                title: this.$t('payment.transferOut'),
+                value: 'transferOut',
+                side: 2,
+            }];
+        },
+        renderDataTree(): renderData {
+            return [{
+                title: this.$t('otc.tradeType'),
+                key: 'type',
+                value: 0,
+                data: [{
+                    title: this.$t('otc.normal'),
+                    type: 0,
+                }, {
+                    title: this.$t('otc.large'),
+                    type: 1,
+                }],
+            }, {
+                title: this.$t('common.payway'),
+                key: 'pay',
+                value: 0,
+                data: [{
+                    title: this.$t('common.bank'),
+                    pay: 1,
+                }, {
+                    title: this.$t('common.alipay'),
+                    pay: 2,
+                }, {
+                    title: this.$t('common.weixin'),
+                    pay: 3,
+                }, {
+                    title: this.$t('common.huione'),
+                    pay: 4,
+                }],
+            }];
         },
     },
 });
