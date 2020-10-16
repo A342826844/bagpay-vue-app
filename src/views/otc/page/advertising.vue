@@ -139,11 +139,8 @@ export default Vue.extend({
         };
     },
     computed: {
-        renderList() {
-            return [{ side: 2 }, { side: 1 }, { side: 2 },
-                { side: 2 }, { side: 1 }, { side: 2 }, { side: 2 }, { side: 1 },
-                { side: 2 }, { side: 2 }, { side: 1 }, { side: 2 },
-            ];
+        coinInfo() {
+            return this.$store.getters.getCoinInfo('usdt');
         },
         total() {
             const res = Number((this as any).form.amount) * Number((this as any).form.price);
@@ -182,6 +179,7 @@ export default Vue.extend({
         },
         clickHandle(value: any) {
             console.log(value);
+            console.log(this.coinInfo);
         },
     },
 });

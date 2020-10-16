@@ -26,11 +26,6 @@ export default Vue.extend({
         Loading,
         Footer,
     },
-    computed: {
-        lang() {
-            return this.$store.state.lang;
-        },
-    },
     updated() {
         const userInfo = sessionStorage.getItem('userInfo');
         console.log(userInfo);
@@ -44,6 +39,21 @@ export default Vue.extend({
         return {
             testValue: 2113,
         };
+    },
+    created() {
+        this.getCoinList();
+    },
+    methods: {
+        getCoinList() {
+            this.$api.getCoinList().then((res: any) => {
+                this.$store.commit('setSymbolList', res.data);
+            });
+        },
+    },
+    computed: {
+        lang(): string {
+            return this.$store.state.lang;
+        },
     },
 });
 </script>
