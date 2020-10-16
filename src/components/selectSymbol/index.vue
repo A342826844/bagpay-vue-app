@@ -10,7 +10,7 @@
             >
         </div>
         <ul>
-            <li class="flex-between-c app-padding40" :class="`${activeItem.symbol}-bg`" v-for="item in 4" :key="item">
+            <li class="flex-between-c app-padding40" :class="`${activeItem.symbol}-bg`" v-for="item in addrList" :key="item">
                 <div class="address-item">
                     <h5>USDT</h5>
                     <p>2215jijiadf2op43o23ko</p>
@@ -34,6 +34,7 @@ type lsitItm = {
 
 type data = {
     symbolList: Array<any>;
+    addrList: Array<any>;
     colorList: any;
     activeItem: any;
 }
@@ -50,6 +51,7 @@ export default Vue.extend({
     data(): data {
         return {
             symbolList: [],
+            addrList: [],
             colorList: {
                 btc: {
                     color: '#FFA47A',
@@ -81,10 +83,6 @@ export default Vue.extend({
     },
     mounted() {
         this.getCoinList();
-        this.activeItem = { ...this.symbolList[0] };
-        if (this.defaultSymbol) {
-            // this.changeItem(this.defaultSymbol);
-        }
     },
     methods: {
         getCoinList() {
@@ -92,6 +90,13 @@ export default Vue.extend({
                 if (res.code === 0) {
                     this.symbolList = res.data.filter((item: any) => item.out_enable === 1);
                     console.log(this.symbolList);
+                    if (this.defaultSymbol) {
+                        // this.changeItem(this.defaultSymbol);
+                        this.activeItem = this.symbolList.find((item: any) => item.symbol === this.defaultSymbol) || this.symbolList[0];
+                    } else {
+                        this.activeItem = { ...this.symbolList[0] };
+                    }
+                    this.addrList = [1, 2];
                 }
             });
         },
