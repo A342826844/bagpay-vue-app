@@ -86,7 +86,8 @@
     },
     "home": {
         "assets": "资产",
-        "paymentTip": "扫描二维码，转入"
+        "paymentTip": "扫描二维码，转入",
+        "addSymbol": "添加币种"
     },
     "mine": {
         "safeSetting": "安全认证",
@@ -129,6 +130,7 @@
         "transferOut": "转出",
         "paymentTip": "扫描二维码，转入",
         "chequesAddr": "收款地址",
+        "memoAddr": "附加地址",
         "setPaymentTitle": "管理钱包",
         "addTitle": "添加地址",
         "selectSymbol": "选择币种"

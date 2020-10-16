@@ -19,26 +19,26 @@
         <div class="assets-symbol-list">
             <div class="list-assets flex-between-c">
                 <h4 v-t="'home.assets'"></h4>
-                <div>
+                <!-- <div>
                     <img @click="addSymbol" src="../../assets/img/common/add.png" alt="">
-                </div>
+                </div> -->
             </div>
             <ul>
                 <li
-                    @click="$router.push(`/transferHistory?symbol=${item.symbol}`)"
+                    @click="$router.push(`/transferHistory?symbol=${item.coin}`)"
                     class="flex-between-c"
                     v-for="item in symbolList"
                     :key="item.symbol"
                 >
                     <div class="flex-start-c">
-                        <img :src="symbolImgList[item.symbol]" alt="">
+                        <img :src="symbolImgList[item.coin]" alt="">
                         <div class="list-values values1">
-                            <h5 class="lable">{{item.symbol.toUpperCase()}}</h5>
+                            <h5 class="lable">{{item.coin.toUpperCase()}}</h5>
                             <p class="value">{{item.title}}</p>
                         </div>
                     </div>
                     <div class="list-values">
-                        <h5 class="lable">{{item.value}}</h5>
+                        <h5 class="lable">{{item.available}}</h5>
                         <p class="value">{{item.transfer}}</p>
                     </div>
                 </li>
@@ -59,7 +59,12 @@ type data = {
     symbolImgList: {
         [elem: string]: any;
     };
-    symbolList: Array<unknown>;
+    symbolList: Array<{
+        coin: string;
+        title: string;
+        available: number;
+        transfer: number;
+    }>;
 
 }
 
@@ -72,28 +77,20 @@ export default Vue.extend({
         return {
             testValue: 2113,
             symbolImgList: { usdt, tusd, usdc },
-            symbolList: [{
-                symbol: 'usdt',
-                title: 'Tether',
-                value: 72500.00,
-                transfer: 72500.00,
-            }, {
-                symbol: 'tusd',
-                title: 'USD Coin',
-                value: 72500.00,
-                transfer: 72500.00,
-            }, {
-                symbol: 'usdc',
-                title: 'TrueUSD',
-                value: 72500.00,
-                transfer: 72500.00,
-            }],
+            symbolList: [],
         };
     },
     methods: {
         init() {
-            this.$api.getUserInfo().then((res: any) => {
-                console.log(res);
+            this.initBalances();
+        },
+        initBalances() {
+            this.$api.getBalances().then((res: any) => {
+                if (res.code === 0) {
+                    this.symbolList = res.data;
+                    // this.symbolList[0].value = res.data.available
+                    // this.symbolList[0].transfer = res.data.available
+                }
             });
         },
         clickTest() {

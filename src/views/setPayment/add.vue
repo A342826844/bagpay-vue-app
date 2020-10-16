@@ -4,9 +4,9 @@
         <form class="set-payment-add-form app-padding40">
             <div class="form-item">
                 <div class="lable" v-t="'payment.choiceAddress'"></div>
-                <div @click="$router.push('/choisesymbol')" class="form-item-select app-padding40 flex-between-c">
+                <div @click="$router.push(`/choisesymbol?symbol=${symbol}`)" class="form-item-select app-padding40 flex-between-c">
                     <div>
-                        <img class="app-img-50" :src="imgList[symbol]" alt="">
+                        <icon-img class="app-img-50" :symbol="symbol"></icon-img>
                         <span class="select-symbol vertical-m">{{symbol.toUpperCase()}}</span>
                     </div>
                     <img class="app-img-50" src="../../assets/img/common/arrow_right.png" alt="">
@@ -15,6 +15,12 @@
             <div class="form-item form-item-card">
                 <div class="lable" v-t="'payment.chequesAddr'"></div>
                 <Inputs v-model="form.address" :placeholder="`${symbol.toUpperCase()} ${$t('payment.address')}`">
+                    <img class="app-img-50" src="../../assets/img/common/qrcode1.png" alt="">
+                </Inputs>
+            </div>
+            <div class="form-item form-item-card" v-show="needMede === '1'">
+                <div class="lable" v-t="'payment.memoAddr'"></div>
+                <Inputs v-model="form.memoAddr" :placeholder="`${symbol.toUpperCase()} ${$t('payment.memoAddr')}`">
                     <img class="app-img-50" src="../../assets/img/common/qrcode1.png" alt="">
                 </Inputs>
             </div>
@@ -32,20 +38,12 @@
 <script lang="ts">
 import Vue from 'vue';
 
-const usdt = require('../../assets/img/symbol/usdt.png');
-const tusd = require('../../assets/img/symbol/tusd.png');
-const usdc = require('../../assets/img/symbol/usdc.png');
-
 type data = {
     symbol: string;
-    imgList: {
-        usdt: unknown;
-        tusd: unknown;
-        usdc: unknown;
-    };
+    needMede: string;
     form: {
-        symbol: string;
         address: string;
+        memoAddr: string;
         remark: string;
     };
 }
@@ -55,21 +53,54 @@ export default Vue.extend({
     data(): data {
         return {
             symbol: 'tusd',
-            imgList: {
-                usdt,
-                tusd,
-                usdc,
-            },
+            needMede: '',
             form: {
-                symbol: '',
                 address: '',
+                memoAddr: '',
                 remark: '',
             },
         };
     },
+    mounted() {
+        this.symbol = sessionStorage.getItem('symbol') as string;
+        this.needMede = sessionStorage.getItem('needMede') as string;
+    },
     methods: {
         saveHandle() {
-            // TODO
+            if (!this.form.address) {
+                console.log('请填写地址');
+            } else if (this.needMede === '1' && !this.form.memoAddr) {
+                console.log('请填写附加地址');
+            } else if (!this.form.remark) {
+                console.log('请填写名称');
+            } else {
+                this.$api.addAddress({
+                    coin: this.symbol,
+                    remark: this.form.remark,
+                    address: this.form.address,
+                    memo: this.form.memoAddr,
+                }).then((res: any) => {
+                    if (res.code === 0) {
+                        this.$router.go(-1);
+                    }
+                });
+            }
+            /**
+             * ```txt
+coin: [string] 所属币种
+protocol: [string] 所属协议,erc20,trc20,eos
+remark: [string] 备注
+address: [string] 地址
+memo: [string] 地址附加信息
+trust: [int] 是否是可信的
+
+password: [string] 可选, 密码
+pay_password: [string] 可选, 支付密码
+sms_code: [string] 可选,短信验证码
+email_code: [string] 可选,邮箱验证码
+ga_code: [string] 可选,google验证码
+```
+             */
         },
     },
 });

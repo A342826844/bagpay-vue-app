@@ -2,20 +2,20 @@
     <div class="com-select-symbol app-padding40">
         <div class="com-select-symbol-tab">
             <img
-                v-for="item in list"
+                v-for="item in symbolList"
                 @click="changeHandle(item)"
                 :key="item.symbol"
-                :src="activeItem.symbol === item.symbol ? item.img : item.img1"
+                :src="getImg(item)"
                 alt=""
             >
         </div>
         <ul>
-            <li class="flex-between-c app-padding40" :class="`${activeItem.symbol}-bg`" v-for="item in 4" :key="item">
+            <li class="flex-between-c app-padding40" :class="`${activeItem.symbol}-bg`" v-for="item in addrList" :key="item">
                 <div class="address-item">
                     <h5>USDT</h5>
                     <p>2215jijiadf2op43o23ko</p>
                 </div>
-                <img :src="activeItem.img2" alt="">
+                <!-- <img :src="activeItem.img2" alt=""> -->
             </li>
         </ul>
     </div>
@@ -24,27 +24,19 @@
 <script lang="ts">
 import Vue from 'vue';
 
-const usdt = require('../../assets/img/symbol/usdt.png');
-const tusd = require('../../assets/img/symbol/tusd.png');
-const usdc = require('../../assets/img/symbol/usdc.png');
-const usdt1 = require('../../assets/img/symbol/usdt1.png');
-const tusd1 = require('../../assets/img/symbol/tusd1.png');
-const usdc1 = require('../../assets/img/symbol/usdc1.png');
-const usdt2 = require('../../assets/img/symbol/usdt2.png');
-const tusd2 = require('../../assets/img/symbol/tusd2.png');
-const usdc2 = require('../../assets/img/symbol/usdc2.png');
-
 type lsitItm = {
     img: unknown;
     img1: unknown;
-    img2: unknown;
+    // img2: unknown;
     symbol: string;
     color: string;
 }
 
 type data = {
-    list: Array<lsitItm>;
-    activeItem: lsitItm|{};
+    symbolList: Array<any>;
+    addrList: Array<any>;
+    colorList: any;
+    activeItem: any;
 }
 
 export default Vue.extend({
@@ -58,40 +50,60 @@ export default Vue.extend({
     },
     data(): data {
         return {
-            list: [
-                {
-                    img: usdt,
-                    img1: usdt1,
-                    img2: usdt2,
-                    symbol: 'usdt',
+            symbolList: [],
+            addrList: [],
+            colorList: {
+                btc: {
                     color: '#FFA47A',
-                }, {
-                    img: tusd,
-                    img1: tusd1,
-                    img2: tusd2,
-                    symbol: 'tusd',
+                },
+                eth: {
+                    color: '#FFA47A',
+                },
+                usdt: {
+                    color: '#FFA47A',
+                },
+                tusd: {
                     color: '#22B67E',
-                }, {
-                    img: usdc,
-                    img1: usdc1,
-                    img2: usdc2,
-                    symbol: 'usdc',
+                },
+                usdc: {
                     color: '#2876CA',
                 },
-            ],
+                pax: {
+                    color: '#FFA47A',
+                },
+                busd: {
+                    color: '#FFA47A',
+                },
+                husd: {
+                    color: '#FFA47A',
+                },
+            },
             activeItem: {},
         };
     },
-    created() {
-        this.activeItem = { ...this.list[0] };
-        if (this.defaultSymbol) {
-            this.changeItem(this.defaultSymbol);
-        }
+    mounted() {
+        this.getCoinList();
     },
     methods: {
-        changeItem(symbol: string) {
-            const res = this.list.find((item: lsitItm) => item.symbol === symbol);
-            this.activeItem = { ...res };
+        getCoinList() {
+            this.$api.getCoinList().then((res: any) => {
+                if (res.code === 0) {
+                    this.symbolList = res.data.filter((item: any) => item.out_enable === 1);
+                    console.log(this.symbolList);
+                    if (this.defaultSymbol) {
+                        // this.changeItem(this.defaultSymbol);
+                        this.activeItem = this.symbolList.find((item: any) => item.symbol === this.defaultSymbol) || this.symbolList[0];
+                    } else {
+                        this.activeItem = { ...this.symbolList[0] };
+                    }
+                    this.addrList = [1, 2];
+                }
+            });
+        },
+        getImg(item: any) {
+            return require(`@/assets/img/symbol/${
+                this.activeItem.symbol === item.symbol ? item.symbol : `${item.symbol}1`
+            }.png`);
         },
         changeHandle(item: lsitItm) {
             this.activeItem = { ...item };
@@ -104,15 +116,21 @@ export default Vue.extend({
 <style scoped lang="less">
 
 .com-select-symbol{
+    display: flex;
     text-align: left;
     &-tab{
+        width: 130px;
+        border-right: 1px solid #EBEBEB;
+        overflow: hidden;
+        overflow-y: auto;
+        margin-right: 20px;
         img{
             width: 100px;
-            margin-right: 46px;
+            margin-bottom: 20px;
         }
     }
     &>ul{
-        margin-top: 86px;
+        flex: 1;
         &>li{
             height: 147px;
             margin-bottom: 40px;

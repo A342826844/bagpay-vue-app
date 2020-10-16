@@ -31,6 +31,15 @@ export default Vue.extend({
             return this.$store.state.lang;
         },
     },
+    updated() {
+        const userInfo = sessionStorage.getItem('userInfo');
+        console.log(userInfo);
+        if (userInfo) {
+            this.$store.commit('setUserInfo', JSON.parse(userInfo));
+        } else {
+            this.$store.commit('setUserInfo', {});
+        }
+    },
     data(): data {
         return {
             testValue: 2113,

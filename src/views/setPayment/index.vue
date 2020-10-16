@@ -1,10 +1,10 @@
 <template>
     <div class="set-payment">
         <TitleHeader :title="$t('payment.setPaymentTitle')">
-            <img @click="$router.push('/setpayment/add')" class="app-img-50" slot="header" src="../../assets/img/common/add.png" alt="">
+            <img @click="add()" class="app-img-50" slot="header" src="../../assets/img/common/add.png" alt="">
         </TitleHeader>
         <div class="set-payment-body">
-            <SelectSymbol :defaultSymbol="symbol" />
+            <SelectSymbol :defaultSymbol="symbol" @change="_change" />
         </div>
     </div>
 </template>
@@ -15,6 +15,7 @@ import SelectSymbol from '@/components/selectSymbol/index.vue';
 
 type data = {
     symbol: string;
+    needMemo: string;
 }
 
 export default Vue.extend({
@@ -25,9 +26,18 @@ export default Vue.extend({
     data(): data {
         return {
             symbol: 'tusd',
+            needMemo: '0',
         };
     },
     methods: {
+        _change(item: any) {
+            this.symbol = item.symbol;
+        },
+        add() {
+            sessionStorage.setItem('symbol', this.symbol);
+            sessionStorage.setItem('needMemo', this.needMemo);
+            this.$router.push('/setpayment/add');
+        },
     },
 });
 </script>

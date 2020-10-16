@@ -2,7 +2,7 @@ module.exports = {
     lintOnSave: true,
     devServer: {
         proxy: {
-            '/': {
+            '/api': {
                 /* 目标代理服务器地址 */
                 target: 'https://bp-api.qdu.io/',
                 /* 允许跨域 */
@@ -10,7 +10,7 @@ module.exports = {
                 secure: false,
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/': '',
+                    '^/api': '',
                 },
             },
         },

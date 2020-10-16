@@ -9,12 +9,20 @@ export default new Vuex.Store({
         loading: false,
         unit: 'USD',
         userInfo: {
-            token: '',
+            id: '',
+            nickname: '',
+            password: '',
+            pay_password: '',
+            phone: '',
+            status: '',
         },
     },
     mutations: {
         changeLoading(state, loading) {
             state.loading = loading;
+        },
+        setUserInfo(state, userInfo) {
+            state.userInfo = userInfo;
         },
     },
     actions: {

@@ -23,6 +23,8 @@ module.exports = {
         'no-underscore-dangle': ['off'], // 使用下滑线是为了区分 全局mixin混入的变量
         'import/extensions': ['off'], // 使用下滑线是为了区分 全局mixin混入的变量
         '@typescript-eslint/camelcase': ['off'], // 使用下滑线是为了区分 全局mixin混入的变量
+        'import/no-dynamic-require': ['off'], // 允许试用require引入
+        'global-require': ['off'], // 允许试用require引入
         // '@typescript-eslint/camelcase': ['off'], // 应许ts中使用any类型
     },
 };
