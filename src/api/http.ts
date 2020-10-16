@@ -1,7 +1,7 @@
 import { axiosOfJava, axiosOfGoLang } from './axios';
 
 // const baseURL = 'http://127.0.0.1:3000';
-const baseURL = 'https://bp-api.qdu.io';
+const baseURL = '/';
 
 interface Config {
     formdata?: boolean;

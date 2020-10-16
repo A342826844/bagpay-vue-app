@@ -58,7 +58,7 @@ type data = {
     titleFontSize: Array<any>;
     titleOpacity: Array<any>;
     isMoveIng: boolean; // tab正在切换状态，不去隐藏其他tab
-    isMoveIngTimer: number;
+    isMoveIngTimer: any;
 
     activeTitleFontSize: number;
     defaultTitleFontSize: number;

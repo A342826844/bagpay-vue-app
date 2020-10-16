@@ -30,7 +30,7 @@ import Vue from 'vue';
 type data = {
     focus: boolean;
     inputV: string|number;
-    timer: number;
+    timer: any;
 }
 
 const equal = (value1: unknown, value2: unknown) => String(value1) === String(value2);
