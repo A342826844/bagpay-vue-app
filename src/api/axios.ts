@@ -1,4 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import i18n from '@/i18n/index';
+import { normalToast } from '@/commons/dom/index';
 import store from '../store';
 
 axios.defaults.timeout = 30 * 1000;
@@ -86,6 +88,9 @@ axiosOfGoLang.interceptors.request.use(
 axiosOfGoLang.interceptors.response.use(
     (response) => {
         if (response.data.code !== 0) {
+            if (response.data.message) {
+                normalToast(i18n.t(`error.${response.data.message}`));
+            }
             return Promise.reject(response.data);
         }
         return response.data;

@@ -1,3 +1,4 @@
+import { TranslateResult } from 'vue-i18n';
 import clientEnv from '../clientEnv/idnex';
 
 export const overflowScrolling = (needTouch: boolean) => {
@@ -7,7 +8,7 @@ export const overflowScrolling = (needTouch: boolean) => {
         document.body.className = 'ios-auto';
     }
 };
-export const normalToast = (text: string, time = 2000, config?: { top: string}) => {
+export const normalToast = (text: string|TranslateResult, time = 2000, config?: { top: string}) => {
     /**
      * 弹窗;
      * @param  {Object} config
@@ -32,7 +33,7 @@ export const normalToast = (text: string, time = 2000, config?: { top: string}) 
     }
     const vDisplay = vDiv.style.display;
     if (!vDisplay || vDisplay === 'none') {
-        content.innerText = text;
+        content.innerText = `${text}`;
         vDiv.setAttribute('style', 'display: block');
         setTimeout(() => {
             vDiv.setAttribute('style', 'display: none');
