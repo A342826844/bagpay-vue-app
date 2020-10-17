@@ -34,7 +34,7 @@
                         <icon-img :symbol="item.coin"></icon-img>
                         <div class="list-values values1">
                             <h5 class="lable">{{item.coin.toUpperCase()}}</h5>
-                            <p class="value">{{item.title}}</p>
+                            <p class="value">{{item.name}}</p>
                         </div>
                     </div>
                     <div class="list-values">

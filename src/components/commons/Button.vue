@@ -3,8 +3,7 @@
         @click="$emit('click')"
         :disabled="disabled"
         class="app-button"
-        :class="[type, size, {disabled}, {border}, {radius}]"
-    >
+        :class="[type, size, {disabled}, {border}, {radius}]">
         <slot></slot>
     </button>
 </template>

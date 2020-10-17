@@ -30,7 +30,6 @@ import Vue from 'vue';
 
 type data = {
     symbol: string;
-    symbolList: Array<any>;
 }
 
 export default Vue.extend({
@@ -38,21 +37,17 @@ export default Vue.extend({
     data(): data {
         return {
             symbol: 'tusd',
-            symbolList: [],
         };
+    },
+    computed: {
+        symbolList() {
+            return this.$store.state.symbolList;
+        },
     },
     mounted() {
         this.symbol = (this.$route.query.symbol || '') as string;
-        this.getCoinList();
     },
     methods: {
-        getCoinList() {
-            this.$api.getCoinList().then((res: any) => {
-                if (res.code === 0) {
-                    this.symbolList = res.data.filter((item: any) => item.out_enable === 1);
-                }
-            });
-        },
         selected(item: any) {
             sessionStorage.setItem('symbol', item.symbol);
             sessionStorage.setItem('needMemo', item.need_memo);

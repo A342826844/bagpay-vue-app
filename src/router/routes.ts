@@ -17,6 +17,7 @@ const ChangePwd = () => import('@/views/mine/changePwd.vue');
 
 const SetPayment = () => import('@/views/setPayment/index.vue');
 const SetPaymentAdd = () => import('@/views/setPayment/add.vue');
+const SetPaymentEdit = () => import('@/views/setPayment/edit.vue');
 const ChoiseSymbol = () => import('@/views/setPayment/choiseSymbol.vue');
 
 const Otc = () => import('@/views/otc/index.vue');
@@ -186,6 +187,11 @@ const routes: Array<RouteConfig> = [
         path: '/setpayment/add',
         name: 'setpaymentadd',
         component: SetPaymentAdd,
+    },
+    {
+        path: '/setpayment/edit',
+        name: 'setpaymentedit',
+        component: SetPaymentEdit,
     },
     {
         path: '/choisesymbol',

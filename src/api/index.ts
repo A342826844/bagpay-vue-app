@@ -30,6 +30,8 @@ export const login = (data: params) => postGolang('/user/sign-in', data);
 export const logout = (data: params) => postGolang('/user/sign-out', data);
 // 找回密码
 export const forgetPwd = (data: params) => postGolang('/user/forget-password', data);
+// 获取安全认证项目
+export const getOption = (data: params) => postGolang(`/user/auth/option/${data.operate}`, data);
 
 // 获取用户信息
 export const getUserInfo = (data: params) => postGolang('/user/profile', data);
@@ -39,6 +41,8 @@ export const changePwd = (data: params) => postGolang('/user/change-password', d
 export const forgetPayPwd = (data: params) => postGolang('/user/forget-pay-password', data);
 // 添加提币地址
 export const addAddress = (data: params) => postGolang('/withdraw/address/add', data);
+// 删除提币地址
+export const delAddr = (data: params) => getGolang(`/withdraw/address/del/${data.id}`, data);
 // 获取指定币种地址列表
 export const getAddrList = (data: params) => getGolang(`/withdraw/address/list/${data.coin}`, data);
 

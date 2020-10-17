@@ -1,8 +1,9 @@
 <template>
-    <div class="app-input">
+    <div class="app-input app-padding40">
+        <slot name="start"></slot>
         <input
             ref="input"
-            class="app-padding40"
+            class="input-cont"
             v-bind="{...$attrs}"
             @focus="focusHandle"
             @blur="blurHandle"
@@ -17,10 +18,8 @@
             class="app-input-clear app-input-right"
             src="@/assets/img/common/clear.png" alt=""
         >
-        <span class="app-input-length app-input-right" v-show="maxlength">{{inputV.length}}/{{maxlength}}</span>
-        <div class="app-input-right">
-            <slot></slot>
-        </div>
+        <span class="app-input-length app-input-right" v-show="isShowLength">{{inputV.length}}/{{maxlength}}</span>
+        <slot></slot>
     </div>
 </template>
 
@@ -44,6 +43,10 @@ export default Vue.extend({
             default: 'text', // text, password
         },
         disabled: {
+            type: Boolean,
+            default: false,
+        },
+        isShowLength: {
             type: Boolean,
             default: false,
         },
@@ -136,11 +139,12 @@ export default Vue.extend({
     height: 99px;
     background: #F5F7F9;
     border-radius: 10px;
-    display: inline-block;
+    display: flex;
+    align-items: center;
     position: relative;
-    input{
-        width: 100%;
-        height: 100%;
+    .input-cont{
+        flex: 1;
+        width: 50px;
         background: transparent;
     }
     &-right{
