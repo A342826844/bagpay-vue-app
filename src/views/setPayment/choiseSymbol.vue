@@ -43,6 +43,11 @@ export default Vue.extend({
             type: '',
         };
     },
+    // computed: {
+    //     symbolList() {
+    //         return this.$store.state.symbolList;
+    //     },
+    // },
     mounted() {
         this.symbol = (this.$route.query.symbol || '') as string;
         sessionStorage.setItem('symbol', this.symbol);

@@ -66,7 +66,6 @@ export default Vue.extend({
                         name: 'home',
                     });
                 }
-                console.log(res);
             });
         },
         // 获取用户信息

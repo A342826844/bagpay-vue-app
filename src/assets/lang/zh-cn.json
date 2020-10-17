@@ -9,6 +9,14 @@
         "save": "保 存",
         "cancle": "取 消",
         "all": "全部",
+        "del": "删 除",
+        "ok": "确 定",
+        "safeVeirfy": "安全验证",
+        "enterPhoneCode": "请输入短信验证码",
+        "enterEmailCode": "请输入邮箱验证码",
+        "enterPayCode": "请输入安全密码",
+        "enterPwdCode": "请输入登录密码",
+        "enterGoogleCode": "请输入google密码",
         "name": "名称",
         "noMore": "暂无更多",
         "noData": "暂无数据",
@@ -67,6 +75,7 @@
         "loginTip": "你将会拥有多链钱包",
         "phone": "手机号",
         "password": "登录密码",
+        "oldPwd": "老密码",
         "findAccount": "找回密码",
         "login": "登 录",
         "findAccountTitle": "找回账号",
@@ -139,6 +148,7 @@
         "paymentTip": "扫描二维码，转入",
         "chequesAddr": "收款地址",
         "memoAddr": "附加地址",
+        "addrDetail": "地址详情",
         "setPaymentTitle": "管理钱包",
         "addTitle": "添加地址",
         "selectSymbol": "选择币种"
@@ -193,6 +203,15 @@
         "ERR_NOT_OTC_MERCHANT": "不是otc商家",
         "ERR_BAD_OTC_MERCHANT_STATUS": "otc商家状态不正常",
 
-        "ERR_BAD_COIN_SYMBOL": "币种标识不正确"
+        "ERR_BAD_COIN_SYMBOL": "币种标识不正确",
+
+        "phoneErr": "请输入正确的手机号",
+        "pwdErr": "请输入大于6位小于16位字母或数字的密码",
+        "pwd2Err": "两次密码输入不一致",
+        "emailErr": "请输入正确的邮箱",
+        "icCardErr": "请输入正确的身份证号",
+        "nameErr": "请输入真实姓名",
+        "payErr": "请输入6位数字密码",
+        "codeErr": "请输入4位数字验证码"
     }
 }
