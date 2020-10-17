@@ -13,7 +13,8 @@ export default new Vuex.Store({
     state: {
         lang: 'zh-cn',
         loading: false,
-        unit: 'USD',
+        unit: 'USD', // 计价单位
+        unitDecimal: 4, // 计价单位小数位数
         userInfo: {
             id: '',
             nickname: '',
@@ -41,6 +42,7 @@ export default new Vuex.Store({
             const coinInfo = state.symbolList.find((item: CoinInfo) => item.symbol === coin);
             return coinInfo || { a: 1 };
         },
+        getOtcEnableList: (state) => state.symbolList.filter((item: CoinInfo) => item.enable_otc),
     },
     actions: {
     },

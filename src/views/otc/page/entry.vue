@@ -1,13 +1,18 @@
 <template>
     <div class="otc">
         <Drawer position="right" v-model="screen">
-            <OrderFilter
-                ref="historyRef"
-                size='small'
-                :title="$t('common.screen')"
-                @choose="selecTyoe"
-                :renderData="renderDataTree"
-            ></OrderFilter>
+            <OrderFilter size='small' :title="$t('common.screen')">
+                <SubOrderFilter title="状态">
+                    <SubOrderFilterItem>待付款</SubOrderFilterItem>
+                    <SubOrderFilterItem :active="true">待付款</SubOrderFilterItem>
+                    <SubOrderFilterItem>待付款</SubOrderFilterItem>
+                </SubOrderFilter>
+                <SubOrderFilter title="币种">
+                    <SubOrderFilterItem>CNY</SubOrderFilterItem>
+                    <SubOrderFilterItem>USDT</SubOrderFilterItem>
+                    <SubOrderFilterItem>待付款</SubOrderFilterItem>
+                </SubOrderFilter>
+            </OrderFilter>
         </Drawer>
         <TabList
             size="big"
@@ -87,7 +92,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Drawer from '@/components/commons/Drawer.vue';
-import OrderFilter, { renderData } from '@/components/Orders/OrderFilter.vue';
+import { OrderFilter, SubOrderFilter, SubOrderFilterItem } from '@/components/Orders/index';
 import Loading from '@/components/loading/index.vue';
 import scrollLoad from '@/minxin/scrollLoad';
 import GoodsCard from '../component/GoodsCard.vue';
@@ -107,7 +112,7 @@ type data = {
     side: number;
     paramsDate: any;
     renderData: any;
-    coins: Array<any>;
+    // coins: Array<any>;
     moreShade: Array<any>;
 }
 
@@ -126,6 +131,8 @@ export default Vue.extend({
         Drawer,
         Loading,
         OrderFilter,
+        SubOrderFilter,
+        SubOrderFilterItem,
     },
     mixins: [scrollLoad],
     data(): data {
@@ -137,24 +144,6 @@ export default Vue.extend({
             side: 1,
             renderData: {},
             paramsDate: {},
-            coins: [
-                {
-                    title: 'USDT',
-                    symbol: 'usdt',
-                }, {
-                    title: '',
-                    symbol: '',
-                }, {
-                    title: '',
-                    symbol: '',
-                }, {
-                    title: '',
-                    symbol: '',
-                }, {
-                    title: '',
-                    symbol: '',
-                },
-            ],
             moreShade: [
                 {
                     img: fabu,
@@ -192,7 +181,6 @@ export default Vue.extend({
     },
     beforeRouteEnter(to, fiom, next) {
         next((vm: any) => {
-            vm.getCoinList();
             vm.loadData();
         });
     },
@@ -232,27 +220,31 @@ export default Vue.extend({
                 });
             }, 0);
         },
-        getCoinList() {
-            this.$api.getCoinList().then((res: any) => {
-                let coins = res.data.filter((item: CoinInfo) => item.enable_otc);
-                coins = coins.map((item: CoinInfo) => ({
-                    ...item,
-                    title: item.symbol.toUpperCase(),
-                }));
-                this.coins = menuHandle(coins);
-                this.resizeTab();
-            });
-        },
         clickHandle() {
             this.resizeTab();
         },
         clickShowMore(item: any) {
+            if (item.name === 'otcAdv') {
+                this.$router.push({
+                    name: item.name,
+                    query: { symbol: this.activeSymbol },
+                });
+                return;
+            }
             this.$router.push({
                 name: item.name,
             });
         },
     },
     computed: {
+        coins(): Array<any> {
+            let coins = this.$store.state.symbolList.filter((item: CoinInfo) => item.enable_otc);
+            coins = coins.map((item: CoinInfo) => ({
+                ...item,
+                title: item.symbol.toUpperCase(),
+            }));
+            return menuHandle(coins);
+        },
         bodyTabList(): Array<any> {
             return [{
                 title: this.$t('payment.transferIn'),
@@ -262,37 +254,6 @@ export default Vue.extend({
                 title: this.$t('payment.transferOut'),
                 value: 'transferOut',
                 side: 2,
-            }];
-        },
-        renderDataTree(): renderData {
-            return [{
-                title: this.$t('otc.tradeType'),
-                key: 'type',
-                value: 0,
-                data: [{
-                    title: this.$t('otc.normal'),
-                    type: 0,
-                }, {
-                    title: this.$t('otc.large'),
-                    type: 1,
-                }],
-            }, {
-                title: this.$t('common.payway'),
-                key: 'pay',
-                value: 0,
-                data: [{
-                    title: this.$t('common.bank'),
-                    pay: 1,
-                }, {
-                    title: this.$t('common.alipay'),
-                    pay: 2,
-                }, {
-                    title: this.$t('common.weixin'),
-                    pay: 3,
-                }, {
-                    title: this.$t('common.huione'),
-                    pay: 4,
-                }],
             }];
         },
     },

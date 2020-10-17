@@ -46,7 +46,9 @@ export default Vue.extend({
     methods: {
         getCoinList() {
             this.$api.getCoinList().then((res: any) => {
-                this.$store.commit('setSymbolList', res.data);
+                if (res.data) {
+                    this.$store.commit('setSymbolList', res.data);
+                }
             });
         },
     },

@@ -26,6 +26,8 @@ const Adv = () => import('@/views/otc/page/advertising.vue');
 const AdvManage = () => import('@/views/otc/page/advManage.vue');
 const AdvBusiness = () => import('@/views/otc/page/advBusiness.vue');
 const OtcOrderDetail = () => import('@/views/otc/page/orderDetail.vue');
+const OtcSubmit = () => import('@/views/otc/page/submit.vue');
+const OtcAppeal = () => import('@/views/otc/page/appeal.vue');
 
 const Entry = () => import('@/views/entry/index.vue');
 const Login = () => import('@/views/login/index.vue');
@@ -114,6 +116,14 @@ const routes: Array<RouteConfig> = [
             path: 'order',
             name: 'otcOrder',
             component: OtcOrder,
+        }, {
+            path: 'submit',
+            name: 'otcsubmit',
+            component: OtcSubmit,
+        }, {
+            path: 'order/appeal',
+            name: 'otcappeal',
+            component: OtcAppeal,
         }, {
             path: 'order/detail',
             name: 'orderdetail',

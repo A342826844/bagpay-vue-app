@@ -18,27 +18,27 @@
                 <div class="app-padding40" slot="buy">
                     <form class="otc-advertising-form app-size-34" action="">
                         <div class="form-item">
-                            <Select>
+                            <Select @click="$router.push(`/choisesymbol?symbol=${form.coin}&type=1`)">
                                 <img class="app-img-50" src="@/assets/img/symbol/usdt.png" alt="">
-                                <span class="form-item-select-coin vertical-m">{{form.coin}}</span>
+                                <span class="form-item-select-coin vertical-m">{{coinSHow}}</span>
                             </Select>
                         </div>
-                        <div @click="selectPopup = !selectPopup" class="form-item">
+                        <!-- <div @click="selectPopup = !selectPopup" class="form-item">
                             <Select>
                                 <span class="vertical-m">{{isfloatRate ? $t('otc.floatingPrice') : $t('otc.fixedPrice') }}</span>
                             </Select>
                         </div>
                         <div class="form-item" :class="isfloatRate ? 'form-item-show' : 'form-item-hide'">
                             <Inputs v-model="form.floating_rate" placeholder="溢价率(30~50)">%</Inputs>
+                        </div> -->
+                        <div class="form-item">
+                            <Inputs decimal type="number" v-model="form.price" placeholder="买入价格">{{_unit}}</Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs decimal="8" type="number" v-model="form.price" placeholder="买入价格">{{_unit}}</Inputs>
+                            <Inputs :decimal="2" v-model="form.amount" placeholder="买入数量">{{coinSHow}}</Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs v-model="form.amount" placeholder="买入数量">USDT</Inputs>
-                        </div>
-                        <div class="form-item">
-                            <Inputs readonly :value="total || '自动计算'">USDT</Inputs>
+                            <Inputs readonly :value="total || '自动计算'">{{coinSHow}}</Inputs>
                         </div>
                         <div class="form-item">
                             <Inputs v-model="form.min_value" placeholder="单笔最低限额">{{_unit}}</Inputs>
@@ -55,7 +55,7 @@
                     </form>
                     <Poptip>
                         <PoptipItem>
-                            单个发布广告买入/卖出数量限制 0.01~1000 BTC
+                            单个发布广告买入/卖出数量限制 0.01~1000 {{coinSHow}}
                         </PoptipItem>
                         <PoptipItem>
                             认证广告商家发布广告将没有累计限制
@@ -76,10 +76,10 @@
                 </div>
             </TabList>
         </div>
-        <SelectPopup v-model="selectPopup">
-            <SelectPopupItem @click="isfloatRate = true">{{$t('otc.floatingPrice')}}</SelectPopupItem>
+        <!-- <SelectPopup v-model="selectPopup">
+            <SelectPopupItem @click="changeRateType(1)">{{$t('otc.floatingPrice')}}</SelectPopupItem>
             <SelectPopupItem @click="isfloatRate = false">{{$t('otc.fixedPrice')}}</SelectPopupItem>
-        </SelectPopup>
+        </SelectPopup> -->
         <SelectPopup v-model="payPopup">
             <SelectPopupItem v-for="item in PayType" :key="item" @click="isfloatRate = true">{{ item | payType }}</SelectPopupItem>
         </SelectPopup>
@@ -142,6 +142,9 @@ export default Vue.extend({
         coinInfo() {
             return this.$store.getters.getCoinInfo('usdt');
         },
+        coinSHow() {
+            return ((this as any).form.coin || '').toUpperCase();
+        },
         total() {
             const res = Number((this as any).form.amount) * Number((this as any).form.price);
             return res ? res.toFixed(2) : '';
@@ -163,9 +166,31 @@ export default Vue.extend({
     created() {
         this.form.coin = (this.$route.query.symbol as string) || '';
     },
+    beforeRouteEnter(to, from, next) {
+        next((vm: any) => {
+            if (from.name === 'choisesymbol') {
+                const symbol = sessionStorage.getItem('symbol') || '';
+                vm.setCoin(symbol);
+            } else {
+                vm.setCoin(to.query.symbol);
+                vm.initFormData();
+            }
+        });
+    },
     methods: {
         tabChangeHandle(item: any) {
             this.form.type = item.side;
+        },
+        setCoin(coin: string) {
+            this.form.coin = coin;
+        },
+        initFormData() {
+            this.form.price = '';
+            this.form.amount = '';
+            this.form.min_value = '';
+            this.form.max_value = '';
+            this.form.floating_rate = '';
+            this.form.remark = '';
         },
         otcOrderPlace() {
             const params = {

@@ -51,7 +51,7 @@ export default Vue.extend({
             type: [Number, String],
         },
         decimal: {
-            type: [Number, String], // 保留小数位数
+            type: [Number, Boolean], // 保留小数位数, true为计价单位的小数位数， 默认不做处理
         },
         clearable: {
             type: Boolean,
@@ -80,8 +80,12 @@ export default Vue.extend({
         },
         inputV(value) {
             if (this.decimal) {
+                let { decimal } = this;
+                if (typeof this.decimal === 'boolean') {
+                    decimal = this.$store.state.unitDecimal;
+                }
                 setTimeout(() => {
-                    this.decimalHandle(Number(this.decimal));
+                    this.decimalHandle(Number(decimal));
                 }, 0);
             }
             if (!equal(value, this.value)) {

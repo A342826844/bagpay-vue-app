@@ -143,6 +143,16 @@ Vue.filter('orderSide', (state: 1|2) => {
     };
     return i18n.t(states[state]);
 });
+// 订单方向 OrderSide
+Vue.filter('orderSideType', (state: 1|2) => {
+	// OrderSideBuy   = 1 // 购买
+	// OrderSideSell  = 2 // 出售
+    const states = {
+        1: 'common.sideBuyT',
+        2: 'common.sideSellT',
+    };
+    return i18n.t(states[state]);
+});
 
 // 订单方向渲染颜色 OrderSide
 Vue.filter('orderSideColor', (state: 1|2) => {
@@ -152,7 +162,7 @@ Vue.filter('orderSideColor', (state: 1|2) => {
         1: 'green-color',
         2: 'red-color',
     };
-    return i18n.t(states[state]);
+    return states[state];
 });
 
 // otc申诉用户类型 OtcAppealUserType
@@ -177,6 +187,25 @@ Vue.filter('payType', (state: 1|2|3|4) => {
         2: 'common.alipay',
         3: 'common.weixin',
         4: 'common.huione',
+    };
+    return i18n.t(states[state]);
+});
+
+// 广告状态 OtcOrderState
+Vue.filter('otcOrderState', (state: 0|1|2|3|4|5) => {
+    // OtcOrderStateWait        = 0 //等待中
+    // OtcOrderStateTrading     = 1 //交易中
+    // OtcOrderStateFinished    = 2 //已完成
+    // OtcOrderStateCanceled    = 3 //已取消
+    // OtcOrderStateClosed      = 4 //已关闭
+    // OtcOrderStatePlatClosed  = 5 //平台强制关闭
+    const states = {
+        0: 'common.stateWait',
+        1: 'common.stateTrading',
+        2: 'common.stateFinished',
+        3: 'common.otcStateCanceled',
+        4: 'common.stateClosed',
+        5: 'common.statePlatClosed',
     };
     return i18n.t(states[state]);
 });

@@ -1,16 +1,32 @@
 <template>
     <div class="adv-manage">
         <Drawer position="right" v-model="isShow">
-            <OrderFilter
-                ref="historyRef"
-                :title="'筛选'"
-                @choose="filterSubmit"
-                :renderData="renderDataTree"
-            ></OrderFilter>
+            <OrderFilter :title="'筛选'">
+                <SubOrderFilter title="状态">
+                    <SubOrderFilterItem
+                        :active="state === item"
+                        v-for="item in OtcOrderState"
+                        :key="item"
+                        @click="changeState(item)"
+                    >
+                        {{item | otcOrderState}}
+                    </SubOrderFilterItem>
+                    <SubOrderFilterItem :active="state === -1" @click="changeState(-1)">{{$t('common.all')}}</SubOrderFilterItem>
+                </SubOrderFilter>
+                <SubOrderFilter title="币种">
+                    <SubOrderFilterItem
+                        v-for="item in symbolList"
+                        :active="coin === item.symbol"
+                        :key="item.symbol"
+                        @click="changeCoin(item.symbol)"
+                    >{{item.symbol.toUpperCase()}}</SubOrderFilterItem>
+                    <SubOrderFilterItem :active="coin === ''" @click="changeCoin('')">{{$t('common.all')}}</SubOrderFilterItem>
+                </SubOrderFilter>
+            </OrderFilter>
         </Drawer>
-        <TitleHeader :title="'场外订单'">
-            <img slot="header" @click="isShow=!isShow" class="chooss" src="@/assets/img/common/screen.png" alt="">
-            <div @scroll.capture="scrollLoad" class="lxa-history-body lxa-refresh-box">
+        <TitleHeader fill :title="'场外订单'">
+            <img slot="header" @click="isShow=!isShow" class="app-img-50" src="@/assets/img/common/screen.png" alt="">
+            <div @scroll.capture="scrollLoad($event, scrollLoadHandle)" class="app-margin-t40">
                 <div class="body-content-slot" slot="history">
                     <PullRefresh
                         v-model="isLoading"
@@ -18,26 +34,26 @@
                     >
                         <NCardItem :showArrow="true" @click="goAdvState(item)" v-for="(item, index) in list" :key="index">
                             <template slot="title">
-                                <span>USDT</span>
-                                <span :class="1|orderSideColor">买入</span>
+                                <span>{{item.coin && item.coin.toUpperCase()}}</span>
+                                <span :class="item.taker_side|orderSideColor">{{item.taker_side | orderSide}}</span>
                             </template>
                             <template slot="right">
-                                <span>待付款</span>
+                                <span>{{item.state | otcOrderState}}</span>
                             </template>
                             <template slot="lable">
-                                <span>{{"价格"}} {{1|depositState}} (CNY)</span>
+                                <span>{{"价格"}} ({{_unit}})</span>
                                 <span>{{"数量"}} ({{item.coin && item.coin.toUpperCase()}})</span>
-                                <span>{{"成交额"}} (CNY)</span>
+                                <span>{{"成交额"}} ({{_unit}})</span>
                             </template>
                             <template slot="value">
-                                <span>21312</span>
-                                <span>42121</span>
-                                <span>55</span>
+                                <span>{{item.price}}</span>
+                                <span>{{item.amount}}</span>
+                                <span>{{item.value}}</span>
                             </template>
                         </NCardItem>
                         <div class="loadMore-loading"><Loading type='component' :loading='loadMore'></Loading></div>
                         <p v-if="isEnd && list.length" class="color-gray">{{'暂无更多'}}</p>
-                        <noData v-if="!_loading" :moDataShow='!list.length'  />
+                        <noData v-if="!_loading && (!list.length)"/>
                     </PullRefresh>
                 </div>
             </div>
@@ -51,133 +67,80 @@ import { axiosGoPromiseArr } from '@/api/axios';
 import Loading from '@/components/loading/index.vue';
 // import navFilter from '../component/filter.vue';
 import Drawer from '@/components/commons/Drawer.vue';
-import OrderFilter from '@/components/Orders/OrderFilter.vue';
+import { OrderFilter, SubOrderFilter, SubOrderFilterItem } from '@/components/Orders/index';
 import NCardItem from '@/components/card/index.vue';
+import { OtcOrderState } from '@/commons/config/index';
+import scrollLoad from '@/minxin/scrollLoad';
 
 export default Vue.extend({
     components: {
         Loading,
         Drawer,
         OrderFilter,
+        SubOrderFilter,
+        SubOrderFilterItem,
         NCardItem,
     },
+    mixins: [scrollLoad],
     data() {
         return {
-            state: '-1',
-            navText: '广告管理',
+            OtcOrderState,
+            state: -1,
             isShow: false,
-            showBorder: false,
             loadMore: false,
-            side: 0,
             coin: '',
-            page: 1,
-            size: 10,
+            limit: 10,
             isEnd: false,
             isLoading: false,
-            // eslint-disable-next-line @typescript-eslint/camelcase
-            list: [{ taker_side: 1 }, { taker_side: 1 }, { taker_side: 1 }, { taker_side: 1 }, { taker_side: 1 },
-            // eslint-disable-next-line @typescript-eslint/camelcase
-                { taker_side: 1 }, { taker_side: 1 }, { taker_side: 1 }, { taker_side: 1 }, { taker_side: 1 }, { taker_side: 1 }],
-            renderDataTree: [{
-                title: '状态',
-                key: 'state',
-                value: -1,
-                data: [
-                    { title: '待付款', state: 0 },
-                    { title: '待释放', state: 1 },
-                    { title: '已完成', state: 2 },
-                    { title: '已取消', state: 3 },
-                    { title: '申诉中', state: 4 },
-                    { title: '全部', state: -1 },
-                ],
-            }, {
-                title: '币种',
-                key: 'coin',
-                value: 0,
-                data: [
-                    { title: 'USDT', coin: 'usdt' },
-                    { title: 'USDC', coin: 'usdc' },
-                    { title: 'USTC', coin: 'ustc' },
-                ],
-            }],
+            list: [{ coin: 'usdt' }],
         };
     },
     created() {
-        this.$store.commit('changeLoading', true);
+        // this.$store.commit('changeLoading', true);
         this.loadData();
     },
     computed: {
-        tabList() {
-            return [{
-                title: '场外订单',
-                value: 'history',
-            }];
+        symbolList() {
+            return this.$store.getters.getOtcEnableList;
         },
     },
     methods: {
         onRefresh() {
-            setTimeout(() => {
-                this.isLoading = false;
-            }, 3000);
-            // this.initParams();
-        },
-        takerSide(renderData: { taker_id: any; taker_side: 1|2 }, type = 0) {
-            const side = [
-                {
-                    1: ['购买', 1],
-                    2: ['出售', 2],
-                },
-                {
-                    2: ['买入', 1],
-                    1: ['卖出', 2],
-                }];
-            if ((renderData.taker_id === this._userInfo.userId)) {
-                return side[0][renderData.taker_side][type];
-            }
-            return side[1][renderData.taker_side][type];
-        },
-        // 筛选币种和交易类型
-        filterSubmit(value: { side: number; coin: string; state: string }) {
-            this.side = value.side;
-            this.coin = value.coin;
-            this.state = value.state;
             this.initParams();
         },
         // 滚动懒加载
-        scrollLoad(e: { target: any }) {
-            const
-                scroll = e.target;
-            const { scrollTop } = scroll;
-            const { scrollHeight } = scroll;
-            const { clientHeight } = scroll;
-            if ((clientHeight + scrollTop > scrollHeight - 50) && (clientHeight + scrollTop !== scrollHeight) && !this.loadMore && !this.isEnd) {
-                this.loadMore = true;
-                this.loadData();
-            }
+        scrollLoadHandle() {
+            this.loadData(true);
         },
         // 请求参数初始化
-        initParams() {
-            this.page = 1; // 页码
+        initParams(loading?: boolean) {
             this.list = [];
-            this.$store.commit('changeLoading', true);
             this.isEnd = false;
             this.loadMore = false;
-            this.loadData();
+            this.loadData(loading);
+        },
+        changeState(state: number) {
+            this.state = state;
+            this.initParams(true);
+        },
+        changeCoin(coin: string) {
+            this.coin = coin;
+            this.initParams(true);
         },
         // 加载数据
-        loadData() {
+        loadData(loading?: boolean) {
             const params = {
-                coin: this.coin, // 币种
-                country: 1, // 国家代码
-                currency: 1, // 货币代码
-                // eslint-disable-next-line @typescript-eslint/camelcase
-                pay_type: 0, // 支付类型
-                state: this.state, // 订单状态 0交易中 1已支付 2已释放 3已取消 4申诉中
-                // eslint-disable-next-line @typescript-eslint/camelcase
-                taker_side: this.side, // taker的交易方向 1:buy 2:sell
-                page: this.page, // 页码
-                size: this.size, // 每页显示数量
+                coin: this.coin, // [string] 币种
+                state: this.state, // [OtcOrderState] -1取全部
+                // begin: 0, // [time] 开始时间
+                // end: 0, // [time] 结束时间
+                offset: this.list.length, // [int64] 跳过条数
+                limit: this.limit, // [int64] 最大返回条数
             };
+            if (loading) {
+                console.log(loading, 'loading');
+                this.changeLoading(true);
+            }
             // 取消请求
             if (axiosGoPromiseArr) {
                 axiosGoPromiseArr.forEach((ele, index) => {
@@ -187,42 +150,23 @@ export default Vue.extend({
             }
             // TODO
             console.log(params);
-            // otcDealsList(params).then((res) => {
-            //     this.$store.commit('changeLoading', false);
-            //     this.isLoading = false;
-            //     if (res.data.status === 200 && res.data.data.list) {
-            //         this.loadMore = false;
-            //         this.list = this.list.concat(res.data.data.list);
-            //         this.page += 1;
-            //         if (this.list.length >= res.data.data.total) {
-            //             this.isEnd = true;
-            //         }
-            //     }
-            // }).catch(() => {
-            //     this.$store.commit('changeLoading', false);
-            //     this.isLoading = false;
-            //     this.loadMore = false;
-            // });
-        },
-        // tabbar切换
-        tabClick(type: string) {
-            this.state = type;
-            this.initParams();
+            this.$api.otcOrderDealList(params).then((res: any) => {
+                this.isLoading = false;
+                this.list = this.list.concat(res.data || []);
+                if (this.list.length >= res.total) {
+                    this.isEnd = true;
+                }
+            }).catch(() => {
+                this.changeLoading(false);
+                this.isLoading = false;
+                this.loadMore = false;
+            });
         },
         // 去广告详情页
         goAdvState(item: { id: any }) {
-            console.log(item);
-            // this.$router.push({
-            //     name: 'orderState',
-            //     params: { id: item.id },
-            // });
+            this.$router.push(`/otc/order/detail?id=${item.id}`);
         },
     },
-    // methods: {
-    //     loadData() {
-    //         console.log(12);
-    //     },
-    // },
 });
 
 </script>
@@ -234,195 +178,9 @@ export default Vue.extend({
   flex-direction: column;
   position: relative;
   background: #fff;
-  .chooss{
-        width: 60px;
-        height: auto;
-        padding: 15px;
-        vertical-align: middle;
-    }
-  .overlay{
-        position: fixed;
-        top:0;
-        bottom:0;
-        left:0;
-        right: 0;
-        background-color:rgba(0,0,0,.5);
-        z-index: 1;
-    }
-  .header{
-      position: absolute;
-      width: 100%;
-      z-index: 2;
-      background-color: white;
-        .nav-header {
-        font-size: 34px;
-        color: #202025;
-        background-color: #fff;
-        text-align: left;
-        width: 100%;
-        }
-        .header-top{
-        padding: 0 21px 0 41px;
-        display: flex;
-        justify-content: space-between;
-        align-items:center;
-        height: 80px;
-        }
-        .scale-half{
-        width: 30px;
-        }
-        .back-img{
-            width: 19px;
-            height: 33px;
-        }
-        .nav-bottom{
-            padding: 20px 0 40px 28px;
-            font-size: 45px;
-            font-weight: bold;
-            position: relative;
-            span{
-            padding-right: 48px;
-            }
-        }
-  }
-  .color1{
-    color: #FF6565;
-  }
-  .color2{
-    color:#3BD1AB;
-  }
-  .fade-enter-active, .fade-leave-active {
-    transition: all .5s;
-  }
-  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-      opacity: 0.3;
-  }
 }
 
 </style>
 <style lang="less">
-.adv-manage{
-  .tab-wrap{
-    padding-top: 180px;
-    flex: 1;
-    background-color: white;
-    overflow: hidden;
-    .van-tabs{
-      height: 100%;
-    }
-    .van-sticky{
-      position: relative;
-    }
-    .dot{
-      display:inline-block;
-      width:7px;
-      height:7px;
-      background:rgba(216,118,117,1);
-      border-radius:50%;
-      vertical-align: middle;
-    }
-    .loadMore-loading{
-      height: 40px;
-      line-height: 40px;
-      margin: 20px ;
-    }
-  .van-tabs__wrap{
-        height:90px;
-        .van-tab{
-        font-size: 28px;
-        line-height:90px;
-        flex: auto;
-        &:nth-of-type(1){
-          text-align: left;
-          }
-        &:nth-of-type(5){
-          text-align: right;
-          }
-        }
-        .van-tabs__nav{
-          justify-content: space-between;
-          padding: 0 22px;
-        }
-      }
-  .list{
-    .top{
-      line-height:48px;
-      font-size:34px;
-      font-weight:bold;
-      display: flex;
-      justify-content: space-between;
-      padding: 32px 0 40px 0;
-      .left{
-        .coin{
-          padding-left: 50px;
-          color: black;
-        }
-      }
-      .right{
-        font-size: 24px;
-        font-weight: 400;
-        color: #333333;;
-        .arrow{
-          padding-left: 23px;
-          height: 19px;
-        }
-      }
-    }
-    .middle{
-      display: flex;
-      justify-content: space-between;
-      color: #CACACA;
-      font-size: 22px;
-      .col1{
-        text-align: left
-      }
-      .col3{
-        text-align: right;
-      }
-    }
-    .bottom{
-      display: flex;
-      padding:30px 0;
-      justify-content: space-between;
-      color: #8D8D8D;
-      font-size: 28px;
-      .col1{
-        text-align: left
-      }
-      .col3{
-        text-align: right;
-        color: #3BD1AB;
-      }
-    }
-  }
-  }
-  .van-tabs__content{
-        padding: 0 22px;
-        height: calc(100% - 90px);
-        overflow: scroll;
-        .van-pull-refresh{
-            min-height: 100%;
-        }
-        .van-tab__pane{
-            min-height: 100%;
-        }
-  }
-
-}
-.lxa-refresh-box {
-  .van-pull-refresh{
-      min-height: 100%;
-  }
-  .van-tab__pane{
-      height: 100%;
-  }
-}
-.lxa-history-body{
-  padding-top: 45px;
-  height: calc(100% - 88px);
-  .body-content-slot{
-    height: 100%;
-  }
-}
 
 </style>

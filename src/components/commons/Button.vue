@@ -18,7 +18,7 @@ export default Vue.extend({
         msg: String,
         type: {
             type: String,
-            default: 'primary', // primary, info, cancel
+            default: 'primary', // primary, info, cancel, text
         },
         disabled: {
             type: Boolean,
@@ -71,6 +71,12 @@ export default Vue.extend({
     &.cancel{
         color: #A6A6A6;
         background: #ffffff;
+    }
+    &.text{
+        background: #ffffff;
+        &.border{
+            .scale-1px(rgba(160,160,160,1), 10px);
+        }
     }
     &.small{
         width: 235px;

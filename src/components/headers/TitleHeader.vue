@@ -1,5 +1,5 @@
 <template>
-    <div class="app-title-headers" :class="[theme]">
+    <div class="app-title-headers" :class="[theme, {fill}]">
         <Headers v-bind="$attrs" :theme="theme" @back="goback">
             <slot name="header"></slot>
         </Headers>
@@ -8,7 +8,8 @@
             :class="[{'border-b': border}, {'border-padding': border}]"
         >
             <h3>
-                {{title}}
+                <template v-if="title">{{title}}</template>
+                <slot name="title"></slot>
             </h3>
             <slot name="right"></slot>
         </div>
@@ -26,6 +27,10 @@ export default Vue.extend({
             type: String,
         },
         border: {
+            type: Boolean,
+            default: false,
+        },
+        fill: {
             type: Boolean,
             default: false,
         },
@@ -71,6 +76,9 @@ export default Vue.extend({
         h3{
             color: #ffffff;
         }
+    }
+    &.fill{
+        height: 100%;
     }
 }
 </style>

@@ -1,6 +1,7 @@
 <template>
     <V-Pull-Refresh
         v-model="isLoading"
+        class="app-pull-refresh"
         @refresh="onRefresh"
         :pulling-text="$t('refresh.pulling')"
         :loosing-text="$t('refresh.loosing')"
@@ -54,7 +55,13 @@ export default Vue.extend({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-.com-refresh-loading{
-    height: 50px;
+.app-pull-refresh{
+    min-height: calc(100vh - 300px);
+    .com-refresh-loading{
+        height: 50px;
+    }
+    .van-pull-refresh__track{
+        min-height: calc(100vh - 300px);
+    }
 }
 </style>

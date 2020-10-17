@@ -8,6 +8,7 @@
         "send": "发 送",
         "save": "保 存",
         "cancle": "取 消",
+        "all": "全部",
         "name": "名称",
         "noMore": "暂无更多",
         "noData": "暂无数据",
@@ -43,11 +44,18 @@
         "typeSeller": "卖家",
         "sideBuy": "买入",
         "sideSell": "卖出",
+        "sideBuyT": "购买",
+        "sideSellT": "出售",
         "payway": "支付方式",
         "alipay": "支付宝",
         "weixin": "微信",
         "bank": "银行卡",
-        "huione": "汇旺"
+        "huione": "汇旺",
+        "stateWait"      : "等待中",
+        "stateFinished"  : "已完成",
+        "otcStateCanceled"  : "已取消",
+        "stateClosed"    : "已关闭",
+        "statePlatClosed": "平台强制关闭"
     },
     "refresh": {
         "pulling": "下拉即可刷新...",

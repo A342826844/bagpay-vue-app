@@ -1,5 +1,6 @@
 export type PayType = Array<number>;
 export type CountryType = Array<number>;
+export type OtcOrderState = Array<number>;
 export const PayType = [
     1, // PayTypeBank       = 1 //银行卡
     2, // PayTypeAlipay     = 2 //支付宝
@@ -31,4 +32,14 @@ export const CountryType = [
     21, // CountryTurkey        = 21 //土耳其
     22, // CountryNewZealand    = 22 //新西兰
     23, // CountryBurma         = 23 //缅甸
+];
+
+// otc 广告状态
+export const OtcOrderState = [
+    0, // OtcOrderStateWait        = 0 //等待中
+    1, // OtcOrderStateTrading     = 1 //交易中
+    2, // OtcOrderStateFinished    = 2 //已完成
+    3, // OtcOrderStateCanceled    = 3 //已取消
+    4, // OtcOrderStateClosed      = 4 //已关闭
+    5, // OtcOrderStatePlatClosed  = 5 //平台强制关闭
 ];
