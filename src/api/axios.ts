@@ -88,7 +88,7 @@ axiosOfGoLang.interceptors.request.use(
 axiosOfGoLang.interceptors.response.use(
     (response) => {
         if (response.data.code !== 0) {
-            if (response.data.message) {
+            if (response.data.message && /^ERR/.test(response.data.message)) {
                 normalToast(i18n.t(`error.${response.data.message}`));
             }
             return Promise.reject(response.data);
