@@ -26,7 +26,7 @@
             </div>
             <div class="form-item">
                 <div class="lable" v-t="'common.name'"></div>
-                <Inputs v-model="form.password" maxlength="10" :placeholder="$t('payment.remark')"></Inputs>
+                <Inputs v-model="form.remark" maxlength="10" :placeholder="$t('payment.remark')"></Inputs>
             </div>
         </form>
         <div class="lxa-footer-btn">
@@ -78,7 +78,7 @@ export default Vue.extend({
                     coin: this.symbol,
                     remark: this.form.remark,
                     address: this.form.address,
-                    memo: this.form.memoAddr,
+                    // memo: this.form.memoAddr,
                 }).then((res: any) => {
                     if (res.code === 0) {
                         this.$router.go(-1);

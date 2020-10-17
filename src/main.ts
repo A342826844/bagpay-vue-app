@@ -5,6 +5,7 @@ import { Store } from 'vuex';
 import 'lib-flexible';
 
 import * as Api from '@/api/index.ts';
+import verification from '@/utils/verification.ts';
 import Headers from '@/components/headers/index.vue';
 import TitleHeader from '@/components/headers/TitleHeader.vue';
 import Button from '@/components/commons/Button.vue';
@@ -32,6 +33,7 @@ declare module 'vue/types/vue' {
     interface Vue {
         $api: any;
         $md5: any;
+        $verification: any;
         _userInfo: any;
         _loading: boolean;
         _unit: string;
@@ -78,6 +80,7 @@ Vue.mixin({
 
 Vue.prototype.$api = Api;
 Vue.prototype.$md5 = md5;
+Vue.prototype.$verification = verification;
 
 new Vue({
     router,

@@ -31,7 +31,7 @@
                     :key="item.symbol"
                 >
                     <div class="flex-start-c">
-                        <img :src="symbolImgList[item.coin]" alt="">
+                        <icon-img :symbol="item.coin"></icon-img>
                         <div class="list-values values1">
                             <h5 class="lable">{{item.coin.toUpperCase()}}</h5>
                             <p class="value">{{item.title}}</p>
@@ -50,15 +50,8 @@
 <script lang="ts">
 import Vue from 'vue';
 
-const usdt = require('../../assets/img/symbol/usdt.png');
-const tusd = require('../../assets/img/symbol/tusd.png');
-const usdc = require('../../assets/img/symbol/usdc.png');
-
 type data = {
     testValue: number;
-    symbolImgList: {
-        [elem: string]: any;
-    };
     symbolList: Array<{
         coin: string;
         title: string;
@@ -76,7 +69,6 @@ export default Vue.extend({
     data(): data {
         return {
             testValue: 2113,
-            symbolImgList: { usdt, tusd, usdc },
             symbolList: [],
         };
     },

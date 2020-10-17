@@ -14,26 +14,21 @@
         />
         <Inputs
           class="login-form-item"
-          :placeholder="$t('login.imgCode')"
-          v-model="form.imgCode"
-          autocomplete="username"
-          type="text"
-        >
-          <img class="code-img" :src="imgUrl" alt="" @click="getImg" />
-        </Inputs>
-        <Inputs
-          class="login-form-item"
           :placeholder="$t('login.vCode')"
           v-model="form.code"
           autocomplete="username"
           type="text"
         >
-          <span
-            @click="sendHandle"
-            class="primary-color"
-            v-t="'login.send'"
-          ></span>
+          <Code :phone="this.form.phone" :type="1"></Code>
         </Inputs>
+        <Inputs
+          class="login-form-item"
+          :placeholder="$t('login.oldPwd')"
+          clearable
+          v-model="form.oldPwd"
+          autocomplete="current-password"
+          type="password"
+        />
         <Inputs
           class="login-form-item"
           :placeholder="$t('login.password')"
@@ -60,40 +55,39 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import Code from '@/components/code/index.vue';
 
 type form = {
   code: string;
   phone: string;
   password: string;
   confirmPassword: string;
-  imgCode: string;
+  oldPwd: string;
 };
 
 type data = {
   islogin: boolean;
-  imgUrl: string;
-  imgCode: string;
   form: form;
 };
 
 export default Vue.extend({
     name: 'ChangePwd',
+    components: {
+        Code,
+    },
     data(): data {
         return {
             islogin: false,
-            imgUrl: '',
-            imgCode: '',
             form: {
                 code: '',
                 phone: '',
                 password: '',
                 confirmPassword: '',
-                imgCode: '',
+                oldPwd: '',
             },
         };
     },
     created() {
-        this.getImg();
         this.$nextTick(() => {
             const phone = this._userInfo.phone.split('-');
             this.form.phone = phone[1] || '';
@@ -101,21 +95,35 @@ export default Vue.extend({
     },
     methods: {
         loginHandle() {
-            if (this.form.phone.length !== 11) {
-                console.log('请输入正确手机号');
-            } else if (!this.form.imgCode) {
-                console.log('请输入图形码');
-            } else if (this.form.code.length !== 4) {
-                console.log('请输入正确验证码');
-            } else if (!this.form.password) {
-                console.log('请输入登录密码');
-            } else if (this.form.password !== this.form.confirmPassword) {
-                console.log('请再次输入登录密码且一致');
-            } else {
+            const val: boolean = this.$verification.fromVfi([
+                {
+                    type: 'phone',
+                    value: this.form.phone,
+                },
+                {
+                    type: 'code',
+                    value: this.form.code,
+                },
+                {
+                    type: 'pwd',
+                    value: this.form.oldPwd,
+                },
+                {
+                    type: 'pwd',
+                    value: this.form.password,
+                },
+                {
+                    type: 'pwd2',
+                    value1: this.form.password,
+                    value2: this.form.confirmPassword,
+                },
+            ]);
+            if (val) {
                 this.$api
-                    .forgetPwd({
+                    .changePwd({
                         passport: `86-${this.form.phone}`,
-                        password: this.$md5(`${this.form.password}bagpaysol`),
+                        password: this.$md5(`${this.form.oldPwd}bagpaysol`),
+                        new_password: this.$md5(`${this.form.password}bagpaysol`),
                         sms_code: this.form.code,
                     })
                     .then((res: any) => {
@@ -125,34 +133,6 @@ export default Vue.extend({
                             });
                         }
                         console.log(res);
-                    });
-            }
-        },
-        // 获取图片
-        getImg() {
-            this.$api.getImages().then((res: any) => {
-                this.form.imgCode = '';
-                this.imgUrl = res.data.data;
-                this.imgCode = res.data.id;
-            });
-        },
-        sendHandle() {
-            if (!this.form.phone) {
-                console.log('请输入手机号');
-            } else if (!this.form.imgCode) {
-                console.log('请输入图形码');
-            } else {
-                this.$api
-                    .registerCode({
-                        phone: `86-${this.form.phone}`,
-                        type: 1,
-                        captcha: this.imgUrl,
-                        captcha_id: this.form.imgCode,
-                    })
-                    .then((res: any) => {
-                        if (res.code === 0) {
-                            console.log('发送成功');
-                        }
                     });
             }
         },

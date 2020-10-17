@@ -96,7 +96,16 @@ export default Vue.extend({
                     } else {
                         this.activeItem = { ...this.symbolList[0] };
                     }
-                    this.addrList = [1, 2];
+                    this.getAddrList();
+                }
+            });
+        },
+        getAddrList() {
+            this.$api.getAddrList({
+                coin: this.activeItem.symbol,
+            }).then((res: any) => {
+                if (res.code === 0) {
+                    this.addrList = res.data;
                 }
             });
         },

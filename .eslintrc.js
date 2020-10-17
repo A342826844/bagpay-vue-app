@@ -25,6 +25,7 @@ module.exports = {
         '@typescript-eslint/camelcase': ['off'], // 使用下滑线是为了区分 全局mixin混入的变量
         'import/no-dynamic-require': ['off'], // 允许试用require引入
         'global-require': ['off'], // 允许试用require引入
+        'no-plusplus': ['off'], // 允许试用i++
         // '@typescript-eslint/camelcase': ['off'], // 应许ts中使用any类型
     },
 };
