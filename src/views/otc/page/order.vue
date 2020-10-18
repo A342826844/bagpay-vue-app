@@ -100,7 +100,7 @@ export default Vue.extend({
         this.loadData();
     },
     computed: {
-        symbolList() {
+        symbolList(): Array<CoinInfo> {
             return this.$store.getters.getOtcEnableList;
         },
     },

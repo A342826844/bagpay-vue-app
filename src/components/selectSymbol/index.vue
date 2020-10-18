@@ -47,7 +47,7 @@ export default Vue.extend({
         },
     },
     computed: {
-        symbolList() {
+        symbolList(): Array<CoinInfo> {
             return this.$store.state.symbolList;
         },
     },
