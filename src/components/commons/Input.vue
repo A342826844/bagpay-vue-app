@@ -46,6 +46,10 @@ export default Vue.extend({
             type: Boolean,
             default: false,
         },
+        noWatch: {
+            type: Boolean,
+            default: false,
+        },
         isShowLength: {
             type: Boolean,
             default: false,
@@ -91,6 +95,8 @@ export default Vue.extend({
                     this.decimalHandle(Number(decimal));
                 }, 0);
             }
+            console.log(this.noWatch);
+            if (this.noWatch) return;
             if (!equal(value, this.value)) {
                 this.$emit('input', value);
             }
@@ -114,6 +120,7 @@ export default Vue.extend({
         //     }
         // },
         decimalHandle(decimal: number) {
+            console.log(this.inputV);
             if ((this.inputV.includes('.') && this.inputV.split('.')[1].length) > decimal) {
                 this.inputV = `${this.inputV.split('.')[0]}.${this.inputV.split('.')[1].slice(0, decimal)}`;
             }

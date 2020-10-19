@@ -1,57 +1,87 @@
 <template>
     <div class="otc-appeal">
         <TitleHeader :title="'订单申诉'" />
-        <div class="otc-appeal-body  bg-white">
-            <div class="otc-appeal-body-textarea border-b">
-                <h3>{{'申述原因'}}</h3>
-                <textarea name="" v-model="form.remark" @input="textareaInput" :placeholder="'请输入申述原因'" id="" cols="30" rows="10"></textarea>
-                <span>{{form.remark.length}}/120</span>
+        <form class="app-padding40 app-size-34" action="">
+            <div class="form-item">
+                <div class="lable">申述类型</div>
+                <Select @click="selectPopup = !selectPopup">{{ form.type | otcAppealType}}</Select>
             </div>
-            <div class="otc-appeal-body-tel border-b">
-                <h3>{{'联系方式'}}</h3>
-                <input v-model="form.tel" :placeholder="'请输入手机号码/QQ/微信号'" type="text">
+            <div class="form-item">
+                <div class="lable">申诉原因</div>
+                <Inputs cols="30" rows="10" type="textarea" v-model="form.content"></Inputs>
             </div>
-            <div class="otc-appeal-body-upload">
-                <h3 class="voucher">{{'上传图片凭证'}}</h3>
-                <div class="img-box" >
-                    <label for="imgfile" class="add-img">
-                        <!-- <img src="@/assets/img/otc/addImg.png" accept="image/*" alt=""> -->
-                        <span>{{'添加图片'}}</span>
-                    </label>
-                    <div class="img" v-if="upload">
-                        <img @click="showImgHandle" :src="upload" alt="">
-                    </div>
-                </div>
-                <div v-show="percent" class="myProgress">
-                    <!-- <myProgress :percent="percent"></myProgress> -->
-                </div>
-                <input id="imgfile" @change="fileChange" type="file">
+            <div class="form-item">
+                <div class="lable">上传图片凭证</div>
+                <V-Uploader :max-count="3" v-model="fileList" multiple :after-read="afterRead"></V-Uploader>
             </div>
+        </form>
+        <div class="app-size-34 lxa-footer-btn flex-around-c">
+            <Button :disabled="disabled" :radius="false" @click="submitHandle" type="up">确定</Button>
         </div>
-        <div class="app-size-34 lxa-footer-bottom flex-around-c">
-            <Button :radius="false"  @click="submitHandle" type="up">确定</Button>
-        </div>
+        <SelectPopup v-model="selectPopup">
+            <SelectPopupItem
+                v-for="item in OtcAppealType"
+                :key="item"
+                @click="selectAppealType(item)"
+            >
+                {{item | otcAppealType}}
+            </SelectPopupItem>
+        </SelectPopup>
     </div>
 </template>
 
 <script lang="ts">
+/* eslint-disable no-param-reassign */
 import Vue from 'vue';
+import { OtcAppealType } from '@/commons/config/index';
 
 export default Vue.extend({
     name: 'OtcSubmit',
     data() {
         return {
+            OtcAppealType,
             upload: '',
+            id: '',
             percent: 0,
+            selectPopup: false,
+            disabled: true,
+            images: [],
             form: {
-                remark: '',
-                tel: '',
+                content: '',
+                type: 1,
             },
+            fileList: [
+                {
+                    url: 'https://img.yzcdn.cn/vant/leaf.jpg',
+                    status: 'uploading',
+                    message: '上传中...',
+                },
+            ],
         };
     },
     methods: {
         submitHandle() {
             console.log('submitHandle');
+        },
+        selectAppealType(item: number) {
+            console.log(item);
+            this.form.type = item;
+        },
+        afterRead(file: any) {
+            console.log(file, 'afterRead');
+            // 通过 status 属性可以标识上传状态，uploading 表示上传中，failed 表示上传失败，done 表示上传完成。
+            file.status = 'uploading';
+        },
+        otcAppealSubmit() {
+            const params = {
+                deal_id: this.id, // [string] 订单id
+                type: this.form.type, // [OtcAppealType] 问题类型
+                content: this.form.content, // [string] 总是描述
+                images: this.images.join(','), // [string] 申诉图片,逗号分隔
+            };
+            this.$api.otcAppealSubmit(params).then((res: any) => {
+                console.log(res);
+            });
         },
         textareaInput() {
             console.log('textareaInput');
@@ -67,103 +97,14 @@ export default Vue.extend({
 </script>
 <style lang="less" scoped>
 .otc-appeal{
-    background: #f8f8f8;
     height: 100%;
     padding-bottom: 100px;
     overflow: scroll;
-    &-body{
-        padding: 0 25px;
-        h3{
-            width: 189px;
-            color: #575757;
-            font-size: 28px;
-            line-height: 24px;
-            text-align: left;
-            &.voucher{
-                width: 100%;
-            }
-        }
-        &-textarea{
-            display: flex;
-            justify-content: flex-start;
-            height: 300px;
-            margin-top: 46px;
-            padding-bottom: 50px;
-            position: relative;
-            span{
-                position: absolute;
-                right: 0;
-                bottom: 50px;
-            }
-            textarea{
-                color: #AAAAAA;
-                line-height: 24px;
-                font-size:24px;
-                flex: 1;
-            }
-        }
-        &-tel{
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            height: 119px;
-            input{
-                flex: 1;
-            }
-        }
-        &-upload{
-            padding-bottom: 47px;
-            position: relative;
-            .img-box{
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-            }
-            .img{
-                flex: 1;
-                img{
-                    width: 80%;
-                    height: auto;
-                }
-            }
-            h3{
-                padding: 47px 0 39px;
-            }
-            .add-img{
-                width:216px;
-                height:188px;
-                border:3px solid #D2D2D2;
-                img{
-                    width: 123px;
-                    height: auto;
-                    display: block;
-                    margin: 25px auto 0;
-                }
-                span{
-                    font-size:24px;
-                    color:#949CA2;
-                }
-            }
-            input{
-                // visibility: hidden;
-                opacity: 0;
-                position: absolute;
-                z-index: 1;
-                top: 100px;
-                left: 0;
-                width:216px;
-                height:188px;
-            }
-            .myProgress{
-                position: absolute;
-                z-index: 2;
-                top: 80px;
-                left: 0;
-                right: 0;
-                width: 220px;
-                height: 220px;
-                margin: 0 auto;
-            }
+    text-align: left;
+    .form-item{
+        margin-top: 72px;
+        .lable{
+            margin-bottom: 43px;
         }
     }
 }

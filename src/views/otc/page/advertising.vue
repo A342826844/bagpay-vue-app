@@ -1,7 +1,7 @@
 <template>
     <div class="otc-advertising">
         <Headers>
-            <span>市场参考价： <span class="primary-color">66263.83 USD</span></span>
+            <span>市场参考价： <span @click="changePrice" class="primary-color">{{exchangeRate[form.coin] || '--'}} {{_unit}}</span></span>
         </Headers>
         <div class="otc-advertising-box">
             <TabList
@@ -100,6 +100,7 @@ type data = {
     pay_types: Array<number>;
     selectPopup: boolean;
     payPopup: boolean;
+    exchangeRate: any;
     form: {
         price: string|number;
         amount: string|number;
@@ -124,6 +125,7 @@ export default Vue.extend({
             selectPopup: false,
             payPopup: false,
             pay_types: [],
+            exchangeRate: {},
             form: {
                 coin: '',
                 type: 1,
@@ -165,6 +167,7 @@ export default Vue.extend({
     },
     created() {
         this.form.coin = (this.$route.query.symbol as string) || '';
+        this.getExchangeRate();
     },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
@@ -183,6 +186,18 @@ export default Vue.extend({
         },
         setCoin(coin: string) {
             this.form.coin = coin;
+        },
+        getExchangeRate() {
+            this.$api.getExchangeRate().then((res: any) => {
+                if (res.data) {
+                    this.exchangeRate = res.data;
+                }
+            });
+        },
+        changePrice() {
+            if (this.exchangeRate[this.form.coin]) {
+                this.form.price = `${this.exchangeRate[this.form.coin]}`;
+            }
         },
         initFormData() {
             this.form.price = '';

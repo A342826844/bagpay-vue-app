@@ -3,6 +3,7 @@ export type CountryType = Array<number>;
 export type OtcOrderState = Array<number>;
 export type SocialType = Array<number>;
 export type Relationship = Array<number>;
+export type OtcAppealType = Array<number>;
 export const PayType = [
     1, // PayTypeBank       = 1 //银行卡
     2, // PayTypeAlipay     = 2 //支付宝
@@ -55,4 +56,11 @@ export const SocialType = [
 export const Relationship = [
     0, // '朋友', //朋友
     1, // '亲人', //亲人
+];
+
+export const OtcAppealType = [
+    1, // tcAppealTypeNoResponse          = 1 //一直不响应
+    2, // OtcAppealTypePaidButNotRelease  = 2 //已付款不放币
+    3, // OtcAppealTypeMaliciousOrder     = 3 //恶意下单
+    4, // OtcAppealTypeFalsePaid          = 4 //恶意点击已付款
 ];

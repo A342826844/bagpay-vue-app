@@ -17,6 +17,8 @@ export const loginCellphone = (data: params) => getJava('/login/cellphone', data
 export const getOtcOrderList = (data: params) => getGolang('/otc/order/trade/list', data);
 // 获取可交易的广告列表
 export const otcOrderPlace = (data: params) => postGolang('/otc/order/place', data);
+// 其它货币对美元汇率
+export const getExchangeRate = (data: params) => getGolang('/exchange-rate/usd', data);
 // 获取订单列表
 export const otcOrderDealList = (data: params) => postGolang('/otc/deal/list', data);
 // 获取广告信息
@@ -29,6 +31,10 @@ export const otcDealRelease = (id: number) => postGolang(`/otc/deal/release/${id
 export const otcDealSubmit = (data: params) => postGolang('/otc/deal/submit', data);
 // 申请商家
 export const otcMerchant = (data: params) => postGolang('/otc/merchant/submit', data);
+// 提交申诉
+export const otcAppealSubmit = (data: params) => postGolang('otc/appeal/submit', data);
+// 取消申诉
+export const otcAppealCancel = (id: number) => postGolang(`/otc/appeal/cancel/${id}`, { id });
 
 // 注册验证码
 export const registerCode = (data: params) => postGolang('/verification-code/phone/VerifyCodeTypeRegister', data);

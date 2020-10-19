@@ -230,3 +230,18 @@ Vue.filter('relationship', (state: 0|1) => {
     };
     return i18n.t(states[state]);
 });
+
+// otc申诉类型 OtcAppealType
+Vue.filter('otcAppealType', (state: 1|2|3|4) => {
+    // OtcAppealTypeNoResponse         = 1 //一直不响应
+	// OtcAppealTypePaidButNotRelease  = 2 //已付款不放币
+	// OtcAppealTypeMaliciousOrder     = 3 //恶意下单
+	// OtcAppealTypeFalsePaid          = 4 //恶意点击已付款
+    const states = {
+        1: 'common.appealTypeNoResponse',
+        2: 'common.appealTypePaidButNotRelease',
+        3: 'common.appealTypeMaliciousOrder',
+        4: 'common.appealTypeFalsePaid',
+    };
+    return i18n.t(states[state]);
+});

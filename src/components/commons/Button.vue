@@ -77,6 +77,10 @@ export default Vue.extend({
             .scale-1px(rgba(160,160,160,1), 10px);
         }
     }
+    &:disabled{
+        background: #e8e8e8;
+        color: #575757;
+    }
     &.small{
         width: 235px;
     }

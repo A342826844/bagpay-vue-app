@@ -67,7 +67,11 @@
         "wechat": "微信",
         "telegram": "telegram",
         "friend": "朋友",
-        "relatives": "亲人"
+        "relatives": "亲人",
+        "appealTypeNoResponse"         : "一直不响应",
+        "appealTypePaidButNotRelease"  : "已付款不放币",
+        "appealTypeMaliciousOrder"     : "恶意下单",
+        "appealTypeFalsePaid"          : "恶意点击已付款"
     },
     "refresh": {
         "pulling": "下拉即可刷新...",
