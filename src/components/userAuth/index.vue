@@ -8,50 +8,55 @@
                 <img @click="show=false" src="@/assets/img/common/close.png" alt/>
             </div>
             <Inputs
+                v-if="sendType.indexOf(4) !== -1"
                 class="safe-verify-item"
                 :placeholder="$t('common.enterPhoneCode')"
-                v-model="SMSCode"
+                v-model="phoneCode"
                 autocomplete="current-password"
                 type="password">
-                <span slot="start" v-text="phoneNumber"></span>
+                <span slot="start" v-text="formatName(phone || _userInfo.mobile)"></span>
                 <Code :phone="phone" :type="verifyType"></Code>
             </Inputs>
             <Inputs
+                v-if="sendType.indexOf(3) !== -1"
                 class="safe-verify-item"
                 :placeholder="$t('common.enterEmailCode')"
                 v-model="emailCode"
                 autocomplete="current-password"
                 type="number">
-                <span slot="start" v-text="emailNumber"></span>
+                <span slot="start" v-text="formatName(email || _userInfo.email)"></span>
                 <Code :phone="phone" :type="verifyType"></Code>
             </Inputs>
             <Inputs
+                v-if="sendType.indexOf(5) !== -1"
                 class="safe-verify-item"
                 :placeholder="$t('common.enterGoogleCode')"
                 v-model="googleCode"
                 autocomplete="current-password"
                 type="number">
-                <span slot="start" v-text="googleNumber"></span>
+                <span slot="start" v-text="formatName(google || _userInfo.mobile)"></span>
                 <Code :phone="phone" :type="verifyType"></Code>
             </Inputs>
             <Inputs
+                v-if="sendType.indexOf(2) !== -1"
                 class="safe-verify-item"
                 :placeholder="$t('common.enterPayCode')"
-                v-model="password"
+                v-model="payPwd"
                 autocomplete="current-password"
                 type="password">
-                <span slot="start" v-text="$t('login.payPassword')"></span>
+                <span slot="start" class="auth_label" v-text="$t('login.payPassword')"></span>
             </Inputs>
             <Inputs
+                v-if="sendType.indexOf(1) !== -1"
                 class="safe-verify-item"
                 :placeholder="$t('common.enterPwdCode')"
-                v-model="loginPassword"
+                v-model="loginPwd"
                 autocomplete="current-password"
                 type="password">
-                <span slot="start" v-text="$t('login.password')"></span>
+                <span slot="start" class="auth_label" v-text="$t('login.password')"></span>
             </Inputs>
             <div @click="handleEnterOut"
-                 :class="['safe-verify-enter', {'active-safe-verify-enter': verifyEnter}]"
+                 :class="['safe-verify-enter', {'active-safe-verify-enter': true}]"
                  v-text="$t('common.ok')"></div>
         </div>
     </Popup>
@@ -61,6 +66,7 @@
 import Vue from 'vue';
 import { Popup } from 'vant';
 import Code from '@/components/code/index.vue';
+import { normalToast } from '@/commons/dom';
 /**
  * 安全认证方式
  * 1 //密码
@@ -101,22 +107,12 @@ export default Vue.extend({
         return {
             show: false,
             verifyType: 0,
-            phoneNumber: '', // 手机
-            emailNumber: '', // 邮箱
-            googleNumber: '', // 谷歌
-            sendType: [1, 2, 3, 4, 5], // 短信验证码类型 0 =>不需要验证  1 => 密码  2 => 支付密码  3 => 邮件  4 => 手机  5 => google验证码
-            SMSCode: '',
+            sendType: [], // 短信验证码类型 0 =>不需要验证  1 => 密码  2 => 支付密码  3 => 邮件  4 => 手机  5 => google验证码
+            phoneCode: '',
             emailCode: '',
             googleCode: '',
-            password: '',
-            loginPassword: '',
-            phoneinterval: null,
-            emailinterval: null,
-            googleinterval: null,
-            phonecountDown: 60,
-            emailcountDown: 60,
-            googlecountDown: 60,
-            verifyEnter: false,
+            payPwd: '',
+            loginPwd: '',
         };
     },
     methods: {
@@ -167,7 +163,65 @@ export default Vue.extend({
             return res;
         },
         handleEnterOut() {
-            this.show = false;
+            // 短信验证码类型 0 =>不需要验证  1 => 密码  2 => 支付密码  3 => 邮件  4 => 手机  5 => google验证码
+            const pwdObj: any = {};
+            let isVerfiy = true;
+            for (let i = 0; i < this.sendType.length; i++) {
+                const item: number = this.sendType[i];
+                switch (item) {
+                case 1:
+                    if (this.loginPwd) {
+                        pwdObj.password = this.$md5(`${this.loginPwd}bagpaysol`);
+                    } else {
+                        isVerfiy = false;
+                        normalToast(this.$t('common.enterPwdCode'));
+                        return;
+                    }
+                    break;
+                case 2:
+                    if (this.payPwd) {
+                        pwdObj.pay_password = this.$md5(`${this.payPwd}bagpaysol`);
+                    } else {
+                        isVerfiy = false;
+                        normalToast(this.$t('common.enterPayCode'));
+                        return;
+                    }
+                    break;
+                case 3:
+                    if (this.emailCode) {
+                        pwdObj.email_code = this.emailCode;
+                    } else {
+                        isVerfiy = false;
+                        normalToast(this.$t('common.enterEmailCode'));
+                        return;
+                    }
+                    break;
+                case 4:
+                    if (this.phoneCode) {
+                        pwdObj.sms_code = this.phoneCode;
+                    } else {
+                        isVerfiy = false;
+                        normalToast(this.$t('common.enterPhoneCode'));
+                        return;
+                    }
+                    break;
+                case 5:
+                    if (this.googleCode) {
+                        pwdObj.ga_code = this.googleCode;
+                    } else {
+                        isVerfiy = false;
+                        normalToast(this.$t('common.enterGoogleCode'));
+                        return;
+                    }
+                    break;
+                default:
+                    break;
+                }
+            }
+            if (isVerfiy === true) {
+                this.show = false;
+                this.$emit('save', pwdObj);
+            }
         },
     },
 });
@@ -179,6 +233,9 @@ export default Vue.extend({
     padding-bottom: 28px;
     width: 100%;
     background-color: #fff;
+    .auth_label{
+        margin-right: 20px;
+    }
     .safe-verify-h {
     display: flex;
     padding: 50px 25px 32px;
@@ -213,8 +270,8 @@ export default Vue.extend({
         color: #fff;
     }
     .active-safe-verify-enter {
-        background-color: #333333;
-        color: #E1BF81;
+        background-color: #5894EE;
+        color: #fff;
     }
 }
 </style>

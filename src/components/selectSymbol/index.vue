@@ -10,7 +10,7 @@
             >
         </div>
         <ul>
-            <li class="flex-between-c app-padding40" :class="`${activeItem.symbol}-bg`" v-for="item in addrList" :key="item" @click="detail(item)">
+            <li class="flex-between-c app-padding40" :class="`${activeItem.symbol}-bg`" v-for="item in addrList" :key="item.id" @click="detail(item)">
                 <div class="address-item">
                     <h5>{{item.coin.toUpperCase()}}</h5>
                     <p>{{item.address}}</p>
@@ -72,12 +72,14 @@ export default Vue.extend({
             this.getAddrList();
         },
         getAddrList() {
+            this.addrList = [];
+            sessionStorage.setItem('symbol', this.activeItem.symbol);
+            sessionStorage.setItem('needMemo', this.activeItem.need_memo);
             this.$api.getAddrList({
                 coin: this.activeItem.symbol,
             }).then((res: any) => {
                 if (res.code === 0) {
                     this.addrList = res.data;
-                    // this.addrList = [1,2];
                 }
             });
         },
@@ -93,10 +95,13 @@ export default Vue.extend({
                 },
             });
         },
-        getImg(item?: any) {
-            return require(`@/assets/img/symbol/${
-                this.activeItem.symbol === item.symbol ? item.symbol : `${item.symbol}1`
-            }.png`);
+        getImg(item: any) {
+            if (this.activeItem) {
+                return require(`@/assets/img/symbol/${
+                    item.symbol === this.activeItem.symbol ? item.symbol : `${item.symbol}1`
+                }.png`);
+            }
+            return '';
         },
         changeHandle(item: lsitItm) {
             this.activeItem = { ...item };

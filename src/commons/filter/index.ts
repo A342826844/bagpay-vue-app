@@ -209,3 +209,24 @@ Vue.filter('otcOrderState', (state: 0|1|2|3|4|5) => {
     };
     return i18n.t(states[state]);
 });
+
+// 社交类型 SocialType
+Vue.filter('socialType', (state: 0|1) => {
+    //"wechat",             = 0 //微信
+    //"telegram",           = 1 //telegram
+    const states = {
+        0: 'common.wechat',
+        1: 'common.telegram',
+    };
+    return i18n.t(states[state]);
+});
+// 与本人关系 Relationship
+Vue.filter('relationship', (state: 0|1) => {
+    //"朋友",             = 0 //朋友
+    //"亲人",             = 1 //亲人
+    const states = {
+        0: 'common.friend',
+        1: 'common.relatives',
+    };
+    return i18n.t(states[state]);
+});

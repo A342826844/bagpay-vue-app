@@ -25,7 +25,7 @@ export default Vue.extend({
     },
     data(): data {
         return {
-            symbol: 'tusd',
+            symbol: 'usdt',
             needMemo: '0',
         };
     },
@@ -34,8 +34,6 @@ export default Vue.extend({
             this.symbol = item.symbol;
         },
         add() {
-            sessionStorage.setItem('symbol', this.symbol);
-            sessionStorage.setItem('needMemo', this.needMemo);
             this.$router.push('/setpayment/add');
         },
     },

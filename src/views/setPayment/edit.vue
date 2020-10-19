@@ -6,7 +6,7 @@
                 <div class="lable" v-t="'payment.choiceAddress'"></div>
                 <div class="form-item-select app-padding40 flex-between-c">
                     <div>
-                        <icon-img class="app-img-50" :symbol="symbol"></icon-img>
+                        <icon-img class="app-img-50" v-show="symbol" :symbol="symbol"></icon-img>
                         <span class="select-symbol vertical-m">{{symbol.toUpperCase()}}</span>
                     </div>
                 </div>
@@ -17,7 +17,7 @@
                     <img class="app-img-50" src="../../assets/img/common/qrcode1.png" alt="">
                 </Inputs>
             </div>
-            <div class="form-item form-item-card">
+            <div class="form-item form-item-card" v-show="needMemo === '1'">
                 <div class="lable" v-t="'payment.memoAddr'"></div>
                 <Inputs v-model="form.memoAddr" readonly :placeholder="`${symbol.toUpperCase()} ${$t('payment.memoAddr')}`">
                     <img class="app-img-50" src="../../assets/img/common/qrcode1.png" alt="">
@@ -39,6 +39,7 @@ import Vue from 'vue';
 
 type data = {
     symbol: string;
+    needMemo: string;
     id: string;
     form: {
         address: string;
@@ -52,6 +53,7 @@ export default Vue.extend({
     data(): data {
         return {
             symbol: '',
+            needMemo: '',
             id: '',
             form: {
                 address: '',
@@ -60,7 +62,8 @@ export default Vue.extend({
             },
         };
     },
-    mounted() {
+    created() {
+        this.needMemo = sessionStorage.getItem('needMemo') as string;
         this.id = this.$route.query.id as string;
         this.symbol = this.$route.query.symbol as string;
         this.form.address = this.$route.query.address as string;

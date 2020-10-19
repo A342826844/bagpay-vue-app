@@ -1,55 +1,56 @@
 <template>
   <div class="login">
-    <TitleHeader :title="$t('mine.changePwd')" />
-    <div class="login-box app-padding40">
-      <p class="login-tip">{{ $t("mine.changePwdTip") }}</p>
-      <form @submit.prevent="" class="login-form" action="">
-        <Inputs
-          class="login-form-item"
-          :placeholder="$t('login.phone')"
-          clearable
-          v-model="form.phone"
-          autocomplete="username"
-          type="text"
-        />
-        <Inputs
-          class="login-form-item"
-          :placeholder="$t('login.vCode')"
-          v-model="form.code"
-          autocomplete="username"
-          type="text"
-        >
-          <Code :phone="this.form.phone" :type="1"></Code>
-        </Inputs>
-        <Inputs
-          class="login-form-item"
-          :placeholder="$t('login.oldPwd')"
-          clearable
-          v-model="form.oldPwd"
-          autocomplete="current-password"
-          type="password"
-        />
-        <Inputs
-          class="login-form-item"
-          :placeholder="$t('login.password')"
-          clearable
-          v-model="form.password"
-          autocomplete="current-password"
-          type="password"
-        />
-        <Inputs
-          class="login-form-item"
-          :placeholder="$t('login.againEnter')"
-          clearable
-          v-model="form.confirmPassword"
-          autocomplete="current-password"
-          type="password"
-        />
-      </form>
-    </div>
-    <div class="lxa-footer-btn">
-      <Button @click="loginHandle" v-t="'login.done'"></Button>
-    </div>
+    <TitleHeader :title="$t('mine.changePwd')">
+      <div class="login-box app-padding40">
+        <p class="login-tip">{{ $t("mine.changePwdTip") }}</p>
+        <form @submit.prevent="" class="login-form" action="">
+          <Inputs
+            class="login-form-item"
+            :placeholder="$t('login.phone')"
+            clearable
+            v-model="form.phone"
+            autocomplete="username"
+            type="text"
+          />
+          <Inputs
+            class="login-form-item"
+            :placeholder="$t('login.vCode')"
+            v-model="form.code"
+            autocomplete="username"
+            type="text"
+          >
+            <Code :phone="this.form.phone" :type="1"></Code>
+          </Inputs>
+          <Inputs
+            class="login-form-item"
+            :placeholder="$t('login.oldPwd')"
+            clearable
+            v-model="form.oldPwd"
+            autocomplete="current-password"
+            type="password"
+          />
+          <Inputs
+            class="login-form-item"
+            :placeholder="$t('login.password')"
+            clearable
+            v-model="form.password"
+            autocomplete="current-password"
+            type="password"
+          />
+          <Inputs
+            class="login-form-item"
+            :placeholder="$t('login.againEnter')"
+            clearable
+            v-model="form.confirmPassword"
+            autocomplete="current-password"
+            type="password"
+          />
+        </form>
+      </div>
+      <div class="lxa-footer-btn">
+        <Button @click="loginHandle" v-t="'login.done'"></Button>
+      </div>
+    </TitleHeader>
   </div>
 </template>
 

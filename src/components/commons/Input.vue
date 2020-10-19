@@ -141,6 +141,7 @@ export default Vue.extend({
 .app-input{
     width: 100%;
     height: 99px;
+    line-height: 60px;
     background: #F5F7F9;
     border-radius: 10px;
     display: flex;

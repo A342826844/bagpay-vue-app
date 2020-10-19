@@ -27,6 +27,8 @@ export const otcDealCancel = (id: number) => postGolang(`/otc/deal/cancel/${id}`
 export const otcDealRelease = (id: number) => postGolang(`/otc/deal/release/${id}`, { id });
 // 广告下单
 export const otcDealSubmit = (data: params) => postGolang('/otc/deal/submit', data);
+// 申请商家
+export const otcMerchant = (data: params) => postGolang('/otc/merchant/submit', data);
 
 // 注册验证码
 export const registerCode = (data: params) => postGolang('/verification-code/phone/VerifyCodeTypeRegister', data);

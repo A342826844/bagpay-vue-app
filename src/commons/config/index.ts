@@ -1,6 +1,8 @@
 export type PayType = Array<number>;
 export type CountryType = Array<number>;
 export type OtcOrderState = Array<number>;
+export type SocialType = Array<number>;
+export type Relationship = Array<number>;
 export const PayType = [
     1, // PayTypeBank       = 1 //银行卡
     2, // PayTypeAlipay     = 2 //支付宝
@@ -42,4 +44,15 @@ export const OtcOrderState = [
     3, // OtcOrderStateCanceled    = 3 //已取消
     4, // OtcOrderStateClosed      = 4 //已关闭
     5, // OtcOrderStatePlatClosed  = 5 //平台强制关闭
+];
+
+// otc 社交账号类型
+export const SocialType = [
+    0, // "wechat",               //微信
+    1, // "telegram",             //telegram
+];
+// otc 与本人关系
+export const Relationship = [
+    0, // '朋友', //朋友
+    1, // '亲人', //亲人
 ];

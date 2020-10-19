@@ -63,7 +63,11 @@
         "stateFinished"  : "已完成",
         "otcStateCanceled"  : "已取消",
         "stateClosed"    : "已关闭",
-        "statePlatClosed": "平台强制关闭"
+        "statePlatClosed": "平台强制关闭",
+        "wechat": "微信",
+        "telegram": "telegram",
+        "friend": "朋友",
+        "relatives": "亲人"
     },
     "refresh": {
         "pulling": "下拉即可刷新...",
@@ -129,11 +133,21 @@
         "order": "场外订单",
         "payment": "收款方式",
         "business": "广告商家",
+        "vfyBus": "认证商家",
+        "applyInfo": "申请资料",
         "tradeType": "交易类型",
         "normal": "普通",
         "large": "大宗",
+        "socialType": "社交账号类型",
+        "socialAccount": "社交账号",
+        "iceName": "紧急联系人姓名",
+        "icePhone": "紧急联系人电话",
+        "deposit": "缴纳保证金",
         "floatingPrice": "浮动价格",
         "fixedPrice": "固定价格"
+    },
+    "business": {
+
     },
     "payment": {
         "paymentTitle": "收款",
