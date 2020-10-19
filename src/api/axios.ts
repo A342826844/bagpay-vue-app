@@ -106,10 +106,10 @@ axiosOfThird.interceptors.response.use(
     (error) => Promise.reject(error),
 );
 
-const initPromiseArr = () => {
-    // 清空里面的token
-    axiosGoPromiseArr.length = 0;
-};
+// const initPromiseArr = () => {
+//     // 清空里面的token
+//     axiosGoPromiseArr.length = 0;
+// };
 
 export {
     axiosOfJava,
