@@ -48,6 +48,7 @@ export default Vue.extend({
     font-size: 34px;
     background: transparent;
     padding-bottom: 28px;
+    text-align: center;
     &-box{
         border-radius: 10px;
         overflow: hidden;

@@ -1,6 +1,7 @@
 export type PayType = Array<number>;
 export type CountryType = Array<number>;
 export type OtcOrderState = Array<number>;
+export type OtcAppealType = Array<number>;
 export const PayType = [
     1, // PayTypeBank       = 1 //银行卡
     2, // PayTypeAlipay     = 2 //支付宝
@@ -42,4 +43,11 @@ export const OtcOrderState = [
     3, // OtcOrderStateCanceled    = 3 //已取消
     4, // OtcOrderStateClosed      = 4 //已关闭
     5, // OtcOrderStatePlatClosed  = 5 //平台强制关闭
+];
+
+export const OtcAppealType = [
+    1, // tcAppealTypeNoResponse          = 1 //一直不响应
+    2, // OtcAppealTypePaidButNotRelease  = 2 //已付款不放币
+    3, // OtcAppealTypeMaliciousOrder     = 3 //恶意下单
+    4, // OtcAppealTypeFalsePaid          = 4 //恶意点击已付款
 ];

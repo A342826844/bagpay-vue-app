@@ -2,29 +2,29 @@
     <div class="otc-good-card app-padding40 border-b">
         <div>
             <div class="flex-between-c">
-                <div>
+                <div class="text-align-l">
                     <div class="flex-start-c">
-                        <h5 class="name">料子</h5>
+                        <h5 class="name">{{ renderData.nickname }}</h5>
                         <img class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt="">
                     </div>
-                    <p class="otc-good-card-pay">Huione Pay</p>
+                    <p class="otc-good-card-pay value">{{ renderData.pay_types | payType}}</p>
                 </div>
                 <div class="text-align-r">
-                    <p>单价</p>
-                    <h6 class="app-size-34 primary-color otc-good-card-price">$6.8950</h6>
+                    <p class="lable">单价</p>
+                    <h6 class="app-size-34 primary-color otc-good-card-price">${{ renderData.price }}</h6>
                 </div>
             </div>
             <div class="flex-between-c otc-good-card-num">
-                <div class="text-align-l">
+                <div class="text-align-l value">
                     <div>
-                        <span>数量</span> 22356.36323  USDT
+                        <span class="lable">数量</span> {{ renderData.total }}  {{renderData.coin.toUpperCase()}}
                     </div>
                     <div>
-                        <span>限额</span> $10.00~1020.59
+                        <span class="lable">限额</span> ${{ renderData.min_value }}~{{ renderData.max_value }}
                     </div>
                 </div>
                 <div>
-                    <Button size="mini" type="up">购买</Button>
+                    <Button @click="$emit('click', renderData)" size="mini" :type="side === 1 ? 'up' : 'down'">{{ side | orderSideType}}</Button>
                 </div>
             </div>
         </div>
@@ -37,22 +37,17 @@ import Vue from 'vue';
 export default Vue.extend({
     name: 'OtcGardCard',
     props: {
-        msg: String,
-        type: {
-            type: String,
-            default: 'primary', // primary, info
-        },
         disabled: {
             type: Boolean,
             default: false,
         },
-        border: {
-            type: Boolean,
-            default: false,
+        side: {
+            type: Number,
+            required: true,
         },
-        size: {
-            type: String,
-            default: 'default', // small, default, large
+        renderData: {
+            type: Object,
+            required: true,
         },
     },
 });
@@ -71,7 +66,8 @@ export default Vue.extend({
         font-size: 28px;
     }
     .value{
-        color: #333333;
+        font-size: 24px;
+        color: #343434;
     }
     &-pay{
         margin-top: 8px;

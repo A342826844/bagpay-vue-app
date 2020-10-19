@@ -12,7 +12,7 @@
                             <h5 class="name">{{ orderDetail.nickname }}</h5>
                             <img class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt="">
                         </div>
-                        <p class="otc-submit-pay">Huione Pay</p>
+                        <p class="otc-submit-pay">{{ orderDetail.pay_types | payType}}</p>
                     </div>
                     <div class="text-align-r">
                         <p class="lable">单价</p>
@@ -44,14 +44,20 @@
             <div class="form-lable">购买数量</div>
             <Inputs
                 class="form-input"
+                :decimal="2"
                 :placeholder="`最大可买${maxTip} ${orderDetail.coin && orderDetail.coin.toUpperCase()}`"
                 v-model="form.amount"
+                noWatch
+                @input="inputAmount($event, 'amount')"
             />
             <div class="form-lable">支付金额</div>
             <Inputs
                 class="form-input"
+                decimal
+                noWatch
                 :placeholder="`单笔最低${minTip} ${_unit}`"
                 v-model="form.value"
+                @input="inputAmount($event, 'value')"
             />
         </form>
         <div>
@@ -64,9 +70,9 @@
                 </PoptipItem>
             </Poptip>
         </div>
-        <div class="app-size-34 lxa-footer-bottom flex-around-c">
-            <Button :radius="false" @click="$router.go(-1)" type="cancel">取消（{{download}} s）</Button>
-            <Button :radius="false"  @click="submitHandle" type="up">确定</Button>
+        <div class="otc-submit-btn app-size-34 lxa-footer-btn flex-around-c">
+            <Button @click="$router.go(-1)" type="cancel">取消（{{download}} s）</Button>
+            <Button @click="submitHandle" type="up">确定</Button>
         </div>
     </div>
 </template>
@@ -141,26 +147,51 @@ export default Vue.extend({
     },
     methods: {
         getOrder() {
-            this.orderDetail = { ...this.$route.query };
+            this.orderDetail = { ...this.$route.params };
+            if (!this.orderDetail.id) {
+                // this.$router.go(-1);
+            }
         },
         downLoadHandle() {
             this.timer = setInterval(() => {
                 this.download -= 1;
-                console.log(2121);
                 if (this.download === 0) {
                     this.$router.go(-1);
                 }
             }, 1000);
         },
         submitHandle() {
+            if (!Number(this.form.amount)) {
+                this.$normalToast('请输入数量或者金额');
+                return;
+            }
+            // this.$dialog.confirm({
+            //     title: '确认下单',
+            //     messageAlign: 'left',
+            //     message: `<div class="app-reset-diolog-message">
+            //         <span class="primary-color">如果您未收到买家付款， 请不要释放交易</span>
+            //     </div>`,
+            // }).then(() => {
+            //     this.otcDealSubmit();
+            // });
             this.otcDealSubmit();
+        },
+        inputAmount(event: InputEvent, key: 'amount'|'value') {
+            console.log(event, key);
+            this.form[key] = (event as any).target.value;
+            if (key === 'amount') {
+                console.log(Number(this.form.amount), this.orderDetail.price);
+                this.form.value = `${Number(this.form.amount) * this.orderDetail.price}`;
+            } else {
+                this.form.amount = `${Number(this.form.value) / this.orderDetail.price}`;
+            }
         },
         otcDealSubmit() {
             const params = {
                 order_id: this.orderDetail.id, // [int64] 广告id
-                pay_type: 1, // [PayType] 支付类型
-                price: 1, // [float64] 价格
-                amount: 1, // [float64] 数量
+                pay_type: this.orderDetail.pay_type, // [PayType] 支付类型
+                price: this.orderDetail.price, // [float64] 价格
+                amount: Number(this.form.amount), // [float64] 数量
             };
             this.$api.otcDealSubmit(params).then((res: any) => {
                 this.$router.replace(`/otc/order/detail?id=${res.date.id}`);
@@ -214,6 +245,10 @@ export default Vue.extend({
         .form-input{
             margin-bottom: 43px;
         }
+    }
+    &-btn{
+        padding-left: 40px;
+        padding-right: 40px;
     }
 }
 </style>

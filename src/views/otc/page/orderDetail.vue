@@ -57,7 +57,7 @@
                         <li class="app-padding40">
                             <div class="flex-between-c">
                                 <div class="lable">支付方式</div>
-                                <div class="primary-color">
+                                <div @click="showPayHandle" class="primary-color">
                                     <span class="vertical-m">{{ orderDetail.pay_type | payType}}</span>
                                     <img class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt="">
                                 </div>
@@ -72,18 +72,39 @@
                 </div>
             </div>
         </TitleHeader>
-        <div class="app-size-34 lxa-footer-bottom flex-around-c">
+        <div class="app-size-34 lxa-footer-btn flex-around-c">
             <!-- OtcOrderStateWait        = 0 //等待中
             OtcOrderStateTrading     = 1 //交易中
             OtcOrderStateFinished    = 2 //已完成
             OtcOrderStateCanceled    = 3 //已取消
             OtcOrderStateClosed      = 4 //已关闭
             OtcOrderStatePlatClosed  = 5 //平台强制关闭 -->
-            <Button @click="cancleHandle" :radius="false" type="cancel">取消</Button>
-            <Button @click="releaseHandle" v-if="orderDetail.state === 1" :radius="false">标记已支付</Button>
-            <Button v-if="orderDetail.state === 1" type="down" :radius="false">申述</Button>
-            <Button v-if="orderDetail.state === 1" type="up" :radius="false">释放</Button>
+            <Button @click="cancleHandle" type="cancel">取消</Button>
+            <Button @click="showPayHandle" v-if="orderDetail.state === 1">标记已支付</Button>
+            <Button @click="appealHandle" v-if="orderDetail.state === 1" type="down">申述</Button>
+            <Button @click="cancleAppealHandle" v-if="orderDetail.state === 1" type="down">取消申诉</Button>
+            <Button @click="releaseHandle" v-if="orderDetail.state === 1" type="up">释放</Button>
         </div>
+        <van-dialog v-model="show" close-on-click-overlay :show-confirm-button="false" title="支付方式">
+            <div class="pay-dialog app-padding40">
+                <div class="flex-between-c">
+                    <span>方式 </span>
+                    <span>ABA Bank</span>
+                </div>
+                <div class="flex-between-c">
+                    <span>姓名</span>
+                    <span>廖小艾</span>
+                </div>
+                <div class="flex-between-c">
+                    <span>开户行</span>
+                    <span>中国银行</span>
+                </div>
+                <div class="flex-between-c">
+                    <span>账号</span>
+                    <span>13552232409</span>
+                </div>
+            </div>
+        </van-dialog>
     </div>
 </template>
 
@@ -94,6 +115,7 @@ export default Vue.extend({
     name: 'OtcGardCard',
     data() {
         return {
+            show: false,
             orderDetail: {
                 id: 100,
                 taker_id: 1, // 下单用户id
@@ -119,16 +141,53 @@ export default Vue.extend({
             console.log('order');
         },
         cancleHandle() {
-            this.$api.otcDealCancel(this.orderDetail.id).then(() => {
-                this.getOrderDetail();
-                this.$normalToast('取消成功');
+            this.$dialog.confirm({
+                title: '确认取消交易',
+                messageAlign: 'left',
+                message: `<div class="app-reset-diolog-message">
+                    <span class="primary-color">如果您已经向卖家付款， 请不要取消交易</span>
+                    <span>取消规则： 买家当日累计${3}笔交易， 会限制当日买入功能</span>
+                </div>`,
+            }).then(() => {
+                this.$api.otcDealCancel(this.orderDetail.id).then(() => {
+                    this.getOrderDetail();
+                    this.$normalToast('取消成功');
+                });
             });
         },
         releaseHandle() {
-            this.$api.otcDealRelease(this.orderDetail.id).then(() => {
-                this.getOrderDetail();
-                this.$normalToast('释放成功');
+            this.$dialog.confirm({
+                title: '确认释放交易',
+                messageAlign: 'left',
+                message: `<div class="app-reset-diolog-message">
+                    <span class="primary-color">如果您未收到买家付款， 请不要释放交易</span>
+                </div>`,
+            }).then(() => {
+                this.$api.otcDealRelease(this.orderDetail.id).then(() => {
+                    this.getOrderDetail();
+                    this.$normalToast('释放成功');
+                });
             });
+        },
+        cancleAppealHandle() {
+            this.$dialog.confirm({
+                title: '确认取消申诉',
+                messageAlign: 'left',
+                message: `<div class="app-reset-diolog-message">
+                    <span class="primary-color">确认取消本次申诉</span>
+                </div>`,
+            }).then(() => {
+                this.$api.otcAppealCancel(this.orderDetail.id).then(() => {
+                    this.getOrderDetail();
+                    this.$normalToast('取消申诉成功');
+                });
+            });
+        },
+        showPayHandle() {
+            this.show = true;
+        },
+        appealHandle() {
+            this.$router.push(`/otc/order/appeal?id=${this.orderDetail.id}`);
         },
     },
 });
@@ -139,7 +198,7 @@ export default Vue.extend({
     background: #f8f8f8;
     height: 100%;
     overflow: scroll;
-    padding-bottom: 120px;
+    padding-bottom: 220px;
     .order-detail{
         &-top{
             padding-top: 33px;
@@ -176,6 +235,10 @@ export default Vue.extend({
                 }
             }
         }
+    }
+    .pay-dialog{
+        line-height: 80px;
+        padding-bottom: 42px;
     }
 }
 </style>

@@ -27,7 +27,7 @@
                 <img class="app-img-50" @click="screen=true" src="@/assets/img/common/screen.png" alt="">
                 <img class="app-img-50" @click="showMore=true" src="@/assets/img/common/more.png" alt="">
             </div>
-            <div class="otc-list" v-for="item in bodyTabList" :key="item.value" :slot="item.value">
+            <div class="otc-list" v-for="(item, index) in bodyTabList" :key="item.value" :slot="item.value">
                 <div class="otc-tabbar" @scroll.capture="scrollLoad($event, loadData)">
                     <V-Tabs
                         v-model="activeSymbol"
@@ -39,21 +39,33 @@
                         title-active-color='#5894EE'
                         :swipe-threshold='6'
                         :border='false'
-                        @change='tabChangeHandle'
+                        @change='changeCoinHandle(index+1)'
                         >
-                        <V-Tab v-for="(item, index) in coins" :title="item.title" :name="item.symbol" :disabled="!item.symbol" :key="index">
+                        <V-Tab
+                            v-for="(subItem) in coins"
+                            :title="subItem.title"
+                            :name="subItem.symbol"
+                            :disabled="!subItem.symbol"
+                            :key="subItem.symbol"
+                        >
                             <transition name="fade">
-                                <div class="otc-tabbar-page" v-show="item.symbol === activeSymbol">
+                                <div class="otc-tabbar-page" v-show="subItem.symbol === activeSymbol">
                                     <div class="otc-tabbar-content bg-white">
                                         <div class="content-list">
-                                            <GoodsCard v-for="item in renderData[activeSymbol]" :renderData='item' :key="item.id"></GoodsCard>
+                                            <GoodsCard
+                                                v-for="renderData in renderData[index+1][activeSymbol]"
+                                                :renderData='renderData'
+                                                :key="renderData.id"
+                                                :side="index+1"
+                                                @click="goTradeHandle(renderData)"
+                                            ></GoodsCard>
                                             <div v-if="false" class="loadMore-loading">
                                                 <Loading type='component' :loading='loadMore'></Loading>
                                             </div>
-                                            <p class="color-gray" v-show="!_loading && paramsDate[activeSymbol] && paramsDate[activeSymbol].isEnd">
+                                            <p class="color-gray" v-show="!_loading && (showDataStatus === 1)">
                                                 {{$t('common.noMore')}}
                                             </p>
-                                            <NoData v-if="!_loading" :show='noDataShow'  />
+                                            <NoData v-if="!_loading && (showDataStatus === 0)"/>
                                         </div>
                                     </div>
                                 </div>
@@ -91,6 +103,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { axiosGoPromiseArr } from '@/api/axios';
 import Drawer from '@/components/commons/Drawer.vue';
 import { OrderFilter, SubOrderFilter, SubOrderFilterItem } from '@/components/Orders/index';
 import Loading from '@/components/loading/index.vue';
@@ -109,9 +122,27 @@ type data = {
     // loadMore: boolean;
     noDataShow: boolean;
     activeSymbol: string;
-    side: number;
-    paramsDate: any;
-    renderData: any;
+    side: 1|2;
+    // 获取渲染的数据
+    renderData: {
+        // 购买数据
+        1: {
+            [elme: string]: Array<any>;
+        };
+        // 出售数据
+        2: {
+            [elme: string]: Array<any>;
+        };
+    };
+    // 获取每个币种的总长度 total
+    paramsData: {
+        1: {
+            [elme: string]: number;
+        };
+        2: {
+            [elme: string]: number;
+        };
+    };
     // coins: Array<any>;
     moreShade: Array<any>;
 }
@@ -140,10 +171,16 @@ export default Vue.extend({
             screen: false,
             showMore: false,
             noDataShow: false,
-            activeSymbol: 'usdt',
+            activeSymbol: '',
             side: 1,
-            renderData: {},
-            paramsDate: {},
+            renderData: {
+                1: {},
+                2: {},
+            },
+            paramsData: {
+                1: {},
+                2: {},
+            },
             moreShade: [
                 {
                     img: fabu,
@@ -184,33 +221,99 @@ export default Vue.extend({
             vm.loadData();
         });
     },
+    watch: {
+        coins(value) {
+            if (!this.activeSymbol) {
+                this.activeSymbol = value[0].symbol;
+            }
+        },
+    },
+    created() {
+        if (this.coins.length) {
+            this.activeSymbol = this.coins[0].symbol;
+        }
+    },
     methods: {
-        selecTyoe(item: any) {
-            console.log(item, 'selecTyoe');
-        },
-        checkType() {
-            console.log('checkType');
-        },
-        // scrollLoad() {
-        //     console.log('scrollLoad');
-        // },
         tabChangeHandle(item: any) {
             this.side = item.side;
+            if (this.showDataStatus === 3) {
+                this.loadData();
+            }
+        },
+        goTradeHandle(item: any) {
+            console.log(item);
+            this.$router.push({
+                name: 'otcsubmit',
+                params: item,
+            });
+        },
+        changeCoinHandle(index: number) {
+            if (index !== this.side) return;
+            if (this.showDataStatus === 3) {
+                this.loadData();
+            }
+        },
+        /** 获取渲染的数据, index=1表示购买下的数据, index=2表示出售下的数据 */
+        getRenderData(index: 1|2) {
+            console.log('12');
+            if (this.renderData[index] && this.renderData[index][this.activeSymbol]) {
+                return this.renderData[index][this.activeSymbol];
+            }
+            return [];
+            // return this.renderData[index][this.activeSymbol];
         },
         loadData() {
             this.changeLoading(true);
-            this.renderData = [];
-            if (!this.renderData[this.activeSymbol]) {
-                this.$set(this.renderData, this.activeSymbol, []);
+            console.log(axiosGoPromiseArr);
+            axiosGoPromiseArr.forEach((ele, index) => {
+                ele.cancel('001');
+                delete axiosGoPromiseArr[index];
+            });
+            if (!this.renderData[this.side][this.activeSymbol]) {
+                this.$set(this.renderData[this.side], this.activeSymbol, []);
             }
             const params = {
                 coin: this.activeSymbol,
                 side: this.side,
-                offset: this.renderData[this.activeSymbol].length,
+                offset: this.renderData[this.side][this.activeSymbol].length,
                 limit: 10,
             };
             this.$api.getOtcOrderList(params).then((res: any) => {
-                this.renderData[this.activeSymbol] = this.renderData[this.activeSymbol].concat(res);
+                this.changeLoading(false);
+                const temp = {
+                    id: 1,
+                    uid: 10, // 所属用户id
+                    nickname: 'allen', // 昵称
+                    coin: this.activeSymbol, // 币种
+                    type: 1, // OrderSide 交易方向
+                    price: 1.51651, // 价格
+                    total: 100, // 总数量
+                    filled: 10, // 已成交
+                    filled_value: 10, // 已成交金额
+                    frozen: 0, // 下单被冻结数量
+                    min_value: 10, // 最小下单金额
+                    max_value: 100, // 最大下单金额
+                    pay_types: '1', // 支持的支付类型
+                    country: 1, // 国家类型
+                    currency: 1, // 货币类型
+                    remark: '111111111', // 备注
+                    status: 1, // OrderState
+                    floating_rate: 0, // 采用浮动价格后有效，溢价比例，0为不采用浮动价格, 1为不溢价，大于1为正溢价，小于1为负溢价
+                    close_why: '', // 平台强制关闭的原因
+                    created_at: '', // 创建时间
+                };
+                this.renderData[this.side][this.activeSymbol] = this.renderData[this.side][this.activeSymbol].concat(temp);
+                if (res.data.data) {
+                    this.renderData[this.side][this.activeSymbol] = this.renderData[this.side][this.activeSymbol].concat(res.data.data);
+                }
+                // this.renderData[this.side][this.activeSymbol] = this.renderData[this.side][this.activeSymbol].concat([{}, {}]);
+                console.log(this.activeSymbol, 'AAAAAAAAAA');
+                if (typeof this.paramsData[this.side][this.activeSymbol] === 'undefined') {
+                    this.$set(this.paramsData[this.side], this.activeSymbol, res.data.total);
+                }
+            }).catch((err: any) => {
+                if (err.message === '001') return;
+                this.changeLoading(false);
             });
         },
         resizeTab() {
@@ -245,14 +348,25 @@ export default Vue.extend({
             }));
             return menuHandle(coins);
         },
+        showDataStatus(): number {
+            try {
+                const total = this.paramsData[this.side][this.activeSymbol];
+                if (typeof total === 'undefined') return 3; // 第一次请求被取消的时候，没有初始化total
+                const len = this.renderData[this.side][this.activeSymbol].length;
+                if (total === len && len === 0) return 0; // 暂无数据
+                return total <= len ? 1 : 2; // 1: 暂无更多  2: 还有数据不显示
+            } catch (e) {
+                return 3; // 第一次加载数据
+            }
+        },
         bodyTabList(): Array<any> {
             return [{
-                title: this.$t('payment.transferIn'),
-                value: 'transferIn',
+                title: this.$t('common.sideBuyT'),
+                value: 'sideBuyT',
                 side: 1,
             }, {
-                title: this.$t('payment.transferOut'),
-                value: 'transferOut',
+                title: this.$t('common.sideSellT'),
+                value: 'sideSellT',
                 side: 2,
             }];
         },

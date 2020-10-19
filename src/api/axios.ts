@@ -73,6 +73,7 @@ axiosOfJava.interceptors.response.use(
 const axiosOfGoLang = axios.create();
 axiosOfGoLang.interceptors.request.use(
     (config) => {
+        // XXX: 待优化， axiosGoPromiseArr会很多
         // eslint-disable-next-line no-param-reassign
         config.cancelToken = new axios.CancelToken((cancel) => {
             axiosGoPromiseArr.push({ cancel });
@@ -104,6 +105,11 @@ axiosOfThird.interceptors.response.use(
     (response) => response,
     (error) => Promise.reject(error),
 );
+
+const initPromiseArr = () => {
+    // 清空里面的token
+    axiosGoPromiseArr.length = 0;
+};
 
 export {
     axiosOfJava,
