@@ -2,13 +2,14 @@
     <div class="payment primary-bg">
         <TitleHeader theme="dark" :title="$t('payment.paymentTitle')"/>
         <div class="payment-card">
-            <h5 class="payment-card-title" v-t="'payment.paymentTip'">USDT</h5>
-            <div class="payment-card-qrcode">
-                <QrcodeVue class="qrcode-box" foreground="#5894EE" :size="size" :value="address"></QrcodeVue>
+            <h5 class="payment-card-title">{{$t('payment.paymentTip') + symbol.toUpperCase()}}</h5>
+            <div class="payment-card-qrcode" :style="{width: `${size + 15}px`, height: `${size + 15}px`}">
+                <Loading v-show="!address"/>
+                <QrcodeVue v-show="address" foreground="#5894EE" :size="size" :value="address"></QrcodeVue>
             </div>
             <div>
                 <h5 class="payment-card-title" v-t="'payment.paymentAddr'"></h5>
-                <p class="payment-card-address">3W236F536R56WR52139E5A9D592QEE595</p>
+                <p class="payment-card-address">{{address}}</p>
             </div>
             <div class="payment-card-btn">
                 <img src="../../assets/img/common/copy.png" alt="">
@@ -21,9 +22,11 @@
 <script lang="ts">
 import Vue from 'vue';
 import QrcodeVue from 'qrcode.vue';
+import Loading from '@/components/loading/index.vue'; // @ is an alias to /src
 
 type data = {
     address: string;
+    symbol: string;
     size: number;
 }
 
@@ -31,17 +34,30 @@ export default Vue.extend({
     name: 'Payment',
     components: {
         QrcodeVue,
+        Loading,
     },
     data(): data {
         return {
-            address: '3W236F536R56WR52139E5A9D592QEE595',
+            address: '',
+            symbol: '',
             size: 100,
         };
     },
     created() {
         this.size = window.innerWidth * 0.42;
+        this.symbol = this.$route.query.symbol as string;
+        this.getDeposit();
     },
     methods: {
+        getDeposit() {
+            this.$api.getDeposit({
+                coin: this.symbol,
+            }).then((res: any) => {
+                if (res.data) {
+                    this.address = res.data.address;
+                }
+            });
+        },
     },
 });
 </script>
@@ -66,11 +82,9 @@ export default Vue.extend({
         }
         &-qrcode{
             margin: 59px 0 71px;
-            .qrcode-box{
-                display: inline-block;
-                padding: 15px;
-                .scale-1px(#98D0FF, 10px);
-            }
+            display: inline-block;
+            padding: 15px;
+            .scale-1px(#98D0FF, 10px);
         }
         &-address{
             margin-top: 29px;

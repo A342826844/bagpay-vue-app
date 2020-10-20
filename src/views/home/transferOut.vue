@@ -74,7 +74,23 @@ export default Vue.extend({
             // TODO
         },
         saveHandle() {
+            /**
+             *
+                coin: [string] 所属币种
+                protocol: [string] 所属协议,erc20,trc20,eos
+                remark: [string] 备注
+                address: [string] 地址
+                memo: [string] 地址附加信息
+                trust: [int] 是否是可信的
+
+                password: [string] 可选, 密码
+                pay_password: [string] 可选, 支付密码
+                sms_code: [string] 可选,短信验证码
+                email_code: [string] 可选,邮箱验证码
+                ga_code: [string] 可选,google验证码
+             */
             // TODO
+            this.$api.withdrawSubmit();
         },
     },
 });

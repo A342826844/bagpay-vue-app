@@ -77,4 +77,10 @@ export const getCoinHistory = (data: params) => postGolang(`/deposit/history/${d
 // 获取指定币种转出记录
 export const getWithdrawHistory = (data: params) => postGolang(`/withdraw/history/${data.coin}`, data);
 // 获取所有币种
-export const getCoinList = (data: params) => getGolang('coin/list', data);
+export const getCoinList = (data: params) => getGolang('/coin/list', data);
+// 获取充币地址
+export const getDeposit = (data: params) => getGolang(`/deposit/address/${data.coin}`, data);
+// 提交提币申请
+export const withdrawSubmit = (data: params) => getGolang('/withdraw/submit', data);
+// 取消提币申请
+export const withdrawCcancel = (data: params) => getGolang(`/withdraw/cancel/${data.id}`, data);

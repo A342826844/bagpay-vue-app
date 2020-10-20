@@ -3,7 +3,7 @@
         <div class="home-header flex-between-c">
             <div>
                 <img src="../../assets/img/common/menu.png" alt="">
-                <h3 class="home-header-coin">USDT</h3>
+                <h3 class="home-header-coin">{{symbol.toUpperCase()}}</h3>
             </div>
             <div>
                 <img src="../../assets/img/common/qrcode1.png" alt="">
@@ -12,8 +12,13 @@
         <div class="home-assets flex-around-s flex-column">
             <h4 class="home-assets-account">$ <span class="home-assets-value">72 500.00</span></h4>
             <div class="home-assets-address flex-between-c">
-                <p>2lsifmsoedfjsefo;jknhfoipaosidj</p>
-                <img @click="$router.push('/payment')" src="../../assets/img/common/qrcode.png" alt="">
+                <p class="ellipsis">{{activeSymbol.address || ''}}</p>
+                <img @click="$router.push({
+                    path: '/payment',
+                    query: {
+                        symbol: symbol,
+                    }
+                })" src="../../assets/img/common/qrcode.png" alt="">
             </div>
         </div>
         <div class="assets-symbol-list">
@@ -51,7 +56,8 @@
 import Vue from 'vue';
 
 type data = {
-    testValue: number;
+    symbol: string;
+    activeSymbol: any;
     symbolList: Array<{
         coin: string;
         title: string;
@@ -68,25 +74,33 @@ export default Vue.extend({
     },
     data(): data {
         return {
-            testValue: 2113,
+            symbol: 'usdt',
+            activeSymbol: {},
             symbolList: [],
         };
     },
     methods: {
         init() {
-            this.initBalances();
+            this.changeLoading(true);
+            Promise.all([this.getDeposit(), this.initBalances()]).finally(() => {
+                this.changeLoading(false);
+            });
         },
-        initBalances() {
-            this.$api.getBalances().then((res: any) => {
+        getDeposit() {
+            return this.$api.getDeposit({
+                coin: this.symbol,
+            }).then((res: any) => {
                 if (res.code === 0) {
-                    this.symbolList = res.data;
-                    // this.symbolList[0].value = res.data.available
-                    // this.symbolList[0].transfer = res.data.available
+                    this.activeSymbol = res.data;
                 }
             });
         },
-        clickTest() {
-            this.testValue += 1;
+        initBalances() {
+            return this.$api.getBalances().then((res: any) => {
+                if (res.code === 0) {
+                    this.symbolList = res.data;
+                }
+            });
         },
         addSymbol() {
             this.$router.push('/addsymbol');

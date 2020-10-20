@@ -38,6 +38,7 @@ declare module 'vue/types/vue' {
         _loading: boolean;
         _unit: string;
         changeLoading: Function;
+        initUserInfo: Function;
     }
 }
 
@@ -74,6 +75,14 @@ Vue.mixin({
     methods: {
         changeLoading(state) {
             this.$store.commit('changeLoading', state);
+        },
+        // 获取用户信息
+        initUserInfo() {
+            this.$api.getUserInfo().then((res: any) => {
+                if (res.code === 0) {
+                    this.$store.commit('setUserInfo', res.data);
+                }
+            });
         },
     },
 });
