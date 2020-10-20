@@ -38,7 +38,7 @@
             请务必确认电脑及浏览器安全，防止信息被篡改或泄露。
           </PoptipItem>
         </Poptip>
-        <Button @click="vfyBus" class="app-size-34" v-t="'otc.vfyBus'"></Button>
+        <Button @click="vfyBus()" class="app-size-34" v-t="'otc.vfyBus'"></Button>
       </div>
     </TitleHeader>
   </div>
@@ -53,17 +53,36 @@ export default Vue.extend({
     },
     data() {
         return {
+            isLoading: false,
             status: null,
         };
     },
     methods: {
         getInfo() {
+            this.changeLoading(true);
+            this.isLoading = false;
             this.$api.otcGetMerchant().then((res: any) => {
-                console.log(111);
+                if (res.code === 0) {
+                    this.status = res.data ? res.data.status : null;
+                    this.isLoading = true;
+                }
+            }).finally(() => {
+                this.changeLoading(false);
             });
         },
         vfyBus() {
-            this.$router.push('/otc/vfyBus');
+            if (!this.isLoading) {
+                this.getInfo();
+            } else if (this.status === null) {
+                this.$router.push('/otc/vfyBus');
+            } else {
+                this.$router.push({
+                    path: '/otc/advStatus',
+                    query: {
+                        status: this.status,
+                    },
+                });
+            }
         },
     },
 });
@@ -89,7 +108,7 @@ export default Vue.extend({
   height: 380px;
   text-align: right;
   padding-right: 40px;
-  background: url("../../../assets/img/otc/adv.png") no-repeat;
+  background: url("../../../../assets/img/otc/adv.png") no-repeat;
   background-size: 440px 380px;
   margin-top: 40px;
   color: #3e80ca;
