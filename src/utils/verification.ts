@@ -63,6 +63,13 @@ function codeVfi(code: string) {
     return vfi;
 }
 
+// 必填验证
+function notEmpty(value: string, msg: string) {
+    const vfi = !!value;
+    if (vfi === false) normalToast(msg + i18n.t('error.emptyErr'));
+    return vfi;
+}
+
 function fromVfi(arr: any) {
     for (let i = 0; i < arr.length; i++) {
         const item: any = arr[i];
@@ -82,11 +89,17 @@ function fromVfi(arr: any) {
         case 'name':
             if (!nameVfi(item.value)) return false;
             break;
+        case 'email':
+            if (!emailVfi(item.value)) return false;
+            break;
         case 'pay':
             if (!payVfi(item.value)) return false;
             break;
         case 'code':
             if (!codeVfi(item.value)) return false;
+            break;
+        case 'empty':
+            if (!notEmpty(item.value, item.msg)) return false;
             break;
         default:
             return false;
@@ -105,4 +118,5 @@ export default {
     payVfi,
     codeVfi,
     fromVfi,
+    notEmpty,
 };

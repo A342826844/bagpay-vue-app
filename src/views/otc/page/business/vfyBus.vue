@@ -80,6 +80,9 @@
             请务必确认电脑及浏览器安全，防止信息被篡改或泄露。
           </PoptipItem>
         </Poptip>
+        <div class="check_cont">
+          <van-checkbox v-model="checked" shape="square">我已阅读并同意《<span>广告发布方协议</span>》</van-checkbox>
+        </div>
         <Button
           @click="deposit"
           class="app-size-34"
@@ -93,14 +96,20 @@
 <script lang="ts">
 import Vue from 'vue';
 import { SocialType, Relationship } from '@/commons/config/index';
+import 'vant/lib/checkbox/style';
+import { Checkbox } from 'vant';
 
 export default Vue.extend({
+    components: {
+        VanCheckbox: Checkbox,
+    },
     data() {
         return {
             SocialType,
             Relationship,
             isSocialType: false,
             isRelationship: false,
+            checked: false,
             form: {
                 phone: '',
                 email: '',
@@ -123,20 +132,53 @@ export default Vue.extend({
     },
     methods: {
         deposit() {
-            this.$api.otcMerchant({
-                phone: `86-${this.form.phone}`,
-                email: this.form.email,
-                social_type: this.form.socialType,
-                // social_type: 'wechat',
-                social: this.form.social,
-                ice_name: this.form.iceName,
-                ice_phone: `86-${this.form.icePhone}`,
-                ice_relation: this.form.iceRelation,
-                // ice_relation: '朋友',
-                address: this.form.address,
-            }).then((res: any) => {
-                console.log('todo');
-            });
+            const val: boolean = this.$verification.fromVfi([
+                {
+                    type: 'phone',
+                    value: this.form.phone,
+                },
+                {
+                    type: 'email',
+                    value: this.form.email,
+                },
+                {
+                    type: 'empty',
+                    msg: this.$t('otc.socialAccount'),
+                    value: this.form.social,
+                },
+                {
+                    type: 'name',
+                    value: this.form.iceName,
+                },
+                {
+                    type: 'phone',
+                    value: this.form.icePhone,
+                },
+                {
+                    type: 'empty',
+                    msg: this.$t('payment.address'),
+                    value: this.form.address,
+                },
+            ]);
+            if (this.checked === false) {
+                this.$normalToast('请勾选广告发布方协议');
+            } else if (val) {
+                this.$api.otcMerchant({
+                    phone: `86-${this.form.phone}`,
+                    email: this.form.email,
+                    social_type: this.form.socialType,
+                    social: this.form.social,
+                    ice_name: this.form.iceName,
+                    ice_phone: `86-${this.form.icePhone}`,
+                    ice_relation: this.form.iceRelation,
+                    address: this.form.address,
+                }).then((res: any) => {
+                    console.log('todo');
+                    if (res.code === 0) {
+                        this.$router.go(-1);
+                    }
+                });
+            }
         },
     },
 });
@@ -148,6 +190,11 @@ export default Vue.extend({
   font-size: 34px;
   .info_item {
     margin-top: 40px;
+  }
+  .check_cont{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
   }
 }
 </style>
