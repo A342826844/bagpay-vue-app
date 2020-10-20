@@ -68,16 +68,9 @@ export default Vue.extend({
                 }
             });
         },
-        // 获取用户信息
+        // 忘记密码
         goFindAccount() {
             this.$router.push(`/findaccount?phone=${this.form.phone}`);
-        },
-        initUserInfo() {
-            this.$api.getUserInfo().then((res: any) => {
-                if (res.code === 0) {
-                    sessionStorage.setItem('userInfo', JSON.stringify(res.data));
-                }
-            });
         },
     },
 });

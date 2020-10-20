@@ -23,11 +23,11 @@
                             <li class="app-padding40 flex-between-c" v-for="(item, index) in rechargeList" :key="index">
                                 <div class="values">
                                     <h5 class="value green-color">{{$t('payment.transferIn')}}</h5>
-                                    <p class="sub-value">E2jijdi2o1...23jiwajid</p>
+                                    <p class="sub-value">{{item.created_at}}</p>
                                 </div>
                                 <div class="values">
-                                    <h5 class="value">364.24</h5>
-                                    <p class="sub-value">2020-06-26 05:22</p>
+                                    <h5 class="value">{{item.amount}}</h5>
+                                    <p class="sub-value">手续费：<span class="price">0</span></p>
                                 </div>
                             </li>
                         </ul>
@@ -36,12 +36,16 @@
                         <ul>
                             <li class="app-padding40 flex-between-c" v-for="(item, index) in withdrawalList" :key="index">
                                 <div class="values">
-                                    <h5 class="value red-color">{{$t('payment.transferOut')}}</h5>
-                                    <p class="sub-value">E2jijdi2o1...23jiwajid</p>
+                                    <h5 class="value red-color">
+                                        {{$t('payment.transferOut')}}
+                                    </h5>
+                                    <p class="sub-value">{{item.created_at}}</p>
+                                    <p class="sub-value">{{item.address.replace(item.address.slice(5,-5), '*****')}}</p>
                                 </div>
                                 <div class="values">
-                                    <h5 class="value">364.24</h5>
-                                    <p class="sub-value">2020-06-26 05:22</p>
+                                    <h5 class="value">{{item.amount}}</h5>
+                                    <p class="sub-value">手续费：<span class="price">{{item.fee}}</span></p>
+                                    <img class="cancel_img" @click="cancel(item.id)" src="@/assets/img/mine/cancel.png" alt="">
                                 </div>
                             </li>
                         </ul>
@@ -63,12 +67,11 @@
 import Vue from 'vue';
 
 type data = {
-    address: string;
     symbol: string;
     active: string;
     size: number;
-    rechargeList: Array<any>;
-    withdrawalList: Array<any>;
+    rechargeList: Array<any>; // 转入
+    withdrawalList: Array<any>; // 转出
     sideMap: {
         [elem: string]: any;
     };
@@ -78,7 +81,6 @@ export default Vue.extend({
     name: 'TransferHistory',
     data(): data {
         return {
-            address: '3W236F536R56WR52139E5A9D592QEE595',
             size: 100,
             symbol: '',
             active: 'transferIn',
@@ -105,12 +107,6 @@ export default Vue.extend({
         };
     },
     computed: {
-        renderList() {
-            return [{ side: 2 }, { side: 1 }, { side: 2 },
-                { side: 2 }, { side: 1 }, { side: 2 }, { side: 2 }, { side: 1 },
-                { side: 2 }, { side: 2 }, { side: 1 }, { side: 2 },
-            ];
-        },
         bodyTabList() {
             return [
                 {
@@ -124,20 +120,45 @@ export default Vue.extend({
         },
     },
     created() {
+        this.symbol = (this.$route.query.symbol as string) || '';
         this.init();
     },
     methods: {
         init() {
-            this.symbol = (this.$route.query.symbol as string) || '';
-            this.getCoinHistory();
+            this.changeLoading(true);
+            Promise.all([this.getCoinHistory(), this.getWithdrawHistory()]).finally(() => {
+                this.changeLoading(false);
+            });
         },
         getCoinHistory() {
-            this.$api.getCoinHistory({
+            return this.$api.getCoinHistory({
                 coin: this.symbol,
             }).then((res: any) => {
                 if (res.code === 0) {
-                    this.rechargeList = res.data || [{}];
+                    this.rechargeList = res.data.list || [{
+                        amount: '302.44',
+                        created_at: '2020-06-26 05:22',
+                    }];
                 }
+            });
+        },
+        getWithdrawHistory() {
+            return this.$api.getWithdrawHistory({
+                coin: this.symbol,
+            }).then((res: any) => {
+                if (res.code === 0) {
+                    this.withdrawalList = res.data.list || [{
+                        fee: '66',
+                        address: 'Efadfadfas fadsf asdfa sdfa sdf asdfsa f',
+                        amount: '302.44',
+                        created_at: '2020-06-26 05:22',
+                    }];
+                }
+            });
+        },
+        cancel(id: any) {
+            this.$api.withdrawCcancel({
+                id,
             });
         },
         tabChangeHandle(value: any) {
@@ -194,6 +215,17 @@ export default Vue.extend({
                         .sub-value{
                             margin-top: 17px;
                             color: #A6A6A6;
+                        }
+                        .price{
+                            color: #585858;
+                        }
+                        .address{
+                            font-size: 24px;
+                            color: #A6A6A6;
+                            margin-left: 40px;
+                        }
+                        .cancel_img{
+                            width: 65px;
                         }
                     }
                 }
