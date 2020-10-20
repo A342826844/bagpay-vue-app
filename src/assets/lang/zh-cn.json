@@ -57,6 +57,7 @@
         "payway": "支付方式",
         "alipay": "支付宝",
         "weixin": "微信",
+        "selectPayType": "选择支付方式",
         "bank": "银行卡",
         "huione": "汇旺",
         "stateWait"      : "等待中",
