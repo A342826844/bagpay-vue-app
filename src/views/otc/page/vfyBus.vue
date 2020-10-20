@@ -9,6 +9,13 @@
           v-model="form.phone"
           type="text"
         />
+        <Inputs
+          class="info_item"
+          :placeholder="$t('login.email')"
+          clearable
+          v-model="form.email"
+          type="text"
+        />
         <div @click="isSocialType = !isSocialType" class="info_item">
           <Select>
             <span class="vertical-m">{{ form.socialType | socialType }}</span>
@@ -96,6 +103,7 @@ export default Vue.extend({
             isRelationship: false,
             form: {
                 phone: '',
+                email: '',
                 socialType: '0',
                 social: '',
                 iceName: '',
@@ -105,15 +113,26 @@ export default Vue.extend({
             },
         };
     },
+    created() {
+        this.$nextTick(() => {
+            const phone = this._userInfo.phone.split('-');
+            this.form.phone = phone[1] || '';
+            console.log(this._userInfo);
+            this.form.email = this._userInfo.email;
+        });
+    },
     methods: {
         deposit() {
             this.$api.otcMerchant({
-                phone: this.form.phone,
+                phone: `86-${this.form.phone}`,
+                email: this.form.email,
                 social_type: this.form.socialType,
+                // social_type: 'wechat',
                 social: this.form.social,
                 ice_name: this.form.iceName,
-                ice_phone: this.form.icePhone,
+                ice_phone: `86-${this.form.icePhone}`,
                 ice_relation: this.form.iceRelation,
+                // ice_relation: '朋友',
                 address: this.form.address,
             }).then((res: any) => {
                 console.log('todo');

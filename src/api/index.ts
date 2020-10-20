@@ -31,6 +31,8 @@ export const otcDealRelease = (id: number) => postGolang(`/otc/deal/release/${id
 export const otcDealSubmit = (data: params) => postGolang('/otc/deal/submit', data);
 // 申请商家
 export const otcMerchant = (data: params) => postGolang('/otc/merchant/submit', data);
+// 获取商家申请信息
+export const otcGetMerchant = (data: params) => postGolang('/otc/merchant/get', data);
 // 提交申诉
 export const otcAppealSubmit = (data: params) => postGolang('otc/appeal/submit', data);
 // 取消申诉

@@ -48,7 +48,20 @@
 import Vue from 'vue';
 
 export default Vue.extend({
+    created() {
+        this.getInfo();
+    },
+    data() {
+        return {
+            status: null,
+        };
+    },
     methods: {
+        getInfo() {
+            this.$api.otcGetMerchant().then((res: any) => {
+                console.log(111);
+            });
+        },
         vfyBus() {
             this.$router.push('/otc/vfyBus');
         },
