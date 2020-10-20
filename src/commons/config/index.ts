@@ -1,6 +1,7 @@
 export type PayType = Array<number>;
 export type CountryType = Array<number>;
 export type OtcOrderState = Array<number>;
+export type OtcDealState = Array<number>;
 export type SocialType = Array<number>;
 export type Relationship = Array<number>;
 export type OtcAppealType = Array<number>;
@@ -45,6 +46,14 @@ export const OtcOrderState = [
     3, // OtcOrderStateCanceled    = 3 //已取消
     4, // OtcOrderStateClosed      = 4 //已关闭
     5, // OtcOrderStatePlatClosed  = 5 //平台强制关闭
+];
+
+// otc otc订单状态
+export const OtcDealState = [
+    0, // OtcDealStateTrading   = 0 //交易中
+    1, // OtcDealStatePaid      = 1 //已支付
+    2, // OtcDealStateDone      = 2 //已放币,已完成
+    3, // OtcDealStateCanceled  = 3 //已取消
 ];
 
 // otc 社交账号类型

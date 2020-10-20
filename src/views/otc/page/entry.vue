@@ -62,7 +62,7 @@
                                             <div v-if="false" class="loadMore-loading">
                                                 <Loading type='component' :loading='loadMore'></Loading>
                                             </div>
-                                            <p class="color-gray" v-show="!_loading && (showDataStatus === 1)">
+                                            <p class="gray-color" v-show="!_loading && (showDataStatus === 1)">
                                                 {{$t('common.noMore')}}
                                             </p>
                                             <NoData v-if="!_loading && (showDataStatus === 0)"/>
@@ -81,7 +81,7 @@
                     class="more-item"
                     @click="clickShowMore(item)"
                     v-for="item in moreShade"
-                    v-show="!(item.needOtc && !_userInfo.isOtc)"
+                    v-show="!(item.needOtc && (_userInfo.isOtc === '3'))"
                     :key="item.name"
                 >
                     <img :src="item.img" alt=""/>

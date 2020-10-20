@@ -21,6 +21,8 @@ export const otcOrderPlace = (data: params) => postGolang('/otc/order/place', da
 export const getExchangeRate = (data: params) => getGolang('/exchange-rate/usd', data);
 // 获取订单列表
 export const otcOrderDealList = (data: params) => postGolang('/otc/deal/list', data);
+// 获取订单列表
+export const otcOrderList = (data: params) => postGolang('/otc/order/list', data);
 // 获取广告信息
 export const otcOrderGetById = (id: number) => postGolang(`/otc/order/get/${id}`, { id });
 // 广告下架

@@ -2,7 +2,7 @@
     <div class="otc-advdetail">
         <TitleHeader>
             <template #title>
-                <span>发布中</span>
+                <span>{{orderDetail.status | otcOrderState }}</span>
             </template>
             <div class="otc-advdetail-box">
                 <div class="otc-advdetail-card">
@@ -55,11 +55,11 @@
                 <div class="order-info otc-advdetail-card app-padding40">
                     <div class="flex-between-c">
                         <p>发布时间</p>
-                        <p>2020-06-25 1</p>
+                        <p>{{ orderDetail.created_at | date('yyyy-MM-dd hh:mm:ss')}}</p>
                     </div>
                     <div class="flex-between-c">
                         <p>订单编号</p>
-                        <p>5dw9925656r565562652#</p>
+                        <p>{{ orderDetail.id }}#</p>
                     </div>
                     <div class="app-margin-t40">
                         <div class="border-b "></div>
@@ -68,7 +68,6 @@
                         <p class="lable">备注</p>
                         <div class="otc-advdetail-num">
                             {{ orderDetail.remark }}
-                            走过路过千万别错过，要买的赶紧了！
                         </div>
                     </div>
                 </div>
@@ -167,6 +166,7 @@ export default Vue.extend({
     },
     methods: {
         getOrder() {
+            this.orderDetail.id = Number(this.$route.query.id);
             if (!this.orderDetail.id) {
                 this.$router.go(-1);
                 return;
@@ -183,14 +183,28 @@ export default Vue.extend({
         goAdvState() {
             console.log('去订单详情');
         },
+        otcOrderDealList() {
+            const params = {
+                coin: this.orderDetail.coin, // [string] 币种
+                state: -1, // [OtcOrderState] -1取全部
+                // begin:  // [time] 开始时间
+                // end:  // [time] 结束时间
+                offset: this.list.length, // [int64] 跳过条数
+                limit: 15, // [int64] 最大返回条数
+            };
+            this.$api.otcOrderDealList(params).then((res: any) => {
+                console.log(res);
+            });
+        },
         cancelHandle() {
-            console.log('下架');
             this.$dialog.confirm({
                 title: '确认下架广告',
             }).then(() => {
                 this.changeLoading(true);
                 this.$api.otcOrderCancel(this.orderDetail.id).then(() => {
                     this.getOrderDetail();
+                }).catch(() => {
+                    this.changeLoading(false);
                 });
             }).catch();
         },

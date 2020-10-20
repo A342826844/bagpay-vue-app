@@ -5,11 +5,11 @@
                 <SubOrderFilter title="状态">
                     <SubOrderFilterItem
                         :active="state === item"
-                        v-for="item in OtcOrderState"
+                        v-for="item in OtcDealState"
                         :key="item"
                         @click="changeState(item)"
                     >
-                        {{item | otcOrderState}}
+                        {{item | otcDealState}}
                     </SubOrderFilterItem>
                     <SubOrderFilterItem :active="state === -1" @click="changeState(-1)">{{$t('common.all')}}</SubOrderFilterItem>
                 </SubOrderFilter>
@@ -38,7 +38,7 @@
                                 <span :class="item.taker_side|orderSideColor">{{item.taker_side | orderSide}}</span>
                             </template>
                             <template slot="right">
-                                <span>{{item.state | otcOrderState}}</span>
+                                <span>{{item.state | otcDealState}}</span>
                             </template>
                             <template slot="lable">
                                 <span>{{"价格"}} ({{_unit}})</span>
@@ -69,7 +69,7 @@ import Loading from '@/components/loading/index.vue';
 import Drawer from '@/components/commons/Drawer.vue';
 import { OrderFilter, SubOrderFilter, SubOrderFilterItem } from '@/components/Orders/index';
 import NCardItem from '@/components/card/index.vue';
-import { OtcOrderState } from '@/commons/config/index';
+import { OtcDealState } from '@/commons/config/index';
 import scrollLoad from '@/minxin/scrollLoad';
 
 export default Vue.extend({
@@ -84,7 +84,7 @@ export default Vue.extend({
     mixins: [scrollLoad],
     data() {
         return {
-            OtcOrderState,
+            OtcDealState,
             state: -1,
             isShow: false,
             loadMore: false,
