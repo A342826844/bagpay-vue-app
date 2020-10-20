@@ -7,6 +7,7 @@
             v-bind="{...$attrs}"
             @focus="focusHandle"
             @blur="blurHandle"
+            @input="inputHandle"
             v-model="inputV"
             :type="type"
             :maxlength="maxlength"
@@ -46,9 +47,9 @@ export default Vue.extend({
             type: Boolean,
             default: false,
         },
-        noWatch: {
+        selfInput: {
             type: Boolean,
-            default: false,
+            default: false, // 是否在父组件中，用input事件手动设置value
         },
         isShowLength: {
             type: Boolean,
@@ -95,8 +96,8 @@ export default Vue.extend({
                     this.decimalHandle(Number(decimal));
                 }, 0);
             }
-            console.log(this.noWatch);
-            if (this.noWatch) return;
+            // 如果设置了这个属性，就需要绑定input事件
+            if (this.selfInput) return;
             if (!equal(value, this.value)) {
                 this.$emit('input', value);
             }
@@ -110,20 +111,14 @@ export default Vue.extend({
                 this.focus = true;
             }, 50);
         },
-        // inputHandle() {
-        //     this.$emit('input');
-        //     if (this.decimal) {
-        //         this.decimalHandle(Number(this.decimal));
-        //     }
-        //     if (!equal(this.inputV, this.value)) {
-        //         this.$emit('input', this.inputV);
-        //     }
-        // },
         decimalHandle(decimal: number) {
             console.log(this.inputV);
             if ((this.inputV.includes('.') && this.inputV.split('.')[1].length) > decimal) {
                 this.inputV = `${this.inputV.split('.')[0]}.${this.inputV.split('.')[1].slice(0, decimal)}`;
             }
+        },
+        inputHandle() {
+            this.$emit('input', this.inputV);
         },
         blurHandle() {
             this.$emit('blur');

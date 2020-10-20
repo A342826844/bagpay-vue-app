@@ -177,12 +177,14 @@ Vue.filter('otcAppealUserType', (state: 1|2) => {
 });
 
 // 支付方式类型 PayType
-Vue.filter('payType', (state: 1|2|3|4) => {
+Vue.filter('payType', (state: 0|1|2|3|4) => {
+	// PayTypeSelect     = 0 //选择支付方式
 	// PayTypeBank       = 1 //银行卡
 	// PayTypeAlipay     = 2 //支付宝
 	// PayTypeWechatPay  = 3 //微信
 	// PayTypeHuione     = 4 //汇旺
     const states = {
+        0: 'common.selectPayType',
         1: 'common.bank',
         2: 'common.alipay',
         3: 'common.weixin',

@@ -27,6 +27,7 @@ const Adv = () => import('@/views/otc/page/advertising.vue');
 const AdvManage = () => import('@/views/otc/page/advManage.vue');
 const OtcOrderDetail = () => import('@/views/otc/page/orderDetail.vue');
 const OtcSubmit = () => import('@/views/otc/page/submit.vue');
+const OtcAdvDetail = () => import('@/views/otc/page/advDetail.vue');
 const OtcAppeal = () => import('@/views/otc/page/appeal.vue');
 const AdvBusiness = () => import('@/views/otc/page/business/advBusiness.vue');
 const VfyBus = () => import('@/views/otc/page/business/vfyBus.vue');
@@ -135,6 +136,10 @@ const routes: Array<RouteConfig> = [
             path: 'adv',
             name: 'otcAdv',
             component: Adv,
+        }, {
+            path: 'advdetail',
+            name: 'otcAdvDetail',
+            component: OtcAdvDetail,
         }, {
             path: 'advBusiness',
             name: 'otcAdvBusiness',

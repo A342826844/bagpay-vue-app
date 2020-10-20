@@ -16,7 +16,7 @@
                 :tabList="bodyTabList"
             >
                 <div class="app-padding40" slot="buy">
-                    <form class="otc-advertising-form app-size-34" action="">
+                    <form @submit.prevent="" class="otc-advertising-form app-size-34" action="">
                         <div class="form-item">
                             <Select @click="$router.push(`/choisesymbol?symbol=${form.coin}&type=1`)">
                                 <img class="app-img-50" src="@/assets/img/symbol/usdt.png" alt="">
@@ -38,17 +38,17 @@
                             <Inputs :decimal="2" v-model="form.amount" placeholder="买入数量">{{coinSHow}}</Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs readonly :value="total || '自动计算'">{{coinSHow}}</Inputs>
+                            <Inputs readonly :value="total || '总额'">{{_unit}}</Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs v-model="form.min_value" placeholder="单笔最低限额">{{_unit}}</Inputs>
+                            <Inputs decimal v-model="form.min_value" placeholder="单笔最低限额">{{_unit}}</Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs v-model="form.max_value" placeholder="单笔最高限额">{{_unit}}</Inputs>
+                            <Inputs decimal v-model="form.max_value" placeholder="单笔最高限额">{{_unit}}</Inputs>
                         </div>
                         <div @click="payPopup = !payPopup" class="form-item">
                             <Select>
-                                <span class="vertical-m">选择收付款方式</span>
+                                <span class="vertical-m">{{pay_types[0] | payType}}</span>
                             </Select>
                         </div>
                         <!-- TODO 备注 -->
@@ -81,10 +81,10 @@
             <SelectPopupItem @click="isfloatRate = false">{{$t('otc.fixedPrice')}}</SelectPopupItem>
         </SelectPopup> -->
         <SelectPopup v-model="payPopup">
-            <SelectPopupItem v-for="item in PayType" :key="item" @click="isfloatRate = true">{{ item | payType }}</SelectPopupItem>
+            <SelectPopupItem v-for="item in PayType" :key="item" @click="selectPayType(item)">{{ item | payType }}</SelectPopupItem>
         </SelectPopup>
         <div class="app-size-34 lxa-footer-btn">
-            <Button>发 布</Button>
+            <Button @click="submitHandle">发 布</Button>
         </div>
     </div>
 </template>
@@ -124,7 +124,7 @@ export default Vue.extend({
             isfloatRate: true,
             selectPopup: false,
             payPopup: false,
-            pay_types: [],
+            pay_types: [0],
             exchangeRate: {},
             form: {
                 coin: '',
@@ -141,17 +141,17 @@ export default Vue.extend({
         };
     },
     computed: {
-        coinInfo() {
+        coinInfo(): CoinInfo {
             return this.$store.getters.getCoinInfo('usdt');
         },
-        coinSHow() {
+        coinSHow(): string {
             return ((this as any).form.coin || '').toUpperCase();
         },
-        total() {
+        total(): string {
             const res = Number((this as any).form.amount) * Number((this as any).form.price);
             return res ? res.toFixed(2) : '';
         },
-        bodyTabList() {
+        bodyTabList(): any {
             return [
                 {
                     title: '购买',
@@ -199,6 +199,9 @@ export default Vue.extend({
                 this.form.price = `${this.exchangeRate[this.form.coin]}`;
             }
         },
+        selectPayType(item: number) {
+            this.pay_types = [item];
+        },
         initFormData() {
             this.form.price = '';
             this.form.amount = '';
@@ -207,14 +210,50 @@ export default Vue.extend({
             this.form.floating_rate = '';
             this.form.remark = '';
         },
+        submitHandle() {
+            if (!this.form.price) {
+                this.$normalToast('请输入价格');
+                return;
+            }
+            if (!this.form.amount) {
+                this.$normalToast('请输入数量');
+                return;
+            }
+            if (!this.form.min_value) {
+                this.$normalToast('请输入单笔最低限额');
+                return;
+            }
+            if (!this.form.max_value) {
+                this.$normalToast('请输入单笔最高限额');
+                return;
+            }
+            if (!this.pay_types[0]) {
+                this.$normalToast('请选择支付方式');
+                return;
+            }
+            this.otcOrderPlace();
+        },
         otcOrderPlace() {
+            // coin: [string] 币种标识
+            // type: [OrderSide] 交易方向
+            // price: [float64] 价格
+            // total: [float64] 总数量
+            // min_value: [float64] 最小下单交易额
+            // max_value: [float64] 最大下单交易额,0为不限
+            // pay_types: [string] 支持的支付方式类型[PayType],逗号分隔
+            // country: [CountryType] 所在国家
+            // currency: [CurrencyType] 法币类型
+            // floating_rate: [float64] 采用浮动价格后有效，溢价比例，0为不采用浮动价格, 1为不溢价，大于1为正溢价，小于1为负溢价
+            // remark: [string] 备注
             const params = {
                 ...this.form,
                 total: this.total,
                 pay_types: this.pay_types.join(','),
             };
+            this.changeLoading(true);
             this.$api.otcOrderPlace(params).then((res: any) => {
                 console.log(res);
+                this.changeLoading(false);
             });
         },
         clickHandle(value: any) {
