@@ -158,8 +158,8 @@ export default Vue.extend({
                 this.$api.registerCode({
                     phone: `86-${this.form.phone}`,
                     type: 1,
-                    captcha: this.imgUrl,
-                    captcha_id: this.form.imgCode,
+                    captcha: this.form.imgCode,
+                    captcha_id: this.imgCode,
                 }).then((res: any) => {
                     if (res.code === 0) {
                         console.log('发送成功');

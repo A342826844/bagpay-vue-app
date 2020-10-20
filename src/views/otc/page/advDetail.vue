@@ -1,84 +1,114 @@
 <template>
-    <div class="otc-submit">
+    <div class="otc-advdetail">
         <TitleHeader>
             <template #title>
-                {{ orderDetail.type | orderSide}}
-                <span class="primary-color">{{orderDetail.coin && orderDetail.coin.toUpperCase()}}</span>
+                <span>发布中</span>
             </template>
-            <div class="otc-submit-box app-margin-t40">
-                <div class="flex-between-c app-padding40">
-                    <div>
-                        <div class="flex-start-c">
-                            <h5 class="name">{{ orderDetail.nickname }}</h5>
-                            <img class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt="">
+            <div class="otc-advdetail-box">
+                <div class="otc-advdetail-card">
+                    <div class="flex-between-c app-padding40">
+                        <div class="text-align-l">
+                            <div class="flex-start-c">
+                                <h5 class="name">BTC  买入</h5>
+                            </div>
+                            <p class="otc-advdetail-pay">{{ orderDetail.pay_types | payType}}</p>
                         </div>
-                        <p class="otc-submit-pay">{{ orderDetail.pay_types | payType}}</p>
+                        <div class="text-align-r">
+                            <p class="lable">单价</p>
+                            <h6 class="app-size-34 primary-color otc-advdetail-price">{{ orderDetail.price }}</h6>
+                        </div>
                     </div>
-                    <div class="text-align-r">
-                        <p class="lable">单价</p>
-                        <h6 class="app-size-34 primary-color otc-submit-price">{{ orderDetail.price }}</h6>
+                    <div class="flex-between-c app-padding40 app-margin-t40">
+                        <div class="text-align-l">
+                            <p class="lable">数量(USDT)</p>
+                            <h6 class="app-size-34 otc-advdetail-price">{{ orderDetail.total }}</h6>
+                        </div>
+                        <div class="text-align-r">
+                            <p class="lable">限额</p>
+                            <h6 class="app-size-34 otc-advdetail-price">{{orderDetail.min_value}}~{{orderDetail.max_value}}</h6>
+                        </div>
+                    </div>
+                    <div class="app-padding40 app-margin-t40">
+                        <div class="border-b "></div>
+                    </div>
+                    <div class="otc-advdetail-tradeinfo flex-between-c app-padding40">
+                        <div class="text-align-l">
+                            <p class="lable">成交(USDT) </p>
+                            <p class="name  otc-advdetail-price">120</p>
+                        </div>
+                        <div class="text-align-l">
+                            <p class="lable">冻结(USDT)</p>
+                            <p class="name  otc-advdetail-price">120</p>
+                        </div>
+                        <div class="text-align-r">
+                            <p class="lable">溢价率</p>
+                            <p class="name  otc-advdetail-price">--</p>
+                        </div>
                     </div>
                 </div>
-                <div class="flex-between-c app-padding40 app-margin-t40">
-                    <div class="text-align-l">
-                        <p class="lable">数量(USDT)</p>
-                        <h6 class="app-size-34 otc-submit-price">{{ orderDetail.total }}</h6>
-                    </div>
-                    <div class="text-align-r">
-                        <p class="lable">限额</p>
-                        <h6 class="app-size-34 otc-submit-price">{{orderDetail.min_value}}~{{orderDetail.max_value}}</h6>
+                <div v-if="false" class="pay-type app-padding40">
+                    <div class="pay-type-box app-padding40">
+                        <p>收款方式</p>
+                        <p>{{ orderDetail.pay_types | payType}}</p>
                     </div>
                 </div>
-                <div class="app-padding40 app-margin-t40">
-                    <div class="border-b "></div>
-                </div>
-                <div class="text-align-l otc-submit-mark app-padding40">
-                    <p class="lable">备注</p>
-                    <div class="otc-submit-num">
-                        {{ orderDetail.remark }}
+                <div class="order-info otc-advdetail-card app-padding40">
+                    <div class="flex-between-c">
+                        <p>发布时间</p>
+                        <p>2020-06-25 1</p>
+                    </div>
+                    <div class="flex-between-c">
+                        <p>订单编号</p>
+                        <p>5dw9925656r565562652#</p>
+                    </div>
+                    <div class="app-margin-t40">
+                        <div class="border-b "></div>
+                    </div>
+                    <div class="text-align-l otc-advdetail-mark">
+                        <p class="lable">备注</p>
+                        <div class="otc-advdetail-num">
+                            {{ orderDetail.remark }}
+                            走过路过千万别错过，要买的赶紧了！
+                        </div>
                     </div>
                 </div>
+                <ul class="otc-advdetail-card">
+                    <li>
+                        <NCardItem :showArrow="true" @click="goAdvState(item)" v-for="(item, index) in list" :key="index">
+                            <template slot="title">
+                                <span>{{item.coin && item.coin.toUpperCase()}}</span>
+                                <span>{{item.taker_side | orderSide}}</span>
+                            </template>
+                            <template slot="right">
+                                <span>{{item.state | otcOrderState}}</span>
+                            </template>
+                            <template slot="lable">
+                                <span>{{"价格"}} ({{_unit}})</span>
+                                <span>{{"数量"}} ({{item.coin && item.coin.toUpperCase()}})</span>
+                                <span>{{"时间"}} </span>
+                            </template>
+                            <template slot="value">
+                                <span>{{item.price}}</span>
+                                <span>{{item.amount}}</span>
+                                <span>{{item.value}}</span>
+                            </template>
+                        </NCardItem>
+                    </li>
+                </ul>
             </div>
         </TitleHeader>
-        <form class="otc-submit-form app-padding40 text-align-l app-size-34">
-            <div class="form-lable">购买数量</div>
-            <Inputs
-                class="form-input"
-                :decimal="2"
-                :placeholder="`最大可买${maxTip} ${orderDetail.coin && orderDetail.coin.toUpperCase()}`"
-                v-model="form.amount"
-                noWatch
-                @input="inputAmount($event, 'amount')"
-            />
-            <div class="form-lable">支付金额</div>
-            <Inputs
-                class="form-input"
-                decimal
-                noWatch
-                :placeholder="`单笔最低${minTip} ${_unit}`"
-                v-model="form.value"
-                @input="inputAmount($event, 'value')"
-            />
-        </form>
         <div>
-            <Poptip>
-                <PoptipItem>
-                    为保障资金安全，当您账户安全策略变更、密码修改、我们会对提币进行人工审核，请耐心等待工作人员电话或邮件联系。
-                </PoptipItem>
-                <PoptipItem>
-                    请务必确认电脑及浏览器安全，防止信息被篡改或泄露。
-                </PoptipItem>
-            </Poptip>
         </div>
-        <div class="otc-submit-btn app-size-34 lxa-footer-btn flex-around-c">
-            <Button @click="$router.go(-1)" type="cancel">取消（{{download}} s）</Button>
-            <Button @click="submitHandle" type="up">确定</Button>
+        <div class="otc-advdetail-btn app-size-34 lxa-footer-btn flex-around-c">
+            <!-- <Button @click="$router.go(-1)" type="cancel"></Button> -->
+            <Button @click="cancelHandle" type="up">下架</Button>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import NCardItem from '@/components/card/index.vue';
 
 type data = {
     orderDetail: any;
@@ -88,35 +118,40 @@ type data = {
         amount: string;
         value: string;
     };
+    list: Array<any>;
 }
 
 export default Vue.extend({
     name: 'OtcSubmit',
+    components: {
+        NCardItem,
+    },
     data(): data {
         return {
             download: 60,
             timer: 0,
+            list: [{ taker_side: 1, state: 2 }, {}, {}],
             orderDetail: {
-                // id: 1,
-                // uid: 10, // 所属用户id
-                // nickname: 'allen', // 昵称
-                // coin: 'usdt', // 币种
-                // type: 1, // OrderSide 交易方向
-                // price: 1, // 价格
-                // total: 100, // 总数量
-                // filled: 10, // 已成交
-                // filled_value: 10, // 已成交金额
-                // frozen: 0, // 下单被冻结数量
-                // min_value: 10, // 最小下单金额
-                // max_value: 100, // 最大下单金额
-                // pay_types: '1,2', // 支持的支付类型
-                // country: 1, // 国家类型
-                // currency: 1, // 货币类型
-                // remark: '', // 备注
-                // status: 1, // OrderState
-                // floating_rate: 0, // 采用浮动价格后有效，溢价比例，0为不采用浮动价格, 1为不溢价，大于1为正溢价，小于1为负溢价
-                // close_why: '', // 平台强制关闭的原因
-                // created_at: '', // 创建时间
+                id: 1,
+                uid: 10, // 所属用户id
+                nickname: 'allen', // 昵称
+                coin: 'usdt', // 币种
+                type: 1, // OrderSide 交易方向
+                price: 1, // 价格
+                total: 100, // 总数量
+                filled: 10, // 已成交
+                filled_value: 10, // 已成交金额
+                frozen: 0, // 下单被冻结数量
+                min_value: 10, // 最小下单金额
+                max_value: 100, // 最大下单金额
+                pay_types: '1', // 支持的支付类型
+                country: 1, // 国家类型
+                currency: 1, // 货币类型
+                remark: '', // 备注
+                status: 1, // OrderState
+                floating_rate: 0, // 采用浮动价格后有效，溢价比例，0为不采用浮动价格, 1为不溢价，大于1为正溢价，小于1为负溢价
+                close_why: '', // 平台强制关闭的原因
+                created_at: '', // 创建时间
             },
             form: {
                 amount: '',
@@ -126,83 +161,47 @@ export default Vue.extend({
     },
     created() {
         this.getOrder();
-        this.downLoadHandle();
     },
     beforeDestroy() {
         clearInterval(this.timer);
     },
-    computed: {
-        maxTip() {
-            const {
-                max_value, total, price, frozen,
-            } = (this as any).orderDetail;
-            const maxValue = (max_value / price).toFixed(2);
-            const maxTotal = (total - frozen).toFixed(2);
-            const res = Math.max(Number(maxValue), Number(maxTotal));
-            return res;
-        },
-        minTip() {
-            return (this as any).orderDetail.min_value;
-        },
-    },
     methods: {
         getOrder() {
-            this.orderDetail = { ...this.$route.params };
             if (!this.orderDetail.id) {
-                // this.$router.go(-1);
-            }
-        },
-        downLoadHandle() {
-            this.timer = setInterval(() => {
-                this.download -= 1;
-                if (this.download === 0) {
-                    this.$router.go(-1);
-                }
-            }, 1000);
-        },
-        submitHandle() {
-            if (!Number(this.form.amount)) {
-                this.$normalToast('请输入数量或者金额');
+                this.$router.go(-1);
                 return;
             }
-            // this.$dialog.confirm({
-            //     title: '确认下单',
-            //     messageAlign: 'left',
-            //     message: `<div class="app-reset-diolog-message">
-            //         <span class="primary-color">如果您未收到买家付款， 请不要释放交易</span>
-            //     </div>`,
-            // }).then(() => {
-            //     this.otcDealSubmit();
-            // });
-            this.otcDealSubmit();
+            this.getOrderDetail();
         },
-        inputAmount(value: string, key: 'amount'|'value') {
-            this.form[key] = value;
-            if (key === 'amount') {
-                this.form.value = `${Number(this.form.amount) * this.orderDetail.price}`;
-            } else {
-                this.form.amount = `${Number(this.form.value) / this.orderDetail.price}`;
-            }
-        },
-        otcDealSubmit() {
-            const params = {
-                order_id: this.orderDetail.id, // [int64] 广告id
-                pay_type: this.orderDetail.pay_type, // [PayType] 支付类型
-                price: this.orderDetail.price, // [float64] 价格
-                amount: Number(this.form.amount), // [float64] 数量
-            };
-            this.$api.otcDealSubmit(params).then((res: any) => {
-                this.$router.replace(`/otc/order/detail?id=${res.date.id}`);
+        getOrderDetail() {
+            this.$api.otcOrderGetById(this.orderDetail.id).then((res: any) => {
+                if (res.data) {
+                    this.orderDetail = res.data;
+                }
             });
+        },
+        goAdvState() {
+            console.log('去订单详情');
+        },
+        cancelHandle() {
+            console.log('下架');
+            this.$dialog.confirm({
+                title: '确认下架广告',
+            }).then(() => {
+                this.changeLoading(true);
+                this.$api.otcOrderCancel(this.orderDetail.id).then(() => {
+                    this.getOrderDetail();
+                });
+            }).catch();
         },
     },
 });
 </script>
 <style lang="less" scoped>
-.otc-submit{
+.otc-advdetail{
     background: #f8f8f8;
     height: 100%;
-    padding-bottom: 100px;
+    padding-bottom: 180px;
     overflow: scroll;
     .lable{
         color: #A5A5A5;
@@ -224,6 +223,21 @@ export default Vue.extend({
         margin-top: 22px;
         line-height: 50px;
     }
+    &-card {
+        background: #ffffff;
+        margin-bottom: 24px;
+        padding-top: 40px;
+    }
+    &-tradeinfo{
+        padding-top: 33px;
+        padding-bottom: 33px;
+        line-height: 50px;
+        color: #333333;
+        font-size: 28px;
+        .lable{
+            font-size: 24px;
+        }
+    }
     &-mark{
         padding-top: 33px;
         color: #333333;
@@ -233,16 +247,18 @@ export default Vue.extend({
             font-size: 24px;
         }
     }
-    &-form{
-        margin-top: 34px;
-        padding-top: 53px;
-        background: #ffffff;
-        .form-lable{
-            margin-bottom: 43px;
+    .pay-type{
+        background: #f8f8f8;
+        padding-top: 24px;
+        padding-bottom: 24px;
+        &-box{
+            height: 102px;
+            line-height: 102px;
+            background: #ffffff;
         }
-        .form-input{
-            margin-bottom: 43px;
-        }
+    }
+    .order-info{
+        line-height: 50px;
     }
     &-btn{
         padding-left: 40px;

@@ -252,7 +252,9 @@ export default Vue.extend({
             };
             this.changeLoading(true);
             this.$api.otcOrderPlace(params).then((res: any) => {
-                console.log(res);
+                this.changeLoading(false);
+                this.$router.replace(`/otc/adv/detail?id=${res.data}`);
+            }).catch(() => {
                 this.changeLoading(false);
             });
         },

@@ -43,6 +43,9 @@ const routes: Array<RouteConfig> = [
         path: '/',
         name: 'entry',
         component: Entry,
+        meta: {
+            keepAlive: true,
+        },
     },
     {
         path: '/login',
@@ -135,8 +138,11 @@ const routes: Array<RouteConfig> = [
             path: 'adv',
             name: 'otcAdv',
             component: Adv,
+            meta: {
+                keepAlive: true,
+            },
         }, {
-            path: 'advdetail',
+            path: 'adv/detail',
             name: 'otcAdvDetail',
             component: OtcAdvDetail,
         }, {

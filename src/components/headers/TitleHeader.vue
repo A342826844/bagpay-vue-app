@@ -57,10 +57,10 @@ export default Vue.extend({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 .app-title-headers {
-    background: #ffffff;
     &-title{
+        background: #ffffff;
         text-align: left;
-        margin-top: 62px;
+        padding-top: 62px;
         // font-weight: bold;
         h3{
             color: #282828;
@@ -73,6 +73,9 @@ export default Vue.extend({
     }
     &.dark{
         background: transparent;
+        .app-title-headers-title{
+            background: transparent;
+        }
         h3{
             color: #ffffff;
         }

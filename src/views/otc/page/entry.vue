@@ -280,34 +280,9 @@ export default Vue.extend({
             };
             this.$api.getOtcOrderList(params).then((res: any) => {
                 this.changeLoading(false);
-                const temp = {
-                    id: 1,
-                    uid: 10, // 所属用户id
-                    nickname: 'allen', // 昵称
-                    coin: this.activeSymbol, // 币种
-                    type: 1, // OrderSide 交易方向
-                    price: 1.51651, // 价格
-                    total: 100, // 总数量
-                    filled: 10, // 已成交
-                    filled_value: 10, // 已成交金额
-                    frozen: 0, // 下单被冻结数量
-                    min_value: 10, // 最小下单金额
-                    max_value: 100, // 最大下单金额
-                    pay_types: '1', // 支持的支付类型
-                    country: 1, // 国家类型
-                    currency: 1, // 货币类型
-                    remark: '111111111', // 备注
-                    status: 1, // OrderState
-                    floating_rate: 0, // 采用浮动价格后有效，溢价比例，0为不采用浮动价格, 1为不溢价，大于1为正溢价，小于1为负溢价
-                    close_why: '', // 平台强制关闭的原因
-                    created_at: '', // 创建时间
-                };
-                this.renderData[this.side][this.activeSymbol] = this.renderData[this.side][this.activeSymbol].concat(temp);
-                if (res.data.data) {
-                    this.renderData[this.side][this.activeSymbol] = this.renderData[this.side][this.activeSymbol].concat(res.data.data);
+                if (res.data.list) {
+                    this.renderData[this.side][this.activeSymbol] = this.renderData[this.side][this.activeSymbol].concat(res.data.list);
                 }
-                // this.renderData[this.side][this.activeSymbol] = this.renderData[this.side][this.activeSymbol].concat([{}, {}]);
-                console.log(this.activeSymbol, 'AAAAAAAAAA');
                 if (typeof this.paramsData[this.side][this.activeSymbol] === 'undefined') {
                     this.$set(this.paramsData[this.side], this.activeSymbol, res.data.total);
                 }

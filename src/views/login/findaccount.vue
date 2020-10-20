@@ -112,7 +112,7 @@ export default Vue.extend({
                 this.$api
                     .forgetPwd({
                         passport: `86-${this.form.phone}`,
-                        password: this.$md5(`${this.form.password}bagpaysol`),
+                        new_password: this.$md5(`${this.form.password}bagpaysol`),
                         sms_code: this.form.code,
                     })
                     .then((res: any) => {
@@ -143,8 +143,8 @@ export default Vue.extend({
                     .registerCode({
                         phone: `86-${this.form.phone}`,
                         type: 1,
-                        captcha: this.imgUrl,
-                        captcha_id: this.form.imgCode,
+                        captcha: this.form.imgCode,
+                        captcha_id: this.imgCode,
                     })
                     .then((res: any) => {
                         if (res.code === 0) {

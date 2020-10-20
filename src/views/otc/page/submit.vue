@@ -5,7 +5,7 @@
                 {{ orderDetail.type | orderSide}}
                 <span class="primary-color">{{orderDetail.coin && orderDetail.coin.toUpperCase()}}</span>
             </template>
-            <div class="otc-submit-box app-margin-t40">
+            <div class="otc-submit-box">
                 <div class="flex-between-c app-padding40">
                     <div>
                         <div class="flex-start-c">
@@ -193,6 +193,8 @@ export default Vue.extend({
             };
             this.$api.otcDealSubmit(params).then((res: any) => {
                 this.$router.replace(`/otc/order/detail?id=${res.date.id}`);
+            }).catch(() => {
+                this.changeLoading(false);
             });
         },
     },
@@ -233,9 +235,14 @@ export default Vue.extend({
             font-size: 24px;
         }
     }
+    &-box{
+        background: #ffffff;
+        padding-top: 40px;
+    }
     &-form{
         margin-top: 34px;
         padding-top: 53px;
+        padding-bottom: 40px;
         background: #ffffff;
         .form-lable{
             margin-bottom: 43px;
