@@ -7,7 +7,7 @@
                     <Inputs readonly v-model="form.phone" placeholder="手机号"></Inputs>
                 </div>
                 <div class="form-item">
-                    <Inputs v-model="form.code"  placeholder="验证码" clearable>
+                    <Inputs v-model="form.code"  placeholder="验证码">
                         <Code :phone="this.form.phone" :type="1"></Code>
                     </Inputs>
                 </div>
