@@ -83,6 +83,7 @@
         "loginTitle": "登录账号",
         "loginTip": "你将会拥有多链钱包",
         "phone": "手机号",
+        "email": "邮箱",
         "password": "登录密码",
         "oldPwd": "老密码",
         "findAccount": "找回密码",
