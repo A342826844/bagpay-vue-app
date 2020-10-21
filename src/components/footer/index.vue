@@ -1,5 +1,5 @@
 <template>
-    <footer class="app-footer">
+    <footer class="app-footer border-t">
         <div class="ui-flex nav-boxs">
             <div
                 @click="linkTo(item, index)"

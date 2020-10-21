@@ -47,10 +47,10 @@
           />
         </form>
       </div>
-      <div class="lxa-footer-btn">
-        <Button @click="loginHandle" v-t="'login.done'"></Button>
-      </div>
     </TitleHeader>
+    <div class="lxa-footer-btn">
+      <Button @click="loginHandle" v-t="'login.done'"></Button>
+    </div>
   </div>
 </template>
 

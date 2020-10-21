@@ -55,7 +55,7 @@
             </div>
         </div>
         <div class="lxa-footer-btn transfer-history-btn flex-between-c">
-            <Button @click="goLink('/otc')" size="auto">
+            <Button @click="goLink('/otc/entry')" size="auto">
                 <img src="../../assets/img/home/coin.png" alt="">
             </Button>
             <Button v-for="item in sideMap" :key="item.side" @click="goLink(item.path)" :type="item.type" size="small" v-t="item.title"></Button>

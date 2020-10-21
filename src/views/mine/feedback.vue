@@ -11,10 +11,10 @@
                     <Inputs v-model="form.idCard"  placeholder="ID 号码" clearable></Inputs>
                 </div>
             </form>
-            <div class="lxa-footer-btn">
-                <Button @click="saveHandle" v-t="'common.send'"></Button>
-            </div>
         </TitleHeader>
+        <div class="lxa-footer-btn">
+            <Button @click="saveHandle" v-t="'common.send'"></Button>
+        </div>
     </div>
 </template>
 

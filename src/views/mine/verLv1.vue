@@ -75,6 +75,7 @@ export default Vue.extend({
 <style lang="less" scoped>
     .ver_lv{
         font-size: 34px;
+        height: 100%;
     }
     .realname-tip{
         text-align: left;

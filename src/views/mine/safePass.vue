@@ -18,10 +18,10 @@
                     <Inputs v-model="form.confirmPassword" maxlength="6" placeholder="再次输入" clearable type="password"></Inputs>
                 </div>
             </form>
-            <div class="lxa-footer-btn">
-                <Button @click="saveHandle" v-t="'common.save'"></Button>
-            </div>
         </TitleHeader>
+        <div class="lxa-footer-btn">
+            <Button @click="saveHandle" v-t="'common.save'"></Button>
+        </div>
     </div>
 </template>
 

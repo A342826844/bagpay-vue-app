@@ -16,10 +16,10 @@
                     </li>
                 </ul>
             </form>
-            <div class="lxa-footer-btn">
-                <Button @click="saveHandle" v-t="'common.save'"></Button>
-            </div>
         </TitleHeader>
+        <div class="lxa-footer-btn">
+            <Button @click="saveHandle" v-t="'common.save'"></Button>
+        </div>
     </div>
 </template>
 
