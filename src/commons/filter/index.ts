@@ -222,6 +222,7 @@ Vue.filter('socialType', (state: 0|1) => {
     };
     return i18n.t(states[state]);
 });
+
 // 与本人关系 Relationship
 Vue.filter('relationship', (state: 0|1) => {
     //"朋友",             = 0 //朋友
@@ -229,6 +230,17 @@ Vue.filter('relationship', (state: 0|1) => {
     const states = {
         0: 'common.friend',
         1: 'common.relatives',
+    };
+    return i18n.t(states[state]);
+});
+
+// 证据类型
+Vue.filter('cardType', (state: 1|2) => {
+    //"身份证",            = 1 // 身份证
+    //"护照",              = 2 // 护照
+    const states = {
+        1: 'common.ID',
+        2: 'common.passport',
     };
     return i18n.t(states[state]);
 });

@@ -6,20 +6,18 @@
                 <div class="form-item">
                     <div class="lable" v-t="'payment.chequesAddr'"></div>
                     <Inputs v-model="form.address" :placeholder="`${symbol.toUpperCase()} ${$t('payment.address')}`">
-                        <img class="transfer-out-assets" src="../../assets/img/home/assets.png" alt="">
+                        <img class="transfer-out-assets"
+                            src="@/assets/img/home/assets.png"
+                            @click="$router.push(`/addrList?symbol=${symbol}`)" alt="">
                     </Inputs>
                 </div>
-                <div class="form-item form-item-card">
+                <div class="form-item">
                     <div class="lable" v-t="'payment.amount'"></div>
-                    <Inputs class="amount-input" v-model="form.address" placeholder="0"></Inputs>
-                    <div class="amount-line">
-                        <div class="border-t"></div>
-                    </div>
-                    <Inputs class="remark-input" v-model="form.address" :placeholder="$t('payment.remark')"></Inputs>
+                    <Inputs class="amount-input" v-model="form.value" placeholder="0"></Inputs>
                 </div>
                 <div class="form-item">
-                    <div class="lable" v-t="'login.payPassword'"></div>
-                    <Inputs v-model="form.password" :placeholder="$t('login.payPasswordTip')"></Inputs>
+                    <div class="lable" v-t="'payment.remark'"></div>
+                    <Inputs v-model="form.remark" :placeholder="$t('payment.remark')"></Inputs>
                 </div>
                 <div class="form-item">
                     <div class="lable flex-between-c">
@@ -64,7 +62,11 @@ export default Vue.extend({
         };
     },
     created() {
+        this.$store.commit('setAddress', '');
         this.symbol = (this.$route.query.symbol as string) || '';
+    },
+    activated() {
+        this.form.address = this.$store.state.address;
     },
     methods: {
         addHandle() {
@@ -90,7 +92,10 @@ export default Vue.extend({
                 ga_code: [string] 可选,google验证码
              */
             // TODO
-            this.$api.withdrawSubmit();
+            this.$api.withdrawSubmit({
+                coin: this.symbol,
+
+            });
         },
     },
 });

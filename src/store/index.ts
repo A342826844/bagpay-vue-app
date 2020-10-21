@@ -23,6 +23,7 @@ export default new Vuex.Store({
             phone: '',
             status: '',
         },
+        address: '',
         symbolList,
     },
     mutations: {
@@ -30,7 +31,11 @@ export default new Vuex.Store({
             state.loading = loading;
         },
         setUserInfo(state, userInfo) {
+            console.log(userInfo);
             state.userInfo = userInfo;
+        },
+        setAddress(state, address) {
+            state.address = address;
         },
         setSymbolList(state, list) { // Array<CoinInfo>
             state.symbolList = list;

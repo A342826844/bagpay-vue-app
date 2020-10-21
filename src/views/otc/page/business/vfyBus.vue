@@ -26,8 +26,7 @@
             v-for="item in SocialType"
             @click="form.socialType = item"
             :key="item"
-            >{{ item | socialType }}</SelectPopupItem
-          >
+            >{{ item | socialType }}</SelectPopupItem>
         </SelectPopup>
         <Inputs
           class="info_item"
@@ -62,8 +61,7 @@
             v-for="item in Relationship"
             @click="form.iceRelation = item"
             :key="item"
-            >{{ item | relationship }}</SelectPopupItem
-          >
+            >{{ item | relationship }}</SelectPopupItem>
         </SelectPopup>
         <Inputs
           class="info_item"

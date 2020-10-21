@@ -3,7 +3,7 @@
         <Headers bold theme="dark" :title="symbol.toUpperCase()"/>
         <div class="transfer-history-box flex-item-1 flex-column">
             <div class="transfer-history-top">
-                <h3 class="value">72 500.00</h3>
+                <h3 class="value">{{activeSymbol.available}}</h3>
                 <p class="sub-value">$72500.00</p>
             </div>
             <div class="transfer-history-card flex-item-1">
@@ -72,6 +72,7 @@ type data = {
     size: number;
     rechargeList: Array<any>; // 转入
     withdrawalList: Array<any>; // 转出
+    activeSymbol: any;
     sideMap: {
         [elem: string]: any;
     };
@@ -86,6 +87,7 @@ export default Vue.extend({
             active: 'transferIn',
             rechargeList: [],
             withdrawalList: [],
+            activeSymbol: {},
             sideMap: {
                 1: {
                     value: 1,
@@ -126,8 +128,17 @@ export default Vue.extend({
     methods: {
         init() {
             this.changeLoading(true);
-            Promise.all([this.getCoinHistory(), this.getWithdrawHistory()]).finally(() => {
+            Promise.all([this.getCoinHistory(), this.getWithdrawHistory(), this.getCoinBalances()]).finally(() => {
                 this.changeLoading(false);
+            });
+        },
+        getCoinBalances() {
+            return this.$api.getCoinBalances({
+                coin: this.symbol,
+            }).then((res: any) => {
+                if (res.data) {
+                    this.activeSymbol = res.data;
+                }
             });
         },
         getCoinHistory() {

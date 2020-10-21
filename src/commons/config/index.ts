@@ -5,6 +5,8 @@ export type OtcDealState = Array<number>;
 export type SocialType = Array<number>;
 export type Relationship = Array<number>;
 export type OtcAppealType = Array<number>;
+export type CardType = Array<number>;
+
 export const PayType = [
     1, // PayTypeBank       = 1 //银行卡
     2, // PayTypeAlipay     = 2 //支付宝
@@ -63,8 +65,14 @@ export const SocialType = [
 ];
 // otc 与本人关系
 export const Relationship = [
-    0, // '朋友', //朋友
-    1, // '亲人', //亲人
+    0, // 朋友
+    1, // 亲人
+];
+
+// 证件类型
+export const CardType = [
+    1, // 身份证
+    2, // 护照
 ];
 
 export const OtcAppealType = [

@@ -5,6 +5,7 @@ const AddSymbol = () => import('@/views/home/addSymbol.vue'); // 添加币种
 const TransferHistory = () => import('@/views/home/transferHistory.vue'); // 转入转出记录
 const Payment = () => import('@/views/home/payment.vue'); // 收款地址二维码
 const TransferOut = () => import('@/views/home/transferOut.vue'); // 转出
+const AddrList = () => import('@/views/home/addressList.vue'); // 选择转出地址
 
 const Mine = () => import('@/views/mine/index.vue');
 const SafeSetting = () => import('@/views/mine/safeSetting.vue');
@@ -14,6 +15,10 @@ const SystemSetting = () => import('@/views/mine/systemSetting.vue');
 const Feedback = () => import('@/views/mine/feedback.vue');
 const Aboutus = () => import('@/views/mine/aboutus.vue');
 const ChangePwd = () => import('@/views/mine/changePwd.vue');
+const VerLv1 = () => import('@/views/mine/verLv1.vue');
+const VerLv2 = () => import('@/views/mine/verLv2.vue');
+const VerLv3 = () => import('@/views/mine/verLv3.vue');
+const VerLvStatus = () => import('@/views/mine/verLvStatus.vue');
 
 const SetPayment = () => import('@/views/setPayment/index.vue');
 const SetPaymentAdd = () => import('@/views/setPayment/add.vue');
@@ -95,6 +100,14 @@ const routes: Array<RouteConfig> = [
         path: '/transferOut',
         name: 'transferOut',
         component: TransferOut,
+        meta: {
+            keepAlive: true,
+        },
+    },
+    {
+        path: '/addrList',
+        name: 'addrList',
+        component: AddrList,
     },
     {
         path: '/transferhistory',
@@ -178,6 +191,26 @@ const routes: Array<RouteConfig> = [
         path: '/mine/changePwd',
         name: 'changePwd',
         component: ChangePwd,
+    },
+    {
+        path: '/mine/verLv1',
+        name: 'verLv1',
+        component: VerLv1,
+    },
+    {
+        path: '/mine/verLv2',
+        name: 'verLv2',
+        component: VerLv2,
+    },
+    {
+        path: '/mine/verLv3',
+        name: 'verLv3',
+        component: VerLv3,
+    },
+    {
+        path: '/mine/verLvStatus',
+        name: 'verLvStatus',
+        component: VerLvStatus,
     },
     {
         path: '/mine/safesetting',
