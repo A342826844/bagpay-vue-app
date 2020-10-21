@@ -32,10 +32,10 @@
                             <Inputs v-model="form.floating_rate" placeholder="溢价率(30~50)">%</Inputs>
                         </div> -->
                         <div class="form-item">
-                            <Inputs decimal type="number" v-model="form.price" placeholder="买入价格">{{_unit}}</Inputs>
+                            <Inputs decimal type="number" v-model="form.price" placeholder="购买价格">{{_unit}}</Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs :decimal="2" v-model="form.amount" placeholder="买入数量">{{coinSHow}}</Inputs>
+                            <Inputs :decimal="2" v-model="form.amount" placeholder="购买数量">{{coinSHow}}</Inputs>
                         </div>
                         <div class="form-item">
                             <Inputs readonly :value="total || '总额'">{{_unit}}</Inputs>
@@ -72,7 +72,60 @@
                     </Poptip>
                 </div>
                 <div slot="sell">
-                    出售
+                    <form @submit.prevent="" class="otc-advertising-form app-size-34" action="">
+                        <div class="form-item">
+                            <Select @click="$router.push(`/choisesymbol?symbol=${form.coin}&type=1`)">
+                                <img class="app-img-50" src="@/assets/img/symbol/usdt.png" alt="">
+                                <span class="form-item-select-coin vertical-m">{{coinSHow}}</span>
+                            </Select>
+                        </div>
+                        <!-- <div @click="selectPopup = !selectPopup" class="form-item">
+                            <Select>
+                                <span class="vertical-m">{{isfloatRate ? $t('otc.floatingPrice') : $t('otc.fixedPrice') }}</span>
+                            </Select>
+                        </div>
+                        <div class="form-item" :class="isfloatRate ? 'form-item-show' : 'form-item-hide'">
+                            <Inputs v-model="form.floating_rate" placeholder="溢价率(30~50)">%</Inputs>
+                        </div> -->
+                        <div class="form-item">
+                            <Inputs decimal type="number" v-model="form.price" placeholder="出售价格">{{_unit}}</Inputs>
+                        </div>
+                        <div class="form-item">
+                            <Inputs :decimal="2" v-model="form.amount" placeholder="出售数量">{{coinSHow}}</Inputs>
+                        </div>
+                        <div class="form-item">
+                            <Inputs readonly :value="total || '总额'">{{_unit}}</Inputs>
+                        </div>
+                        <div class="form-item">
+                            <Inputs decimal v-model="form.min_value" placeholder="单笔最低限额">{{_unit}}</Inputs>
+                        </div>
+                        <div class="form-item">
+                            <Inputs decimal v-model="form.max_value" placeholder="单笔最高限额">{{_unit}}</Inputs>
+                        </div>
+                        <div @click="payPopup = !payPopup" class="form-item">
+                            <Select>
+                                <span class="vertical-m">{{pay_types[0] | payType}}</span>
+                            </Select>
+                        </div>
+                        <!-- TODO 备注 -->
+                    </form>
+                    <Poptip>
+                        <PoptipItem>
+                            单个发布广告买入/卖出数量限制 0.01~1000 {{coinSHow}}
+                        </PoptipItem>
+                        <PoptipItem>
+                            认证广告商家发布广告将没有累计限制
+                        </PoptipItem>
+                        <PoptipItem>
+                            认证广告商家发布广告将没有累计限制
+                        </PoptipItem>
+                        <PoptipItem>
+                            发布广告暂仅支持固定价格，数字货币价格浮动，请随时调整
+                        </PoptipItem>
+                        <PoptipItem>
+                            广告若产生场外交易请及时处理
+                        </PoptipItem>
+                    </Poptip>
                 </div>
             </TabList>
         </div>
@@ -124,7 +177,7 @@ export default Vue.extend({
             isfloatRate: true,
             selectPopup: false,
             payPopup: false,
-            pay_types: [0],
+            pay_types: [0], // TODO: 出售和购买的支付方式不一样
             exchangeRate: {},
             form: {
                 coin: '',

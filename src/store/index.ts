@@ -7,6 +7,12 @@ if (symbolListStr) {
     symbolList = JSON.parse(symbolListStr);
 }
 
+const configCommonStr = localStorage.getItem('configCommon');
+let configCommon = {};
+if (configCommonStr) {
+    configCommon = JSON.parse(configCommonStr);
+}
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -24,6 +30,7 @@ export default new Vuex.Store({
             status: '',
         },
         symbolList,
+        configCommon,
     },
     mutations: {
         changeLoading(state, loading) {
@@ -35,6 +42,10 @@ export default new Vuex.Store({
         setSymbolList(state, list) { // Array<CoinInfo>
             state.symbolList = list;
             localStorage.setItem('symbolList', JSON.stringify(list));
+        },
+        setConfigCommon(state, config) {
+            state.configCommon = config;
+            localStorage.setItem('configCommon', JSON.stringify(config));
         },
     },
     getters: {

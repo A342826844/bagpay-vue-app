@@ -41,6 +41,8 @@ export const otcGetMerchant = (data: params) => postGolang('/otc/merchant/get', 
 export const otcAppealSubmit = (data: params) => postGolang('otc/appeal/submit', data);
 // 取消申诉
 export const otcAppealCancel = (id: number) => postGolang(`/otc/appeal/cancel/${id}`, { id });
+// 获取配置信息
+export const getConfigCommon = (id: number) => getGolang('/config/common');
 
 // 注册验证码
 export const registerCode = (data: params) => postGolang('/verification-code/phone/VerifyCodeTypeRegister', data);

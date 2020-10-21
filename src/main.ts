@@ -71,6 +71,9 @@ Vue.mixin({
         _unit() {
             return (this.$store as Store<any>).state.unit;
         },
+        _configCommon() {
+            return (this.$store as Store<any>).state.configCommon;
+        },
     },
     methods: {
         changeLoading(state) {
