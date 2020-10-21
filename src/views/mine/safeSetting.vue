@@ -26,10 +26,10 @@
             />
           </div>
         </li>
-        <li @click="$router.push('/mine/realname')" class="flex-between-c payment_item">
+        <li @click="goVerLv" class="flex-between-c payment_item">
           <div v-t="'mine.realName'"></div>
           <div>
-            <span class="vertical-m red-color">未认证</span>
+            <span class="vertical-m red-color">{{_userInfo.ver_lv === 0 ? '未认证' : '已认证'}}</span>
             <img
               class="app-img-50"
               src="../../assets/img/common/arrow_right.png"
@@ -45,16 +45,44 @@
 <script lang="ts">
 import Vue from 'vue';
 
-type data = {};
+type data = {
+  verLvStatus: any;
+};
 
 export default Vue.extend({
     name: 'SetPaymentAdd',
     data(): data {
-        return {};
+        return {
+            verLvStatus: {},
+        };
+    },
+    mounted() {
+        this.init();
     },
     methods: {
-        saveHandle() {
-            // TODO
+        init() {
+            this.$api.getVerStutas().then((res: any) => {
+                if (res.data) {
+                    this.verLvStatus = res.data;
+                }
+            });
+        },
+        goVerLv() {
+            if (this._userInfo.ver_lv === 0) {
+                this.$router.push('/mine/verlv1');
+            } else if (this._userInfo.ver_lv === 1 && this.verLvStatus.status_lv_1 === 1) {
+                this.$router.push('/mine/verlv2');
+            } else if (this._userInfo.ver_lv === 2 && this.verLvStatus.status_lv_1 === 2) {
+                this.$router.push('/mine/verlv3');
+            } else {
+                this.$router.push({
+                    path: '/mine/verLvStatus',
+                    query: {
+                        verLv: this._userInfo.ver_lv,
+                        status: this.verLvStatus[`status_lv_${this._userInfo.ver_lv}`],
+                    },
+                });
+            }
         },
     },
 });

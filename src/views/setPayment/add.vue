@@ -82,8 +82,8 @@ export default Vue.extend({
     name: 'SetPaymentAdd',
     data(): data {
         return {
-            symbol: 'tusd',
-            needMede: '',
+            symbol: this.$route.query.symbol as string,
+            needMede: this.$route.query.needMede as string,
             form: {
                 address: '',
                 memoAddr: '',
@@ -92,10 +92,14 @@ export default Vue.extend({
         };
     },
     mounted() {
-        this.symbol = sessionStorage.getItem('symbol') as string;
-        this.needMede = sessionStorage.getItem('needMede') as string;
+        this.init();
     },
     methods: {
+        init() {
+            this.$api.getCoinProtocols({
+                coin: this.symbol,
+            });
+        },
         auth() {
             (this.$refs.UserAuth as any).open();
         },

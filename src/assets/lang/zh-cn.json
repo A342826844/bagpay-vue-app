@@ -75,7 +75,9 @@
         "appealTypeNoResponse"         : "一直不响应",
         "appealTypePaidButNotRelease"  : "已付款不放币",
         "appealTypeMaliciousOrder"     : "恶意下单",
-        "appealTypeFalsePaid"          : "恶意点击已付款"
+        "appealTypeFalsePaid"          : "恶意点击已付款",
+        "ID": "身份证",
+        "passport": "护照"
     },
     "refresh": {
         "pulling": "下拉即可刷新...",
@@ -132,6 +134,8 @@
         "realName1": "上传证件正面",
         "realName2": "上传证件反面",
         "realName3": "手持证件正面",
+        "realName4": "上传认证视频",
+        "realName5": "上传中",
         "safePass": "安全密码",
         "changePwd": "修改密码",
         "changePwdTip": "修改账号登录密码"

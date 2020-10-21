@@ -52,23 +52,15 @@ export default Vue.extend({
     name: 'SetPaymentEdit',
     data(): data {
         return {
-            symbol: '',
-            needMemo: '',
-            id: '',
+            symbol: this.$route.query.symbol as string,
+            needMemo: this.$route.query.needMemo as string,
+            id: this.$route.query.id as string,
             form: {
-                address: '',
-                memoAddr: '',
-                remark: '',
+                address: this.$route.query.address as string,
+                memoAddr: this.$route.query.memo as string,
+                remark: this.$route.query.remark as string,
             },
         };
-    },
-    created() {
-        this.needMemo = sessionStorage.getItem('needMemo') as string;
-        this.id = this.$route.query.id as string;
-        this.symbol = this.$route.query.symbol as string;
-        this.form.address = this.$route.query.address as string;
-        this.form.remark = this.$route.query.remark as string;
-        this.form.memoAddr = this.$route.query.memo as string;
     },
     methods: {
         delHandle() {

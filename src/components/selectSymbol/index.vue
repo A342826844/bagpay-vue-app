@@ -64,6 +64,7 @@ export default Vue.extend({
         initActive(activeItem?: any) {
             if (activeItem) {
                 this.activeItem = { ...activeItem };
+                this.$emit('change', activeItem);
             } else if (this.defaultSymbol) {
                 this.activeItem = this.symbolList.find((item: any) => item.symbol === this.defaultSymbol) || this.symbolList[0];
             } else {
@@ -73,8 +74,6 @@ export default Vue.extend({
         },
         getAddrList() {
             this.addrList = [];
-            sessionStorage.setItem('symbol', this.activeItem.symbol);
-            sessionStorage.setItem('needMemo', this.activeItem.need_memo);
             this.$api.getAddrList({
                 coin: this.activeItem.symbol,
             }).then((res: any) => {
@@ -91,6 +90,7 @@ export default Vue.extend({
                     remark: item.remark,
                     address: item.address,
                     symbol: item.coin,
+                    needMemo: this.activeItem.need_memo,
                     memo: item.memo,
                 },
             });
@@ -102,10 +102,6 @@ export default Vue.extend({
                 }.png`);
             }
             return '';
-        },
-        changeHandle(item: lsitItm) {
-            this.activeItem = { ...item };
-            this.$emit('change', item);
         },
     },
 });

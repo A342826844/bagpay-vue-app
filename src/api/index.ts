@@ -73,9 +73,19 @@ export const addAddress = (data: params) => postGolang('/withdraw/address/add', 
 export const delAddr = (data: params) => getGolang(`/withdraw/address/del/${data.id}`, data);
 // 获取指定币种地址列表
 export const getAddrList = (data: params) => getGolang(`/withdraw/address/list/${data.coin}`, data);
+// 获取实名信息
+export const getVerStutas = (data: params) => getGolang('/verification/get', data);
+// 提交lv1认证
+export const postVerLv1 = (data: params) => postGolang('/verification/lv1/submit', data);
+// 提交lv2认证
+export const postVerLv2 = (data: params) => postGolang('/verification/lv2/submit', data);
+// 提交lv3认证
+export const postVerLv3 = (data: params) => postGolang('/verification/lv3/submit', data);
 
 // 获取所有币种余额
 export const getBalances = (data: params) => postGolang('/user/balances', data);
+// 获取指定币种支持的协议
+export const getCoinProtocols = (data: params) => getGolang(`/coin/${data.coin}/protocols`, data);
 // 获取指定币种余额
 export const getCoinBalances = (data: params) => postGolang(`/user/balance/${data.coin}`, data);
 // 获取指定币种余额变动
