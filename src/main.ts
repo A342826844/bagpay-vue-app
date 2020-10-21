@@ -8,6 +8,7 @@ import * as Api from '@/api/index.ts';
 import verification from '@/utils/verification.ts';
 import Headers from '@/components/headers/index.vue';
 import TitleHeader from '@/components/headers/TitleHeader.vue';
+import Titles from '@/components/headers/Titles.vue';
 import Button from '@/components/commons/Button.vue';
 import Input from '@/components/commons/Input.vue';
 import Select from '@/components/commons/Select.vue';
@@ -35,8 +36,10 @@ declare module 'vue/types/vue' {
         $md5: any;
         $verification: any;
         _userInfo: any;
+        _configCommon: any;
         _loading: boolean;
         _unit: string;
+        _unitIcon: string;
         changeLoading: Function;
         initUserInfo: Function;
     }
@@ -46,6 +49,7 @@ Vue.config.productionTip = false;
 
 Vue.component('Headers', Headers);
 Vue.component('TitleHeader', TitleHeader);
+Vue.component('Titles', Titles);
 Vue.component('Button', Button);
 Vue.component('Inputs', Input);
 Vue.component('Select', Select);
@@ -71,6 +75,9 @@ Vue.mixin({
         _unit() {
             return (this.$store as Store<any>).state.unit;
         },
+        _unitIcon() {
+            return (this.$store as Store<any>).state.unitIcon;
+        },
         _configCommon() {
             return (this.$store as Store<any>).state.configCommon;
         },
@@ -93,6 +100,7 @@ Vue.mixin({
 Vue.prototype.$api = Api;
 Vue.prototype.$md5 = md5;
 Vue.prototype.$verification = verification;
+Vue.prototype.$app_mark = process.env.VUE_APP_MARK;
 
 new Vue({
     router,

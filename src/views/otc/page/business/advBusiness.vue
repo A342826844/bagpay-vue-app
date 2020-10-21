@@ -38,8 +38,11 @@
             请务必确认电脑及浏览器安全，防止信息被篡改或泄露。
           </PoptipItem>
         </Poptip>
-        <Button @click="vfyBus()" class="app-size-34" v-t="'otc.vfyBus'"></Button>
       </div>
+      <div class="lxa-footer-btn">
+            <Button @click="vfyBus()" class="app-size-34" v-t="'otc.vfyBus'"></Button>
+            <!-- <Button @click="loginHandle" v-t="'login.login'"></Button> -->
+        </div>
     </TitleHeader>
   </div>
 </template>
@@ -92,7 +95,7 @@ export default Vue.extend({
 .adv_business {
   min-height: 100%;
   background-color: #f8f8f8;
-  padding-bottom: 100px;
+//   padding-bottom: 100px;
 }
 .adv_bottom {
   background-color: #f8f8f8;

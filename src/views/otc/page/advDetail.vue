@@ -1,15 +1,20 @@
 <template>
     <div class="otc-advdetail">
-        <TitleHeader>
-            <template #title>
-                <span>{{orderDetail.status | otcOrderState }}</span>
-            </template>
+        <Headers>
+            <span @click="cancelHandle" class="primary-color">下架</span>
+        </Headers>
+        <PullRefresh v-model="isLoading" @refresh="onRefresh">
+            <Titles>
+                <span :class="orderDetail.status | otcOrderStateColor">{{orderDetail.status | otcOrderState }}</span>
+            </Titles>
             <div class="otc-advdetail-box">
                 <div class="otc-advdetail-card">
                     <div class="flex-between-c app-padding40">
                         <div class="text-align-l">
                             <div class="flex-start-c">
-                                <h5 class="name">BTC  买入</h5>
+                                <h5 class="name">
+                                    {{orderDetail.coin | toUpperCase}}
+                                    <span :class="orderDetail.type | orderSideColor">{{ orderDetail.type | orderSide}}</span></h5>
                             </div>
                             <p class="otc-advdetail-pay">{{ orderDetail.pay_types | payType}}</p>
                         </div>
@@ -20,12 +25,12 @@
                     </div>
                     <div class="flex-between-c app-padding40 app-margin-t40">
                         <div class="text-align-l">
-                            <p class="lable">数量(USDT)</p>
+                            <p class="lable">数量({{orderDetail.coin | toUpperCase}})</p>
                             <h6 class="app-size-34 otc-advdetail-price">{{ orderDetail.total }}</h6>
                         </div>
                         <div class="text-align-r">
                             <p class="lable">限额</p>
-                            <h6 class="app-size-34 otc-advdetail-price">{{orderDetail.min_value}}~{{orderDetail.max_value}}</h6>
+                            <h6 class="app-size-34 otc-advdetail-price">{{_unitIcon}}{{orderDetail.min_value}}~{{orderDetail.max_value}}</h6>
                         </div>
                     </div>
                     <div class="app-padding40 app-margin-t40">
@@ -33,11 +38,11 @@
                     </div>
                     <div class="otc-advdetail-tradeinfo flex-between-c app-padding40">
                         <div class="text-align-l">
-                            <p class="lable">成交(USDT) </p>
+                            <p class="lable">成交({{orderDetail.coin | toUpperCase}}) </p>
                             <p class="name  otc-advdetail-price">120</p>
                         </div>
                         <div class="text-align-l">
-                            <p class="lable">冻结(USDT)</p>
+                            <p class="lable">冻结({{orderDetail.coin | toUpperCase}})</p>
                             <p class="name  otc-advdetail-price">120</p>
                         </div>
                         <div class="text-align-r">
@@ -55,7 +60,7 @@
                 <div class="order-info otc-advdetail-card app-padding40">
                     <div class="flex-between-c">
                         <p>发布时间</p>
-                        <p>{{ orderDetail.created_at | date('yyyy-MM-dd hh:mm:ss')}}</p>
+                        <p>{{ orderDetail.created_at}}</p>
                     </div>
                     <div class="flex-between-c">
                         <p>订单编号</p>
@@ -95,13 +100,10 @@
                     </li>
                 </ul>
             </div>
-        </TitleHeader>
-        <div>
-        </div>
-        <div class="otc-advdetail-btn app-size-34 lxa-footer-btn flex-around-c">
-            <!-- <Button @click="$router.go(-1)" type="cancel"></Button> -->
+        </PullRefresh>
+        <!-- <div class="otc-advdetail-btn app-size-34 lxa-footer-btn flex-around-c">
             <Button @click="cancelHandle" type="up">下架</Button>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -111,8 +113,7 @@ import NCardItem from '@/components/card/index.vue';
 
 type data = {
     orderDetail: any;
-    timer: any;
-    download: number;
+    isLoading: boolean;
     form: {
         amount: string;
         value: string;
@@ -127,8 +128,7 @@ export default Vue.extend({
     },
     data(): data {
         return {
-            download: 60,
-            timer: 0,
+            isLoading: false,
             list: [{ taker_side: 1, state: 2 }, {}, {}],
             orderDetail: {
                 id: 1,
@@ -161,10 +161,11 @@ export default Vue.extend({
     created() {
         this.getOrder();
     },
-    beforeDestroy() {
-        clearInterval(this.timer);
-    },
     methods: {
+        onRefresh() {
+            this.getOrderDetail();
+            this.otcOrderDealList(true);
+        },
         getOrder() {
             this.orderDetail.id = Number(this.$route.query.id);
             if (!this.orderDetail.id) {
@@ -172,6 +173,7 @@ export default Vue.extend({
                 return;
             }
             this.getOrderDetail();
+            this.otcOrderDealList();
         },
         getOrderDetail() {
             this.$api.otcOrderGetById(this.orderDetail.id).then((res: any) => {
@@ -183,13 +185,14 @@ export default Vue.extend({
         goAdvState() {
             console.log('去订单详情');
         },
-        otcOrderDealList() {
+        otcOrderDealList(refresh?: boolean) {
             const params = {
                 coin: this.orderDetail.coin, // [string] 币种
                 state: -1, // [OtcOrderState] -1取全部
                 // begin:  // [time] 开始时间
                 // end:  // [time] 结束时间
-                offset: this.list.length, // [int64] 跳过条数
+                order_id: this.orderDetail.id,
+                offset: refresh ? 0 : this.list.length, // [int64] 跳过条数
                 limit: 15, // [int64] 最大返回条数
             };
             this.$api.otcOrderDealList(params).then((res: any) => {

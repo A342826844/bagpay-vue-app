@@ -31,6 +31,8 @@ export const otcOrderCancel = (id: number) => postGolang(`/otc/order/cancel/${id
 export const otcDealCancel = (id: number) => postGolang(`/otc/deal/cancel/${id}`, { id });
 // 释放订单
 export const otcDealRelease = (id: number) => postGolang(`/otc/deal/release/${id}`, { id });
+// 标记为已付款(仅买家可调用)
+export const otcDealPadi = (id: number) => getGolang(`/otc/deal/paid/${id}`, { id });
 // 广告下单
 export const otcDealSubmit = (data: params) => postGolang('/otc/deal/submit', data);
 // 申请商家
@@ -42,7 +44,7 @@ export const otcAppealSubmit = (data: params) => postGolang('otc/appeal/submit',
 // 取消申诉
 export const otcAppealCancel = (id: number) => postGolang(`/otc/appeal/cancel/${id}`, { id });
 // 获取配置信息
-export const getConfigCommon = (id: number) => getGolang('/config/common');
+export const getConfigCommon = () => getGolang('/config/common');
 
 // 注册验证码
 export const registerCode = (data: params) => postGolang('/verification-code/phone/VerifyCodeTypeRegister', data);

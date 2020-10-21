@@ -26,6 +26,12 @@ Vue.filter('toNonExponential', (n: string|number) => {
     return num.toFixed(Math.max(0, ((m as any)[1] || '').length - (m as any)[2]));
 });
 
+// 币种大写展示
+Vue.filter('toUpperCase', (n: string) => {
+    if  (typeof n === 'string') return n.toUpperCase();
+    return '';
+});
+
 // 充值状态类型 DepositState
 Vue.filter('depositState', (state: 0|1|2) => {
     // DepositStateWaitReview   = 0 //等待审核
@@ -132,6 +138,20 @@ Vue.filter('otcDealState', (state: 0|1|2|3) => {
     };
     return i18n.t(states[state]);
 });
+// otc订单状态 OtcDealState
+Vue.filter('otcDealStateColor', (state: 0|1|2|3) => {
+	// OtcDealStateTrading   = 0 //交易中
+	// OtcDealStatePayed     = 1 //已支付
+	// OtcDealStateDone      = 2 //已放币,已完成
+	// OtcDealStateCanceled  = 3 //已取消
+    const states = {
+        0: 'primary-color',
+        1: 'red-color',
+        2: 'green-color',
+        3: '',
+    };
+    return i18n.t(states[state]);
+});
 
 // 订单方向 OrderSide
 Vue.filter('orderSide', (state: 1|2) => {
@@ -208,6 +228,24 @@ Vue.filter('otcOrderState', (state: 0|1|2|3|4|5) => {
         3: 'common.otcStateCanceled',
         4: 'common.stateClosed',
         5: 'common.statePlatClosed',
+    };
+    return i18n.t(states[state]);
+});
+// 广告状态 OtcOrderState
+Vue.filter('otcOrderStateColor', (state: 0|1|2|3|4|5) => {
+    // OtcOrderStateWait        = 0 //等待中
+    // OtcOrderStateTrading     = 1 //交易中
+    // OtcOrderStateFinished    = 2 //已完成
+    // OtcOrderStateCanceled    = 3 //已取消
+    // OtcOrderStateClosed      = 4 //已关闭
+    // OtcOrderStatePlatClosed  = 5 //平台强制关闭
+    const states = {
+        0: 'primary-color',
+        1: 'red-color',
+        2: '',
+        3: 'gray-color',
+        4: 'gray-color',
+        5: 'gray-color',
     };
     return i18n.t(states[state]);
 });

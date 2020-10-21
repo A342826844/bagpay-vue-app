@@ -54,6 +54,14 @@ export default Vue.extend({
             },
         };
     },
+    // beforeRouteLeave(to, from, next) {
+    //     console.log(to);
+    //     const enablePath = (to.name !== 'entry') && (to.name !== 'findaccount') && (to.name !== 'home');
+    //     if (enablePath) {
+    //         next('/');
+    //     }
+    //     next();
+    // },
     methods: {
         loginHandle() {
             this.$api.login({

@@ -216,9 +216,11 @@ export default Vue.extend({
             ],
         };
     },
-    beforeRouteEnter(to, fiom, next) {
+    beforeRouteEnter(to, from, next) {
         next((vm: any) => {
-            vm.loadData();
+            if (from.name !== 'otcsubmit') {
+                vm.loadData();
+            }
         });
     },
     watch: {

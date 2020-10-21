@@ -81,7 +81,9 @@
           </PoptipItem>
         </Poptip>
         <div class="check_cont">
-          <van-checkbox v-model="checked" shape="square">我已阅读并同意《<span>广告发布方协议</span>》</van-checkbox>
+          <van-checkbox v-model="checked" shape="square">
+            我已阅读并同意《<span class="primary-color" @click.stop="$router.push('/otc/protocol')">广告发布方协议</span>》
+          </van-checkbox>
         </div>
         <Button
           @click="deposit"
@@ -122,15 +124,27 @@ export default Vue.extend({
             },
         };
     },
-    created() {
-        this.$nextTick(() => {
+    // created() {
+    //     this.$nextTick(() => {
+    //         const phone = this._userInfo.phone.split('-');
+    //         this.form.phone = phone[1] || '';
+    //         console.log(this._userInfo);
+    //         this.form.email = this._userInfo.email;
+    //     });
+    // },
+    beforeRouteEnter(to, from, next) {
+        next((vm: any) => {
+            vm.initForm();
+        });
+    },
+    methods: {
+        initForm() {
+            console.log(this.$options);
             const phone = this._userInfo.phone.split('-');
             this.form.phone = phone[1] || '';
             console.log(this._userInfo);
             this.form.email = this._userInfo.email;
-        });
-    },
-    methods: {
+        },
         deposit() {
             const val: boolean = this.$verification.fromVfi([
                 {
@@ -163,22 +177,40 @@ export default Vue.extend({
             if (this.checked === false) {
                 this.$normalToast('请勾选广告发布方协议');
             } else if (val) {
-                this.$api.otcMerchant({
-                    phone: `86-${this.form.phone}`,
-                    email: this.form.email,
-                    social_type: this.form.socialType,
-                    social: this.form.social,
-                    ice_name: this.form.iceName,
-                    ice_phone: `86-${this.form.icePhone}`,
-                    ice_relation: this.form.iceRelation,
-                    address: this.form.address,
-                }).then((res: any) => {
-                    console.log('todo');
-                    if (res.code === 0) {
-                        this.$router.go(-1);
-                    }
+                this.$dialog.confirm({
+                    title: '确认申请',
+                    messageAlign: 'left',
+                    message: `<div class="app-reset-diolog-message">
+                        需缴纳<span class="primary-color">
+                            ${this._configCommon.OtcMerchantBailAmount} ${(this._configCommon.OtcMerchantBailCoin)}
+                        </span>
+                        保证金，保证金将从资金余额 扣除，请保证资金余额充足。
+                        
+                    </div>`,
+                }).then(() => {
+                    this.otcMerchant();
                 });
             }
+        },
+        otcMerchant() {
+            this.changeLoading(true);
+            this.$api.otcMerchant({
+                phone: `86-${this.form.phone}`,
+                email: this.form.email,
+                social_type: this.form.socialType,
+                social: this.form.social,
+                ice_name: this.form.iceName,
+                ice_phone: `86-${this.form.icePhone}`,
+                ice_relation: this.form.iceRelation,
+                address: this.form.address,
+            }).then((res: any) => {
+                this.changeLoading(false);
+                if (res.code === 0) {
+                    this.$router.go(-1);
+                }
+            }).catch(() => {
+                this.changeLoading(false);
+            });
         },
     },
 });

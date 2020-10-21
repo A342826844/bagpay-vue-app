@@ -42,22 +42,20 @@
         </TitleHeader>
         <form class="otc-submit-form app-padding40 text-align-l app-size-34">
             <div class="form-lable">购买数量</div>
-            <Inputs
-                class="form-input"
+            <input
+                class="form-input app-padding40"
                 :decimal="2"
                 :placeholder="`最大可买${maxTip} ${orderDetail.coin && orderDetail.coin.toUpperCase()}`"
                 v-model="form.amount"
-                noWatch
-                @input="inputAmount($event, 'amount')"
+                @input="inputAmount('amount')"
             />
             <div class="form-lable">支付金额</div>
-            <Inputs
-                class="form-input"
+            <input
+                class="form-input app-padding40"
                 decimal
-                noWatch
                 :placeholder="`单笔最低${minTip} ${_unit}`"
                 v-model="form.value"
-                @input="inputAmount($event, 'value')"
+                @input="inputAmount('value')"
             />
         </form>
         <div>
@@ -70,9 +68,9 @@
                 </PoptipItem>
             </Poptip>
         </div>
-        <div class="otc-submit-btn app-size-34 lxa-footer-btn flex-around-c">
-            <Button @click="$router.go(-1)" type="cancel">取消（{{download}} s）</Button>
-            <Button @click="submitHandle" type="up">确定</Button>
+        <div class="otc-submit-btn app-size-34 lxa-footer-bottom flex-around-c">
+            <Button :radius="false" @click="$router.go(-1)" type="cancel">取消（{{download}} s）</Button>
+            <Button :radius="false" @click="submitHandle" type="up">确定</Button>
         </div>
     </div>
 </template>
@@ -132,7 +130,7 @@ export default Vue.extend({
         clearInterval(this.timer);
     },
     computed: {
-        maxTip() {
+        maxTip(): any {
             const {
                 max_value, total, price, frozen,
             } = (this as any).orderDetail;
@@ -141,8 +139,11 @@ export default Vue.extend({
             const res = Math.max(Number(maxValue), Number(maxTotal));
             return res;
         },
-        minTip() {
+        minTip(): any {
             return (this as any).orderDetail.min_value;
+        },
+        coinInfo(): CoinInfo {
+            return this.$store.getters.getCoinInfo('usdt');
         },
     },
     methods: {
@@ -155,8 +156,11 @@ export default Vue.extend({
         downLoadHandle() {
             this.timer = setInterval(() => {
                 this.download -= 1;
-                if (this.download === 0) {
-                    this.$router.go(-1);
+                if (this.download <= 0) {
+                    this.download = 0;
+                    if (!this._loading) {
+                        this.$router.go(-1);
+                    }
                 }
             }, 1000);
         },
@@ -176,24 +180,53 @@ export default Vue.extend({
             // });
             this.otcDealSubmit();
         },
-        inputAmount(value: string, key: 'amount'|'value') {
-            this.form[key] = value;
-            if (key === 'amount') {
-                this.form.value = `${Number(this.form.amount) * this.orderDetail.price}`;
+        inputAmount(value: 'amount'|'value') {
+            this.inputSliceHandle(value);
+            if (value === 'amount') {
+                const amount = Number(this.form.amount) || 0;
+                // this.form.value = this.$dividedBy(amount, this.orderDetail.price);
+                this.form.value = `${Number((amount * this.orderDetail.price).toFixed(this.$store.state.unitDecimal)) || ''}`;
+            } else if (value === 'value') {
+                const amount = Number(this.form.value) || 0;
+                // this.form.amount = this.$multipliedBy(amount, this.orderDetail.price);
+                // this.form.amount = Math.ceil(this.form.amount *100)/100
+                this.form.amount = `${Number((amount / this.orderDetail.price).toFixed(this.coinInfo.decimal)) || ''}`;
+            }
+        },
+        inputSliceHandle(value: 'amount'|'value') {
+            // if (key === 'amount') {
+            //     this.form.value = (Number(this.form.amount) * this.orderDetail.price).toFixed(this.$store.state.unitDecimal);
+            // } else {
+            //     this.form.amount = (Number(this.form.value) / this.orderDetail.price).toFixed(this.coinInfo.decimal);
+            // }
+            // eslint-disable-next-line
+            this.form[value] = String(this.form[value]).replace(/[^0-9\.?]/g, '');
+            const dioLeng = this.form[value].split('.');
+            if (dioLeng.length < 2) return;
+            const { unitDecimal } = this.$store.state;
+            const { decimal } = this.coinInfo;
+            console.log(unitDecimal);
+            if (value === 'amount') {
+                this.form[value] = `${dioLeng[0]}.${String(dioLeng[1]).replace(/\./g, '').slice(0, decimal)}`;
             } else {
-                this.form.amount = `${Number(this.form.value) / this.orderDetail.price}`;
+                this.form[value] = `${dioLeng[0]}.${String(dioLeng[1]).replace(/\./g, '').slice(0, unitDecimal)}`;
             }
         },
         otcDealSubmit() {
             const params = {
                 order_id: this.orderDetail.id, // [int64] 广告id
-                pay_type: this.orderDetail.pay_type, // [PayType] 支付类型
+                pay_type: Number(this.orderDetail.pay_types), // [PayType] 支付类型
                 price: this.orderDetail.price, // [float64] 价格
                 amount: Number(this.form.amount), // [float64] 数量
             };
+            if (this._loading) return;
+            this.changeLoading(true);
             this.$api.otcDealSubmit(params).then((res: any) => {
+                this.changeLoading(false);
                 this.$router.replace(`/otc/order/detail?id=${res.date.id}`);
-            }).catch(() => {
+            }).catch((err: any) => {
+                console.log(err);
+                this.$normalToast('下单失败');
                 this.changeLoading(false);
             });
         },
@@ -248,12 +281,17 @@ export default Vue.extend({
             margin-bottom: 43px;
         }
         .form-input{
+            height: 99px;
+            line-height: 60px;
+            width: 100%;
+            background: #F5F7F9;
+            border-radius: 10px;
             margin-bottom: 43px;
         }
     }
-    &-btn{
-        padding-left: 40px;
-        padding-right: 40px;
-    }
+    // &-btn{
+    //     padding-left: 40px;
+    //     padding-right: 40px;
+    // }
 }
 </style>

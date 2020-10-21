@@ -80,7 +80,7 @@
             OtcOrderStateClosed      = 4 //已关闭
             OtcOrderStatePlatClosed  = 5 //平台强制关闭 -->
             <Button @click="cancleHandle" type="cancel">取消</Button>
-            <Button @click="showPayHandle" v-if="orderDetail.state === 1">标记已支付</Button>
+            <Button @click="otcDealPadiHandle" v-if="orderDetail.state === 1">标记已支付</Button>
             <Button @click="appealHandle" v-if="orderDetail.state === 1" type="down">申述</Button>
             <Button @click="cancleAppealHandle" v-if="orderDetail.state === 1" type="down">取消申诉</Button>
             <Button @click="releaseHandle" v-if="orderDetail.state === 1" type="up">释放</Button>
@@ -166,6 +166,21 @@ export default Vue.extend({
                 this.$api.otcDealRelease(this.orderDetail.id).then(() => {
                     this.getOrderDetail();
                     this.$normalToast('释放成功');
+                });
+            });
+        },
+        otcDealPadiHandle() {
+            this.$dialog.confirm({
+                title: '付款确认',
+                messageAlign: 'left',
+                message: `<div class="app-reset-diolog-message">
+                    <span>请确认您已向卖家付款</span>
+                    <span class="primary-color">恶意点击将直接冻结账户</span>
+                </div>`,
+            }).then(() => {
+                this.$api.otcDealPadi(this.orderDetail.id).then(() => {
+                    this.getOrderDetail();
+                    this.$normalToast('确认成功');
                 });
             });
         },

@@ -3,7 +3,7 @@
         <div class="entry-banner">
             <ul :class="`active${activeTab}`">
                 <li class="entry-banner-item" :class="`item${index}`" v-for="(item, index) in list" :key="index">
-                    <img :src="item.img" :alt="item.title">
+                    <img @click.prevent="" :src="item.img" :alt="item.title">
                     <h5 class="primary-color">{{$t(item.title)}}</h5>
                     <p>{{$t(item.tip)}}</p>
                 </li>
@@ -78,6 +78,7 @@ export default Vue.extend({
 .entry{
     position: relative;
     height: 100%;
+    min-height: 1280px;
     &-banner{
         width: 100%;
         height: 800px;

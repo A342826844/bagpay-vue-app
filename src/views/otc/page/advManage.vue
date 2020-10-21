@@ -4,14 +4,14 @@
             <OrderFilter :title="'筛选'">
                 <SubOrderFilter title="状态">
                     <SubOrderFilterItem
-                        :active="state === item"
+                        :active="status === item"
                         v-for="item in OtcOrderState"
                         :key="item"
                         @click="changeState(item)"
                     >
                         {{item | otcOrderState}}
                     </SubOrderFilterItem>
-                    <SubOrderFilterItem :active="state === -1" @click="changeState(-1)">{{$t('common.all')}}</SubOrderFilterItem>
+                    <SubOrderFilterItem :active="status === -1" @click="changeState(-1)">{{$t('common.all')}}</SubOrderFilterItem>
                 </SubOrderFilter>
                 <SubOrderFilter title="币种">
                     <SubOrderFilterItem
@@ -38,7 +38,7 @@
                                 <span :class="item.taker_side|orderSideColor">{{item.taker_side | orderSide}}</span>
                             </template>
                             <template slot="right">
-                                <span>{{item.state | otcOrderState}}</span>
+                                <span :class="item.status | otcOrderStateColor">{{item.status | otcOrderState}}</span>
                             </template>
                             <template slot="lable">
                                 <span>{{"价格"}} ({{_unit}})</span>
@@ -92,12 +92,20 @@ export default Vue.extend({
             limit: 10,
             isEnd: false,
             isLoading: false,
-            list: [],
+            list: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
         };
     },
     created() {
         // this.$store.commit('changeLoading', true);
-        this.loadData(true);
+        // this.loadData(true);
+    },
+    beforeRouteEnter(to, from, next) {
+        next((vm: any) => {
+            if (from.name === 'otcAdvDetail' && vm.list.length) {
+                return;
+            }
+            vm.initParams();
+        });
     },
     computed: {
         symbolList(): Array<CoinInfo> {
@@ -106,7 +114,7 @@ export default Vue.extend({
     },
     methods: {
         onRefresh() {
-            this.initParams();
+            this.initParams(false);
         },
         // 滚动懒加载
         scrollLoadHandle() {
@@ -114,7 +122,9 @@ export default Vue.extend({
         },
         // 请求参数初始化
         initParams(loading?: boolean) {
-            this.list = [];
+            if (loading) {
+                this.list = [];
+            }
             this.isEnd = false;
             this.loadMore = false;
             this.loadData(loading);
@@ -134,7 +144,7 @@ export default Vue.extend({
                 status: this.status, // [OtcOrderState] -1取全部
                 // begin: 0, // [time] 开始时间
                 // end: 0, // [time] 结束时间
-                offset: this.list.length, // [int64] 跳过条数
+                offset: loading ? 0 : this.list.length, // [int64] 跳过条数
                 limit: this.limit, // [int64] 最大返回条数
             };
             if (loading) {
@@ -147,13 +157,15 @@ export default Vue.extend({
                     delete axiosGoPromiseArr[index];
                 });
             }
-            // TODO
-            console.log(params);
             this.$api.otcOrderList(params).then((res: any) => {
                 this.isLoading = false;
                 this.changeLoading(false);
                 if (res.data.list) {
-                    this.list = this.list.concat(res.data.list);
+                    if (loading) {
+                        this.list = res.data.list;
+                    } else {
+                        this.list = this.list.concat(res.data.list);
+                    }
                 }
                 if (this.list.length >= res.total) {
                     this.isEnd = true;
@@ -166,6 +178,7 @@ export default Vue.extend({
         },
         // 去广告详情页
         goAdvState(item: { id: any }) {
+            console.log(item);
             this.$router.push(`/otc/adv/detail?id=${item.id}`);
         },
     },

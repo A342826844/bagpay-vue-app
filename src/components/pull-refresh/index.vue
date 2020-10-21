@@ -46,7 +46,6 @@ export default Vue.extend({
     },
     methods: {
         onRefresh(...arg: any[]) {
-            console.log(122112);
             this.$emit('refresh', arg);
         },
     },
