@@ -82,6 +82,8 @@ export const postVerLv3 = (data: params) => postGolang('/verification/lv3/submit
 
 // 获取所有币种余额
 export const getBalances = (data: params) => postGolang('/user/balances', data);
+// 获取指定币种支持的协议
+export const getCoinProtocols = (data: params) => getGolang(`/coin/${data.coin}/protocols`, data);
 // 获取指定币种余额
 export const getCoinBalances = (data: params) => postGolang(`/user/balance/${data.coin}`, data);
 // 获取指定币种余额变动

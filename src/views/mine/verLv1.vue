@@ -6,9 +6,9 @@
                 <Inputs v-model="form.userName" placeholder="姓名" clearable></Inputs>
             </div>
             <div @click="isCardType = !isCardType" class="form-item">
-            <Select>
-                <span class="vertical-m">{{ form.cardType | cardType }}</span>
-            </Select>
+                <Select>
+                    <span class="vertical-m">{{ form.cardType | cardType }}</span>
+                </Select>
             </div>
             <SelectPopup v-model="isCardType">
                 <SelectPopupItem

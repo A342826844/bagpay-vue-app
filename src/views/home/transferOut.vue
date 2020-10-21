@@ -11,6 +11,10 @@
                             @click="$router.push(`/addrList?symbol=${symbol}`)" alt="">
                     </Inputs>
                 </div>
+                <div class="form-item" v-if="charge.need_memo === 1">
+                    <div class="lable" v-t="'payment.memoAddr'"></div>
+                    <Inputs v-model="form.memo" :placeholder="`${symbol.toUpperCase()} ${$t('payment.memoAddr')}`"></Inputs>
+                </div>
                 <div class="form-item">
                     <div class="lable" v-t="'payment.amount'"></div>
                     <Inputs class="amount-input" v-model="form.value" placeholder="0"></Inputs>
@@ -22,7 +26,7 @@
                 <div class="form-item">
                     <div class="lable flex-between-c">
                         <p>手续费</p>
-                        <p>0.00 USDT</p>
+                        <p>{{`${form.value * charge.out_fee}  ${symbol.toUpperCase()}`}}</p>
                     </div>
                 </div>
             </form>
@@ -38,6 +42,7 @@ import Vue from 'vue';
 
 type form = {
     address: string;
+    memo: string;
     value: string;
     password: string;
     remark: string;
@@ -52,21 +57,31 @@ export default Vue.extend({
     name: 'AddSymbol',
     data(): data {
         return {
-            symbol: '',
+            symbol: this.$route.query.symbol as string,
             form: {
                 address: '',
+                memo: '',
                 value: '',
                 password: '',
                 remark: '',
             },
         };
     },
+    computed: {
+        charge() {
+            const activeItem: any = this.$store.state.symbolList.find((item: any) => item.symbol === this.symbol);
+            return activeItem || {};
+        },
+        address() {
+            return this.$store.state.address;
+        },
+    },
     created() {
-        this.$store.commit('setAddress', '');
-        this.symbol = (this.$route.query.symbol as string) || '';
+        this.$store.commit('setAddress', {});
     },
     activated() {
-        this.form.address = this.$store.state.address;
+        this.form.address = this.address.address || '';
+        this.form.memo = this.address.memo || '';
     },
     methods: {
         addHandle() {

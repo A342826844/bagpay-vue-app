@@ -33,7 +33,7 @@
                     @click="$router.push(`/transferHistory?symbol=${item.coin}`)"
                     class="flex-between-c"
                     v-for="item in symbolList"
-                    :key="item.symbol"
+                    :key="item.coin"
                 >
                     <div class="flex-start-c">
                         <icon-img :symbol="item.coin"></icon-img>

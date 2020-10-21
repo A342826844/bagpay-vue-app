@@ -44,7 +44,7 @@ export default Vue.extend({
             });
         },
         selected(item: any) {
-            this.$store.commit('setAddress', item.address);
+            this.$store.commit('setAddress', item);
             this.$router.go(-1);
         },
     },

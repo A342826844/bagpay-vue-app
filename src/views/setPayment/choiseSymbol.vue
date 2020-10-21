@@ -77,9 +77,13 @@ export default Vue.extend({
             return data.filter((item: any) => item[key] === 1);
         },
         selected(item: any) {
-            sessionStorage.setItem('symbol', item.symbol);
-            sessionStorage.setItem('needMemo', item.need_memo);
-            this.$router.go(-1);
+            this.$router.replace({
+                path: '/setpayment/add',
+                query: {
+                    symbol: item.symbol,
+                    needMemo: item.need_memo,
+                },
+            });
         },
     },
 });

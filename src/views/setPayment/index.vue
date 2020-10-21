@@ -32,9 +32,16 @@ export default Vue.extend({
     methods: {
         _change(item: any) {
             this.symbol = item.symbol;
+            this.needMemo = item.need_memo;
         },
         add() {
-            this.$router.push('/setpayment/add');
+            this.$router.push({
+                path: '/setpayment/add',
+                query: {
+                    symbol: this.symbol,
+                    needMemo: this.needMemo,
+                },
+            });
         },
     },
 });

@@ -122,7 +122,7 @@ export default Vue.extend({
         },
     },
     created() {
-        this.symbol = (this.$route.query.symbol as string) || '';
+        this.symbol = this.$route.query.symbol as string;
         this.init();
     },
     methods: {

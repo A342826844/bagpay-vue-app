@@ -29,7 +29,7 @@ export default new Vuex.Store({
             phone: '',
             status: '',
         },
-        address: '',
+        address: {},
         symbolList,
         configCommon,
     },
