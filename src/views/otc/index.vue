@@ -10,12 +10,15 @@
 export default {
     methods: {
         getConfigData() {
-            // otcConfig().then((res) => {
-            //     if (res.data.status === 200) {
-            //         otcConfig = res.data.data;
-            //         // TODO
-            //     }
-            // });
+            this.$api.getConfigCommon().then((res) => {
+                if (res.data) {
+                    this.$store.commit('setConfigCommon', res.data);
+                }
+            }).catch(() => {
+                setTimeout(() => {
+                    this.getConfigData();
+                }, 10 * 1000);
+            });
         },
     },
     created() {
