@@ -82,8 +82,8 @@ export default Vue.extend({
     name: 'SetPaymentAdd',
     data(): data {
         return {
-            symbol: this.$route.query.symbol as string,
-            needMede: this.$route.query.needMede as string,
+            symbol: '',
+            needMede: '',
             form: {
                 address: '',
                 memoAddr: '',
@@ -91,8 +91,12 @@ export default Vue.extend({
             },
         };
     },
+    activated() {
+        this.symbol = this.$store.state.addAddr.symbol || '';
+        this.needMede = this.$store.state.addAddr.needMede || '';
+    },
     mounted() {
-        this.init();
+        // this.init();
     },
     methods: {
         init() {

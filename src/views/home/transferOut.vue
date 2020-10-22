@@ -1,7 +1,7 @@
 <template>
     <div class="transfer-out">
         <TitleHeader :title="`${symbol.toUpperCase()} ${$t('payment.transferOut')}`">
-            <img class="transfer-out-qrcode" slot="header" src="../../assets/img/common/qrcode1.png" alt="">
+            <!-- <img class="transfer-out-qrcode" slot="header" src="../../assets/img/common/qrcode1.png" alt=""> -->
             <form class="transfer-out-form app-padding40">
                 <div class="form-item">
                     <div class="lable" v-t="'payment.chequesAddr'"></div>
@@ -17,23 +17,24 @@
                 </div>
                 <div class="form-item">
                     <div class="lable" v-t="'payment.amount'"></div>
-                    <Inputs class="amount-input" v-model="form.value" placeholder="0"></Inputs>
+                    <Inputs class="amount-input" v-model="form.value" type="number" :decimal="charge.decimal" placeholder="0"></Inputs>
                 </div>
-                <div class="form-item">
+                <!-- <div class="form-item">
                     <div class="lable" v-t="'payment.remark'"></div>
                     <Inputs v-model="form.remark" :placeholder="$t('payment.remark')"></Inputs>
-                </div>
+                </div> -->
                 <div class="form-item">
                     <div class="lable flex-between-c">
                         <p>手续费</p>
-                        <p>{{`${form.value * charge.out_fee}  ${symbol.toUpperCase()}`}}</p>
+                        <p>{{`${charge.out_fee}  ${symbol.toUpperCase()}`}}</p>
                     </div>
                 </div>
             </form>
         </TitleHeader>
         <div class="lxa-footer-btn">
-            <Button @click="saveHandle" v-t="'common.save'"></Button>
+            <Button @click="auth" v-t="'common.save'"></Button>
         </div>
+        <user-auth ref="UserAuth" :type="8" @save="saveHandle"></user-auth>
     </div>
 </template>
 
@@ -70,27 +71,50 @@ export default Vue.extend({
     computed: {
         charge() {
             const activeItem: any = this.$store.state.symbolList.find((item: any) => item.symbol === this.symbol);
+            console.log(activeItem);
             return activeItem || {};
         },
         address() {
             return this.$store.state.address;
         },
     },
-    created() {
-        this.$store.commit('setAddress', {});
+    beforeRouteEnter(to, from, next) {
+        next((vm: any) => {
+            if (from.name === 'transferhistory') {
+                vm.initParams();
+            }
+        });
     },
     activated() {
         this.form.address = this.address.address || '';
         this.form.memo = this.address.memo || '';
     },
     methods: {
-        addHandle() {
-            // TODO
+        initParams() {
+            this.form.address = '';
+            this.form.memo = '';
+            this.form.value = '';
+            this.form.password = '';
+            this.form.remark = '';
         },
-        delHandle() {
-            // TODO
+        auth() {
+            const vfi: boolean = this.$verification.fromVfi([
+                {
+                    type: 'empty',
+                    msg: this.$t('payment.chequesAddr'),
+                    value: this.form.address,
+                },
+                {
+                    type: 'empty',
+                    msg: this.$t('payment.amount'),
+                    value: this.form.value,
+                },
+            ]);
+            if (vfi) {
+                (this.$refs.UserAuth as any).open();
+            }
         },
-        saveHandle() {
+        saveHandle(auth: any) {
             /**
              *
                 coin: [string] 所属币种
@@ -108,8 +132,13 @@ export default Vue.extend({
              */
             // TODO
             this.$api.withdrawSubmit({
+                address: this.form.address,
+                memo: this.form.memo,
+                amount: this.form.value,
                 coin: this.symbol,
-
+                ...auth,
+            }).then((res: any) => {
+                this.$router.go(-1);
             });
         },
     },

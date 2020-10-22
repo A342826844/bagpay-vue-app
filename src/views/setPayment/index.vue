@@ -35,12 +35,12 @@ export default Vue.extend({
             this.needMemo = item.need_memo;
         },
         add() {
+            this.$store.commit('setAddAddr', {
+                symbol: this.symbol,
+                needMemo: this.needMemo,
+            });
             this.$router.push({
                 path: '/setpayment/add',
-                query: {
-                    symbol: this.symbol,
-                    needMemo: this.needMemo,
-                },
             });
         },
     },

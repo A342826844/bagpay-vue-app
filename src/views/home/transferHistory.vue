@@ -179,6 +179,7 @@ export default Vue.extend({
             console.log(value);
         },
         goLink(path: string) {
+            this.$store.commit('setAddress', {});
             this.$router.push(`${path}?symbol=${this.symbol}`);
         },
     },

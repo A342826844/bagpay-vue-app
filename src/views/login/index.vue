@@ -64,17 +64,31 @@ export default Vue.extend({
     // },
     methods: {
         loginHandle() {
-            this.$api.login({
-                passport: `86-${this.form.phone}`,
-                password: this.$md5(`${this.form.password}bagpaysol`),
-            }).then((res: any) => {
-                this.initUserInfo();
-                if (res.code === 0) {
-                    this.$router.push({
-                        name: 'home',
-                    });
-                }
-            });
+            const vfi: boolean = this.$verification.fromVfi([
+                {
+                    type: 'empty',
+                    msg: this.$t('login.phone'),
+                    value: this.form.phone,
+                },
+                {
+                    type: 'empty',
+                    msg: this.$t('login.password'),
+                    value: this.form.password,
+                },
+            ]);
+            if (vfi) {
+                this.$api.login({
+                    passport: `86-${this.form.phone}`,
+                    password: this.$md5(`${this.form.password}bagpaysol`),
+                }).then((res: any) => {
+                    this.initUserInfo();
+                    if (res.code === 0) {
+                        this.$router.push({
+                            name: 'home',
+                        });
+                    }
+                });
+            }
         },
         // 忘记密码
         goFindAccount() {

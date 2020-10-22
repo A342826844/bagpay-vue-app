@@ -30,7 +30,8 @@ export default new Vuex.Store({
             phone: '',
             status: '',
         },
-        address: {},
+        addAddr: {}, // 添加提币地址
+        address: {}, // 转出使用
         symbolList,
         configCommon,
     },
@@ -44,6 +45,9 @@ export default new Vuex.Store({
         },
         setAddress(state, address) {
             state.address = address;
+        },
+        setAddAddr(state, addAddr) {
+            state.addAddr = addAddr;
         },
         setSymbolList(state, list) { // Array<CoinInfo>
             state.symbolList = list;

@@ -12,37 +12,33 @@
                 class="safe-verify-item"
                 :placeholder="$t('common.enterPhoneCode')"
                 v-model="phoneCode"
-                autocomplete="current-password"
                 type="password">
-                <span slot="start" v-text="formatName(phone || _userInfo.mobile)"></span>
-                <Code :phone="phone" :type="verifyType"></Code>
+                <span slot="start" class="auth_label" v-text="formatName(phoneNum)"></span>
+                <Code :phone="phoneNum" :type="verifyType"></Code>
             </Inputs>
             <Inputs
                 v-if="sendType.indexOf(3) !== -1"
                 class="safe-verify-item"
                 :placeholder="$t('common.enterEmailCode')"
                 v-model="emailCode"
-                autocomplete="current-password"
                 type="number">
-                <span slot="start" v-text="formatName(email || _userInfo.email)"></span>
-                <Code :phone="phone" :type="verifyType"></Code>
+                <span slot="start" class="auth_label" v-text="formatName(email || _userInfo.email)"></span>
+                <Code :phone="email || _userInfo.email" :type="verifyType"></Code>
             </Inputs>
             <Inputs
                 v-if="sendType.indexOf(5) !== -1"
                 class="safe-verify-item"
                 :placeholder="$t('common.enterGoogleCode')"
                 v-model="googleCode"
-                autocomplete="current-password"
                 type="number">
-                <span slot="start" v-text="formatName(google || _userInfo.mobile)"></span>
-                <Code :phone="phone" :type="verifyType"></Code>
+                <span slot="start" class="auth_label" v-text="formatName(google || _userInfo.ga)"></span>
+                <Code :phone="google || _userInfo.ga" :type="verifyType"></Code>
             </Inputs>
             <Inputs
                 v-if="sendType.indexOf(2) !== -1"
                 class="safe-verify-item"
                 :placeholder="$t('common.enterPayCode')"
                 v-model="payPwd"
-                autocomplete="current-password"
                 type="password">
                 <span slot="start" class="auth_label" v-text="$t('login.payPassword')"></span>
             </Inputs>
@@ -51,7 +47,6 @@
                 class="safe-verify-item"
                 :placeholder="$t('common.enterPwdCode')"
                 v-model="loginPwd"
-                autocomplete="current-password"
                 type="password">
                 <span slot="start" class="auth_label" v-text="$t('login.password')"></span>
             </Inputs>
@@ -107,6 +102,7 @@ export default Vue.extend({
         return {
             show: false,
             verifyType: 0,
+            phoneNum: '',
             sendType: [], // 短信验证码类型 0 =>不需要验证  1 => 密码  2 => 支付密码  3 => 邮件  4 => 手机  5 => google验证码
             phoneCode: '',
             emailCode: '',
@@ -117,6 +113,7 @@ export default Vue.extend({
     },
     methods: {
         init() {
+            this.phoneNum = this.phone || this._userInfo.phone.split('-')[1];
             switch (this.type) {
             case 1: // 修改密码
                 this.verifyType = 4;
@@ -156,6 +153,7 @@ export default Vue.extend({
         },
         open() {
             this.init();
+            console.log(this._userInfo);
             this.show = true;
         },
         formatName(str: string) {
@@ -268,6 +266,7 @@ export default Vue.extend({
         border-radius: 10px;
         font-size: 34px;
         color: #fff;
+        text-align: center;
     }
     .active-safe-verify-enter {
         background-color: #5894EE;

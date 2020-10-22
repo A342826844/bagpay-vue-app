@@ -77,13 +77,11 @@ export default Vue.extend({
             return data.filter((item: any) => item[key] === 1);
         },
         selected(item: any) {
-            this.$router.replace({
-                path: '/setpayment/add',
-                query: {
-                    symbol: item.symbol,
-                    needMemo: item.need_memo,
-                },
+            this.$store.commit('setAddAddr', {
+                symbol: item.symbol,
+                needMemo: item.need_memo,
             });
+            this.$router.go(-1);
         },
     },
 });

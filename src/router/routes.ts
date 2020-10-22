@@ -251,6 +251,9 @@ const routes: Array<RouteConfig> = [
         path: '/setpayment/add',
         name: 'setpaymentadd',
         component: SetPaymentAdd,
+        meta: {
+            keepAlive: true,
+        },
     },
     {
         path: '/setpayment/edit',
