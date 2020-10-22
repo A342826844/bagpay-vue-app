@@ -5,7 +5,7 @@
         <div class="form-item">
           <div class="lable" v-t="'payment.choiceAddress'"></div>
           <div
-            @click="$router.push(`/choisesymbol?symbol=${symbol}`)"
+            @click="$router.push(`/choisesymbol?symbol=${symbol}&form=1`)"
             class="form-item-select app-padding40 flex-between-c"
           >
             <div>

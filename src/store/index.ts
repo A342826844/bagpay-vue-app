@@ -14,8 +14,8 @@ if (configCommonStr) {
 }
 
 const hideBalance = localStorage.getItem('hideBalance') || '0';
-
 const lang = localStorage.getItem('lang') || 'zh-cn';
+const symbol = localStorage.getItem('symbol') || 'usdt';
 
 Vue.use(Vuex);
 
@@ -23,6 +23,7 @@ export default new Vuex.Store({
     state: {
         lang,
         loading: false,
+        symbol, // 主页当前币种
         unit: 'USD', // 计价单位
         unitIcon: '$', // 计价单位符号
         unitDecimal: 4, // 计价单位小数位数
@@ -44,6 +45,10 @@ export default new Vuex.Store({
     mutations: {
         changeLoading(state, loading) {
             state.loading = loading;
+        },
+        setSymbol(state, symbolStr) {
+            state.symbol = symbolStr;
+            localStorage.setItem('symbol', symbolStr);
         },
         setLang(state, langStr) {
             state.lang = langStr;

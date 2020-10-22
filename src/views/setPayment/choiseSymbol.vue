@@ -77,10 +77,14 @@ export default Vue.extend({
             return data.filter((item: any) => item[key] === 1);
         },
         selected(item: any) {
-            this.$store.commit('setAddAddr', {
-                symbol: item.symbol,
-                needMemo: item.need_memo,
-            });
+            if (this.$route.query.form === '1') {
+                this.$store.commit('setAddAddr', {
+                    symbol: item.symbol,
+                    needMemo: item.need_memo,
+                });
+            } else if (this.$route.query.form === '2') {
+                this.$store.commit('setSymbol', item.symbol);
+            }
             this.$router.go(-1);
         },
     },

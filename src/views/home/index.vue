@@ -2,7 +2,8 @@
     <div class="home app-padding40">
         <div class="home-header flex-between-c">
             <div>
-                <img src="../../assets/img/common/menu.png" alt="">
+                <img src="../../assets/img/common/menu.png" alt=""
+                    @click="$router.push(`/choisesymbol?symbol=${symbol}&form=2`)">
                 <h3 class="home-header-coin">{{symbol.toUpperCase()}}</h3>
             </div>
             <div>
@@ -10,9 +11,11 @@
             </div>
         </div>
         <div class="home-assets flex-around-s flex-column">
-            <h4 class="home-assets-account">$ <span class="home-assets-value">72 500.00</span></h4>
+            <h4 class="home-assets-account" @click="_change">
+                $<span class="home-assets-value">{{hide === '1' ? '****' : changeRate(activeCoin.available, symbol)}}</span>
+            </h4>
             <div class="home-assets-address flex-between-c">
-                <p class="ellipsis">{{activeSymbol.address || ''}}</p>
+                <p class="ellipsis">{{hide === '1' ? '****' : activeSymbol.address}}</p>
                 <img @click="$router.push({
                     path: '/payment',
                     query: {
@@ -44,7 +47,7 @@
                     </div>
                     <div class="list-values">
                         <h5 class="lable">{{item.available}}</h5>
-                        <p class="value">{{item.transfer}}</p>
+                        <p class="value">{{changeRate(item.available, item.coin)}}</p>
                     </div>
                 </li>
             </ul>
@@ -57,7 +60,10 @@ import Vue from 'vue';
 
 type data = {
     symbol: string;
+    hide: string;
     activeSymbol: any;
+    rate: any;
+    unitDecimal: number;
     symbolList: Array<{
         coin: string;
         title: string;
@@ -74,17 +80,43 @@ export default Vue.extend({
     },
     data(): data {
         return {
-            symbol: 'usdt',
+            symbol: this.$store.state.symbol,
+            hide: this.$store.state.hideBalance,
             activeSymbol: {},
+            rate: {},
+            unitDecimal: this.$store.state.unitDecimal,
             symbolList: [],
         };
     },
+    computed: {
+        activeCoin(): any {
+            const activeCoin = this.symbolList.find((item: any) => item.coin === this.symbol);
+            return activeCoin || {};
+        },
+    },
     methods: {
+        _change() {
+            this.hide = this.hide === '1' ? '0' : '1';
+            this.$store.commit('setHideBalance', this.hide);
+        },
         init() {
             this.changeLoading(true);
-            Promise.all([this.getDeposit(), this.initBalances()]).finally(() => {
+            Promise.all([this.getDeposit(), this.initBalances(), this.getExchangeRate()]).finally(() => {
                 this.changeLoading(false);
             });
+        },
+        getExchangeRate() {
+            return this.$api.getExchangeRate().then((res: any) => {
+                if (res.data) {
+                    this.rate = res.data;
+                }
+            });
+        },
+        changeRate(value: number, coin: string) {
+            if (!value) {
+                return '0';
+            }
+            return (value * this.rate[coin]).toFixed(this.unitDecimal);
         },
         getDeposit() {
             return this.$api.getDeposit({
