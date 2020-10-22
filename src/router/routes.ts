@@ -20,7 +20,7 @@ const VerLv3 = () => import('@/views/mine/verLv3.vue');
 const VerLvStatus = () => import('@/views/mine/verLvStatus.vue');
 const Payway = () => import('@/views/payway/index.vue');
 const PaywayAdd = () => import('@/views/payway/add.vue');
-const PaywayChoises = () => import('@/views/payway/choises.vue');
+const PaywayBanks = () => import('@/views/payway/banks.vue');
 const PaywaySelect = () => import('@/views/payway/select.vue');
 
 const SetPayment = () => import('@/views/setPayment/index.vue');
@@ -249,11 +249,14 @@ const routes: Array<RouteConfig> = [
         path: '/payway/add',
         name: 'paywayadd',
         component: PaywayAdd,
+        meta: {
+            keepAlive: true,
+        },
     },
     {
-        path: '/payway/choises',
-        name: 'PaywayChoises',
-        component: PaywayChoises,
+        path: '/payway/banks',
+        name: 'PaywayBanks',
+        component: PaywayBanks,
     },
     {
         path: '/payway/select',

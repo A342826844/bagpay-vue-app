@@ -37,6 +37,7 @@ export default new Vuex.Store({
         addAddr: {}, // 添加提币地址
         address: {}, // 转出使用
         hideBalance,
+        bankInfo: {}, // 旋转支持的银行
         symbolList,
         configCommon,
     },
@@ -68,6 +69,9 @@ export default new Vuex.Store({
         setConfigCommon(state, config) {
             state.configCommon = config;
             localStorage.setItem('configCommon', JSON.stringify(config));
+        },
+        selectBank(state, bankInfo) {
+            state.bankInfo = bankInfo;
         },
     },
     getters: {

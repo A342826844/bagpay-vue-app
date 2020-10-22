@@ -152,10 +152,16 @@
     "payway": {
         "addpay": "添加收付款方式",
         "name": "姓名",
+        "pName": "请输入账户名",
         "account": "账号",
+        "pAccount": "请输入账户账号",
         "sub_bank": "支行名称",
-        "bank": "银行名称",
+        "pSub_bank": "请输入支行名称",
+        "bank": "银行",
+        "pBank": "请选择银行",
+        "banksSelect": "支持的银行",
         "qrc": "二维码",
+        "pQrc": "请上传收款二维码",
         "selecPayWay": "选择收款类型",
         "payway": "收付款方式"
     },
