@@ -45,6 +45,8 @@ export const otcAppealSubmit = (data: params) => postGolang('otc/appeal/submit',
 export const otcAppealCancel = (id: number) => postGolang(`/otc/appeal/cancel/${id}`, { id });
 // 获取配置信息
 export const getConfigCommon = () => getGolang('/config/common');
+// 取消申诉
+export const getFile = (id: number) => postGolang(`/file/${id}`, { id });
 
 /** 支付方式 */
 // 获取支付方式列表
@@ -57,7 +59,10 @@ export const getBankListByType = (type: number) => getGolang(`/bank/user/get-by-
 export const getUserBankList = () => getGolang('/bank/user/list');
 // 添加支付方式
 export const addUserBank = (data: params) => postGolang('/bank/user/add', data);
-
+// 禁用指定的支付方式
+export const bankUserDisable = (id: number) => getGolang(`/bank/user/disable/${id}`, { id });
+// 启用指定的支付方式
+export const bankUserEnable = (id: number) => postGolang(`/bank/user/enable/${id}`, { id });
 // 注册验证码
 export const registerCode = (data: params) => postGolang('/verification-code/phone/VerifyCodeTypeRegister', data);
 // 获取图片验证

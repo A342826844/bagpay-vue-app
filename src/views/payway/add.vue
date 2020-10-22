@@ -31,7 +31,7 @@
                 </div>
                 <div v-if="form.type !== 1" class="form-item">
                     <div class="lable" v-t="'payway.qrc'"></div>
-                    <V-Uploader :max-count="3" v-model="fileList" multiple :after-read="afterRead"></V-Uploader>
+                    <V-Uploader :max-count="1" v-model="fileList" multiple :after-read="afterRead"></V-Uploader>
                 </div>
             </form>
             <user-auth ref="UserAuth" :type="6" @save="addHandle"></user-auth>
@@ -99,7 +99,6 @@ export default Vue.extend({
         init() {
             this.form.account = '';
             this.form.real_name = '';
-            this.form.bank = '';
             this.form.sub_bank = '';
             this.form.qrc = '';
         },
@@ -107,29 +106,30 @@ export default Vue.extend({
             this.bankInfo = this.$store.state.bankInfo;
         },
         afterRead(file: any) {
-            console.log(file);
+            this.form.qrc = file.file;
         },
         authHandle() {
+            if (this._loading) return;
             if (this.form.type === 1) {
                 const vfi: boolean = this.$verification.fromVfi([
                     {
                         type: 'empty',
-                        msg: this.$t('payway.pName'),
+                        msg: this.$t('payway.name'),
                         value: this.form.real_name,
                     },
                     {
                         type: 'empty',
-                        msg: this.$t('login.pBank'),
-                        value: this.form.bank,
+                        msg: this.$t('payway.bank'),
+                        value: this.bankInfo.name,
                     },
                     {
                         type: 'empty',
-                        msg: this.$t('login.pAccount'),
+                        msg: this.$t('payway.account'),
                         value: this.form.account,
                     },
                     {
                         type: 'empty',
-                        msg: this.$t('login.pSub_bank'),
+                        msg: this.$t('payway.sub_bank'),
                         value: this.form.sub_bank,
                     },
                 ]);
@@ -138,17 +138,17 @@ export default Vue.extend({
                 const vfi: boolean = this.$verification.fromVfi([
                     {
                         type: 'empty',
-                        msg: this.$t('payway.pName'),
+                        msg: this.$t('payway.name'),
                         value: this.form.real_name,
                     },
                     {
                         type: 'empty',
-                        msg: this.$t('login.pAccount'),
+                        msg: this.$t('payway.account'),
                         value: this.form.account,
                     },
                     {
                         type: 'empty',
-                        msg: this.$t('login.pQrc'),
+                        msg: this.$t('payway.qrc'),
                         value: this.form.qrc,
                     },
                 ]);
@@ -160,17 +160,36 @@ export default Vue.extend({
             this.form.type = type;
         },
         addHandle(data: any) {
-            const params = {
+            let params: any = null;
+            const list = {
                 type: this.form.type, // type: [int] 类型：1.银行卡 2.支付宝 3.微信 4.汇旺
                 real_name: this.form.real_name, // real_name: [string] 持卡人姓名
-                bank: this.form.bank, // bank: [string] 银行名称
+                bank: this.bankInfo.title, // bank: [string] 银行名称
                 sub_bank: this.form.sub_bank, // sub_bank: [string] 支行名称
                 account: this.form.account, // account: [string] 账号
-                qrc: this.form.qrc, // qrc: [file] 二维码
+                qrc: this.form.type === 1 ? null : this.form.qrc, // qrc: [file] 二维码
                 ...data,
             };
-            this.$api.addUserBank(params).then((res: any) => {
-                console.log(res);
+            if (this.form.type === 1) {
+                params = list;
+            } else {
+                params = new FormData();
+                Object.keys(list).forEach((item) => {
+                    (params as FormData).append(item, list[item]);
+                });
+            }
+            this.changeLoading(true);
+            this.$api.addUserBank(params).then(() => {
+                this.changeLoading(false);
+                this.$normalToast('添加成功');
+                setTimeout(() => {
+                    this.$router.go(-1);
+                }, 1500);
+            }).catch((err: any) => {
+                this.changeLoading(false);
+                if (!err.data) {
+                    this.$normalToast('添加失败，请稍后重试');
+                }
             });
         },
     },

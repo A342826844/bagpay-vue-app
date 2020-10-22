@@ -6,10 +6,12 @@
             <ul class="payway-box app-padding40 text-align-l">
                 <li class="payway-li" v-for="item in list" :key="item.id">
                     <div class="flex-between-c">
-                        <h5 class="app-size-34">Huione Pay</h5>
-                        <img class="app-img-50" src="../../assets/img/mine/del.png" alt="">
+                        <h5 class="app-size-34" v-if="item.type === 1">{{`${item.bank} ${item.sub_bank}`}}</h5>
+                        <h5 class="app-size-34" v-if="item.type !== 1">{{item.type | payType}}</h5>
+                        {{item.status}}
+                        <Switchs @on-change="changeHandle(item)" :value="!!item.status"></Switchs>
                     </div>
-                    <div class="payway-info">廖小艾     26595924325429d595252</div>
+                    <div class="payway-info">{{`${item.real_name}  ${item.account}`}}</div>
                 </li>
             </ul>
         </TitleHeader>
@@ -31,15 +33,47 @@ export default Vue.extend({
         };
     },
     created() {
-        for (let i = 0; i <= 10; i++) {
-            this.list.push({
-                id: i,
-            });
-        }
+        this.getList();
     },
     methods: {
+        getList() {
+            this.changeLoading(true);
+            this.$api.getUserBankList().then((res: any) => {
+                this.changeLoading(false);
+                this.list = res.data;
+            }).catch((err: any) => {
+                this.changeLoading(false);
+                if (!err.data) {
+                    this.$normalToast('收款方式获取失败');
+                }
+            });
+        },
         addHandle() {
             this.$router.push('/payway/add');
+        },
+        changeHandle(value: any) {
+            console.log(value);
+        },
+        bankUserDisable(id: number) {
+            console.log(id);
+            this.$api.bankUserDisable(id).then(() => {
+                this.changeLoading(false);
+            }).catch((err: any) => {
+                this.changeLoading(false);
+                if (!err.data) {
+                    this.$normalToast('禁用失败，请稍后重试');
+                }
+            });
+        },
+        bankUserEnable(id: number) {
+            this.$api.bankUserEnable(id).then(() => {
+                this.changeLoading(false);
+            }).catch((err: any) => {
+                this.changeLoading(false);
+                if (!err.data) {
+                    this.$normalToast('启用失败，请稍后重试');
+                }
+            });
         },
     },
 });

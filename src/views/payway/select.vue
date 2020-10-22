@@ -4,12 +4,12 @@
             <img slot="header" @click="addHandle" class="app-img-50" src="../../assets/img/common/add.png" alt="">
             <!-- <img v-show="item.status" @click="delHandle" src="../../assets/img/common/del.png" alt=""> -->
             <ul class="payway-box app-padding40 text-align-l">
-                <li class="payway-li" v-for="item in list" :key="item.id">
+                <li @click="selectBank(item)" class="payway-li" v-for="item in renderList" :key="item.id">
                     <div class="flex-between-c">
-                        <h5 class="app-size-34">Huione Pay</h5>
-                        <img class="app-img-50" src="../../assets/img/setting/ok.png" alt="">
+                        <h5 class="app-size-34" v-if="item.type === 1">{{`${item.bank} ${item.sub_bank}`}}</h5>
+                        <img v-show="id === item.id" class="app-img-50" src="../../assets/img/setting/ok.png" alt="">
                     </div>
-                    <div class="payway-info">廖小艾     26595924325429d595252</div>
+                    <div class="payway-info">{{`${item.real_name}  ${item.account}`}}</div>
                 </li>
             </ul>
         </TitleHeader>
@@ -21,6 +21,7 @@ import Vue from 'vue';
 
 type data = {
     list: Array<any>;
+    id: number;
 };
 
 export default Vue.extend({
@@ -28,16 +29,40 @@ export default Vue.extend({
     data(): data {
         return {
             list: [],
+            id: 0,
         };
     },
+    computed: {
+        renderList(): Array<any> {
+            return this.list.filter((item) => item.status);
+        },
+    },
     created() {
-        for (let i = 0; i <= 10; i++) {
-            this.list.push({
-                id: i,
-            });
-        }
+        this.getList();
     },
     methods: {
+        selectBank(item: any) {
+            this.setId(item.id);
+            this.$store.commit('selectBank', item);
+            setTimeout(() => {
+                this.$router.go(-1);
+            }, 300);
+        },
+        setId(id: string|number) {
+            this.id = Number(id);
+        },
+        getList() {
+            this.changeLoading(true);
+            this.$api.getUserBankList().then((res: any) => {
+                this.changeLoading(false);
+                this.list = res.data;
+            }).catch((err: any) => {
+                this.changeLoading(false);
+                if (!err.data) {
+                    this.$normalToast('收款方式获取失败');
+                }
+            });
+        },
         addHandle() {
             this.$router.push('/payway/add');
         },
