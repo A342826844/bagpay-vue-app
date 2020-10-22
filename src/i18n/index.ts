@@ -13,23 +13,29 @@ declare module 'vue/types/vue' {
 const loadLocaleMessages = () => {
     const locales = require.context('@/assets/lang', true, /[A-Za-z0-9-_,\s]+\.json$/i);
     const langs: string[] = [];
+    const langType: Array<any> = [];
     const messages: any = {};
     locales.keys().forEach((key) => {
         const matched = key.match(/([A-Za-z0-9-_]+)\./i);
         if (matched && matched.length > 1) {
             const locale = matched[1];
             messages[locale] = locales(key);
+            langType.push({
+                value: locale,
+                label: messages[locale].language,
+            });
             langs.push(locale);
         }
     });
     const message = JSON.stringify(messages).replace(/_mark/g, (process.env.VUE_APP_MARK as string));
     return {
         messages: JSON.parse(message),
+        langType,
         langs,
     };
 };
 
-export const { langs, messages } = loadLocaleMessages();
+export const { langs, messages, langType } = loadLocaleMessages();
 
 /**
  * 获取默认语言
@@ -38,7 +44,7 @@ export const { langs, messages } = loadLocaleMessages();
  */
 export const defaultLang = (_lang: string): string => {
     let lang = '';
-    const thinkLanguage = window.localStorage.getItem('think_language') || navigator.language.toLowerCase() || '';
+    const thinkLanguage = window.localStorage.getItem('lang') || navigator.language.toLowerCase() || '';
     if (langs.indexOf(thinkLanguage) !== -1) {
         lang = thinkLanguage;
     } else if (thinkLanguage.indexOf('zh') !== -1 && langs.indexOf('zh-cn') !== -1) {

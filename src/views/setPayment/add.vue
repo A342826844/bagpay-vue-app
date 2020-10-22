@@ -71,6 +71,7 @@ import Vue from 'vue';
 type data = {
   symbol: string;
   needMede: string;
+  isLoading: boolean;
   form: {
     address: string;
     memoAddr: string;
@@ -84,6 +85,7 @@ export default Vue.extend({
         return {
             symbol: '',
             needMede: '',
+            isLoading: false,
             form: {
                 address: '',
                 memoAddr: '',
@@ -95,8 +97,9 @@ export default Vue.extend({
         this.symbol = this.$store.state.addAddr.symbol || '';
         this.needMede = this.$store.state.addAddr.needMede || '';
     },
-    mounted() {
-    // this.init();
+    created() {
+        this.symbol = this.$store.state.addAddr.symbol || '';
+        this.needMede = this.$store.state.addAddr.needMede || '';
     },
     methods: {
         init() {
@@ -105,6 +108,7 @@ export default Vue.extend({
             });
         },
         auth() {
+            if (this.isLoading) return;
             const data: Array<any> = [
                 {
                     type: 'empty',
@@ -130,17 +134,25 @@ export default Vue.extend({
             }
         },
         saveHandle(auth: any) {
-            this.$api.addAddress({
-                coin: this.symbol,
-                remark: this.form.remark,
-                address: this.form.address,
-                memo: this.form.memoAddr,
-                ...auth,
-            })
+            if (this.isLoading) return;
+            this.isLoading = true;
+            this.changeLoading(true);
+            this.$api
+                .addAddress({
+                    coin: this.symbol,
+                    remark: this.form.remark,
+                    address: this.form.address,
+                    memo: this.form.memoAddr,
+                    ...auth,
+                })
                 .then((res: any) => {
                     if (res.code === 0) {
                         this.$router.go(-1);
                     }
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                    this.changeLoading(false);
                 });
         },
     },

@@ -67,7 +67,7 @@ type form = {
 };
 
 type data = {
-  islogin: boolean;
+  isLoading: boolean;
   form: form;
 };
 
@@ -78,7 +78,7 @@ export default Vue.extend({
     },
     data(): data {
         return {
-            islogin: false,
+            isLoading: false,
             form: {
                 code: '',
                 phone: '',
@@ -96,6 +96,7 @@ export default Vue.extend({
     },
     methods: {
         loginHandle() {
+            if (this.isLoading) return;
             const val: boolean = this.$verification.fromVfi([
                 {
                     type: 'phone',
@@ -120,6 +121,8 @@ export default Vue.extend({
                 },
             ]);
             if (val) {
+                this.isLoading = true;
+                this.changeLoading(true);
                 this.$api
                     .changePwd({
                         passport: `86-${this.form.phone}`,
@@ -133,7 +136,10 @@ export default Vue.extend({
                                 name: 'login',
                             });
                         }
-                        console.log(res);
+                    })
+                    .finally(() => {
+                        this.isLoading = false;
+                        this.changeLoading(false);
                     });
             }
         },

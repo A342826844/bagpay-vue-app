@@ -12,7 +12,7 @@
                 class="safe-verify-item"
                 :placeholder="$t('common.enterPhoneCode')"
                 v-model="phoneCode"
-                type="password">
+                type="number">
                 <span slot="start" class="auth_label" v-text="formatName(phoneNum)"></span>
                 <Code :phone="phoneNum" :type="verifyType"></Code>
             </Inputs>
