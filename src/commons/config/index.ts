@@ -6,6 +6,7 @@ export type SocialType = Array<number>;
 export type Relationship = Array<number>;
 export type OtcAppealType = Array<number>;
 export type CardType = Array<number>;
+export type LangType = Array<number>;
 
 export const PayType = [
     1, // PayTypeBank       = 1 //银行卡
@@ -80,4 +81,10 @@ export const OtcAppealType = [
     2, // OtcAppealTypePaidButNotRelease  = 2 //已付款不放币
     3, // OtcAppealTypeMaliciousOrder     = 3 //恶意下单
     4, // OtcAppealTypeFalsePaid          = 4 //恶意点击已付款
+];
+
+// 语言类型
+export const LangType = [
+    'zh-cn', //           = 1 //简体中文
+    'en-us', //           = 2 //英文
 ];

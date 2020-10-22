@@ -57,6 +57,7 @@ type form = {
 
 type data = {
     symbol: string;
+    isLoading: boolean;
     form: form;
 }
 
@@ -65,6 +66,7 @@ export default Vue.extend({
     data(): data {
         return {
             symbol: this.$route.query.symbol as string,
+            isLoading: false,
             form: {
                 address: '',
                 memo: '',
@@ -103,6 +105,7 @@ export default Vue.extend({
             this.form.remark = '';
         },
         auth() {
+            if (this.isLoading) return;
             const vfi: boolean = this.$verification.fromVfi([
                 {
                     type: 'empty',
@@ -136,6 +139,9 @@ export default Vue.extend({
                 ga_code: [string] 可选,google验证码
              */
             // TODO
+            if (this.isLoading) return;
+            this.isLoading = true;
+            this.changeLoading(true);
             this.$api.withdrawSubmit({
                 address: this.form.address,
                 memo: this.form.memo,
@@ -143,7 +149,12 @@ export default Vue.extend({
                 coin: this.symbol,
                 ...auth,
             }).then((res: any) => {
-                this.$router.go(-1);
+                if (res.code === 0) {
+                    this.$router.go(-1);
+                }
+            }).finally(() => {
+                this.isLoading = false;
+                this.changeLoading(false);
             });
         },
     },

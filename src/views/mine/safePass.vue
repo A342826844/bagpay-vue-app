@@ -30,6 +30,7 @@ import Vue from 'vue';
 import Code from '@/components/code/index.vue';
 
 type data = {
+    isLoading: boolean;
     form: {
         phone: string;
         code: string;
@@ -45,6 +46,7 @@ export default Vue.extend({
     },
     data(): data {
         return {
+            isLoading: false,
             form: {
                 phone: '',
                 code: '',
@@ -61,6 +63,7 @@ export default Vue.extend({
     },
     methods: {
         saveHandle() {
+            if (this.isLoading) return;
             const val: boolean = this.$verification.fromVfi([
                 {
                     type: 'phone',
@@ -81,6 +84,8 @@ export default Vue.extend({
                 },
             ]);
             if (val) {
+                this.isLoading = true;
+                this.changeLoading(true);
                 this.$api.forgetPayPwd({
                     passport: `86-${this.form.phone}`,
                     new_password: this.$md5(`${this.form.password}bagpaysol`),
@@ -90,6 +95,9 @@ export default Vue.extend({
                         this.initUserInfo();
                         this.$router.go(-1);
                     }
+                }).finally(() => {
+                    this.isLoading = false;
+                    this.changeLoading(false);
                 });
             }
         },

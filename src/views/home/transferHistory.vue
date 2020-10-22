@@ -168,6 +168,10 @@ export default Vue.extend({
         cancel(id: any) {
             this.$api.withdrawCcancel({
                 id,
+            }).then((res: any) => {
+                if (res.code === 0) {
+                    this.getWithdrawHistory();
+                }
             });
         },
         tabChangeHandle(value: any) {

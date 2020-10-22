@@ -297,3 +297,14 @@ Vue.filter('otcAppealType', (state: 1|2|3|4) => {
     };
     return i18n.t(states[state]);
 });
+
+// 语言类型
+Vue.filter('langType', (state: 'zh-cn'|'en-us') => {
+    //"简体中文",             = 1 // 简体中文
+    //"英文",                 = 2 // 英文
+    const states = {
+        'zh-cn': 'common.ZHcn',
+        'en-us': 'common.ENus',
+    };
+    return i18n.t(states[state]);
+});
