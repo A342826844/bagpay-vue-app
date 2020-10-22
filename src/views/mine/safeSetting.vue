@@ -5,7 +5,7 @@
         <li @click="$router.push('/mine/safepass')" class="flex-between-c payment_item">
           <div v-t="'mine.safePass'"></div>
           <div>
-            <span class="vertical-m primary-color">{{
+            <span class="vertical-m" :class="_userInfo.ver_lv === 0 ? 'primary-color' : 'red-color'">{{
               _userInfo.pay_password ? "已设置" : "未设置"
             }}</span>
             <img
@@ -18,7 +18,7 @@
         <li @click="$router.push('/mine/changePwd')" class="flex-between-c payment_item">
           <div v-t="'mine.changePwd'"></div>
           <div>
-            <span class="vertical-m primary-color">已设置</span>
+            <span class="vertical-m red-color">已设置</span>
             <img
               class="app-img-50"
               src="../../assets/img/common/arrow_right.png"
@@ -29,7 +29,7 @@
         <li @click="goVerLv" class="flex-between-c payment_item">
           <div v-t="'mine.realName'"></div>
           <div>
-            <span class="vertical-m red-color">{{_userInfo.ver_lv === 0 ? '未认证' : '已认证'}}</span>
+            <span class="vertical-m" :class="_userInfo.ver_lv === 0 ? 'primary-color' : 'red-color'">{{_userInfo.ver_lv === 0 ? '未认证' : '已认证'}}</span>
             <img
               class="app-img-50"
               src="../../assets/img/common/arrow_right.png"

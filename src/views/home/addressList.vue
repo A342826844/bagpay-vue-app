@@ -1,10 +1,11 @@
 <template>
     <TitleHeader :title="`${symbol.toUpperCase()} ${$t('payment.address')}`">
+        <img @click="add()" class="app-img-50" slot="header" src="../../assets/img/common/add.png" alt="">
         <div class="com-select-symbol app-padding40">
             <ul>
                 <li class="flex-between-c app-padding40" :class="`${symbol}-bg`" v-for="item in addrList" :key="item.id" @click="selected(item)">
                     <div class="address-item">
-                        <h5>{{item.coin.toUpperCase()}}</h5>
+                        <h5>{{item.remark}}</h5>
                         <p>{{item.address}}</p>
                     </div>
                 </li>
@@ -18,6 +19,7 @@ import Vue from 'vue';
 
 type data = {
     symbol: string;
+    needMemo: string;
     addrList: Array<any>;
 }
 
@@ -26,6 +28,7 @@ export default Vue.extend({
     data(): data {
         return {
             symbol: '',
+            needMemo: '',
             addrList: [],
         };
     },
@@ -35,12 +38,22 @@ export default Vue.extend({
     methods: {
         getAddrList() {
             this.symbol = this.$route.query.symbol as string;
+            this.needMemo = this.$route.query.needMemo as string;
             this.$api.getAddrList({
                 coin: this.symbol,
             }).then((res: any) => {
                 if (res.data) {
                     this.addrList = res.data;
                 }
+            });
+        },
+        add() {
+            this.$store.commit('setAddAddr', {
+                symbol: this.symbol,
+                needMemo: this.needMemo,
+            });
+            this.$router.push({
+                path: '/setpayment/add',
             });
         },
         selected(item: any) {

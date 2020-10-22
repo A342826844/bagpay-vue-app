@@ -96,7 +96,7 @@ export default Vue.extend({
         this.needMede = this.$store.state.addAddr.needMede || '';
     },
     mounted() {
-        // this.init();
+    // this.init();
     },
     methods: {
         init() {
@@ -105,30 +105,43 @@ export default Vue.extend({
             });
         },
         auth() {
-            (this.$refs.UserAuth as any).open();
+            const data: Array<any> = [
+                {
+                    type: 'empty',
+                    msg: this.$t('payment.chequesAddr'),
+                    value: this.form.address,
+                },
+            ];
+            if (this.needMede === '1') {
+                data.push({
+                    type: 'empty',
+                    msg: this.$t('payment.memoAddr'),
+                    value: this.form.memoAddr,
+                });
+            }
+            data.push({
+                type: 'empty',
+                msg: this.$t('common.name'),
+                value: this.form.remark,
+            });
+            const vfi: boolean = this.$verification.fromVfi(data);
+            if (vfi) {
+                (this.$refs.UserAuth as any).open();
+            }
         },
         saveHandle(auth: any) {
-            if (!this.form.address) {
-                console.log('请填写地址');
-            } else if (this.needMede === '1' && !this.form.memoAddr) {
-                console.log('请填写附加地址');
-            } else if (!this.form.remark) {
-                console.log('请填写名称');
-            } else {
-                this.$api
-                    .addAddress({
-                        coin: this.symbol,
-                        remark: this.form.remark,
-                        address: this.form.address,
-                        // memo: this.form.memoAddr,
-                        ...auth,
-                    })
-                    .then((res: any) => {
-                        if (res.code === 0) {
-                            this.$router.go(-1);
-                        }
-                    });
-            }
+            this.$api.addAddress({
+                coin: this.symbol,
+                remark: this.form.remark,
+                address: this.form.address,
+                memo: this.form.memoAddr,
+                ...auth,
+            })
+                .then((res: any) => {
+                    if (res.code === 0) {
+                        this.$router.go(-1);
+                    }
+                });
         },
     },
 });

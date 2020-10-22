@@ -12,7 +12,7 @@
         <ul>
             <li class="flex-between-c app-padding40" :class="`${activeItem.symbol}-bg`" v-for="item in addrList" :key="item.id" @click="detail(item)">
                 <div class="address-item">
-                    <h5>{{item.coin.toUpperCase()}}</h5>
+                    <h5>{{item.remark}}</h5>
                     <p>{{item.address}}</p>
                 </div>
                 <!-- <img :src="activeItem.img2" alt=""> -->

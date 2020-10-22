@@ -18,7 +18,7 @@ export default Vue.extend({
     },
     data() {
         return {
-            codeTxt: '发送',
+            codeTxt: `${this.$t('common.send2')}`,
             timer: null,
             timeNum: 0,
         };
@@ -36,9 +36,9 @@ export default Vue.extend({
                         this.timer = setInterval(() => {
                             this.timeNum -= 1;
                             if (this.timeNum === 0) {
-                                this.codeTxt = '重新发送';
+                                this.codeTxt = `${this.$t('common.repeat')}`;
                             } else {
-                                this.codeTxt = `重新发送(${this.timeNum})`;
+                                this.codeTxt = `${this.$t('common.repeat')}(${this.timeNum})`;
                             }
                         }, 1000) as any;
                         console.log('发送成功');

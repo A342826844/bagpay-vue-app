@@ -8,7 +8,13 @@
                     <Inputs v-model="form.address" :placeholder="`${symbol.toUpperCase()} ${$t('payment.address')}`">
                         <img class="transfer-out-assets"
                             src="@/assets/img/home/assets.png"
-                            @click="$router.push(`/addrList?symbol=${symbol}`)" alt="">
+                            @click="$router.push({
+                                path: 'addrList',
+                                query: {
+                                    symbol: symbol,
+                                    needMemo: charge.need_memo
+                                }
+                            })" alt="">
                     </Inputs>
                 </div>
                 <div class="form-item" v-if="charge.need_memo === 1">
@@ -71,7 +77,6 @@ export default Vue.extend({
     computed: {
         charge() {
             const activeItem: any = this.$store.state.symbolList.find((item: any) => item.symbol === this.symbol);
-            console.log(activeItem);
             return activeItem || {};
         },
         address() {
