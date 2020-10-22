@@ -126,6 +126,7 @@
         "realName": "实名认证",
         "systemSetting": "系统设置",
         "hideAmount": "隐藏余额",
+        "payManaged": "收款管理",
         "changeLang": "切换语言",
         "unitPrice": "计价单位",
         "logout": "退出账号",
@@ -139,6 +140,16 @@
         "safePass": "安全密码",
         "changePwd": "修改密码",
         "changePwdTip": "修改账号登录密码"
+    },
+    "payway": {
+        "addpay": "添加收付款方式",
+        "name": "姓名",
+        "account": "账号",
+        "sub_bank": "支行名称",
+        "bank": "银行名称",
+        "qrc": "二维码",
+        "selecPayWay": "选择收款类型",
+        "payway": "收付款方式"
     },
     "otc": {
         "otcAdv": "发布广告",

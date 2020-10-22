@@ -56,10 +56,10 @@ export default Vue.extend({
                     title: '管理钱包',
                     path: '/setpayment',
                 }, {
-                    name: 'pay',
+                    name: 'payway',
                     img: pay,
                     title: '收款设置',
-                    path: '',
+                    path: '/payway',
                 }, {
                     name: 'safe',
                     img: safe,
