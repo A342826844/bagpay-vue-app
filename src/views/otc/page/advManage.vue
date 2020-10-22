@@ -92,7 +92,7 @@ export default Vue.extend({
             limit: 10,
             isEnd: false,
             isLoading: false,
-            list: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+            list: [],
         };
     },
     created() {
@@ -104,7 +104,7 @@ export default Vue.extend({
             if (from.name === 'otcAdvDetail' && vm.list.length) {
                 return;
             }
-            vm.initParams();
+            vm.initParams(true);
         });
     },
     computed: {

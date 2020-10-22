@@ -1,5 +1,5 @@
 <template>
-    <footer class="app-footer border-t">
+    <footer class="app-footer">
         <div class="ui-flex nav-boxs">
             <div
                 @click="linkTo(item, index)"
@@ -81,12 +81,14 @@ export default Vue.extend({
 <style scoped lang="less">
 .app-footer {
     position: fixed;
-    // box-shadow: 0px -2px 10px 0px rgba(203, 203, 203, 0.75);
+    box-shadow: -1px -6px 10px 0px rgba(188, 188, 188, 0.15);
     z-index: 100;
     width: 100%;
-    height: 100px;
+    height: 129px;
     background-color: #fff;
-    top: calc(100% - 100px);
+    overflow: hidden;
+    border-radius: 87px 87px 0 0 ;
+    top: calc(100% - 129px);
     .nav-boxs {
         align-items: center;
         height: inherit;
@@ -104,7 +106,7 @@ export default Vue.extend({
         }
         .tar-icon{
             height: auto;
-            width: 46px;
+            width: 55px;
             display: inline-block;
             position: relative;
             margin: 0 auto 10px;

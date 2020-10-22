@@ -49,6 +49,14 @@
                     </div>
                     <div @click="selectPayHandle" class="form-item">
                         <Select>
+                            <!-- <span v-if="form.type === 1">
+                                <span v-show="pay_types.length">{{pay_types[0] | payType}}</span>
+                                <span v-show="!pay_types.length">支付方式</span>
+                            </span>
+                            <span v-if="form.type !== 1">
+                                <span v-show="bankInfo.type">{{bankInfo.type | payType}}</span>
+                                <span v-show="!bankInfo.type">收款方式</span>
+                            </span> -->
                             <span v-if="pay_types.length" class="vertical-m">{{pay_types[0] | payType}}</span>
                             <span v-if="!pay_types.length" class="vertical-m">{{form.type === 1 ? '支付方式' : '收款方式'}}</span>
                         </Select>
@@ -146,6 +154,9 @@ export default Vue.extend({
             const res = Number((this as any).form.amount) * Number((this as any).form.price);
             return res ? res.toFixed(2) : '';
         },
+        bankInfo(): any {
+            return this.$store.state.bankInfo;
+        },
         bodyTabList(): any {
             return [
                 {
@@ -167,8 +178,10 @@ export default Vue.extend({
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
             if (from.name === 'choisesymbol') {
-                const symbol = sessionStorage.getItem('symbol') || '';
+                const { symbol } = vm.$store.state.addAddr;
                 vm.setCoin(symbol);
+            } else if (from.name === 'PaywaySelect') {
+                vm.selectPayType(vm.$store.state.bankInfo.type);
             } else {
                 vm.setCoin(to.query.symbol);
                 vm.initFormData();
@@ -199,6 +212,7 @@ export default Vue.extend({
                 this.payPopup = !this.payPopup;
             } else {
                 //  TODO: 跳收款方式
+                this.$router.push(`/payway/select?id=${this.bankInfo.id}`);
             }
         },
         selectPayType(item: number) {
@@ -213,6 +227,7 @@ export default Vue.extend({
             this.form.remark = '';
         },
         submitHandle() {
+            console.log(this.pay_types);
             if (!this.form.price) {
                 this.$normalToast('请输入价格');
                 return;

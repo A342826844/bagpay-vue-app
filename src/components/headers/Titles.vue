@@ -44,6 +44,9 @@ export default Vue.extend({
         line-height: 45px;
         font-size: 45px;
     }
+    &.border-padding{
+        padding-bottom: 28px;
+    }
     &.dark{
         background: transparent;
         h3{

@@ -2,7 +2,7 @@
     <div class="otc-submit">
         <TitleHeader>
             <template #title>
-                {{ orderDetail.type | orderSide}}
+                {{ orderDetail.type | orderSideType}}
                 <span class="primary-color">{{orderDetail.coin && orderDetail.coin.toUpperCase()}}</span>
             </template>
             <div class="otc-submit-box">
@@ -21,7 +21,7 @@
                 </div>
                 <div class="flex-between-c app-padding40 app-margin-t40">
                     <div class="text-align-l">
-                        <p class="lable">数量(USDT)</p>
+                        <p class="lable">数量({{orderDetail.coin && orderDetail.coin.toUpperCase()}})</p>
                         <h6 class="app-size-34 otc-submit-price">{{ orderDetail.total }}</h6>
                     </div>
                     <div class="text-align-r">
@@ -150,7 +150,7 @@ export default Vue.extend({
         getOrder() {
             this.orderDetail = { ...this.$route.params };
             if (!this.orderDetail.id) {
-                // this.$router.go(-1);
+                this.$router.go(-1);
             }
         },
         downLoadHandle() {
@@ -223,7 +223,7 @@ export default Vue.extend({
             this.changeLoading(true);
             this.$api.otcDealSubmit(params).then((res: any) => {
                 this.changeLoading(false);
-                this.$router.replace(`/otc/order/detail?id=${res.date.id}`);
+                this.$router.replace(`/otc/order/detail?id=${res.data.id}`);
             }).catch((err: any) => {
                 console.log(err);
                 this.$normalToast('下单失败');

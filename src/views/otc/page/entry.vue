@@ -18,7 +18,6 @@
             size="big"
             border
             :defaultVal="side"
-            @change="tabChangeHandle"
             @on-click="clickHandle"
             class="otc-tab"
             :tabList="bodyTabList"
@@ -27,7 +26,7 @@
                 <img class="app-img-50" @click="screen=true" src="@/assets/img/common/screen.png" alt="">
                 <img class="app-img-50" @click="showMore=true" src="@/assets/img/common/more.png" alt="">
             </div>
-            <div class="otc-list" v-for="(item, index) in bodyTabList" :key="item.value" :slot="item.value">
+            <div class="otc-list" v-for="(item) in bodyTabList" :key="item.value" :slot="item.value">
                 <div class="otc-tabbar" @scroll.capture="scrollLoad($event, loadData)">
                     <V-Tabs
                         v-model="activeSymbol"
@@ -39,7 +38,7 @@
                         title-active-color='#5894EE'
                         :swipe-threshold='6'
                         :border='false'
-                        @change='changeCoinHandle(index+1)'
+                        @change='changeCoinHandle(item.side)'
                         >
                         <V-Tab
                             v-for="(subItem) in coins"
@@ -53,10 +52,10 @@
                                     <div class="otc-tabbar-content bg-white">
                                         <div class="content-list">
                                             <GoodsCard
-                                                v-for="renderData in renderData[index+1][activeSymbol]"
+                                                v-for="renderData in renderData[item.side][activeSymbol]"
                                                 :renderData='renderData'
                                                 :key="renderData.id"
-                                                :side="index+1"
+                                                :side="item.side"
                                                 @click="goTradeHandle(renderData)"
                                             ></GoodsCard>
                                             <div v-if="false" class="loadMore-loading">
@@ -172,7 +171,7 @@ export default Vue.extend({
             showMore: false,
             noDataShow: false,
             activeSymbol: '',
-            side: 1,
+            side: 2,
             renderData: {
                 1: {},
                 2: {},
@@ -236,12 +235,6 @@ export default Vue.extend({
         }
     },
     methods: {
-        tabChangeHandle(item: any) {
-            this.side = item.side;
-            if (this.showDataStatus === 3) {
-                this.loadData();
-            }
-        },
         goTradeHandle(item: any) {
             console.log(item);
             this.$router.push({
@@ -250,6 +243,7 @@ export default Vue.extend({
             });
         },
         changeCoinHandle(index: number) {
+            console.log(this.side);
             if (index !== this.side) return;
             if (this.showDataStatus === 3) {
                 this.loadData();
@@ -257,7 +251,6 @@ export default Vue.extend({
         },
         /** 获取渲染的数据, index=1表示购买下的数据, index=2表示出售下的数据 */
         getRenderData(index: 1|2) {
-            console.log('12');
             if (this.renderData[index] && this.renderData[index][this.activeSymbol]) {
                 return this.renderData[index][this.activeSymbol];
             }
@@ -266,7 +259,6 @@ export default Vue.extend({
         },
         loadData() {
             this.changeLoading(true);
-            console.log(axiosGoPromiseArr);
             axiosGoPromiseArr.forEach((ele, index) => {
                 ele.cancel('001');
                 delete axiosGoPromiseArr[index];
@@ -300,7 +292,12 @@ export default Vue.extend({
                 });
             }, 0);
         },
-        clickHandle() {
+        clickHandle(item: any) {
+            console.log(item);
+            this.side = item.side;
+            if (this.showDataStatus === 3) {
+                this.loadData();
+            }
             this.resizeTab();
         },
         clickShowMore(item: any) {
@@ -340,11 +337,11 @@ export default Vue.extend({
             return [{
                 title: this.$t('common.sideBuyT'),
                 value: 'sideBuyT',
-                side: 1,
+                side: 2,
             }, {
                 title: this.$t('common.sideSellT'),
                 value: 'sideSellT',
-                side: 2,
+                side: 1,
             }];
         },
     },

@@ -92,12 +92,20 @@ export default Vue.extend({
             limit: 10,
             isEnd: false,
             isLoading: false,
-            list: [{ coin: 'usdt' }],
+            list: [],
         };
     },
     created() {
         // this.$store.commit('changeLoading', true);
         this.loadData();
+    },
+    beforeRouteEnter(to, from, next) {
+        next((vm: any) => {
+            if (from.name === 'otcAdvDetail' && vm.list.length) {
+                return;
+            }
+            vm.initParams(true);
+        });
     },
     computed: {
         symbolList(): Array<CoinInfo> {
@@ -106,7 +114,7 @@ export default Vue.extend({
     },
     methods: {
         onRefresh() {
-            this.initParams();
+            this.initParams(false);
         },
         // 滚动懒加载
         scrollLoadHandle() {
@@ -134,7 +142,7 @@ export default Vue.extend({
                 state: this.state, // [OtcOrderState] -1取全部
                 // begin: 0, // [time] 开始时间
                 // end: 0, // [time] 结束时间
-                offset: this.list.length, // [int64] 跳过条数
+                offset: loading ? 0 : this.list.length, // [int64] 跳过条数
                 limit: this.limit, // [int64] 最大返回条数
             };
             if (loading) {
@@ -151,8 +159,13 @@ export default Vue.extend({
             // TODO
             console.log(params);
             this.$api.otcOrderDealList(params).then((res: any) => {
+                this.changeLoading(false);
                 this.isLoading = false;
-                this.list = this.list.concat(res.data || []);
+                if (loading) {
+                    this.list = res.data.list;
+                } else {
+                    this.list = this.list.concat(res.data.list);
+                }
                 if (this.list.length >= res.total) {
                     this.isEnd = true;
                 }

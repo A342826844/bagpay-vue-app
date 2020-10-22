@@ -1,7 +1,10 @@
 <template>
     <div class="otc-order-detail">
-        <TitleHeader border title="代付款">
-            <!-- TODO: -->
+        <Headers />
+        <PullRefresh v-model="isLoading" @refresh="onRefresh">
+            <Titles border>
+                <span :class="orderDetail.status | otcOrderStateColor">{{orderDetail.state | otcDealState}}</span>
+            </Titles>
             <span class="red-color" slot="right">{{121 | timeDown('mm:ss')}}</span>
             <div>
                 <div class="order-detail-top flex-between-c app-padding40">
@@ -11,11 +14,11 @@
                     </div>
                     <div class="text-align-l">
                         <p class="lable">交易币种</p>
-                        <p class="value">{{ orderDetail.coin.toUpperCase() }}</p>
+                        <p class="value">{{ orderDetail.coin | toUpperCase }}</p>
                     </div>
                     <div class="text-align-r">
                         <p class="lable">订单类型</p>
-                        <p class="value">{{ orderDetail.taker_side | orderSideType}}</p>
+                        <p class="value" :class="orderDetail.taker_side|orderSideColor">{{ orderDetail.taker_side | orderSide}}</p>
                     </div>
                 </div>
                 <div class="order-detail-list">
@@ -27,7 +30,7 @@
                             </div>
                             <div class="flex-between-c list-item-2">
                                 <div class="lable">数量</div>
-                                <div class="value">{{ orderDetail.amount }} {{orderDetail.coin.toUpperCase()}}</div>
+                                <div class="value">{{ orderDetail.amount }} {{orderDetail.coin | toUpperCase}}</div>
                             </div>
                         </li>
                         <li class="app-padding40">
@@ -71,16 +74,14 @@
                     </ul>
                 </div>
             </div>
-        </TitleHeader>
-        <div class="app-size-34 lxa-footer-btn flex-around-c">
-            <!-- OtcOrderStateWait        = 0 //等待中
-            OtcOrderStateTrading     = 1 //交易中
-            OtcOrderStateFinished    = 2 //已完成
-            OtcOrderStateCanceled    = 3 //已取消
-            OtcOrderStateClosed      = 4 //已关闭
-            OtcOrderStatePlatClosed  = 5 //平台强制关闭 -->
-            <Button @click="cancleHandle" type="cancel">取消</Button>
-            <Button @click="otcDealPadiHandle" v-if="orderDetail.state === 1">标记已支付</Button>
+        </PullRefresh>
+        <div class="app-size-34 app-padding40 lxa-footer-btn flex-around-c">
+            <!-- // OtcDealStateTrading   = 0 //交易中
+            // OtcDealStatePayed     = 1 //已支付
+            // OtcDealStateDone      = 2 //已放币,已完成
+            // OtcDealStateCanceled  = 3 //已取消 -->
+            <Button @click="cancleHandle" v-if="orderDetail.state === 0" type="cancel">取消</Button>
+            <Button @click="otcDealPadiHandle" v-if="orderDetail.state === 0">标记已支付</Button>
             <Button @click="appealHandle" v-if="orderDetail.state === 1" type="down">申述</Button>
             <Button @click="cancleAppealHandle" v-if="orderDetail.state === 1" type="down">取消申诉</Button>
             <Button @click="releaseHandle" v-if="orderDetail.state === 1" type="up">释放</Button>
@@ -111,34 +112,67 @@
 <script lang="ts">
 import Vue from 'vue';
 
+type data = {
+    show: boolean;
+    isLoading: boolean;
+    orderDetail: any;
+}
+
 export default Vue.extend({
     name: 'OtcGardCard',
-    data() {
+    data(): data {
         return {
             show: false,
+            isLoading: false,
             orderDetail: {
-                id: 100,
-                taker_id: 1, // 下单用户id
-                maker_id: 2, // 广告主用户id
-                order_id: 10, // 广告id
-                taker_side: 1, // 下单用户的交易方向 OrderSide
-                coin: 'usdt', // 币种
-                price: 1, // 价格
-                amount: 100, // 数量
-                value: 100, // 交易额
-                fee: 0.01, // 手续费 amount*fee_rate
-                pay_type: 1, // PayType
-                pay_tag: '0100', // 付款参考号
-                bank_info_id: 10, // 收款信息id
-                state: 1, // OtcOrderState
-                appealing: 0, // 是否申诉中
-                created_at: '', // 创建时间
+                // id: 100,
+                // taker_id: 1, // 下单用户id
+                // maker_id: 2, // 广告主用户id
+                // order_id: 10, // 广告id
+                // taker_side: 1, // 下单用户的交易方向 OrderSide
+                // coin: 'usdt', // 币种
+                // price: 1, // 价格
+                // amount: 100, // 数量
+                // value: 100, // 交易额
+                // fee: 0.01, // 手续费 amount*fee_rate
+                // pay_type: 1, // PayType
+                // pay_tag: '0100', // 付款参考号
+                // bank_info_id: 10, // 收款信息id
+                // state: 1, // OtcOrderState
+                // appealing: 0, // 是否申诉中
+                // created_at: '', // 创建时间
             },
         };
     },
+    created() {
+        this.getOrderDetail();
+    },
     methods: {
-        getOrderDetail() {
-            console.log('order');
+        onRefresh() {
+            this.getOrderDetail(true);
+        },
+        getOrderDetail(refresh?: boolean) {
+            if (!refresh) {
+                this.changeLoading(true);
+            }
+            this.$api.otcOrderDealList({
+                order_id: 6, state: -1, offset: 0, limit: 10,
+            }).then((res: any) => {
+                this.changeLoading(false);
+                this.isLoading = false;
+                if (res.data) {
+                    // eslint-disable-next-line prefer-destructuring
+                    this.orderDetail = res.data.list[0];
+                    return;
+                }
+                this.$normalToast('获取订单详情失败');
+            }).catch((err: any) => {
+                this.isLoading = false;
+                this.changeLoading(false);
+                if (!err.data) {
+                    this.$normalToast('获取订单详情失败');
+                }
+            });
         },
         cancleHandle() {
             this.$dialog.confirm({
@@ -213,9 +247,10 @@ export default Vue.extend({
     background: #f8f8f8;
     height: 100%;
     overflow: scroll;
-    padding-bottom: 220px;
+    // padding-bottom: 220px;
     .order-detail{
         &-top{
+            background: #ffffff;
             padding-top: 33px;
             padding-bottom: 39px;
             .lable{
@@ -228,7 +263,7 @@ export default Vue.extend({
             }
         }
         &-list{
-            background: #f8f8f8;
+            // background: #f8f8f8;
             padding-top: 28px;
             &>ul{
                 &>li{

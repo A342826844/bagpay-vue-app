@@ -38,6 +38,8 @@ export default Vue.extend({
         },
     },
     created() {
+        console.log(this.$route.query.id);
+        this.setId(this.$route.query.id);
         this.getList();
     },
     methods: {
@@ -48,7 +50,7 @@ export default Vue.extend({
                 this.$router.go(-1);
             }, 300);
         },
-        setId(id: string|number) {
+        setId(id: any) {
             this.id = Number(id);
         },
         getList() {

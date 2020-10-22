@@ -165,11 +165,11 @@ Vue.filter('orderSide', (state: 1|2) => {
 });
 // 订单方向 OrderSide
 Vue.filter('orderSideType', (state: 1|2) => {
-	// OrderSideBuy   = 1 // 购买
-	// OrderSideSell  = 2 // 出售
+	// OrderSideSell  = 1 // 出售
+	// OrderSideBuy   = 2 // 购买
     const states = {
-        1: 'common.sideBuyT',
-        2: 'common.sideSellT',
+        1: 'common.sideSellT',
+        2: 'common.sideBuyT',
     };
     return i18n.t(states[state]);
 });

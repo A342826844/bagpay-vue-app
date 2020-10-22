@@ -39,11 +39,11 @@
                     <div class="otc-advdetail-tradeinfo flex-between-c app-padding40">
                         <div class="text-align-l">
                             <p class="lable">成交({{orderDetail.coin | toUpperCase}}) </p>
-                            <p class="name  otc-advdetail-price">120</p>
+                            <p class="name  otc-advdetail-price">{{orderDetail.filled}}</p>
                         </div>
                         <div class="text-align-l">
                             <p class="lable">冻结({{orderDetail.coin | toUpperCase}})</p>
-                            <p class="name  otc-advdetail-price">120</p>
+                            <p class="name  otc-advdetail-price">{{orderDetail.frozen}}</p>
                         </div>
                         <div class="text-align-r">
                             <p class="lable">溢价率</p>
@@ -131,26 +131,26 @@ export default Vue.extend({
             isLoading: false,
             list: [{ taker_side: 1, state: 2 }, {}, {}],
             orderDetail: {
-                id: 1,
-                uid: 10, // 所属用户id
-                nickname: 'allen', // 昵称
-                coin: 'usdt', // 币种
-                type: 1, // OrderSide 交易方向
-                price: 1, // 价格
-                total: 100, // 总数量
-                filled: 10, // 已成交
-                filled_value: 10, // 已成交金额
-                frozen: 0, // 下单被冻结数量
-                min_value: 10, // 最小下单金额
-                max_value: 100, // 最大下单金额
-                pay_types: '1', // 支持的支付类型
-                country: 1, // 国家类型
-                currency: 1, // 货币类型
-                remark: '', // 备注
-                status: 1, // OrderState
-                floating_rate: 0, // 采用浮动价格后有效，溢价比例，0为不采用浮动价格, 1为不溢价，大于1为正溢价，小于1为负溢价
-                close_why: '', // 平台强制关闭的原因
-                created_at: '', // 创建时间
+                // id: 1,
+                // uid: 10, // 所属用户id
+                // nickname: 'allen', // 昵称
+                // coin: 'usdt', // 币种
+                // type: 1, // OrderSide 交易方向
+                // price: 1, // 价格
+                // total: 100, // 总数量
+                // filled: 10, // 已成交
+                // filled_value: 10, // 已成交金额
+                // frozen: 0, // 下单被冻结数量
+                // min_value: 10, // 最小下单金额
+                // max_value: 100, // 最大下单金额
+                // pay_types: '1', // 支持的支付类型
+                // country: 1, // 国家类型
+                // currency: 1, // 货币类型
+                // remark: '', // 备注
+                // status: 1, // OrderState
+                // floating_rate: 0, // 采用浮动价格后有效，溢价比例，0为不采用浮动价格, 1为不溢价，大于1为正溢价，小于1为负溢价
+                // close_why: '', // 平台强制关闭的原因
+                // created_at: '', // 创建时间
             },
             form: {
                 amount: '',

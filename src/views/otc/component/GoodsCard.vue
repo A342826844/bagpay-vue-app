@@ -24,7 +24,14 @@
                     </div>
                 </div>
                 <div>
-                    <Button @click="$emit('click', renderData)" size="mini" :type="side === 1 ? 'up' : 'down'">{{ side | orderSideType}}</Button>
+                    <Button
+                        @click="$emit('click', renderData)"
+                        size="mini"
+                        :disabled="renderData.uid == _userInfo.id"
+                        :type="side === 2 ? 'up' : 'down'"
+                    >
+                        {{ side | orderSideType}}
+                    </Button>
                 </div>
             </div>
         </div>
