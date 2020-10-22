@@ -31,7 +31,7 @@
           />
           <Inputs
             class="login-form-item"
-            :placeholder="$t('login.password')"
+            :placeholder="$t('login.newPwd')"
             clearable
             v-model="form.password"
             autocomplete="current-password"

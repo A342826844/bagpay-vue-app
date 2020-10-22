@@ -87,6 +87,7 @@ export default Vue.extend({
                     sms_code: this.form.code,
                 }).then((res: any) => {
                     if (res.code === 0) {
+                        this.initUserInfo();
                         this.$router.go(-1);
                     }
                 });

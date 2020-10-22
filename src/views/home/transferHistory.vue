@@ -2,9 +2,15 @@
     <div class="transfer-history primary-bg flex-column">
         <Headers bold theme="dark" :title="symbol.toUpperCase()"/>
         <div class="transfer-history-box flex-item-1 flex-column">
-            <div class="transfer-history-top">
-                <h3 class="value">{{activeSymbol.available}}</h3>
-                <p class="sub-value">$72500.00</p>
+            <div class="top_flex app-padding40">
+                <div class="transfer-history-top txt_left">
+                    <p class="sub-value">{{$t('common.available')}}</p>
+                    <h3 class="value">{{activeSymbol.available}}</h3>
+                </div>
+                <div class="transfer-history-top txt_right">
+                    <p class="sub-value">{{$t('common.frozen')}}</p>
+                    <h3 class="value">{{activeSymbol.otc_frozen}}</h3>
+                </div>
             </div>
             <div class="transfer-history-card flex-item-1">
                 <TabList
@@ -146,10 +152,7 @@ export default Vue.extend({
                 coin: this.symbol,
             }).then((res: any) => {
                 if (res.code === 0) {
-                    this.rechargeList = res.data.list || [{
-                        amount: '302.44',
-                        created_at: '2020-06-26 05:22',
-                    }];
+                    this.rechargeList = res.data.list || [];
                 }
             });
         },
@@ -158,12 +161,7 @@ export default Vue.extend({
                 coin: this.symbol,
             }).then((res: any) => {
                 if (res.code === 0) {
-                    this.withdrawalList = res.data.list || [{
-                        fee: '66',
-                        address: 'Efadfadfas fadsf asdfa sdfa sdf asdfsa f',
-                        amount: '302.44',
-                        created_at: '2020-06-26 05:22',
-                    }];
+                    this.withdrawalList = res.data.list || [];
                 }
             });
         },
@@ -194,13 +192,24 @@ export default Vue.extend({
     &-box{
         overflow: scroll;
     }
+    .top_flex{
+        display: flex;
+        justify-content: space-between;
+    }
     &-top{
         margin: 50px 0;
+        &.txt_left{
+            text-align: left;
+        }
+        &.txt_right{
+            text-align: right;
+        }
         .value{
-            font-size: 60px;
+            font-size: 45px;
         }
         .sub-value{
-            font-size: 29px;
+            font-size: 28px;
+            margin-bottom: 25px;
         }
     }
     &-card{
