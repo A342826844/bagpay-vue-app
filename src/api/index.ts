@@ -46,6 +46,18 @@ export const otcAppealCancel = (id: number) => postGolang(`/otc/appeal/cancel/${
 // 获取配置信息
 export const getConfigCommon = () => getGolang('/config/common');
 
+/** 支付方式 */
+// 获取支付方式列表
+export const getBankList = () => getGolang('/bank/list');
+// 获取指定已添加的支付方式信息
+export const getBankListById = (id: number) => getGolang(`/bank/user/get/${id}`, { id });
+// 根据类型获取已添加的支付方式信息(只返回开用状态的一条)
+export const getBankListByType = (type: number) => getGolang(`/bank/user/get-by-type/${type}`, { type });
+// 获取用户支付方式列表
+export const getUserBankList = () => getGolang('/bank/user/list');
+// 添加支付方式
+export const addUserBank = (data: params) => postGolang('/bank/user/add', data);
+
 // 注册验证码
 export const registerCode = (data: params) => postGolang('/verification-code/phone/VerifyCodeTypeRegister', data);
 // 获取图片验证
