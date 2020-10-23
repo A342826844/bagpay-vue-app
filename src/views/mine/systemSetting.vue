@@ -92,7 +92,7 @@ export default Vue.extend({
                     if (res.code === 0) {
                         this.$store.commit('setHideBalance', '');
                         this.$router.push({
-                            name: 'login',
+                            name: 'entry',
                         });
                     }
                 });

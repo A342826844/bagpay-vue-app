@@ -5,7 +5,7 @@
         <li @click="$router.push('/mine/safepass')" class="flex-between-c payment_item">
           <div v-t="'mine.safePass'"></div>
           <div>
-            <span class="vertical-m" :class="_userInfo.ver_lv === 0 ? 'primary-color' : 'red-color'">{{
+            <span class="vertical-m" :class="_userInfo.pay_password === '0' ? 'primary-color' : 'red-color'">{{
               _userInfo.pay_password ? "已设置" : "未设置"
             }}</span>
             <img

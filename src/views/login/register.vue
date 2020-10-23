@@ -38,11 +38,7 @@
             autocomplete="username"
             type="text"
           >
-            <span
-              @click="sendHandle"
-              class="primary-color"
-              v-t="'login.send'"
-            ></span>
+            <Code :phone="form.phone" :imgCode="form.imgCode" :imgCodeId="imgCode" :type="1"></Code>
           </Inputs>
           <Inputs
             class="login-form-item"
@@ -72,6 +68,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import Code from '@/components/code/index.vue';
 
 type form = {
   code: string;
@@ -91,7 +88,9 @@ type data = {
 
 export default Vue.extend({
     name: 'Register',
-    components: {},
+    components: {
+        Code,
+    },
     data(): data {
         return {
             islogin: false,
@@ -114,19 +113,34 @@ export default Vue.extend({
     },
     methods: {
         loginHandle() {
-            if (!this.form.nickname) {
-                console.log('请输入昵称');
-            } else if (this.form.phone.length !== 11) {
-                console.log('请输入正确手机号');
-            } else if (!this.form.imgCode) {
-                console.log('请输入图形码');
-            } else if (this.form.code.length !== 4) {
-                console.log('请输入正确验证码');
-            } else if (!this.form.password) {
-                console.log('请输入登录密码');
-            } else if (this.form.password !== this.form.confirmPassword) {
-                console.log('请再次输入登录密码且一致');
-            } else {
+            const vfi: boolean = this.$verification.fromVfi([
+                {
+                    type: 'name',
+                    value: this.form.nickname,
+                },
+                {
+                    type: 'phone',
+                    value: this.form.phone,
+                },
+                {
+                    type: 'empty',
+                    value: this.form.imgCode,
+                },
+                {
+                    type: 'code',
+                    value: this.form.code,
+                },
+                {
+                    type: 'pwd',
+                    value: this.form.password,
+                },
+                {
+                    type: 'pwd2',
+                    value1: this.form.password,
+                    value2: this.form.confirmPassword,
+                },
+            ]);
+            if (vfi) {
                 this.$api.register({
                     nickname: this.form.nickname,
                     passport: `86-${this.form.phone}`,
@@ -151,24 +165,6 @@ export default Vue.extend({
                     this.imgUrl = res.data.data;
                     this.imgCode = res.data.id;
                 });
-        },
-        sendHandle() {
-            if (!this.form.phone) {
-                console.log('请输入手机号');
-            } else if (!this.form.imgCode) {
-                console.log('请输入图形码');
-            } else {
-                this.$api.registerCode({
-                    phone: `86-${this.form.phone}`,
-                    type: 1,
-                    captcha: this.form.imgCode,
-                    captcha_id: this.imgCode,
-                }).then((res: any) => {
-                    if (res.code === 0) {
-                        console.log('发送成功');
-                    }
-                });
-            }
         },
     },
 });

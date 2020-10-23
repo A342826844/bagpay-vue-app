@@ -11,6 +11,12 @@ export default Vue.extend({
             type: String,
             required: true,
         },
+        imgCode: {
+            type: String,
+        },
+        imgCodeId: {
+            type: String,
+        },
         type: {
             type: Number,
             required: true,
@@ -26,26 +32,37 @@ export default Vue.extend({
     methods: {
         sendHandle() {
             if (this.timeNum !== 0) return;
+            if (this.type === 1 && !this.$verification.notEmpty(this.imgCode, this.$t('login.imgCode'))) return;
             if (this.$verification.phoneVfi(this.phone)) {
-                this.$api.registerCode({
+                const data: any = {
                     phone: `86-${this.phone}`,
                     type: this.type,
-                }).then((res: any) => {
+                };
+                if (this.type === 1) {
+                    data.captcha = this.imgCode;
+                    data.captcha_id = this.imgCodeId;
+                }
+                this.$api.registerCode(data).then((res: any) => {
                     if (res.code === 0) {
                         this.timeNum = 60;
                         this.timer = setInterval(() => {
                             this.timeNum -= 1;
                             if (this.timeNum === 0) {
                                 this.codeTxt = `${this.$t('common.repeat')}`;
+                                clearInterval(this.timer as any);
                             } else {
                                 this.codeTxt = `${this.$t('common.repeat')}(${this.timeNum})`;
                             }
                         }, 1000) as any;
-                        console.log('发送成功');
                     }
                 });
             }
         },
+    },
+    destroyed() {
+        if (this.timer) {
+            clearInterval(this.timer as any);
+        }
     },
 });
 </script>

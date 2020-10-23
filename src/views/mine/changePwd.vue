@@ -14,23 +14,6 @@
           />
           <Inputs
             class="login-form-item"
-            :placeholder="$t('login.vCode')"
-            v-model="form.code"
-            autocomplete="username"
-            type="text"
-          >
-            <Code :phone="this.form.phone" :type="1"></Code>
-          </Inputs>
-          <Inputs
-            class="login-form-item"
-            :placeholder="$t('login.oldPwd')"
-            clearable
-            v-model="form.oldPwd"
-            autocomplete="current-password"
-            type="password"
-          />
-          <Inputs
-            class="login-form-item"
             :placeholder="$t('login.newPwd')"
             clearable
             v-model="form.password"
@@ -49,21 +32,19 @@
       </div>
     </TitleHeader>
     <div class="lxa-footer-btn">
-      <Button @click="loginHandle" v-t="'login.done'"></Button>
+      <Button @click="auth" v-t="'login.done'"></Button>
     </div>
+    <user-auth ref="UserAuth" :type="1" @save="loginHandle"></user-auth>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import Code from '@/components/code/index.vue';
 
 type form = {
-  code: string;
   phone: string;
   password: string;
   confirmPassword: string;
-  oldPwd: string;
 };
 
 type data = {
@@ -73,18 +54,13 @@ type data = {
 
 export default Vue.extend({
     name: 'ChangePwd',
-    components: {
-        Code,
-    },
     data(): data {
         return {
             isLoading: false,
             form: {
-                code: '',
                 phone: '',
                 password: '',
                 confirmPassword: '',
-                oldPwd: '',
             },
         };
     },
@@ -95,23 +71,15 @@ export default Vue.extend({
         });
     },
     methods: {
-        loginHandle() {
+        auth() {
             if (this.isLoading) return;
-            const val: boolean = this.$verification.fromVfi([
+            const vfi: boolean = this.$verification.fromVfi([
                 {
                     type: 'phone',
                     value: this.form.phone,
                 },
                 {
-                    type: 'code',
-                    value: this.form.code,
-                },
-                {
-                    type: 'pwd',
-                    value: this.form.oldPwd,
-                },
-                {
-                    type: 'pwd',
+                    type: 'pay',
                     value: this.form.password,
                 },
                 {
@@ -120,28 +88,30 @@ export default Vue.extend({
                     value2: this.form.confirmPassword,
                 },
             ]);
-            if (val) {
-                this.isLoading = true;
-                this.changeLoading(true);
-                this.$api
-                    .changePwd({
-                        passport: `86-${this.form.phone}`,
-                        password: this.$md5(`${this.form.oldPwd}bagpaysol`),
-                        new_password: this.$md5(`${this.form.password}bagpaysol`),
-                        sms_code: this.form.code,
-                    })
-                    .then((res: any) => {
-                        if (res.code === 0) {
-                            this.$router.push({
-                                name: 'login',
-                            });
-                        }
-                    })
-                    .finally(() => {
-                        this.isLoading = false;
-                        this.changeLoading(false);
-                    });
+            if (vfi) {
+                (this.$refs.UserAuth as any).open();
             }
+        },
+        loginHandle(auth: any) {
+            if (this.isLoading) return;
+            this.isLoading = true;
+            this.changeLoading(true);
+            this.$api.changePwd({
+                passport: `86-${this.form.phone}`,
+                new_password: this.$md5(`${this.form.password}bagpaysol`),
+                ...auth,
+            })
+                .then((res: any) => {
+                    if (res.code === 0) {
+                        this.$router.push({
+                            name: 'login',
+                        });
+                    }
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                    this.changeLoading(false);
+                });
         },
     },
 });

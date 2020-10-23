@@ -6,11 +6,11 @@
                 <div class="form-item">
                     <Inputs readonly v-model="form.phone" placeholder="手机号"></Inputs>
                 </div>
-                <div class="form-item">
+                <!-- <div class="form-item">
                     <Inputs v-model="form.code"  placeholder="验证码">
-                        <Code :phone="this.form.phone" :type="1"></Code>
+                        <Code :phone="this.form.phone" :type="6"></Code>
                     </Inputs>
-                </div>
+                </div> -->
                 <div class="form-item">
                     <Inputs v-model="form.password" maxlength="6" placeholder="安全密码" clearable type="password"></Inputs>
                 </div>
@@ -20,20 +20,19 @@
             </form>
         </TitleHeader>
         <div class="lxa-footer-btn">
-            <Button @click="saveHandle" v-t="'common.save'"></Button>
+            <Button @click="auth" v-t="'common.save'"></Button>
         </div>
+        <user-auth ref="UserAuth" :type="3" @save="saveHandle"></user-auth>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import Code from '@/components/code/index.vue';
 
 type data = {
     isLoading: boolean;
     form: {
         phone: string;
-        code: string;
         password: string;
         confirmPassword: string;
     };
@@ -41,15 +40,11 @@ type data = {
 
 export default Vue.extend({
     name: 'RealName',
-    components: {
-        Code,
-    },
     data(): data {
         return {
             isLoading: false,
             form: {
                 phone: '',
-                code: '',
                 password: '',
                 confirmPassword: '',
             },
@@ -62,16 +57,12 @@ export default Vue.extend({
         });
     },
     methods: {
-        saveHandle() {
+        auth() {
             if (this.isLoading) return;
-            const val: boolean = this.$verification.fromVfi([
+            const vfi: boolean = this.$verification.fromVfi([
                 {
                     type: 'phone',
                     value: this.form.phone,
-                },
-                {
-                    type: 'code',
-                    value: this.form.code,
                 },
                 {
                     type: 'pay',
@@ -83,23 +74,27 @@ export default Vue.extend({
                     value2: this.form.confirmPassword,
                 },
             ]);
-            if (val) {
-                this.isLoading = true;
-                this.changeLoading(true);
-                this.$api.forgetPayPwd({
-                    passport: `86-${this.form.phone}`,
-                    new_password: this.$md5(`${this.form.password}bagpaysol`),
-                    sms_code: this.form.code,
-                }).then((res: any) => {
-                    if (res.code === 0) {
-                        this.initUserInfo();
-                        this.$router.go(-1);
-                    }
-                }).finally(() => {
-                    this.isLoading = false;
-                    this.changeLoading(false);
-                });
+            if (vfi) {
+                (this.$refs.UserAuth as any).open();
             }
+        },
+        saveHandle(auth: any) {
+            if (this.isLoading) return;
+            this.isLoading = true;
+            this.changeLoading(true);
+            this.$api.changePayPwd({
+                passport: `86-${this.form.phone}`,
+                new_password: this.$md5(`${this.form.password}bagpaysol`),
+                ...auth,
+            }).then((res: any) => {
+                if (res.code === 0) {
+                    this.initUserInfo();
+                    this.$router.go(-1);
+                }
+            }).finally(() => {
+                this.isLoading = false;
+                this.changeLoading(false);
+            });
         },
     },
 });
