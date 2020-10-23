@@ -89,15 +89,16 @@ export default Vue.extend({
             if (this.isLoading) return;
             if (this._userInfo.ver_lv === 0) {
                 this.$router.push('/mine/verlv1');
-            } else if (this._userInfo.ver_lv === 1 && this.verLvStatus.status_lv_1 === 1) {
+            } else if (this._userInfo.ver_lv === 1 && this.verLvStatus.status_lv_1 === 0) {
                 this.$router.push('/mine/verlv2');
-            } else if (this._userInfo.ver_lv === 2 && this.verLvStatus.status_lv_2 === 1) {
+            } else if (this._userInfo.ver_lv === 2 && this.verLvStatus.status_lv_2 === 0) {
                 this.$router.push('/mine/verlv3');
             } else {
                 this.$router.push({
                     path: '/mine/verLvStatus',
                     query: {
                         verLv: this._userInfo.ver_lv,
+                        reason: this.verLvStatus.reject_reason,
                         status: this.verLvStatus[`status_lv_${this._userInfo.ver_lv}`],
                     },
                 });

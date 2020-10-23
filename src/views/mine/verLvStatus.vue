@@ -3,6 +3,8 @@
     <TitleHeader :title="`${$t('mine.realName')}(LV${verLv})`">
         <img :src="getImg()" alt="" class="img_cont">
         <div class="status_txt">{{statusTxt}}</div>
+        <div class="reason_title" v-if="reason">拒绝理由</div>
+        <div class="status_reason" v-if="reason">{{reason}}</div>
     </TitleHeader>
   </div>
 </template>
@@ -15,6 +17,7 @@ export default Vue.extend({
         return {
             status: this.$route.query.status,
             verLv: this.$route.query.verLv,
+            reason: this.$route.query.reason,
             statusTxt: '',
         };
     },
@@ -47,5 +50,15 @@ export default Vue.extend({
     }
     .status_txt{
         font-size: 34px;
+    }
+    .reason_title{
+        font-size: 34px;
+        margin-top: 20px;
+    }
+    .status_reason{
+        font-size: 28px;
+        margin-top: 5px;
+        padding: 0 100px;
+        line-height: 50px;
     }
 </style>
