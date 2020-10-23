@@ -1,5 +1,5 @@
 <template>
-    <div class="otc-advdetail">
+    <div @scroll="scrollHandle" class="otc-advdetail">
         <Headers>
             <span @click="cancelHandle" class="primary-color">下架</span>
         </Headers>
@@ -175,11 +175,19 @@ export default Vue.extend({
             this.getOrderDetail();
             this.otcOrderDealList();
         },
+        scrollHandle() {
+            console.log('12112');
+        },
         getOrderDetail() {
+            this.changeLoading(true);
             this.$api.otcOrderGetById(this.orderDetail.id).then((res: any) => {
+                this.changeLoading(false);
                 if (res.data) {
                     this.orderDetail = res.data;
                 }
+            }).catch(() => {
+                this.changeLoading(false);
+                this.$normalToast('获取订单详情失败');
             });
         },
         goAdvState() {

@@ -58,7 +58,7 @@
         </div>
       </form>
       <div class="lxa-footer-btn">
-        <Button @click="auth()" v-t="'common.save'"></Button>
+        <Button @click="auth()" v-t="'common.ok'"></Button>
       </div>
       <user-auth ref="UserAuth" :type="6" @save="saveHandle"></user-auth>
     </TitleHeader>

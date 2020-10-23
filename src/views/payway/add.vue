@@ -37,7 +37,7 @@
             <user-auth ref="UserAuth" :type="6" @save="addHandle"></user-auth>
         </TitleHeader>
         <div class="lxa-footer-btn">
-            <Button @click="authHandle" v-t="'common.save'"></Button>
+            <Button @click="authHandle" v-t="'common.ok'"></Button>
         </div>
         <SelectPopup v-model="payPopup">
             <SelectPopupItem v-for="item in PayType" :key="item" @click="selectPayType(item)">{{ item | payType }}</SelectPopupItem>

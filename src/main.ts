@@ -42,6 +42,7 @@ declare module 'vue/types/vue' {
         _unitIcon: string;
         changeLoading: Function;
         initUserInfo: Function;
+        getUserBankList: Function;
     }
 }
 
@@ -91,6 +92,14 @@ Vue.mixin({
             this.$api.getUserInfo().then((res: any) => {
                 if (res.code === 0) {
                     this.$store.commit('setUserInfo', res.data);
+                }
+            });
+        },
+        getUserBankList() {
+            return this.$api.getUserBankList().then((res: any) => {
+                console.log('--');
+                if (res.data) {
+                    this.$store.commit('setBankList', res.data);
                 }
             });
         },

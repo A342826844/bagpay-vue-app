@@ -18,7 +18,7 @@
             </form>
         </TitleHeader>
         <div class="lxa-footer-btn">
-            <Button @click="saveHandle" v-t="'common.save'"></Button>
+            <Button @click="saveHandle" v-t="'common.ok'"></Button>
         </div>
     </div>
 </template>

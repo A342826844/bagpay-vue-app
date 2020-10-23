@@ -5,7 +5,7 @@
         <li class="flex-between-c">
           <div v-t="'mine.hideAmount'"></div>
           <div>
-            <van-switch v-model="hideBalance"
+            <V-Switch v-model="hideBalance"
               active-value="1"
               inactive-value="0"
               size="24px"
@@ -60,15 +60,10 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import 'vant/lib/switch/style';
-import { Switch } from 'vant';
 import { langs, langType } from '@/i18n/index';
 
 export default Vue.extend({
     name: 'SetPaymentAdd',
-    components: {
-        VanSwitch: Switch,
-    },
     data() {
         return {
             langType,

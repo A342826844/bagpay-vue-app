@@ -79,6 +79,8 @@ export default Vue.extend({
                 });
             } else if (this.$route.query.form === '2') {
                 this.$store.commit('setSymbol', item.symbol);
+            } else if (this.$route.query.type === '1') {
+                sessionStorage.setItem('symbol', item.symbol);
             }
             this.$router.go(-1);
         },

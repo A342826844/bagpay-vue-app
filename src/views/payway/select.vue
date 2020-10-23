@@ -20,7 +20,7 @@
 import Vue from 'vue';
 
 type data = {
-    list: Array<any>;
+    // list: Array<any>;
     id: number;
 };
 
@@ -28,7 +28,7 @@ export default Vue.extend({
     name: 'Aboutus',
     data(): data {
         return {
-            list: [],
+            // list: [],
             id: 0,
         };
     },
@@ -36,9 +36,11 @@ export default Vue.extend({
         renderList(): Array<any> {
             return this.list.filter((item) => item.status);
         },
+        list(): Array<any> {
+            return this.$store.state.bankList;
+        },
     },
     created() {
-        console.log(this.$route.query.id);
         this.setId(this.$route.query.id);
         this.getList();
     },
@@ -55,9 +57,8 @@ export default Vue.extend({
         },
         getList() {
             this.changeLoading(true);
-            this.$api.getUserBankList().then((res: any) => {
+            this.getUserBankList().then(() => {
                 this.changeLoading(false);
-                this.list = res.data;
             }).catch((err: any) => {
                 this.changeLoading(false);
                 if (!err.data) {

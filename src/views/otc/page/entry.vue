@@ -23,7 +23,7 @@
             :tabList="bodyTabList"
         >
             <div slot="right" class="otc-header-right">
-                <img class="app-img-50" @click="screen=true" src="@/assets/img/common/screen.png" alt="">
+                <!-- <img class="app-img-50" @click="screen=true" src="@/assets/img/common/screen.png" alt=""> -->
                 <img class="app-img-50" @click="showMore=true" src="@/assets/img/common/more.png" alt="">
             </div>
             <div class="otc-list" v-for="(item) in bodyTabList" :key="item.value" :slot="item.value">
@@ -203,7 +203,7 @@ export default Vue.extend({
                 }, {
                     img: payment,
                     title: 'otc.payment',
-                    name: 'payment',
+                    name: 'payway',
                     needlogin: true,
                 }, {
                     img: business,
@@ -236,14 +236,25 @@ export default Vue.extend({
     },
     methods: {
         goTradeHandle(item: any) {
-            console.log(item);
+            console.log(item.pay_types);
+            console.log(this.userBank);
+            const bankRes = this.userBank.some((subItem) => subItem.type === Number(item.pay_types));
+            console.log(bankRes);
+            if (!bankRes) {
+                this.$dialog.confirm({
+                    title: '温馨提示',
+                    message: '暂无支持的收付款方式',
+                }).then(() => {
+                    this.$router.push('/payway');
+                });
+                return;
+            }
             this.$router.push({
                 name: 'otcsubmit',
                 params: item,
             });
         },
         changeCoinHandle(index: number) {
-            console.log(this.side);
             if (index !== this.side) return;
             if (this.showDataStatus === 3) {
                 this.loadData();
@@ -321,6 +332,9 @@ export default Vue.extend({
                 title: item.symbol.toUpperCase(),
             }));
             return menuHandle(coins);
+        },
+        userBank(): Array<any> {
+            return this.$store.getters.getBankEnableList;
         },
         showDataStatus(): number {
             try {
