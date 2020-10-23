@@ -54,6 +54,7 @@ const routes: Array<RouteConfig> = [
         component: Entry,
         meta: {
             keepAlive: true,
+            noLogin: true,
         },
     },
     {
@@ -62,12 +63,16 @@ const routes: Array<RouteConfig> = [
         component: Login,
         meta: {
             keepAlive: true,
+            noLogin: true,
         },
     },
     {
         path: '/findaccount',
         name: 'findaccount',
         component: Findaccount,
+        meta: {
+            noLogin: true,
+        },
     },
     {
         path: '/setpaypassword',
@@ -78,6 +83,9 @@ const routes: Array<RouteConfig> = [
         path: '/register',
         name: 'register',
         component: Register,
+        meta: {
+            noLogin: true,
+        },
     },
     {
         path: '/home',

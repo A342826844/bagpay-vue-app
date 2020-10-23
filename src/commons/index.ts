@@ -18,6 +18,7 @@ declare module 'vue/types/vue' {
         $shareDataHandle: Function;
         $downloadImg: Function;
         $saveImg: Function;
+        $logoutHandle: Function;
         $loginRoute: (path: string, loginPth?: string) => void;
     }
 }
@@ -37,4 +38,10 @@ Vue.prototype.$loginRoute = function (path: string, loginPth?: string) {
 // eslint-disable-next-line func-names
 Vue.prototype.$goback = function () {
     this.$router.go(-1);
+};
+// eslint-disable-next-line func-names
+Vue.prototype.$logoutHandle = function () {
+    sessionStorage.clear();
+    this.$store.commit('setLoginState', 0);
+    this.$store.commit('setHideBalance', '');
 };

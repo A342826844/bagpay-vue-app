@@ -254,8 +254,12 @@ export default Vue.extend({
                 params: item,
             });
         },
-        changeCoinHandle(index: number) {
-            if (index !== this.side) return;
+        changeCoinHandle(side: number) {
+            if (side !== this.side) return;
+            axiosGoPromiseArr.forEach((ele, index) => {
+                ele.cancel('001');
+                delete axiosGoPromiseArr[index];
+            });
             if (this.showDataStatus === 3) {
                 this.loadData();
             }
@@ -270,10 +274,6 @@ export default Vue.extend({
         },
         loadData() {
             this.changeLoading(true);
-            axiosGoPromiseArr.forEach((ele, index) => {
-                ele.cancel('001');
-                delete axiosGoPromiseArr[index];
-            });
             if (!this.renderData[this.side][this.activeSymbol]) {
                 this.$set(this.renderData[this.side], this.activeSymbol, []);
             }
@@ -304,9 +304,12 @@ export default Vue.extend({
             }, 0);
         },
         clickHandle(item: any) {
-            console.log(item);
             this.side = item.side;
             if (this.showDataStatus === 3) {
+                axiosGoPromiseArr.forEach((ele, index) => {
+                    ele.cancel('001');
+                    delete axiosGoPromiseArr[index];
+                });
                 this.loadData();
             }
             this.resizeTab();

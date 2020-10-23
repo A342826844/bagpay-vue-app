@@ -67,6 +67,11 @@ export default Vue.extend({
             ],
         };
     },
+    // beforeRouteEnter(to, from, next) {
+    //     next((vm: any) => {
+    //         vm.$logoutHandle();
+    //     });
+    // },
     methods: {
         nextHandle() {
             this.activeTab += 1;

@@ -35,6 +35,7 @@ export default new Vuex.Store({
             phone: '',
             status: '',
         },
+        loginStatus: Number(localStorage.getItem('loginStatus')),
         addAddr: {}, // 添加提币地址
         address: {}, // 转出使用
         hideBalance,
@@ -57,6 +58,10 @@ export default new Vuex.Store({
         },
         setUserInfo(state, userInfo) {
             state.userInfo = userInfo;
+        },
+        setLoginState(state, status) {
+            localStorage.setItem('loginStatus', JSON.stringify(status));
+            state.loginStatus = status;
         },
         setBankList(state, list) {
             console.log(list, '---');

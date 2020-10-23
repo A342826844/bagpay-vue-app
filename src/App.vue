@@ -23,8 +23,11 @@ export default Vue.extend({
         Footer,
     },
     created() {
-        this.getCoinList();
-        this.initUserInfo();
+        if (this.$store.state.loginStatus) {
+            this.getCoinList();
+            this.initUserInfo();
+            this.$router.push('/home');
+        }
     },
     methods: {
         getCoinList() {
