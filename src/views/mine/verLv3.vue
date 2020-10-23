@@ -14,6 +14,14 @@
                     </li>
                 </ul>
             </form>
+            <Poptip>
+                <PoptipItem>
+                    {{$t('mine.verLv3Tip1')}}
+                </PoptipItem>
+                <PoptipItem>
+                    {{$t('mine.verLv3Tip2')}}
+                </PoptipItem>
+            </Poptip>
         </TitleHeader>
     </div>
 </template>

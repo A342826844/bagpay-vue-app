@@ -4,38 +4,38 @@
       <div class="bg_color">
         <div class="top_bor"></div>
         <div class="adv_top">
-          <div class="adv_t1">无限发布广告</div>
-          <div class="adv_t2">所有币种</div>
-          <div class="adv_t2">每日发布0限制</div>
-          <div class="adv_t2">方便快捷</div>
+          <div class="adv_t1">{{ $t("business.advTitle1") }}</div>
+          <div class="adv_t2">{{ $t("business.advTitle2") }}</div>
+          <div class="adv_t2">{{ $t("business.advTitle3") }}</div>
+          <div class="adv_t2">{{ $t("business.advTitle4") }}</div>
         </div>
         <div class="top_bor"></div>
         <ul class="tab_cont">
           <li class="tab_item">
             <img class="tab_img" src="@/assets/img/otc/vfy_1.png" alt="" />
-            <div class="tab_text">1.身份认证</div>
+            <div class="tab_text">1.{{ $t("business.advTitle5") }}</div>
           </li>
           <li class="tab_item">
             <img class="tab_img" src="@/assets/img/otc/vfy_2.png" alt="" />
-            <div class="tab_text">2.提交资料</div>
+            <div class="tab_text">2.{{ $t("business.advTitle6") }}</div>
           </li>
           <li class="tab_item">
             <img class="tab_img" src="@/assets/img/otc/vfy_3.png" alt="" />
-            <div class="tab_text">3.缴纳保证金</div>
+            <div class="tab_text">3.{{ $t("business.advTitle7") }}</div>
           </li>
           <li class="tab_item">
             <img class="tab_img" src="@/assets/img/otc/vfy_4.png" alt="" />
-            <div class="tab_text">4.成为商家</div>
+            <div class="tab_text">4.{{ $t("business.advTitle8") }}</div>
           </li>
         </ul>
       </div>
       <div class="adv_bottom">
         <Poptip>
           <PoptipItem>
-            为保障资金安全，当您账户安全策略变更、密码修改、我们会对提币进行人工审核，请耐心等待工作人员电话或邮件联系。
+            {{ $t("business.vfiBusTip1") }}
           </PoptipItem>
           <PoptipItem>
-            请务必确认电脑及浏览器安全，防止信息被篡改或泄露。
+            {{ $t("business.vfiBusTip2") }}
           </PoptipItem>
         </Poptip>
       </div>
@@ -104,8 +104,8 @@ export default Vue.extend({
   background-color: #fff;
 }
 .top_bor {
-  border-top: 1px solid #dcdcdc;
-  margin-top: 40px;
+  border-bottom: 1px solid #dcdcdc;
+  padding-top: 40px;
 }
 .adv_top {
   height: 380px;

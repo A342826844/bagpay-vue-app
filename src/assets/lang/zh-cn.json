@@ -147,7 +147,11 @@
         "realName5": "上传中",
         "safePass": "安全密码",
         "changePwd": "修改密码",
-        "changePwdTip": "修改登录密码"
+        "changePwdTip": "修改登录密码",
+        "verLv1Tip": "请填写本人身份证信息。",
+        "verLv2Tip": "请上传本人身份证正反及本人手持身份证照片。",
+        "verLv3Tip1": "我是***，证件号码是：545645645645.我自愿在bagpay注册交易，并确保账号是本人使用。",
+        "verLv3Tip2": "我确保所有资金来源合法，已经了解并能承受全部交易风险，提取数字资产不做非法使用，也不会用本平台进行任何非法活动，例如洗钱，传销，和非法兑换外币等。"
     },
     "payway": {
         "addpay": "添加收付款方式",
@@ -185,7 +189,18 @@
         "fixedPrice": "固定价格"
     },
     "business": {
-
+        "vfiBusTip1": "为保障资金安全，当您账户安全策略变更、密码修改、我们会对提币进行人工审核，请耐心等待工作人员电话或邮件联系。",
+        "vfiBusTip2": "请务必确认电脑及浏览器安全，防止信息被篡改或泄露。",
+        "vfiBusTip3": "我已阅读并同意",
+        "vfiBusTip4": "广告发布方协议",
+        "advTitle1": "无限发布广告",
+        "advTitle2": "所有币种",
+        "advTitle3": "每日发布0限制",
+        "advTitle4": "方便快捷",
+        "advTitle5": "身份认证",
+        "advTitle6": "提交资料",
+        "advTitle7": "缴纳保证金",
+        "advTitle8": "成为商家"
     },
     "payment": {
         "paymentTitle": "收款",

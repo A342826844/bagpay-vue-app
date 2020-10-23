@@ -1,12 +1,13 @@
 import Vue from 'vue';
 
 import './filter/index';
-import { normalToast } from './dom/index';
+import { normalToast, copyText } from './dom/index';
 import { shareDataHandle, downloadImg, saveImg } from './plus/index';
 
 declare module 'vue/types/vue' {
 // 3. 声明为 Vue 补充的东西
     interface Vue {
+        $copyText: Function;
         $normalToast: Function;
         $goback: Function;
         $numPlus: Function;
@@ -23,6 +24,7 @@ declare module 'vue/types/vue' {
 }
 
 Vue.prototype.$normalToast = normalToast;
+Vue.prototype.$copyText = copyText;
 
 Vue.prototype.$downloadImg = downloadImg; // 下载网络图片
 Vue.prototype.$shareDataHandle = shareDataHandle; // 分享

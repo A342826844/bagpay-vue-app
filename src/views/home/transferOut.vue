@@ -5,8 +5,17 @@
             <form class="transfer-out-form app-padding40">
                 <div class="form-item">
                     <div class="lable" v-t="'payment.chequesAddr'"></div>
-                    <Inputs v-model="form.address" :placeholder="`${symbol.toUpperCase()} ${$t('payment.address')}`">
-                        <img class="transfer-out-assets"
+                    <V-Field
+                        v-model="form.address"
+                        rows="2"
+                        autosize
+                        type="textarea"
+                        maxlength="64"
+                        :placeholder="`${symbol.toUpperCase()} ${$t('payment.address')}`"
+                        show-word-limit
+                    >
+                    <div slot="button" class="button_cont">
+                        <img class="app-img-50"
                             src="@/assets/img/home/assets.png"
                             @click="$router.push({
                                 path: 'addrList',
@@ -15,7 +24,8 @@
                                     needMemo: charge.need_memo
                                 }
                             })" alt="">
-                    </Inputs>
+                    </div>
+                    </V-Field>
                 </div>
                 <div class="form-item" v-if="charge.need_memo === 1">
                     <div class="lable" v-t="'payment.memoAddr'"></div>

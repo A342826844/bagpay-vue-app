@@ -9,8 +9,12 @@
                 alt=""
             >
         </div>
-        <ul>
-            <li class="flex-between-c app-padding40" :class="`${activeItem.symbol}-bg`" v-for="item in addrList" :key="item.id" @click="detail(item)">
+        <div class="select-symbol-right">
+        <ul class="symbol_list">
+            <li class="flex-between-c app-padding40 symbol_item"
+                :class="`${activeItem.symbol}-bg`"
+                v-for="item in addrList"
+                :key="item.id" @click="detail(item)">
                 <div class="address-item">
                     <h5>{{item.remark}}</h5>
                     <p>{{item.address}}</p>
@@ -18,6 +22,8 @@
                 <!-- <img :src="activeItem.img2" alt=""> -->
             </li>
         </ul>
+        <noData v-if="!isLoading && (!addrList.length)"/>
+        </div>
     </div>
 </template>
 
@@ -34,6 +40,7 @@ type lsitItm = {
 
 type data = {
     addrList: Array<any>;
+    isLoading: boolean;
     activeItem: any;
 }
 
@@ -54,6 +61,7 @@ export default Vue.extend({
     data(): data {
         return {
             addrList: [],
+            isLoading: false,
             activeItem: null,
         };
     },
@@ -73,13 +81,18 @@ export default Vue.extend({
             this.getAddrList();
         },
         getAddrList() {
+            this.isLoading = true;
+            this.changeLoading(true);
             this.addrList = [];
             this.$api.getAddrList({
                 coin: this.activeItem.symbol,
             }).then((res: any) => {
                 if (res.code === 0) {
-                    this.addrList = res.data;
+                    this.addrList = res.data || [];
                 }
+            }).finally(() => {
+                this.isLoading = false;
+                this.changeLoading(false);
             });
         },
         detail(item: any) {
@@ -123,10 +136,13 @@ export default Vue.extend({
             margin-bottom: 20px;
         }
     }
-    &>ul{
+    .select-symbol-right{
         flex: 1;
         overflow: hidden;
-        &>li{
+    }
+    .symbol_list{
+        overflow: hidden;
+        .symbol_item{
             height: 147px;
             margin-bottom: 40px;
             line-height: 50px;

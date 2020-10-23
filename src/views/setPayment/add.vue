@@ -23,16 +23,19 @@
         </div>
         <div class="form-item form-item-card">
           <div class="lable" v-t="'payment.chequesAddr'"></div>
-          <Inputs
-            v-model="form.address"
-            :placeholder="`${symbol.toUpperCase()} ${$t('payment.address')}`"
+          <V-Field
+              v-model="form.address"
+              rows="2"
+              autosize
+              type="textarea"
+              maxlength="64"
+              :placeholder="`${symbol.toUpperCase()} ${$t('payment.address')}`"
+              show-word-limit
           >
-            <img
-              class="app-img-50"
-              src="../../assets/img/common/qrcode1.png"
-              alt=""
-            />
-          </Inputs>
+          <div slot="button" class="button_cont">
+              <img class="app-img-50" @click="$copyText(form.address)" src="@/assets/img/common/qrcode1.png" alt="">
+          </div>
+          </V-Field>
         </div>
         <div class="form-item form-item-card" v-show="needMede === '1'">
           <div class="lable" v-t="'payment.memoAddr'"></div>
