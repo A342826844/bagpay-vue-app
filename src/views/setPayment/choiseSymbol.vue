@@ -1,6 +1,6 @@
 <template>
   <div class="set-payment">
-    <TitleHeader :title="$t('payment.choiceAddress')">
+    <TitleHeader :title="$route.query.form === '2' ? $t('payment.changeCoin') : $t('payment.choiceAddress')">
       <div class="assets-symbol-list app-padding40">
         <ul>
           <li
@@ -44,11 +44,6 @@ export default Vue.extend({
             type: '',
         };
     },
-    // computed: {
-    //     symbolList() {
-    //         return this.$store.state.symbolList;
-    //     },
-    // },
     mounted() {
         this.symbol = (this.$route.query.symbol || '') as string;
         sessionStorage.setItem('symbol', this.symbol);
