@@ -3,7 +3,7 @@
     <TitleHeader :title="`${$t('mine.realName')}(LV1)`" />
     <div class="realname-form app-padding40">
       <div class="form-item">
-        <Inputs v-model="form.userName" placeholder="姓名" clearable></Inputs>
+        <Inputs v-model="form.userName" :placeholder="$t('payway.name')" clearable></Inputs>
       </div>
       <div @click="isCardType = !isCardType" class="form-item">
         <Select>

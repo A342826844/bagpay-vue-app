@@ -67,7 +67,7 @@ type form = {
 };
 
 type data = {
-  islogin: boolean;
+  isLoading: boolean;
   imgUrl: string;
   imgCode: string;
   form: form;
@@ -80,7 +80,7 @@ export default Vue.extend({
     },
     data(): data {
         return {
-            islogin: false,
+            isLoading: false,
             imgUrl: '',
             imgCode: '',
             form: {
@@ -98,6 +98,9 @@ export default Vue.extend({
     },
     methods: {
         loginHandle() {
+            if (this.isLoading) return;
+            this.isLoading = true;
+            this.changeLoading(true);
             const vfi: boolean = this.$verification.fromVfi([
                 {
                     type: 'phone',
@@ -130,11 +133,12 @@ export default Vue.extend({
                     })
                     .then((res: any) => {
                         if (res.code === 0) {
-                            this.$router.push({
-                                name: 'login',
-                            });
+                            this.$router.go(-1);
                         }
-                        console.log(res);
+                    })
+                    .finally(() => {
+                        this.isLoading = false;
+                        this.changeLoading(false);
                     });
             }
         },

@@ -2,6 +2,16 @@
   <div class="set-payment-add">
     <TitleHeader :title="$t('mine.safeSetting')">
       <ul class="app-padding40 payment_cont">
+        <li @click="$router.push('/mine/forgetSafePass')" v-if="_userInfo.pay_password === '1'" class="flex-between-c payment_item">
+          <div v-t="'mine.forgetSafePass'"></div>
+          <div>
+            <img
+              class="app-img-50"
+              src="../../assets/img/common/arrow_right.png"
+              alt=""
+            />
+          </div>
+        </li>
         <li @click="$router.push('/mine/safepass')" class="flex-between-c payment_item">
           <div v-t="'mine.safePass'"></div>
           <div>
@@ -46,6 +56,7 @@
 import Vue from 'vue';
 
 type data = {
+  isLoading: boolean;
   verLvStatus: any;
 };
 
@@ -53,6 +64,7 @@ export default Vue.extend({
     name: 'SetPaymentAdd',
     data(): data {
         return {
+            isLoading: false,
             verLvStatus: {},
         };
     },
@@ -61,18 +73,25 @@ export default Vue.extend({
     },
     methods: {
         init() {
+            this.isLoading = true;
+            this.changeLoading(true);
             this.$api.getVerStutas().then((res: any) => {
                 if (res.data) {
                     this.verLvStatus = res.data;
                 }
-            });
+            })
+                .finally(() => {
+                    this.isLoading = false;
+                    this.changeLoading(false);
+                });
         },
         goVerLv() {
+            if (this.isLoading) return;
             if (this._userInfo.ver_lv === 0) {
                 this.$router.push('/mine/verlv1');
             } else if (this._userInfo.ver_lv === 1 && this.verLvStatus.status_lv_1 === 1) {
                 this.$router.push('/mine/verlv2');
-            } else if (this._userInfo.ver_lv === 2 && this.verLvStatus.status_lv_1 === 2) {
+            } else if (this._userInfo.ver_lv === 2 && this.verLvStatus.status_lv_2 === 1) {
                 this.$router.push('/mine/verlv3');
             } else {
                 this.$router.push({

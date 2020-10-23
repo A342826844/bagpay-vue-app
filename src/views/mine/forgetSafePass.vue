@@ -1,7 +1,7 @@
 <template>
     <div class="realname">
-        <TitleHeader :title="$t('mine.safePass')">
-            <p class="app-padding40 realname-tip">设置/修改安全密码，用于提现、交易。</p>
+        <TitleHeader :title="$t('mine.forgetSafePass')">
+            <p class="app-padding40 realname-tip">重置安全密码，用于提现、交易。</p>
             <form class="realname-form app-padding40" action="">
                 <div class="form-item">
                     <Inputs readonly v-model="form.phone" :placeholder="$t('login.phone')"></Inputs>
@@ -22,7 +22,7 @@
         <div class="lxa-footer-btn">
             <Button @click="auth" v-t="'common.ok'"></Button>
         </div>
-        <user-auth ref="UserAuth" :type="3" @save="saveHandle"></user-auth>
+        <user-auth ref="UserAuth" :type="4" @save="saveHandle"></user-auth>
     </div>
 </template>
 
@@ -39,7 +39,7 @@ type data = {
 }
 
 export default Vue.extend({
-    name: 'SafePass',
+    name: 'ForgetSafePass',
     data(): data {
         return {
             isLoading: false,
@@ -82,7 +82,7 @@ export default Vue.extend({
             if (this.isLoading) return;
             this.isLoading = true;
             this.changeLoading(true);
-            this.$api.changePayPwd({
+            this.$api.forgetPayPwd({
                 passport: `86-${this.form.phone}`,
                 new_password: this.$md5(`${this.form.password}bagpaysol`),
                 ...auth,
