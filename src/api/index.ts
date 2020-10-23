@@ -102,6 +102,8 @@ export const postVerLv1 = (data: params) => postGolang('/verification/lv1/submit
 export const postVerLv2 = (data: params) => postGolang('/verification/lv2/submit', data);
 // 提交lv3认证
 export const postVerLv3 = (data: params) => postGolang('/verification/lv3/submit', data);
+// 版本更新
+export const version = (data: params) => getGolang('/app/version/check', data);
 
 // 获取所有币种余额
 export const getBalances = (data: params) => postGolang('/user/balances', data);

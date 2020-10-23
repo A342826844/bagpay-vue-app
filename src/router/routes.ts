@@ -10,6 +10,7 @@ const AddrList = () => import('@/views/home/addressList.vue'); // 选择转出�
 const Mine = () => import('@/views/mine/index.vue');
 const SafeSetting = () => import('@/views/mine/safeSetting.vue');
 const SafePass = () => import('@/views/mine/safePass.vue');
+const ForgetSafePass = () => import('@/views/mine/forgetSafePass.vue');
 const SystemSetting = () => import('@/views/mine/systemSetting.vue');
 const Feedback = () => import('@/views/mine/feedback.vue');
 const Aboutus = () => import('@/views/mine/aboutus.vue');
@@ -233,6 +234,11 @@ const routes: Array<RouteConfig> = [
         path: '/mine/safepass',
         name: 'minesafepass',
         component: SafePass,
+    },
+    {
+        path: '/mine/forgetSafepass',
+        name: 'mineforgetSafepass',
+        component: ForgetSafePass,
     },
     {
         path: '/mine/systemsetting',
