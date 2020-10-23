@@ -178,7 +178,8 @@ export default Vue.extend({
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
             if (from.name === 'choisesymbol') {
-                const { symbol } = vm.$store.state.addAddr;
+                const symbol = sessionStorage.getItem('symbol');
+                console.log(symbol);
                 vm.setCoin(symbol);
             } else if (from.name === 'PaywaySelect') {
                 vm.selectPayType(vm.$store.state.bankInfo.type);

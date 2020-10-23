@@ -100,6 +100,7 @@ export default Vue.extend({
             this.$store.commit('setHideBalance', this.hide);
         },
         init() {
+            this.getUserBankList();
             this.changeLoading(true);
             Promise.all([this.getDeposit(), this.initBalances(), this.getExchangeRate()]).finally(() => {
                 this.changeLoading(false);

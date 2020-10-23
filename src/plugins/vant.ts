@@ -1,7 +1,8 @@
 import Vue from 'vue';
 
-import { Dialog } from 'vant';
+import { Dialog, Switch } from 'vant';
 import 'vant/lib/dialog/style';
+import 'vant/lib/switch/style';
 
 import Button from 'vant/lib/button';
 import 'vant/lib/button/style';
@@ -36,4 +37,5 @@ Vue.component('V-Tabs', Tabs);
 Vue.component('V-Pull-Refresh', PullRefresh);
 Vue.component('V-Popup', Popup);
 Vue.component('V-Uploader', Uploader);
+Vue.component('V-Switch', Switch);
 Vue.use(Dialog);

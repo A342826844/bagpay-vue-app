@@ -41,6 +41,7 @@ export default new Vuex.Store({
         bankInfo: {}, // 旋转支持的银行
         symbolList,
         configCommon,
+        bankList: [],
     },
     mutations: {
         changeLoading(state, loading) {
@@ -56,6 +57,10 @@ export default new Vuex.Store({
         },
         setUserInfo(state, userInfo) {
             state.userInfo = userInfo;
+        },
+        setBankList(state, list) {
+            console.log(list, '---');
+            state.bankList = list;
         },
         setAddress(state, address) {
             state.address = address;
@@ -85,6 +90,7 @@ export default new Vuex.Store({
             return coinInfo || {};
         },
         getOtcEnableList: (state) => state.symbolList.filter((item: CoinInfo) => item.enable_otc),
+        getBankEnableList: (state) => state.bankList.filter((item: any) => item.status),
     },
     actions: {
     },

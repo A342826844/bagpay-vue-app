@@ -101,7 +101,7 @@ export default Vue.extend({
     },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
-            if (from.name === 'otcAdvDetail' && vm.list.length) {
+            if (from.name === 'orderdetail' && vm.list.length) {
                 return;
             }
             vm.initParams(true);

@@ -8,12 +8,21 @@
                     <div class="flex-between-c">
                         <h5 class="app-size-34" v-if="item.type === 1">{{`${item.bank} ${item.sub_bank}`}}</h5>
                         <h5 class="app-size-34" v-if="item.type !== 1">{{item.type | payType}}</h5>
-                        {{item.status}}
-                        <Switchs @on-change="changeHandle(item)" :value="!!item.status"></Switchs>
+                        <!-- {{item.status}} -->
+                        <!-- <Switchs @on-change="changeHandle(item)" :value="!!item.status"></Switchs> -->
+                        <V-Switch
+                            :value="item.status"
+                            :active-value="1"
+                            :inactive-value="0"
+                            size="24px"
+                            @change="changeHandle(item)"
+                            active-color="#5894EE"
+                            inactive-color="#EDF3FB"/>
                     </div>
                     <div class="payway-info">{{`${item.real_name}  ${item.account}`}}</div>
                 </li>
             </ul>
+            <noData v-if="!_loading && (!list.length)"/>
         </TitleHeader>
     </div>
 </template>
@@ -21,43 +30,71 @@
 <script lang="ts">
 import Vue from 'vue';
 
-type data = {
-    list: Array<any>;
-};
+// type data = {
+//     list: Array<any>;
+// };
 
 export default Vue.extend({
     name: 'Aboutus',
-    data(): data {
-        return {
-            list: [],
-        };
-    },
+    // data(): data {
+    //     return {
+    //         // list: [],
+    //     };
+    // },
     created() {
         this.getList();
+    },
+    computed: {
+        list(): Array<any> {
+            return this.$store.state.bankList;
+            // return [];
+        },
     },
     methods: {
         getList() {
             this.changeLoading(true);
-            this.$api.getUserBankList().then((res: any) => {
+            this.getUserBankList().then(() => {
                 this.changeLoading(false);
-                this.list = res.data;
             }).catch((err: any) => {
                 this.changeLoading(false);
                 if (!err.data) {
                     this.$normalToast('收款方式获取失败');
                 }
             });
+            // this.$api.getUserBankList().then((res: any) => {
+            //     this.changeLoading(false);
+            //     this.list = res.data;
+            // }).catch((err: any) => {
+            //     this.changeLoading(false);
+            //     if (!err.data) {
+            //         this.$normalToast('收款方式获取失败');
+            //     }
+            // });
         },
         addHandle() {
             this.$router.push('/payway/add');
         },
-        changeHandle(value: any) {
-            console.log(value);
+        changeHandle(item: any) {
+            this.changeLoading(true);
+            if (item.status === 1) {
+                this.bankUserDisable(item.id);
+            } else {
+                this.bankUserEnable(item.id);
+            }
         },
         bankUserDisable(id: number) {
-            console.log(id);
             this.$api.bankUserDisable(id).then(() => {
-                this.changeLoading(false);
+                // this.changeLoading(false);
+                this.getList();
+                // this.list = this.list.map((item: any) => {
+                //     if (item.id === id) {
+                //         return {
+                //             ...item,
+                //             status: 0,
+                //         };
+                //     }
+                //     return item;
+                // });
             }).catch((err: any) => {
                 this.changeLoading(false);
                 if (!err.data) {
@@ -67,7 +104,17 @@ export default Vue.extend({
         },
         bankUserEnable(id: number) {
             this.$api.bankUserEnable(id).then(() => {
-                this.changeLoading(false);
+                // this.changeLoading(false);
+                this.getList();
+                // this.list = this.list.map((item: any) => {
+                //     if (item.id === id) {
+                //         return {
+                //             ...item,
+                //             status: 1,
+                //         };
+                //     }
+                //     return item;
+                // });
             }).catch((err: any) => {
                 this.changeLoading(false);
                 if (!err.data) {
