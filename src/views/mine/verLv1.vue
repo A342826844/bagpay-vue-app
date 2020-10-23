@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="lxa-footer-btn">
-            <Button @click="save" v-t="'common.save'"></Button>
+            <Button @click="save" v-t="'common.ok'"></Button>
         </div>
     </div>
 </template>
