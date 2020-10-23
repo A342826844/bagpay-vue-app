@@ -41,9 +41,9 @@
                                 <span>{{item.state | otcDealState}}</span>
                             </template>
                             <template slot="lable">
-                                <span>{{"价格"}} ({{_unit}})</span>
+                                <span>{{"价格"}} ({{_unitIcon}})</span>
                                 <span>{{"数量"}} ({{item.coin && item.coin.toUpperCase()}})</span>
-                                <span>{{"成交额"}} ({{_unit}})</span>
+                                <span>{{"成交额"}} ({{_unitIcon}})</span>
                             </template>
                             <template slot="value">
                                 <span>{{item.price}}</span>
@@ -180,8 +180,8 @@ export default Vue.extend({
             });
         },
         // 去广告详情页
-        goAdvState(item: { id: any }) {
-            this.$router.push(`/otc/order/detail?id=${item.id}`);
+        goAdvState(item: { order_id: any }) {
+            this.$router.push(`/otc/order/detail?id=${item.order_id}`);
         },
     },
 });

@@ -12,11 +12,11 @@
             </div>
             <div class="form-item">
                 <div class="lable">上传图片凭证</div>
-                <V-Uploader :max-count="3" v-model="fileList" multiple :after-read="afterRead"></V-Uploader>
+                <V-Uploader :max-count="3" v-model="fileList" multiple></V-Uploader>
             </div>
         </form>
         <div class="app-size-34 lxa-footer-btn flex-around-c">
-            <Button :disabled="disabled" :radius="false" @click="submitHandle" type="up">确定</Button>
+            <Button @click="submitHandle" >确定</Button>
         </div>
         <SelectPopup v-model="selectPopup">
             <SelectPopupItem
@@ -50,13 +50,7 @@ export default Vue.extend({
                 content: '',
                 type: 1,
             },
-            fileList: [
-                {
-                    url: 'https://img.yzcdn.cn/vant/leaf.jpg',
-                    status: 'uploading',
-                    message: '上传中...',
-                },
-            ],
+            fileList: [],
         };
     },
     methods: {
@@ -67,11 +61,11 @@ export default Vue.extend({
             console.log(item);
             this.form.type = item;
         },
-        afterRead(file: any) {
-            console.log(file, 'afterRead');
-            // 通过 status 属性可以标识上传状态，uploading 表示上传中，failed 表示上传失败，done 表示上传完成。
-            file.status = 'uploading';
-        },
+        // afterRead(file: any) {
+        //     console.log(file, 'afterRead');
+        //     // 通过 status 属性可以标识上传状态，uploading 表示上传中，failed 表示上传失败，done 表示上传完成。
+        //     file.status = 'uploading';
+        // },
         otcAppealSubmit() {
             const params = {
                 deal_id: this.id, // [string] 订单id

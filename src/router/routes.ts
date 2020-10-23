@@ -141,6 +141,7 @@ const routes: Array<RouteConfig> = [
             meta: {
                 showFooter: true,
                 needLogin: true,
+                keepAlive: true,
                 name: 'otc',
             },
         }, {

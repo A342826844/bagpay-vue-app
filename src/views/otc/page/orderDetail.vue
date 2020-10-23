@@ -26,7 +26,7 @@
                         <li class="app-padding40">
                             <div class="flex-between-c">
                                 <div class="lable">单价</div>
-                                <div class="primary-color">{{ orderDetail.price }} {{_unit}}</div>
+                                <div class="primary-color">{{ orderDetail.price }} {{_unitIcon}}</div>
                             </div>
                             <div class="flex-between-c list-item-2">
                                 <div class="lable">数量</div>
@@ -115,6 +115,7 @@ import Vue from 'vue';
 type data = {
     show: boolean;
     isLoading: boolean;
+    id: number;
     orderDetail: any;
     payDetail: any;
 }
@@ -125,6 +126,7 @@ export default Vue.extend({
         return {
             show: false,
             isLoading: false,
+            id: 0,
             payDetail: {},
             orderDetail: {
                 // id: 100,
@@ -147,6 +149,7 @@ export default Vue.extend({
         };
     },
     created() {
+        this.id = Number(this.$route.query.id);
         this.getOrderDetail();
     },
     methods: {
@@ -172,7 +175,7 @@ export default Vue.extend({
                 this.changeLoading(true);
             }
             this.$api.otcOrderDealList({
-                order_id: 6, state: -1, offset: 0, limit: 10,
+                order_id: this.id, state: -1, offset: 0, limit: 10,
             }).then((res: any) => {
                 this.changeLoading(false);
                 this.isLoading = false;

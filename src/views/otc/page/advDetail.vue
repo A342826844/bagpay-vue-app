@@ -1,7 +1,7 @@
 <template>
     <div @scroll="scrollHandle" class="otc-advdetail">
         <Headers>
-            <span @click="cancelHandle" class="primary-color">下架</span>
+            <span v-show="orderDetail.status === 0" @click="cancelHandle" class="primary-color">下架</span>
         </Headers>
         <PullRefresh v-model="isLoading" @refresh="onRefresh">
             <Titles>
@@ -94,7 +94,7 @@
                             <template slot="value">
                                 <span>{{item.price}}</span>
                                 <span>{{item.amount}}</span>
-                                <span>{{item.value}}</span>
+                                <span>{{item.updated_at}}</span>
                             </template>
                         </NCardItem>
                     </li>

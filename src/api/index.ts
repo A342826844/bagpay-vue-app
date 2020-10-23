@@ -25,6 +25,8 @@ export const otcOrderDealList = (data: params) => postGolang('/otc/deal/list', d
 export const otcOrderList = (data: params) => postGolang('/otc/order/list', data);
 // 获取广告信息
 export const otcOrderGetById = (id: number) => postGolang(`/otc/order/get/${id}`, { id });
+// 获取广告信息
+export const otcDealGetById = (id: number) => postGolang(`/otc/deal/get/${id}`, { id });
 // 广告下架
 export const otcOrderCancel = (id: number) => postGolang(`/otc/order/cancel/${id}`, { id });
 // 取消订单
@@ -38,7 +40,7 @@ export const otcDealSubmit = (data: params) => postGolang('/otc/deal/submit', da
 // 申请商家
 export const otcMerchant = (data: params) => postGolang('/otc/merchant/submit', data);
 // 获取商家申请信息
-export const otcGetMerchant = (data: params) => postGolang('/otc/merchant/get', data);
+export const otcGetMerchant = (data?: params) => postGolang('/otc/merchant/get', data);
 // 提交申诉
 export const otcAppealSubmit = (data: params) => postGolang('otc/appeal/submit', data);
 // 取消申诉
