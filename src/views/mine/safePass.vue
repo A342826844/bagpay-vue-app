@@ -8,7 +8,7 @@
                 </div>
                 <div class="form-item">
                     <Inputs v-model="form.code"  placeholder="验证码">
-                        <Code :phone="this.form.phone" :type="1"></Code>
+                        <Code :phone="this.form.phone" :type="7"></Code>
                     </Inputs>
                 </div>
                 <div class="form-item">

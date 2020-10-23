@@ -19,7 +19,7 @@
             autocomplete="username"
             type="text"
           >
-            <Code :phone="this.form.phone" :type="1"></Code>
+            <Code :phone="this.form.phone" :type="4"></Code>
           </Inputs>
           <Inputs
             class="login-form-item"
