@@ -194,6 +194,7 @@
         "paymentAddr": "钱包地址",
         "addAddress": "添加地址",
         "choiceAddress": "选择币种",
+        "changeCoin": "切换币种",
         "remark": "备注",
         "transferIn": "转入",
         "transferOut": "转出",
