@@ -180,8 +180,8 @@ export default Vue.extend({
             });
         },
         // 去广告详情页
-        goAdvState(item: { order_id: any }) {
-            this.$router.push(`/otc/order/detail?id=${item.order_id}`);
+        goAdvState(item: { id: any }) {
+            this.$router.push(`/otc/order/detail?id=${item.id}`);
         },
     },
 });

@@ -53,9 +53,13 @@ export default Vue.extend({
             fileList: [],
         };
     },
+    created() {
+        this.id = this.$route.query.id as string;
+    },
     methods: {
         submitHandle() {
             console.log('submitHandle');
+            this.otcAppealSubmit();
         },
         selectAppealType(item: number) {
             console.log(item);
@@ -67,14 +71,28 @@ export default Vue.extend({
         //     file.status = 'uploading';
         // },
         otcAppealSubmit() {
-            const params = {
-                deal_id: this.id, // [string] 订单id
-                type: this.form.type, // [OtcAppealType] 问题类型
-                content: this.form.content, // [string] 总是描述
-                images: this.images.join(','), // [string] 申诉图片,逗号分隔
-            };
+            // const params = {
+            //     deal_id: this.id, // [string] 订单id
+            //     type: this.form.type, // [OtcAppealType] 问题类型
+            //     content: this.form.content, // [string] 总是描述
+            //     images: this.images.join(','), // [string] 申诉图片,逗号分隔
+            // };
+            const params: any = new FormData();
+            this.fileList.forEach((item: any) => {
+                params.append('images', item.file);
+            });
+            params.append('deal_id', this.id);
+            params.append('type', `${this.form.type}`);
+            params.append('content', this.form.content);
+            this.changeLoading(true);
             this.$api.otcAppealSubmit(params).then((res: any) => {
-                console.log(res);
+                this.changeLoading(false);
+                this.$normalToast('申诉成功');
+                setTimeout(() => {
+                    this.$router.go(-1);
+                }, 1000);
+            }).catch(() => {
+                this.changeLoading(false);
             });
         },
         textareaInput() {

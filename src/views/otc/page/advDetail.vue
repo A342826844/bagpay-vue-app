@@ -178,9 +178,18 @@ export default Vue.extend({
         scrollHandle() {
             console.log('12112');
         },
+        getOrderData(refresh?: boolean) {
+            if (!refresh) {
+                this.changeLoading(true);
+            }
+            Promise.all([this.getOrderDetail(), this.otcOrderDealList(refresh)]).finally(() => {
+                this.isLoading = false;
+                this.changeLoading(false);
+            });
+        },
         getOrderDetail() {
             this.changeLoading(true);
-            this.$api.otcOrderGetById(this.orderDetail.id).then((res: any) => {
+            return this.$api.otcOrderGetById(this.orderDetail.id).then((res: any) => {
                 this.changeLoading(false);
                 if (res.data) {
                     this.orderDetail = res.data;
@@ -190,7 +199,8 @@ export default Vue.extend({
                 this.$normalToast('获取订单详情失败');
             });
         },
-        goAdvState() {
+        goAdvState(item: any) {
+            this.$router.push(`/order/detail?id=${item.id}`);
             console.log('去订单详情');
         },
         otcOrderDealList(refresh?: boolean) {
@@ -203,7 +213,7 @@ export default Vue.extend({
                 offset: refresh ? 0 : this.list.length, // [int64] 跳过条数
                 limit: 15, // [int64] 最大返回条数
             };
-            this.$api.otcOrderDealList(params).then((res: any) => {
+            return this.$api.otcOrderDealList(params).then((res: any) => {
                 console.log(res);
                 if (res.data.list) {
                     this.list = res.data.list;

@@ -1,5 +1,5 @@
 import {
-    getJava, postJava, postGolang, getGolang,
+    getJava, postJava, postGolang, getGolang, URL,
 } from './http';
 
 type params = {
@@ -25,7 +25,7 @@ export const otcOrderDealList = (data: params) => postGolang('/otc/deal/list', d
 export const otcOrderList = (data: params) => postGolang('/otc/order/list', data);
 // 获取广告信息
 export const otcOrderGetById = (id: number) => postGolang(`/otc/order/get/${id}`, { id });
-// 获取广告信息
+// 获取订单信息
 export const otcDealGetById = (id: number) => postGolang(`/otc/deal/get/${id}`, { id });
 // 广告下架
 export const otcOrderCancel = (id: number) => postGolang(`/otc/order/cancel/${id}`, { id });
@@ -43,12 +43,14 @@ export const otcMerchant = (data: params) => postGolang('/otc/merchant/submit', 
 export const otcGetMerchant = (data?: params) => postGolang('/otc/merchant/get', data);
 // 提交申诉
 export const otcAppealSubmit = (data: params) => postGolang('otc/appeal/submit', data);
+// 根据订单id获取申诉
+export const otcAppealByOrderId = (id: number) => postGolang(`/otc/appeal/get-by-deal/${id}`, { id });
 // 取消申诉
 export const otcAppealCancel = (id: number) => postGolang(`/otc/appeal/cancel/${id}`, { id });
 // 获取配置信息
 export const getConfigCommon = () => getGolang('/config/common');
-// 取消申诉
-export const getFile = (id: number) => postGolang(`/file/${id}`, { id });
+// 获取文件
+export const getFile = `${URL}/file/get/`;
 
 /** 支付方式 */
 // 获取支付方式列表

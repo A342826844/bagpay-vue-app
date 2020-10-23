@@ -50,3 +50,5 @@ export const postGolang = (url: string, data?: object) => axiosOfGoLang({
     withCredentials: false,
     baseURL: process.env.NODE_ENV === 'development' ? baseURL : process.env.VUE_APP_GOLANG_apiUrl,
 });
+
+export const URL = process.env.NODE_ENV === 'development' ? baseURL : process.env.VUE_APP_GOLANG_apiUrl;

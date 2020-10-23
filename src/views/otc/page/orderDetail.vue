@@ -71,6 +71,27 @@
                                 <div class="value">{{ orderDetail.pay_tag }}</div>
                             </div>
                         </li>
+                        <li class="app-padding40">
+                            <div class="flex-between-c">
+                                <div class="lable">申诉</div>
+                                <div @click="showPayHandle" class="primary-color">
+                                    <span class="vertical-m">{{ orderDetail.pay_type | payType}}</span>
+                                    <img class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt="">
+                                </div>
+                            </div>
+                            <div class="flex-between-c list-item-2">
+                                <!-- TODO: 支付信息 -->
+                                <div class="value">廖小艾 </div>
+                                <div class="value">{{ orderDetail.pay_tag }}</div>
+                            </div>
+                            <div class="appeal-img-list">
+                                <img
+                                    v-for="(item, index) in appealImages"
+                                    :key="index"
+                                    @click="imagePreviewHandle(index)"
+                                    :src="item" alt="">
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -111,6 +132,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { ImagePreview } from 'vant';
 
 type data = {
     show: boolean;
@@ -118,6 +140,7 @@ type data = {
     id: number;
     orderDetail: any;
     payDetail: any;
+    appealData: any;
 }
 
 export default Vue.extend({
@@ -125,9 +148,10 @@ export default Vue.extend({
     data(): data {
         return {
             show: false,
-            isLoading: false,
+            isLoading: true,
             id: 0,
             payDetail: {},
+            appealData: {},
             orderDetail: {
                 // id: 100,
                 // taker_id: 1, // 下单用户id
@@ -148,13 +172,39 @@ export default Vue.extend({
             },
         };
     },
+    computed: {
+        appealImages(): Array<any> {
+            if (this.appealData.images) {
+                return this.appealData.images.split(',').map((item: string) => `${this.$api.getFile}${item}`);
+            }
+            return [];
+        },
+    },
     created() {
         this.id = Number(this.$route.query.id);
-        this.getOrderDetail();
+        this.getOrderData();
     },
     methods: {
         onRefresh() {
-            this.getOrderDetail(true);
+            this.getOrderData(true);
+        },
+        getOrderData(refresh?: boolean) {
+            if (!refresh) {
+                this.changeLoading(true);
+            }
+            this.isLoading = true;
+            Promise.all([this.otcAppealByOrderId(), this.getOrderDetail()]).finally(() => {
+                this.changeLoading(false);
+                this.isLoading = false;
+            });
+        },
+        otcAppealByOrderId() {
+            return this.$api.otcAppealByOrderId(this.id).then((res: any) => {
+                console.log(res);
+                if (res.data) {
+                    this.appealData = res.data;
+                }
+            });
         },
         getBankListById() {
             this.changeLoading(true);
@@ -170,18 +220,13 @@ export default Vue.extend({
                 throw new Error();
             });
         },
-        getOrderDetail(refresh?: boolean) {
-            if (!refresh) {
-                this.changeLoading(true);
-            }
-            this.$api.otcOrderDealList({
-                order_id: this.id, state: -1, offset: 0, limit: 10,
-            }).then((res: any) => {
+        getOrderDetail() {
+            return this.$api.otcDealGetById(this.id).then((res: any) => {
                 this.changeLoading(false);
                 this.isLoading = false;
                 if (res.data) {
                     // eslint-disable-next-line prefer-destructuring
-                    this.orderDetail = res.data.list[0];
+                    this.orderDetail = res.data;
                     return;
                 }
                 this.$normalToast('获取订单详情失败');
@@ -191,6 +236,14 @@ export default Vue.extend({
                 if (!err.data) {
                     this.$normalToast('获取订单详情失败');
                 }
+            });
+        },
+        imagePreviewHandle(index: number) {
+            console.log(this);
+            console.log(Object.keys(this).indexOf('$dialog'));
+            ImagePreview({
+                images: this.appealImages,
+                startPosition: index,
             });
         },
         cancleHandle() {
@@ -267,7 +320,7 @@ export default Vue.extend({
                 </div>`,
             }).then(() => {
                 this.changeLoading(true);
-                this.$api.otcAppealCancel(this.orderDetail.id).then(() => {
+                this.$api.otcAppealCancel(this.appealData.id).then(() => {
                     this.getOrderDetail();
                     this.$normalToast('取消申诉成功');
                     this.changeLoading(false);
@@ -342,6 +395,13 @@ export default Vue.extend({
     .pay-dialog{
         line-height: 80px;
         padding-bottom: 42px;
+    }
+    .appeal-img-list{
+        text-align: left;
+        img{
+            margin: 15px;
+            width: 80px;
+        }
     }
 }
 </style>
