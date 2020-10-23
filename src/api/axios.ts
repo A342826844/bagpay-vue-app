@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import Dialog from 'vant/lib/dialog';
 import i18n from '@/i18n/index';
 import { normalToast } from '@/commons/dom/index';
 import store from '../store';
@@ -96,7 +97,18 @@ axiosOfGoLang.interceptors.response.use(
         }
         return response.data;
     },
-    (error) => Promise.reject(error),
+    (error) => {
+        if (error.response && error.response.status === 403) {
+            Dialog.alert({
+                title: '温馨提示',
+                message: '您登陆已过期， 请重新登录',
+            }).then(() => {
+                store.commit('setLoginState', 0);
+                window.location.href = '/';
+            });
+        }
+        Promise.reject(error);
+    },
 );
 
 const axiosOfThird = axios.create();

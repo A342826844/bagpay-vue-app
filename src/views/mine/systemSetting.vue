@@ -90,7 +90,8 @@ export default Vue.extend({
             }).then(() => {
                 this.$api.logout().then((res: any) => {
                     if (res.code === 0) {
-                        this.$store.commit('setHideBalance', '');
+                        // this.$store.commit('setHideBalance', '');
+                        this.$logoutHandle();
                         this.$router.push({
                             name: 'entry',
                         });
