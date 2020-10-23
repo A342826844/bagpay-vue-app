@@ -16,6 +16,11 @@
                     </li>
                 </ul>
             </form>
+            <Poptip>
+                <PoptipItem>
+                    {{$t('mine.verLv2Tip')}}
+                </PoptipItem>
+            </Poptip>
         </TitleHeader>
         <div class="lxa-footer-btn">
             <Button @click="saveHandle" v-t="'common.ok'"></Button>

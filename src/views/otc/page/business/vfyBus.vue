@@ -72,15 +72,16 @@
         />
         <Poptip>
           <PoptipItem>
-            为保障资金安全，当您账户安全策略变更、密码修改、我们会对提币进行人工审核，请耐心等待工作人员电话或邮件联系。
+            {{ $t("business.vfiBusTip1") }}
           </PoptipItem>
           <PoptipItem>
-            请务必确认电脑及浏览器安全，防止信息被篡改或泄露。
+            {{ $t("business.vfiBusTip2") }}
           </PoptipItem>
         </Poptip>
         <div class="check_cont">
           <van-checkbox v-model="checked" shape="square">
-            我已阅读并同意《<span class="primary-color" @click.stop="$router.push('/otc/protocol')">广告发布方协议</span>》
+           {{ $t("business.vfiBusTip3") }}
+           《<span class="primary-color" @click.stop="$router.push('/otc/protocol')">{{ $t("business.vfiBusTip4") }}</span>》
           </van-checkbox>
         </div>
         <Button
