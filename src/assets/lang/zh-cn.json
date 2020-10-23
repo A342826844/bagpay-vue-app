@@ -255,6 +255,7 @@
         "ERR_MERCHANT_BAIL_AMOUNT_NOT_CONFIG": "商家保证金数量未配置",
         "ERR_NOT_OTC_MERCHANT": "不是otc商家",
         "ERR_BAD_OTC_MERCHANT_STATUS": "otc商家状态不正常",
+        "ERR_MAX_CANCEL_COUNT": "以达到当日最大可取消次数",
 
         "ERR_BAD_COIN_SYMBOL": "币种标识不正确",
 

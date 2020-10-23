@@ -205,6 +205,9 @@ export default Vue.extend({
             };
             this.$api.otcOrderDealList(params).then((res: any) => {
                 console.log(res);
+                if (res.data.list) {
+                    this.list = res.data.list;
+                }
             });
         },
         cancelHandle() {

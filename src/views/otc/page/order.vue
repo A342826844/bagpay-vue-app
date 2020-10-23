@@ -161,13 +161,17 @@ export default Vue.extend({
             this.$api.otcOrderDealList(params).then((res: any) => {
                 this.changeLoading(false);
                 this.isLoading = false;
-                if (loading) {
-                    this.list = res.data.list;
+                if (res.data.list) {
+                    if (loading) {
+                        this.list = res.data.list;
+                    } else {
+                        this.list = this.list.concat(res.data.list);
+                    }
+                    if (this.list.length >= res.total) {
+                        this.isEnd = true;
+                    }
                 } else {
-                    this.list = this.list.concat(res.data.list);
-                }
-                if (this.list.length >= res.total) {
-                    this.isEnd = true;
+                    this.list = [];
                 }
             }).catch(() => {
                 this.changeLoading(false);

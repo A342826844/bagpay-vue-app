@@ -217,9 +217,7 @@ export default Vue.extend({
     },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
-            if (from.name !== 'otcsubmit') {
-                vm.loadData();
-            }
+            vm.loadData();
         });
     },
     watch: {
@@ -236,10 +234,16 @@ export default Vue.extend({
     },
     methods: {
         goTradeHandle(item: any) {
-            console.log(item.pay_types);
-            console.log(this.userBank);
+            if (this._userInfo) {
+                this.$dialog.confirm({
+                    title: '温馨提示',
+                    message: '暂无支持的收付款方式',
+                }).then(() => {
+                    this.$router.push('/payway');
+                });
+                return;
+            }
             const bankRes = this.userBank.some((subItem) => subItem.type === Number(item.pay_types));
-            console.log(bankRes);
             if (!bankRes) {
                 this.$dialog.confirm({
                     title: '温馨提示',

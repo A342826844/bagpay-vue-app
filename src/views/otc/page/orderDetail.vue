@@ -80,29 +80,29 @@
             // OtcDealStatePayed     = 1 //已支付
             // OtcDealStateDone      = 2 //已放币,已完成
             // OtcDealStateCanceled  = 3 //已取消 -->
-            <Button @click="cancleHandle" v-if="orderDetail.state === 0" type="cancel">取消</Button>
-            <Button @click="otcDealPadiHandle" v-if="orderDetail.state === 0">标记已支付</Button>
+            <Button @click="cancleHandle" v-if="orderDetail.state === 0 && orderDetail.taker_id === _userInfo.id" type="cancel">取消</Button>
+            <Button @click="otcDealPadiHandle" v-if="orderDetail.state === 0 && orderDetail.taker_id === _userInfo.id">标记已支付</Button>
             <Button @click="appealHandle" v-if="orderDetail.state === 1" type="down">申述</Button>
             <Button @click="cancleAppealHandle" v-if="orderDetail.state === 1" type="down">取消申诉</Button>
-            <Button @click="releaseHandle" v-if="orderDetail.state === 1" type="up">释放</Button>
+            <Button @click="releaseHandle" v-if="orderDetail.state === 1 && orderDetail.maker_id === _userInfo.id" type="up">释放</Button>
         </div>
         <van-dialog v-model="show" close-on-click-overlay :show-confirm-button="false" title="支付方式">
             <div class="pay-dialog app-padding40">
                 <div class="flex-between-c">
                     <span>方式 </span>
-                    <span>ABA Bank</span>
+                    <span>{{payDetail.type | payType}}</span>
                 </div>
                 <div class="flex-between-c">
                     <span>姓名</span>
-                    <span>廖小艾</span>
+                    <span>{{payDetail.real_name}}</span>
                 </div>
-                <div class="flex-between-c">
+                <div v-if="payDetail.type === 1" class="flex-between-c">
                     <span>开户行</span>
-                    <span>中国银行</span>
+                    <span>{{payDetail.bank}}</span>
                 </div>
                 <div class="flex-between-c">
                     <span>账号</span>
-                    <span>13552232409</span>
+                    <span class="primary-color">{{payDetail.account}}</span>
                 </div>
             </div>
         </van-dialog>
@@ -116,6 +116,7 @@ type data = {
     show: boolean;
     isLoading: boolean;
     orderDetail: any;
+    payDetail: any;
 }
 
 export default Vue.extend({
@@ -124,6 +125,7 @@ export default Vue.extend({
         return {
             show: false,
             isLoading: false,
+            payDetail: {},
             orderDetail: {
                 // id: 100,
                 // taker_id: 1, // 下单用户id
@@ -150,6 +152,20 @@ export default Vue.extend({
     methods: {
         onRefresh() {
             this.getOrderDetail(true);
+        },
+        getBankListById() {
+            this.changeLoading(true);
+            return this.$api.getBankListById(this.orderDetail.bank_info_id).then((res: any) => {
+                this.changeLoading(false);
+                console.log(res);
+                this.payDetail = res.data;
+            }).catch((err: any) => {
+                this.changeLoading(false);
+                if (!err.data) {
+                    this.$normalToast('获取支付信息失败，请稍后重试');
+                }
+                throw new Error();
+            });
         },
         getOrderDetail(refresh?: boolean) {
             if (!refresh) {
@@ -183,9 +199,16 @@ export default Vue.extend({
                     <span>取消规则： 买家当日累计${3}笔交易， 会限制当日买入功能</span>
                 </div>`,
             }).then(() => {
+                this.changeLoading(true);
                 this.$api.otcDealCancel(this.orderDetail.id).then(() => {
+                    this.changeLoading(false);
                     this.getOrderDetail();
                     this.$normalToast('取消成功');
+                }).catch((err: any) => {
+                    this.changeLoading(false);
+                    if (!err.data) {
+                        this.$normalToast('网络错误，刷新后重试');
+                    }
                 });
             });
         },
@@ -197,9 +220,16 @@ export default Vue.extend({
                     <span class="primary-color">如果您未收到买家付款， 请不要释放交易</span>
                 </div>`,
             }).then(() => {
+                this.changeLoading(true);
                 this.$api.otcDealRelease(this.orderDetail.id).then(() => {
+                    this.changeLoading(false);
                     this.getOrderDetail();
                     this.$normalToast('释放成功');
+                }).catch((err: any) => {
+                    this.changeLoading(false);
+                    if (!err.data) {
+                        this.$normalToast('网络错误，刷新后重试');
+                    }
                 });
             });
         },
@@ -212,9 +242,16 @@ export default Vue.extend({
                     <span class="primary-color">恶意点击将直接冻结账户</span>
                 </div>`,
             }).then(() => {
+                this.changeLoading(true);
                 this.$api.otcDealPadi(this.orderDetail.id).then(() => {
                     this.getOrderDetail();
                     this.$normalToast('确认成功');
+                    this.changeLoading(false);
+                }).catch((err: any) => {
+                    this.changeLoading(false);
+                    if (!err.data) {
+                        this.$normalToast('网络错误，刷新后重试');
+                    }
                 });
             });
         },
@@ -226,14 +263,27 @@ export default Vue.extend({
                     <span class="primary-color">确认取消本次申诉</span>
                 </div>`,
             }).then(() => {
+                this.changeLoading(true);
                 this.$api.otcAppealCancel(this.orderDetail.id).then(() => {
                     this.getOrderDetail();
                     this.$normalToast('取消申诉成功');
+                    this.changeLoading(false);
+                }).catch((err: any) => {
+                    this.changeLoading(false);
+                    if (!err.data) {
+                        this.$normalToast('网络错误，刷新后重试');
+                    }
                 });
             });
         },
         showPayHandle() {
-            this.show = true;
+            if (this.payDetail.id) {
+                this.show = true;
+                return;
+            }
+            this.getBankListById().then(() => {
+                this.show = true;
+            });
         },
         appealHandle() {
             this.$router.push(`/otc/order/appeal?id=${this.orderDetail.id}`);
