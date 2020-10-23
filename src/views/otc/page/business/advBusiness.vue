@@ -104,8 +104,8 @@ export default Vue.extend({
   background-color: #fff;
 }
 .top_bor {
-  border-top: 1px solid #dcdcdc;
-  margin-top: 40px;
+  border-bottom: 1px solid #dcdcdc;
+  padding-top: 40px;
 }
 .adv_top {
   height: 380px;

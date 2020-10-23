@@ -47,10 +47,11 @@
                     </div>
                     <div class="list-values">
                         <h5 class="lable">{{item.available}}</h5>
-                        <p class="value">{{changeRate(item.available, item.coin)}}</p>
+                        <p class="value">$ {{changeRate(item.available, item.coin)}}</p>
                     </div>
                 </li>
             </ul>
+            <noData v-if="!isLoading && (!symbolList.length)"/>
         </div>
     </div>
 </template>
@@ -63,6 +64,7 @@ type data = {
     hide: string;
     activeSymbol: any;
     rate: any;
+    isLoading: boolean;
     unitDecimal: number;
     symbolList: Array<{
         coin: string;
@@ -75,11 +77,9 @@ type data = {
 
 export default Vue.extend({
     name: 'Home',
-    created() {
-        this.init();
-    },
     data(): data {
         return {
+            isLoading: false,
             symbol: this.$store.state.symbol,
             hide: this.$store.state.hideBalance,
             activeSymbol: {},
@@ -94,15 +94,20 @@ export default Vue.extend({
             return activeCoin || {};
         },
     },
+    created() {
+        this.init();
+    },
     methods: {
         _change() {
             this.hide = this.hide === '1' ? '0' : '1';
             this.$store.commit('setHideBalance', this.hide);
         },
         init() {
+            this.isLoading = true;
             this.getUserBankList();
             this.changeLoading(true);
             Promise.all([this.getDeposit(), this.initBalances(), this.getExchangeRate()]).finally(() => {
+                this.isLoading = false;
                 this.changeLoading(false);
             });
         },

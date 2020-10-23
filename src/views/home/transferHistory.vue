@@ -37,6 +37,7 @@
                                 </div>
                             </li>
                         </ul>
+                        <noData v-if="!isLoading && (!rechargeList.length)"/>
                     </div>
                     <div class="transfer-list" slot="transferOut">
                         <ul>
@@ -55,6 +56,7 @@
                                 </div>
                             </li>
                         </ul>
+                        <noData v-if="!isLoading && (!withdrawalList.length)"/>
                     </div>
                 </TabList>
                 <div></div>
@@ -76,6 +78,7 @@ type data = {
     symbol: string;
     active: string;
     size: number;
+    isLoading: boolean;
     rechargeList: Array<any>; // 转入
     withdrawalList: Array<any>; // 转出
     activeSymbol: any;
@@ -90,6 +93,7 @@ export default Vue.extend({
         return {
             size: 100,
             symbol: '',
+            isLoading: false,
             active: 'transferIn',
             rechargeList: [],
             withdrawalList: [],
@@ -133,8 +137,10 @@ export default Vue.extend({
     },
     methods: {
         init() {
+            this.isLoading = true;
             this.changeLoading(true);
             Promise.all([this.getCoinHistory(), this.getWithdrawHistory(), this.getCoinBalances()]).finally(() => {
+                this.isLoading = false;
                 this.changeLoading(false);
             });
         },
@@ -174,15 +180,15 @@ export default Vue.extend({
                 }
             });
         },
+        goLink(path: string) {
+            this.$store.commit('setAddress', {});
+            this.$router.push(`${path}?symbol=${this.symbol}`);
+        },
         tabChangeHandle(value: any) {
             console.log(value);
         },
         clickHandle(value: any) {
             console.log(value);
-        },
-        goLink(path: string) {
-            this.$store.commit('setAddress', {});
-            this.$router.push(`${path}?symbol=${this.symbol}`);
         },
     },
 });

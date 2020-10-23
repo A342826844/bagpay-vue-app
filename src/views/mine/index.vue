@@ -71,16 +71,17 @@ export default Vue.extend({
                     title: '系统设置',
                     path: '/mine/systemsetting',
                 }, {
-                    name: 'feedback',
-                    img: feedback,
-                    title: '意见反馈',
-                    path: '/mine/feedback',
-                }, {
                     name: 'aboutus',
                     img: aboutus,
                     title: '关于我们',
                     path: '/mine/aboutus',
                 },
+                // {
+                //     name: 'feedback',
+                //     img: feedback,
+                //     title: '意见反馈',
+                //     path: '/mine/feedback',
+                // },
             ],
         };
     },

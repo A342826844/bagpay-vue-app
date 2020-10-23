@@ -47,6 +47,7 @@ export default Vue.extend({
 <style lang='less' scoped>
 .app-no-data {
     padding-top: 80px;
+    text-align: center;
     & > img {
         width: 200px;
         height: auto;
