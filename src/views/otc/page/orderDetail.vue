@@ -3,9 +3,9 @@
         <Headers />
         <PullRefresh v-model="isLoading" @refresh="onRefresh">
             <Titles border>
-                <span :class="orderDetail.status | otcOrderStateColor">{{orderDetail.state | otcDealState}}</span>
+                <span :class="orderDetail.state | otcOrderStateColor">{{orderDetail.state | otcDealState}}</span>
+                <span v-if="orderDetail.state === 0" class="red-color" slot="right">{{download | timeDown('mm:ss')}}</span>
             </Titles>
-            <span class="red-color" slot="right">{{121 | timeDown('mm:ss')}}</span>
             <div>
                 <div class="order-detail-top flex-between-c app-padding40">
                     <div class="text-align-l">
@@ -33,7 +33,7 @@
                                 <div class="value">{{ orderDetail.amount }} {{orderDetail.coin | toUpperCase}}</div>
                             </div>
                         </li>
-                        <li class="app-padding40">
+                        <li v-if="false" class="app-padding40">
                             <div class="flex-between-c">
                                 <div class="lable">商家</div>
                                 <div class="lable">
@@ -54,7 +54,8 @@
                             </div>
                             <div class="flex-between-c list-item-2">
                                 <div class="value">订单时间</div>
-                                <div class="value">{{ orderDetail.created_at | date('yyyy-MM-dd hh:mm:ss')}}</div>
+                                <!-- <div class="value">{{ orderDetail.created_at | date('yyyy-MM-dd hh:mm:ss')}}</div> -->
+                                <div class="value">{{ orderDetail.created_at}}</div>
                             </div>
                         </li>
                         <li class="app-padding40">
@@ -67,22 +68,29 @@
                             </div>
                             <div class="flex-between-c list-item-2">
                                 <!-- TODO: 支付信息 -->
-                                <div class="value">廖小艾 </div>
+                                <div class="value">付款参考号</div>
                                 <div class="value">{{ orderDetail.pay_tag }}</div>
                             </div>
                         </li>
-                        <li class="app-padding40">
+                        <li v-if="orderDetail.appealing" class="app-padding40">
                             <div class="flex-between-c">
                                 <div class="lable">申诉</div>
-                                <div @click="showPayHandle" class="primary-color">
-                                    <span class="vertical-m">{{ orderDetail.pay_type | payType}}</span>
-                                    <img class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt="">
+                                <div >
+                                    {{ appealData.type | otcAppealType}}
                                 </div>
                             </div>
                             <div class="flex-between-c list-item-2">
-                                <!-- TODO: 支付信息 -->
-                                <div class="value">廖小艾 </div>
-                                <div class="value">{{ orderDetail.pay_tag }}</div>
+                                <div class="value">申诉时间</div>
+                                <!-- <div class="value">{{ orderDetail.created_at | date('yyyy-MM-dd hh:mm:ss')}}</div> -->
+                                <div class="value">{{ appealData.created_at}}</div>
+                            </div>
+                            <div v-show="appealData.suggest" class="flex-between-c list-item-2">
+                                <div class="value">处理意见</div>
+                                <!-- <div class="value">{{ orderDetail.created_at | date('yyyy-MM-dd hh:mm:ss')}}</div> -->
+                                <div
+                                    @click="showSuggestHandle(appealData.suggest)"
+                                    class=" primary-color appeal-suggest ellipsis"
+                                >{{ appealData.suggest}}</div>
                             </div>
                             <div class="appeal-img-list">
                                 <img
@@ -103,8 +111,8 @@
             // OtcDealStateCanceled  = 3 //已取消 -->
             <Button @click="cancleHandle" v-if="orderDetail.state === 0 && orderDetail.taker_id === _userInfo.id" type="cancel">取消</Button>
             <Button @click="otcDealPadiHandle" v-if="orderDetail.state === 0 && orderDetail.taker_id === _userInfo.id">标记已支付</Button>
-            <Button @click="appealHandle" v-if="orderDetail.state === 1" type="down">申述</Button>
-            <Button @click="cancleAppealHandle" v-if="orderDetail.state === 1" type="down">取消申诉</Button>
+            <Button @click="appealHandle" v-if="orderDetail.state === 1 && !orderDetail.appealing" type="down">申述</Button>
+            <Button @click="cancleAppealHandle" v-if="orderDetail.appealing" type="down">取消申诉</Button>
             <Button @click="releaseHandle" v-if="orderDetail.state === 1 && orderDetail.maker_id === _userInfo.id" type="up">释放</Button>
         </div>
         <van-dialog v-model="show" close-on-click-overlay :show-confirm-button="false" title="支付方式">
@@ -115,15 +123,15 @@
                 </div>
                 <div class="flex-between-c">
                     <span>姓名</span>
-                    <span>{{payDetail.real_name}}</span>
+                    <span @click="$copyText(payDetail.real_name)" class="primary-color">{{payDetail.real_name}}</span>
                 </div>
                 <div v-if="payDetail.type === 1" class="flex-between-c">
                     <span>开户行</span>
-                    <span>{{payDetail.bank}}</span>
+                    <span @click="$copyText(payDetail.bank)" class="primary-color">{{payDetail.bank}}</span>
                 </div>
                 <div class="flex-between-c">
                     <span>账号</span>
-                    <span class="primary-color">{{payDetail.account}}</span>
+                    <span @click="$copyText(payDetail.account)" class="primary-color">{{payDetail.account}}</span>
                 </div>
             </div>
         </van-dialog>
@@ -138,6 +146,8 @@ type data = {
     show: boolean;
     isLoading: boolean;
     id: number;
+    download: number;
+    timer: any;
     orderDetail: any;
     payDetail: any;
     appealData: any;
@@ -149,9 +159,11 @@ export default Vue.extend({
         return {
             show: false,
             isLoading: true,
+            timer: 0,
             id: 0,
             payDetail: {},
             appealData: {},
+            download: 0,
             orderDetail: {
                 // id: 100,
                 // taker_id: 1, // 下单用户id
@@ -178,6 +190,9 @@ export default Vue.extend({
                 return this.appealData.images.split(',').map((item: string) => `${this.$api.getFile}${item}`);
             }
             return [];
+        },
+        configCommon(): any {
+            return this.$store.state.configCommon;
         },
     },
     created() {
@@ -220,6 +235,24 @@ export default Vue.extend({
                 throw new Error();
             });
         },
+        getDownload(created_at: string) {
+            clearInterval(this.timer);
+            // TODO 时间搓
+            const createdAt = new Date(created_at.replace('-', '/')).getTime();
+            console.log(createdAt, this.configCommon.OtcGlobalDealTimeout);
+            const OtcGlobalDealTimeout = Number(this.configCommon.OtcGlobalDealTimeout) * 1000;
+            this.timer = setInterval(() => {
+                console.log('==');
+                const nowTimer = new Date().getTime();
+                console.log(nowTimer, createdAt);
+                this.download = OtcGlobalDealTimeout - (nowTimer - createdAt);
+                console.log(this.download);
+                if (this.download <= 0) {
+                    clearInterval(this.timer);
+                    // this.getOrderDetail();
+                }
+            }, 1000);
+        },
         getOrderDetail() {
             return this.$api.otcDealGetById(this.id).then((res: any) => {
                 this.changeLoading(false);
@@ -227,6 +260,11 @@ export default Vue.extend({
                 if (res.data) {
                     // eslint-disable-next-line prefer-destructuring
                     this.orderDetail = res.data;
+                    if (this.orderDetail.state === 0) {
+                        this.getDownload(this.orderDetail.created_at);
+                    } else {
+                        clearInterval(this.timer);
+                    }
                     return;
                 }
                 this.$normalToast('获取订单详情失败');
@@ -252,7 +290,7 @@ export default Vue.extend({
                 messageAlign: 'left',
                 message: `<div class="app-reset-diolog-message">
                     <span class="primary-color">如果您已经向卖家付款， 请不要取消交易</span>
-                    <span>取消规则： 买家当日累计${3}笔交易， 会限制当日买入功能</span>
+                    <span>取消规则： 买家24小时累计取消${this.configCommon.OtcGlobalMaxCancel}笔交易， 会限制当日买入功能</span>
                 </div>`,
             }).then(() => {
                 this.changeLoading(true);
@@ -271,7 +309,6 @@ export default Vue.extend({
         releaseHandle() {
             this.$dialog.confirm({
                 title: '确认释放交易',
-                messageAlign: 'left',
                 message: `<div class="app-reset-diolog-message">
                     <span class="primary-color">如果您未收到买家付款， 请不要释放交易</span>
                 </div>`,
@@ -314,10 +351,7 @@ export default Vue.extend({
         cancleAppealHandle() {
             this.$dialog.confirm({
                 title: '确认取消申诉',
-                messageAlign: 'left',
-                message: `<div class="app-reset-diolog-message">
-                    <span class="primary-color">确认取消本次申诉</span>
-                </div>`,
+                message: '确认取消本次申诉',
             }).then(() => {
                 this.changeLoading(true);
                 this.$api.otcAppealCancel(this.appealData.id).then(() => {
@@ -330,6 +364,12 @@ export default Vue.extend({
                         this.$normalToast('网络错误，刷新后重试');
                     }
                 });
+            });
+        },
+        showSuggestHandle(suggest: string) {
+            this.$dialog.alert({
+                title: '处理意见',
+                message: suggest,
             });
         },
         showPayHandle() {
@@ -395,6 +435,10 @@ export default Vue.extend({
     .pay-dialog{
         line-height: 80px;
         padding-bottom: 42px;
+    }
+    .appeal-suggest{
+        width: 50%;
+        text-align: right;
     }
     .appeal-img-list{
         text-align: left;

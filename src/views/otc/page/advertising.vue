@@ -31,12 +31,12 @@
                             <Inputs v-model="form.floating_rate" placeholder="溢价率(30~50)">%</Inputs>
                         </div> -->
                         <div class="form-item">
-                            <Inputs decimal type="number" v-model="form.price" :placeholder="`${form.title}价格`">
+                            <Inputs decimal type="number" v-model="form.price" :placeholder="`${item.title}价格`">
                                 {{_unitIcon}}
                             </Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs :decimal="2" v-model="form.amount" :placeholder="`${form.title}数量`">{{coinSHow}}</Inputs>
+                            <Inputs :decimal="2" v-model="form.amount" :placeholder="`${item.title}数量`">{{coinSHow}}</Inputs>
                         </div>
                         <div class="form-item">
                             <Inputs readonly :value="total || '总额'">{{_unitIcon}}</Inputs>
@@ -62,6 +62,19 @@
                             </Select>
                         </div>
                         <!-- TODO 备注 -->
+                        <div class="form-item text-align-l">备注</div>
+                        <div class="form-item">
+                            <V-Field
+                                v-model="form.remark"
+                                rows="3"
+                                autosize
+                                type="textarea"
+                                maxlength="60"
+                                :placeholder="'备注信息（非必填）'"
+                                show-word-limit
+                            >
+                            </V-Field>
+                        </div>
                     </form>
                     <Poptip>
                         <!-- <PoptipItem>
@@ -247,7 +260,16 @@ export default Vue.extend({
                 return;
             }
             if (!this.pay_types.length) {
-                this.$normalToast('请选择支付方式');
+                this.$normalToast('请选择收付款方式');
+                return;
+            }
+            if (Number(this.form.min_value) > Number(this.total)) {
+                console.log(this.form.min_value, this.total);
+                this.$normalToast('单笔最低限额不能大于支付金额');
+                return;
+            }
+            if (Number(this.form.max_value) <= Number(this.form.min_value)) {
+                this.$normalToast('单笔最高限额不能低于最高限额');
                 return;
             }
             this.otcOrderPlace();

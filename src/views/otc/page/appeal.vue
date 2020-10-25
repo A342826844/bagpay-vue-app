@@ -8,7 +8,16 @@
             </div>
             <div class="form-item">
                 <div class="lable">申诉原因</div>
-                <Inputs cols="30" rows="10" type="textarea" v-model="form.content"></Inputs>
+                <V-Field
+                    v-model="form.content"
+                    rows="3"
+                    autosize
+                    type="textarea"
+                    maxlength="60"
+                    :placeholder="'请输入申诉原因'"
+                    show-word-limit
+                >
+                </V-Field>
             </div>
             <div class="form-item">
                 <div class="lable">上传图片凭证</div>
@@ -59,6 +68,14 @@ export default Vue.extend({
     methods: {
         submitHandle() {
             console.log('submitHandle');
+            if (!this.form.content) {
+                this.$normalToast('请输入申诉原因');
+                return;
+            }
+            if (!this.fileList.length) {
+                this.$normalToast('请上传照片凭证');
+                return;
+            }
             this.otcAppealSubmit();
         },
         selectAppealType(item: number) {
@@ -85,7 +102,7 @@ export default Vue.extend({
             params.append('type', `${this.form.type}`);
             params.append('content', this.form.content);
             this.changeLoading(true);
-            this.$api.otcAppealSubmit(params).then((res: any) => {
+            this.$api.otcAppealSubmit(params).then(() => {
                 this.changeLoading(false);
                 this.$normalToast('申诉成功');
                 setTimeout(() => {

@@ -146,7 +146,6 @@ export default Vue.extend({
                 limit: this.limit, // [int64] 最大返回条数
             };
             if (loading) {
-                console.log(loading, 'loading');
                 this.changeLoading(true);
             }
             // 取消请求
@@ -156,8 +155,6 @@ export default Vue.extend({
                     delete axiosGoPromiseArr[index];
                 });
             }
-            // TODO
-            console.log(params);
             this.$api.otcOrderDealList(params).then((res: any) => {
                 this.changeLoading(false);
                 this.isLoading = false;
