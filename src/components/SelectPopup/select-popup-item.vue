@@ -1,6 +1,6 @@
 <template>
     <div @click="$emit('click')" class="select-popup-item border-b">
-        <Button :radius="false" type="info">
+        <Button size="fill" :radius="false" type="info">
             <slot></slot>
         </Button>
     </div>

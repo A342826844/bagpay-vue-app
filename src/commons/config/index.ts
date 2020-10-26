@@ -10,8 +10,8 @@ export type LangType = Array<number>;
 
 export const PayType = [
     1, // PayTypeBank       = 1 //银行卡
-    2, // PayTypeAlipay     = 2 //支付宝
-    3, // PayTypeWechatPay  = 3 //微信
+    // 2, // PayTypeAlipay     = 2 //支付宝
+    // 3, // PayTypeWechatPay  = 3 //微信
     4, // PayTypeHuione     = 4 //汇旺
 ];
 

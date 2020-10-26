@@ -7,11 +7,13 @@
                 <li @click="selectBank(item)" class="payway-li" v-for="item in renderList" :key="item.id">
                     <div class="flex-between-c">
                         <h5 class="app-size-34" v-if="item.type === 1">{{`${item.bank} ${item.sub_bank}`}}</h5>
+                        <h5 class="app-size-34" v-else>{{item.type | payType}}</h5>
                         <img v-show="id === item.id" class="app-img-50" src="../../assets/img/setting/ok.png" alt="">
                     </div>
                     <div class="payway-info">{{`${item.real_name}  ${item.account}`}}</div>
                 </li>
             </ul>
+            <noData v-if="!_loading && (!renderList.length)"/>
         </TitleHeader>
     </div>
 </template>

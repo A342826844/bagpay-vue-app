@@ -20,6 +20,8 @@
         "frozen": "冻结",
         "ZHcn": "简体中文",
         "ENus": "英文",
+        "copySuccessful": "复制成功",
+        "copyUnsuccessful": "复制失败",
         "country": "国家/地区",
         "seachCountry": "搜索国家/地区",
         "safeVeirfy": "安全验证",

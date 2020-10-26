@@ -1,32 +1,33 @@
 <template>
     <div class="payment primary-bg">
-        <TitleHeader theme="dark" :title="$t('payment.paymentTitle')"/>
-        <div class="payment-card">
-            <h5 class="payment-card-title">{{$t('payment.paymentTip') + symbol.toUpperCase()}}</h5>
-            <div class="payment-card-qrcode" :style="{width: `${size + 15}px`, height: `${size + 15}px`}">
-                <Loading v-show="!address"/>
-                <QrcodeVue v-show="address" foreground="#5894EE" :size="size" :value="address"></QrcodeVue>
+        <TitleHeader theme="dark" :title="$t('payment.paymentTitle')">
+            <div class="payment-card">
+                <h5 class="payment-card-title">{{$t('payment.paymentTip') + symbol.toUpperCase()}}</h5>
+                <div class="payment-card-qrcode" :style="{width: `${size + 15}px`, height: `${size + 15}px`}">
+                    <Loading v-show="!address"/>
+                    <QrcodeVue v-show="address" foreground="#5894EE" :size="size" :value="address"></QrcodeVue>
+                </div>
+                <div>
+                    <h5 class="payment-card-title" v-t="'payment.paymentAddr'"></h5>
+                    <p class="payment-card-address">{{address}}</p>
+                </div>
+                <div class="payment-card-btn">
+                    <img @click="$copyText(address)" src="../../assets/img/common/copy.png" alt="">
+                    <img src="../../assets/img/common/share.png" alt="">
+                </div>
             </div>
-            <div>
-                <h5 class="payment-card-title" v-t="'payment.paymentAddr'"></h5>
-                <p class="payment-card-address">{{address}}</p>
-            </div>
-            <div class="payment-card-btn">
-                <img src="../../assets/img/common/copy.png" alt="">
-                <img src="../../assets/img/common/share.png" alt="">
-            </div>
-        </div>
-        <Poptip>
-          <PoptipItem>
-            {{ $t("home.paymentTip1") }}
-          </PoptipItem>
-          <PoptipItem>
-            {{ $t("home.paymentTip2") }}
-          </PoptipItem>
-          <PoptipItem>
-            {{ $t("home.paymentTip3") }}
-          </PoptipItem>
-        </Poptip>
+            <Poptip class="payment-poptip">
+                <PoptipItem>
+                    {{ $t("home.paymentTip1") }}
+                </PoptipItem>
+                <PoptipItem>
+                    {{ $t("home.paymentTip2") }}
+                </PoptipItem>
+                <PoptipItem>
+                    {{ $t("home.paymentTip3") }}
+                </PoptipItem>
+            </Poptip>
+        </TitleHeader>
     </div>
 </template>
 
@@ -77,6 +78,7 @@ export default Vue.extend({
 @import '../../assets/less/excludecss/index.less';
 .payment{
     height: 100%;
+    overflow: scroll;
     &-card{
         position: relative;
         margin: auto;
@@ -110,6 +112,9 @@ export default Vue.extend({
                 margin-left: 46px;
             }
         }
+    }
+    &-poptip{
+        color: #FFFFFF;
     }
 }
 </style>

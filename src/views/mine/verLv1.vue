@@ -19,7 +19,7 @@
         >
       </SelectPopup>
       <div class="form-item">
-        <Inputs v-model="form.idCard" placeholder="ID 号码" clearable></Inputs>
+        <Inputs v-model="form.idCard" placeholder="证件号码" clearable></Inputs>
       </div>
     </div>
     <Poptip>
