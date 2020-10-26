@@ -89,9 +89,9 @@ export default Vue.extend({
             if (this.isLoading) return;
             if (this._userInfo.ver_lv === 0) {
                 this.$router.push('/mine/verlv1');
-            } else if (this._userInfo.ver_lv === 1 && this.verLvStatus.status_lv_1 === 2) {
+            } else if (this._userInfo.ver_lv === 1 && this.verLvStatus.status_lv_1 === 2 && this.verLvStatus.status_lv_2 === 0) {
                 this.$router.push('/mine/verlv2');
-            } else if (this._userInfo.ver_lv === 2 && this.verLvStatus.status_lv_2 === 2) {
+            } else if (this._userInfo.ver_lv === 2 && this.verLvStatus.status_lv_2 === 2 && this.verLvStatus.status_lv_3 === 0) {
                 this.$router.push('/mine/verlv3');
             } else {
                 this.$router.push({
