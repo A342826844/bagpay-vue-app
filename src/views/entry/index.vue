@@ -1,7 +1,12 @@
 <template>
     <div class="entry">
         <div class="entry-banner">
-            <ul :class="`active${activeTab}`">
+            <ul
+                @touchmove.stop="moveHandle"
+                @touchstart.stop="startHandle"
+                @touchend.stop="endHandle"
+                :class="`active${activeTab}`"
+            >
                 <li class="entry-banner-item" :class="`item${index}`" v-for="(item, index) in list" :key="index">
                     <img @click.prevent="" :src="item.img" :alt="item.title">
                     <h5 class="primary-color">{{$t(item.title)}}</h5>
@@ -42,6 +47,12 @@ type ListItem = {
 
 type data = {
     activeTab: number;
+    moveTo: number;
+    moveIng: boolean;
+
+    beginX: number;
+    beginY: number;
+    beginTime: number;
     list: Array<ListItem>;
 }
 
@@ -50,6 +61,13 @@ export default Vue.extend({
     data(): data {
         return {
             activeTab: 0,
+            moveTo: 0,
+            moveIng: false,
+
+            beginX: 0,
+            beginY: 0,
+            beginTime: 0,
+
             list: [
                 {
                     img: banner1,
@@ -75,6 +93,44 @@ export default Vue.extend({
     methods: {
         nextHandle() {
             this.activeTab += 1;
+        },
+        moveHandle(e: TouchEvent) {
+            if (!this.moveIng) {
+                this.moveIng = true;
+            }
+            const moveX = e.touches[0].pageX - this.beginX;
+            const moveY = e.touches[0].pageY - this.beginY;
+
+            const width = (this.$refs.tabBox as HTMLElement).clientWidth;
+            if ((this.activeTab === 0 && moveX >= width / 5) || (this.activeTab === this.list.length - 1 && moveX <= -width / 5)) {
+                return;
+            }
+            this.moveTo = moveX;
+            // if ((this.activeTab === 0 && this.moveTo >= 0) || (this.activeTab === this.list.length - 1 && this.moveTo <= 0)) {
+            //     return;
+            // }
+        },
+        endHandle(e: TouchEvent) {
+            this.moveIng = false;
+            const endStart = new Date().getTime();
+
+            if ((this.activeTab === 0 && this.moveTo >= 0) || (this.activeTab === this.list.length - 1 && this.moveTo <= 0)) {
+                this.moveTo = 0;
+                return;
+            }
+            const width = (this.$refs.tabBox as HTMLElement).clientWidth;
+            if (Math.abs(this.moveTo) >= width / 3 || ((endStart - this.beginTime <= 300) && (Math.abs(this.moveTo) > 10))) {
+                const next = this.moveTo > 0 ? -1 : 1;
+                this.activeTab += next;
+                this.moveTo = 0;
+                return;
+            }
+            this.moveTo = 0;
+        },
+        startHandle(e: TouchEvent) {
+            this.beginX = e.touches[0].pageX;
+            this.beginY = e.touches[0].pageY;
+            this.beginTime = new Date().getTime();
         },
     },
 });
