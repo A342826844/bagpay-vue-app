@@ -1,4 +1,5 @@
 import { TranslateResult } from 'vue-i18n';
+import i18n from '@/i18n/index';
 import clientEnv from '../clientEnv/idnex';
 
 export const overflowScrolling = (needTouch: boolean) => {
@@ -56,13 +57,14 @@ export const copyText = (value: string) => {
         range.selectNode(a);
         (window.getSelection() as Selection).removeAllRanges();
         (window.getSelection() as Selection).addRange(range);
+        const msg = document.execCommand('copy') ? i18n.t('common.copySuccessful') : i18n.t('common.copyUnsuccessful');
+        normalToast(msg, 1000);
+        document.body.removeChild(a);
+        console.log(msg, '===');
         if (document.execCommand('copy')) {
             return true;
         }
         return false;
-        // const msg = document.execCommand('copy') ? this.$t('appDownload.copySuccessful') : this.$t('appDownload.copyUnsuccessful');
-        // normalToast(msg, 1000);
-        // document.body.removeChild(a);
     }
     const textarea = document.createElement('textarea');
     textarea.style.position = 'absolute';
@@ -72,11 +74,11 @@ export const copyText = (value: string) => {
     textarea.innerText = value;
     document.body.append(textarea);
     textarea.select();
+    const msg = document.execCommand('copy') ? i18n.t('common.copySuccessful') : i18n.t('common.copyUnsuccessful');
+    normalToast(msg, 1000);
+    document.body.removeChild(textarea);
     if (document.execCommand('copy')) {
         return true;
     }
     return false;
-    // const msg = document.execCommand('copy') ? this.$t('appDownload.copySuccessful') : this.$t('appDownload.copyUnsuccessful');
-    // normalToast(msg, 1000);
-    // document.body.removeChild(textarea);
 };

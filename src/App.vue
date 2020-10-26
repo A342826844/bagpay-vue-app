@@ -29,15 +29,6 @@ export default Vue.extend({
             // this.$router.push('/home');
         }
     },
-    methods: {
-        getCoinList() {
-            this.$api.getCoinList().then((res: any) => {
-                if (res.data) {
-                    this.$store.commit('setSymbolList', res.data);
-                }
-            });
-        },
-    },
     computed: {
         lang(): string {
             return this.$store.state.lang;

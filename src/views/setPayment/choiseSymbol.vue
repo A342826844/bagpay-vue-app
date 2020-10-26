@@ -56,17 +56,11 @@ export default Vue.extend({
         default:
             key = 'out_enable';
         }
-        this.getCoinList(key);
+        this.getCoinLists(key);
     },
     methods: {
-        getCoinList(key: string) {
+        getCoinLists(key: string) {
             this.symbolList = this.filterHandle(this.$store.state.symbolList, key);
-            this.$api.getCoinList().then((res: any) => {
-                if (res.code === 0) {
-                    // this.symbolList = res.data.filter((item: any) => item[key] === 1);
-                    this.symbolList = this.filterHandle(res.data, key);
-                }
-            });
         },
         filterHandle(data: Array<CoinInfo>, key: string) {
             return data.filter((item: any) => item[key] === 1);

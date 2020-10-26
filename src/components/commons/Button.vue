@@ -33,7 +33,7 @@ export default Vue.extend({
         },
         size: {
             type: String,
-            default: 'default', // small, default, large
+            default: 'default', // small, default, large, fill
         },
     },
 });
@@ -83,6 +83,9 @@ export default Vue.extend({
     }
     &.small{
         width: 235px;
+    }
+    &.fill{
+        width: 100%;
     }
     &.mini{
         width: 186px;

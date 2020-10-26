@@ -3,7 +3,9 @@
         <div @click="show = false" class="select-popup-box">
             <slot></slot>
         </div>
-        <Button @click="cancleHandle" class="select-popup-cancle" type="info" v-t="'common.cancle'"></Button>
+        <div class="select-popup-cancle" >
+            <Button size="fill" @click="cancleHandle" type="info" v-t="'common.cancle'"></Button>
+        </div>
     </V-Popup>
 </template>
 
@@ -47,16 +49,17 @@ export default Vue.extend({
 .select-popup{
     font-size: 34px;
     background: transparent;
-    padding-bottom: 28px;
     text-align: center;
     &-box{
-        border-radius: 10px;
+        border-radius: 20px;
         overflow: hidden;
-        width: 662px;
-        margin: auto;
+        width: calc(100% - 30px);
+        margin: auto 15px;
+        // margin: auto;
     }
     &-cancle{
-        margin-top: 28px;
+        width: calc(100% - 30px);
+        margin: 15px;
     }
 }
 </style>

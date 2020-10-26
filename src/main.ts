@@ -42,6 +42,7 @@ declare module 'vue/types/vue' {
         _unitIcon: string;
         changeLoading: Function;
         initUserInfo: Function;
+        getCoinList: Function;
         getUserBankList: Function;
     }
 }
@@ -100,6 +101,13 @@ Vue.mixin({
                 console.log('--');
                 if (res.data) {
                     this.$store.commit('setBankList', res.data);
+                }
+            });
+        },
+        getCoinList() {
+            this.$api.getCoinList().then((res: any) => {
+                if (res.data) {
+                    this.$store.commit('setSymbolList', res.data);
                 }
             });
         },

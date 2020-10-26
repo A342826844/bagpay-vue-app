@@ -2,7 +2,7 @@
   <div class="set-payment-add">
     <TitleHeader :title="$t('mine.systemSetting')">
       <ul class="app-padding40 sys_cont">
-        <li class="flex-between-c">
+        <li class="flex-between-c sys_item">
           <div v-t="'mine.hideAmount'"></div>
           <div>
             <V-Switch v-model="hideBalance"

@@ -231,7 +231,9 @@ export default Vue.extend({
             }
         },
         selectPayType(item: number) {
-            this.pay_types = [item];
+            if (item) {
+                this.pay_types = [item];
+            }
         },
         initFormData() {
             this.form.price = '';

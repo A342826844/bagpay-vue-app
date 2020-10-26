@@ -171,7 +171,7 @@ export default Vue.extend({
             screen: false,
             showMore: false,
             noDataShow: false,
-            activeSymbol: '',
+            activeSymbol: 'usdt',
             side: 2,
             otcSattus: 0,
             renderData: {
@@ -233,6 +233,8 @@ export default Vue.extend({
     created() {
         if (this.coins.length) {
             this.activeSymbol = this.coins[0].symbol;
+        } else {
+            this.getCoinList();
         }
     },
     methods: {
