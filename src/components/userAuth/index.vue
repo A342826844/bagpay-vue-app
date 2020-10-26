@@ -152,7 +152,12 @@ export default Vue.extend({
                 operate: this.type,
             }).then((res: any) => {
                 if (res.code === 0) {
-                    this.sendType = res.data;
+                    if (!res.data) {
+                        this.show = false;
+                        this.$emit('save', {});
+                    } else {
+                        this.sendType = res.data;
+                    }
                 }
             });
         },

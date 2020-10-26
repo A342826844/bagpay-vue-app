@@ -136,6 +136,7 @@
     "mine": {
         "safeSetting": "安全设置",
         "realName": "实名认证",
+        "resetReal": "重新认证",
         "systemSetting": "系统设置",
         "hideAmount": "隐藏余额",
         "payManaged": "收款管理",

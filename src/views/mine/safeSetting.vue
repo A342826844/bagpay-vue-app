@@ -15,7 +15,7 @@
         <li @click="$router.push('/mine/safepass')" class="flex-between-c payment_item">
           <div v-t="_userInfo.pay_password !== '1' ? 'mine.setSafePass' : 'mine.safePass'"></div>
           <div>
-            <span class="vertical-m" :class="_userInfo.pay_password !== '1' ? 'primary-color' : 'red-color'">{{
+            <span class="vertical-m" :class="_userInfo.pay_password !== '1' ? 'red-color' : 'primary-color'">{{
               _userInfo.pay_password === '1' ? "已设置" : "未设置"
             }}</span>
             <img
@@ -28,7 +28,7 @@
         <li @click="$router.push('/mine/changePwd')" class="flex-between-c payment_item">
           <div v-t="'mine.changePwd'"></div>
           <div>
-            <span class="vertical-m red-color">已设置</span>
+            <span class="vertical-m primary-color">已设置</span>
             <img
               class="app-img-50"
               src="../../assets/img/common/arrow_right.png"
@@ -39,7 +39,7 @@
         <li @click="goVerLv" class="flex-between-c payment_item">
           <div v-t="'mine.realName'"></div>
           <div>
-            <span class="vertical-m" :class="_userInfo.ver_lv === 0 ? 'primary-color' : 'red-color'">{{_userInfo.ver_lv === 0 ? '未认证' : '已认证'}}</span>
+            <span class="vertical-m" :class="verLvClass">{{verLvTxt}}</span>
             <img
               class="app-img-50"
               src="../../assets/img/common/arrow_right.png"
@@ -57,6 +57,8 @@ import Vue from 'vue';
 
 type data = {
   isLoading: boolean;
+  verLvTxt: string;
+  verLvClass: string;
   verLvStatus: any;
 };
 
@@ -65,7 +67,9 @@ export default Vue.extend({
     data(): data {
         return {
             isLoading: false,
-            verLvStatus: {},
+            verLvTxt: '',
+            verLvClass: '',
+            verLvStatus: null,
         };
     },
     mounted() {
@@ -78,10 +82,26 @@ export default Vue.extend({
             this.$api.getVerStutas().then((res: any) => {
                 if (res.data) {
                     this.verLvStatus = res.data;
+                    if (this._userInfo.ver_lv === 0) {
+                        this.verLvTxt = '未认证';
+                        this.verLvClass = 'red-color';
+                    } else if (this.verLvStatus.status_lv_1 === 1 || this.verLvStatus.status_lv_2 === 1 || this.verLvStatus.status_lv_3 === 1) {
+                        this.verLvTxt = `审核中(LV${this._userInfo.ver_lv + 1})`;
+                        this.verLvClass = 'primary-color';
+                    } else if (this.verLvStatus.status_lv_1 === 3 || this.verLvStatus.status_lv_2 === 3 || this.verLvStatus.status_lv_3 === 3) {
+                        this.verLvTxt = `未通过(LV${this._userInfo.ver_lv + 1})`;
+                        this.verLvClass = 'red-color';
+                    } else if (this.verLvStatus.status_lv_1 === 2 || this.verLvStatus.status_lv_2 === 2 || this.verLvStatus.status_lv_3 === 2) {
+                        this.verLvTxt = `已认证(LV${this._userInfo.ver_lv})`;
+                        this.verLvClass = 'primary-color';
+                    }
                 }
             }).finally(() => {
                 this.isLoading = false;
                 this.changeLoading(false);
+                if (this.verLvStatus === null) {
+                    this.init();
+                }
             });
         },
         goVerLv() {

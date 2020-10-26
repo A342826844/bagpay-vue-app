@@ -6,6 +6,9 @@
         <div class="reason_title" v-if="reason">拒绝理由</div>
         <div class="status_reason" v-if="reason">{{reason}}</div>
     </TitleHeader>
+    <div class="lxa-footer-btn" v-if="status === '3'">
+        <Button @click="reset" v-t="'mine.resetReal'"></Button>
+    </div>
   </div>
 </template>
 
@@ -22,6 +25,9 @@ export default Vue.extend({
         };
     },
     methods: {
+        reset() {
+            this.$router.replace(`/mine/verlv${this.verLv}`);
+        },
         getImg() {
             switch (this.status) {
             case '1':
@@ -43,6 +49,9 @@ export default Vue.extend({
 </script>
 
 <style lang='less' scoped>
+    .adv_status {
+        min-height: 100%;
+    }
     .img_cont{
         margin-top: 200px;
         margin-bottom: 100px;

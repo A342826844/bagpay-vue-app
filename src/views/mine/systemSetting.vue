@@ -60,7 +60,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { langs, langType } from '@/i18n/index';
+import { langType } from '@/i18n/index';
 
 export default Vue.extend({
     name: 'SetPaymentAdd',
