@@ -42,7 +42,7 @@
                         <icon-img :symbol="item.coin"></icon-img>
                         <div class="list-values values1">
                             <h5 class="lable">{{item.coin.toUpperCase()}}</h5>
-                            <p class="value">{{item.name}}</p>
+                            <p class="value">{{coinMap[item.coin]}}</p>
                         </div>
                     </div>
                     <div class="list-values">
@@ -90,8 +90,10 @@ export default Vue.extend({
     },
     computed: {
         activeCoin(): any {
-            const activeCoin = this.symbolList.find((item: any) => item.coin === this.symbol);
-            return activeCoin || {};
+            return this.$store.getters.getCoinInfo(this.symbol);
+        },
+        coinMap(): any {
+            return this.$store.getters.getCoinMap();
         },
     },
     created() {
@@ -150,6 +152,7 @@ export default Vue.extend({
 <style lang="less" scoped>
 @import './assets-symbol-list.less';
 .home{
+    padding-bottom: 150px;
     &-header{
         font-size: 45px;
         height: 100px;

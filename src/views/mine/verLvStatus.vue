@@ -24,13 +24,13 @@ export default Vue.extend({
     methods: {
         getImg() {
             switch (this.status) {
-            case '0':
+            case '1':
                 this.statusTxt = '审核已提交，等待客服处理';
                 return require(`@/assets/img/mine/status${this.status}.png`);
-            case '1':
+            case '2':
                 this.statusTxt = '您已认证成功';
                 return require(`@/assets/img/mine/status${this.status}.png`);
-            case '2':
+            case '3':
                 this.statusTxt = '审核未通过';
                 return require(`@/assets/img/mine/status${this.status}.png`);
             default:

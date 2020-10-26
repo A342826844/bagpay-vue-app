@@ -13,7 +13,7 @@
           </div>
         </li>
         <li @click="$router.push('/mine/safepass')" class="flex-between-c payment_item">
-          <div v-t="'mine.safePass'"></div>
+          <div v-t="_userInfo.pay_password === '0' ? 'mine.setSafePass' : 'mine.safePass'"></div>
           <div>
             <span class="vertical-m" :class="_userInfo.pay_password === '0' ? 'primary-color' : 'red-color'">{{
               _userInfo.pay_password ? "已设置" : "未设置"
@@ -79,11 +79,10 @@ export default Vue.extend({
                 if (res.data) {
                     this.verLvStatus = res.data;
                 }
-            })
-                .finally(() => {
-                    this.isLoading = false;
-                    this.changeLoading(false);
-                });
+            }).finally(() => {
+                this.isLoading = false;
+                this.changeLoading(false);
+            });
         },
         goVerLv() {
             if (this.isLoading) return;
@@ -97,7 +96,7 @@ export default Vue.extend({
                 this.$router.push({
                     path: '/mine/verLvStatus',
                     query: {
-                        verLv: this._userInfo.ver_lv,
+                        verLv: this._userInfo.ver_lv < 3 ? this._userInfo.ver_lv + 1 : this._userInfo.ver_lv,
                         reason: this.verLvStatus.reject_reason,
                         status: this.verLvStatus[`status_lv_${this._userInfo.ver_lv}`],
                     },

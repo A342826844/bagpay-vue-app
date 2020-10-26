@@ -16,6 +16,17 @@
                 <img src="../../assets/img/common/share.png" alt="">
             </div>
         </div>
+        <Poptip>
+          <PoptipItem>
+            {{ $t("home.paymentTip1") }}
+          </PoptipItem>
+          <PoptipItem>
+            {{ $t("home.paymentTip2") }}
+          </PoptipItem>
+          <PoptipItem>
+            {{ $t("home.paymentTip3") }}
+          </PoptipItem>
+        </Poptip>
     </div>
 </template>
 
