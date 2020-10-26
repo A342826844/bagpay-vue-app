@@ -93,12 +93,13 @@ export default Vue.extend({
             } else if (this._userInfo.ver_lv === 2 && this.verLvStatus.status_lv_2 === 2 && this.verLvStatus.status_lv_3 === 0) {
                 this.$router.push('/mine/verlv3');
             } else {
+                const verLv = this._userInfo.ver_lv < 3 ? this._userInfo.ver_lv + 1 : this._userInfo.ver_lv;
                 this.$router.push({
                     path: '/mine/verLvStatus',
                     query: {
-                        verLv: this._userInfo.ver_lv < 3 ? this._userInfo.ver_lv + 1 : this._userInfo.ver_lv,
+                        verLv,
                         reason: this.verLvStatus.reject_reason,
-                        status: this.verLvStatus[`status_lv_${this._userInfo.ver_lv}`],
+                        status: this.verLvStatus[`status_lv_${verLv}`],
                     },
                 });
             }
