@@ -41,6 +41,7 @@ const OtcAppeal = () => import('@/views/otc/page/appeal.vue');
 const AdvBusiness = () => import('@/views/otc/page/business/advBusiness.vue');
 const VfyBus = () => import('@/views/otc/page/business/vfyBus.vue');
 const AdvStatus = () => import('@/views/otc/page/business/advStatus.vue');
+const OtcProtocol = () => import('@/views/otc/page/protocol.vue');
 
 const Entry = () => import('@/views/entry/index.vue');
 const Login = () => import('@/views/login/index.vue');
@@ -181,6 +182,10 @@ const routes: Array<RouteConfig> = [
             path: 'adv/detail',
             name: 'otcAdvDetail',
             component: OtcAdvDetail,
+        }, {
+            path: 'protocol',
+            name: 'OtcProtocol',
+            component: OtcProtocol,
         }, {
             path: 'advBusiness',
             name: 'otcAdvBusiness',

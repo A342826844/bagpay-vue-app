@@ -34,11 +34,13 @@ export default class DateForamt {
 
     private language: stradegyTime;
 
-    constructor(date: number) {
-        // eslint-disable-next-line no-restricted-globals
-        if (isFinite(date)) {
-            this.date = new Date(date);
+    constructor(date: number|string, needUTC?: boolean) {
+        if (needUTC && typeof date === 'string') {
+            this.date = new Date(`${date} GMT+0`);
         } else {
+            this.date = new Date(date);
+        }
+        if (!DateForamt.isValidDate(this.date)) {
             this.date = '--';
         }
         const zh = {
@@ -172,5 +174,10 @@ export default class DateForamt {
 
     static padLeftZero(str: string) {
         return `00${str}`.substr(str.length);
+    }
+
+    static isValidDate(date: Date) {
+        // eslint-disable-next-line no-restricted-globals
+        return date instanceof Date && !isNaN(date.getTime());
     }
 }

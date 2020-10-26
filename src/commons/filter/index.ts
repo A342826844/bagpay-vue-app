@@ -5,7 +5,7 @@ import { DateForamt } from '@/utils/tool';
 
 // 时间
 Vue.filter('date', (dateTime: any, fmt = 'yyyy-MM-dd') => {
-    const dateForamt = new DateForamt(dateTime);
+    const dateForamt = new DateForamt(dateTime, true);
     return dateForamt.getDateForamt(fmt);
 });
 // 倒计时

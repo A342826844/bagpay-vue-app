@@ -2,7 +2,7 @@
     <div>
         <Headers></Headers>
         <div class="text" @touchmove.stop=''>
-            <p>{{$app_mark}}{{$t('广告发布方协议')}}</p>
+            <p>{{$app_mark}}{{$t('otc.protocol')}}</p>
             <ul style="text-align:left;">
                 <li></li>
                 <li class="font-bold">{{$t('otcProtoWord.protoWord2')}}</li>
@@ -19,7 +19,7 @@
                 <li></li>
                 <li class="text-bold">
                     1. {{$t('otcProtoWord.protoWord7')}}
-                    <span @click="goUserProtocol" class="color-main">{{$t('register.userProtocol')}}</span>
+                    <span @click="goUserProtocol" class="color-main">{{$t('login.userProtocol')}}</span>
                     {{$t('otcProtoWord.protoWord7_1')}}
                 </li>
                 <li></li>
@@ -143,7 +143,7 @@
                 <li class="font-bold">{{$t('otcProtoWord.protoWord75')}}</li>
                 <li>
                     {{$t('otcProtoWord.protoWord76')}}
-                    <span @click="goUserProtocol" class="color-main">{{$t('register.userProtocol')}}</span>
+                    <span @click="goUserProtocol" class="color-main">{{$t('login.userProtocol')}}</span>
                     {{$t('otcProtoWord.protoWord76_1')}}
                 </li>
                 <li></li>
@@ -159,12 +159,8 @@
                 <li></li>
                 <li><span class="text-bold">7.1 </span>{{$t('otcProtoWord.protoWord82')}}</li>
                 <li></li>
-                <li><span class="text-bold">7.2
-                    </span>{{$t('otcProtoWord.protoWord83')}}
-                    <span @click="contact" class="color-main">{{$t('stopPopup.8tpcgGae')}} </span>
-                </li>
                 <li></li>
-                <li><span class="text-bold">7.3 </span>{{$t('otcProtoWord.protoWord84')}}</li>
+                <li><span class="text-bold">7.2 </span>{{$t('otcProtoWord.protoWord84')}}</li>
                 <li></li>
             </ul>
         </div>
