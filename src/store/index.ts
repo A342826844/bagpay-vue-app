@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import countryList from '@/commons/country/index';
 
 const symbolListStr = localStorage.getItem('symbolList');
 let symbolList = [];
@@ -16,6 +17,23 @@ if (configCommonStr) {
 const hideBalance = localStorage.getItem('hideBalance') || '0';
 const lang = localStorage.getItem('lang') || 'zh-cn';
 const symbol = localStorage.getItem('symbol') || 'usdt';
+
+const defaultCountry = () => {
+    const moblepre = localStorage.getItem('moblepre');
+    const countryItem = {
+        en: 'China',
+        name: '中国',
+        short: 'CN',
+        tel: '86',
+    };
+    if (!moblepre || moblepre === 'undefined' || moblepre === 'null') return countryItem;
+    for (let i = 0; i < countryList.length; i++) {
+        if (`${countryList[i].tel}` === moblepre) {
+            return countryList[i];
+        }
+    }
+    return countryItem;
+};
 
 Vue.use(Vuex);
 
@@ -35,6 +53,7 @@ export default new Vuex.Store({
             phone: '',
             status: '',
         },
+        country: defaultCountry(),
         loginStatus: Number(localStorage.getItem('loginStatus')),
         addAddr: {}, // 添加提币地址
         address: {}, // 转出使用
@@ -76,6 +95,10 @@ export default new Vuex.Store({
         setHideBalance(state, status) {
             state.hideBalance = status;
             localStorage.setItem('hideBalance', status);
+        },
+        changeCountryHandle(state, item) {
+            state.country = item;
+            localStorage.setItem('moblepre', item.tel);
         },
         setSymbolList(state, list) { // Array<CoinInfo>
             state.symbolList = list;

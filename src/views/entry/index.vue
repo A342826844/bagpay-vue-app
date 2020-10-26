@@ -1,11 +1,18 @@
 <template>
     <div class="entry">
+        <Headers :isBack="false">
+            <span v-show="activeTab !== 2" class="primary-color" @click="activeTab = 2">跳过</span>
+        </Headers>
         <div class="entry-banner">
             <ul
-                @touchmove.stop="moveHandle"
-                @touchstart.stop="startHandle"
-                @touchend.stop="endHandle"
+                @touchmove.stop.prevent="moveHandle"
+                @touchstart.stop.prevent="startHandle"
+                @touchend.stop.prevent="endHandle"
                 :class="`active${activeTab}`"
+                :style="{
+                    transform: moveIng ? bodyLeft : '',
+                    'transition-duration': moveIng ? '' : '.3s'
+                }"
             >
                 <li class="entry-banner-item" :class="`item${index}`" v-for="(item, index) in list" :key="index">
                     <img @click.prevent="" :src="item.img" :alt="item.title">
@@ -14,12 +21,12 @@
                 </li>
             </ul>
         </div>
-        <div v-show="activeTab === 2" class="entry-btn">
+        <div v-show="activeTab === 2" class="entry-btn app-size-34">
             <Button @click="$router.push('/login')" class="entry-btn-item">登录账号</Button>
             <Button @click="$router.push('/register')" class="entry-btn-item" border type="info">创建账号</Button>
         </div>
         <div v-show="activeTab !== 2" class="entry-next flex-between-c">
-            <a @click="activeTab = 2" href="javascript:void(0)">跳过</a>
+            <span  href="javascript:void(0)"></span>
             <div class="entry-next-tab">
                 <p class="active0"></p>
                 <p class="active1"></p>
@@ -27,7 +34,7 @@
                 <div class="active-tip primary-bg" :class="`active${activeTab}`"></div>
             </div>
             <!-- <img src="" alt=""> -->
-            <a @click="nextHandle" href="javascript:void(0)">下一步</a>
+            <span href="javascript:void(0)"></span>
         </div>
     </div>
 </template>
@@ -90,6 +97,11 @@ export default Vue.extend({
     //         vm.$logoutHandle();
     //     });
     // },
+    computed: {
+        bodyLeft(): string {
+            return `translateX(calc(${this.moveTo}px - ${this.activeTab * 100}vw))`;
+        },
+    },
     methods: {
         nextHandle() {
             this.activeTab += 1;
@@ -100,7 +112,7 @@ export default Vue.extend({
             }
             const moveX = e.touches[0].pageX - this.beginX;
 
-            const width = (this.$refs.tabBox as HTMLElement).clientWidth;
+            const width = document.documentElement.clientWidth;
             if ((this.activeTab === 0 && moveX >= width / 5) || (this.activeTab === this.list.length - 1 && moveX <= -width / 5)) {
                 return;
             }
@@ -117,7 +129,7 @@ export default Vue.extend({
                 this.moveTo = 0;
                 return;
             }
-            const width = document.clientWidth;
+            const width = document.documentElement.clientWidth;
             if (Math.abs(this.moveTo) >= width / 3 || ((endStart - this.beginTime <= 300) && (Math.abs(this.moveTo) > 10))) {
                 const next = this.moveTo > 0 ? -1 : 1;
                 this.activeTab += next;
@@ -146,7 +158,7 @@ export default Vue.extend({
         margin-top: 120px;
         &>ul{
             position: relative;
-            transition: all 0.3s;
+            transition-property: all;
             width: 300%;
             &.active0{
                 transform: translateX(0);
