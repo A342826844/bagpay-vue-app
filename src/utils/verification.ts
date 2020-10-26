@@ -4,7 +4,8 @@ import store from '@/store/index';
 // 手机号验证
 function phoneVfi(phone: string) {
     const reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
-    const vfi: boolean = reg.test(phone);
+    const reg1 = /^[0-9]{4,16}$/;
+    const vfi: boolean = store.state.country.tel === '86' ? reg.test(phone) : reg1.test(phone);
     if (vfi === false) normalToast(i18n.t('error.phoneErr'));
     return vfi;
 }

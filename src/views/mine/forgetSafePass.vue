@@ -56,6 +56,11 @@ export default Vue.extend({
             this.form.phone = phone[1] || '';
         });
     },
+    computed: {
+        country() {
+            return this.$store.state.country;
+        },
+    },
     methods: {
         auth() {
             if (this.isLoading) return;
@@ -83,7 +88,7 @@ export default Vue.extend({
             this.isLoading = true;
             this.changeLoading(true);
             this.$api.forgetPayPwd({
-                passport: `86-${this.form.phone}`,
+                passport: `${this.country.tel}-${this.form.phone}`,
                 new_password: this.$md5(`${this.form.password}bagpaysol`),
                 ...auth,
             }).then((res: any) => {

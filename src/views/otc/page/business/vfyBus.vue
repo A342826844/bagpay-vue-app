@@ -136,6 +136,11 @@ export default Vue.extend({
             vm.initForm();
         });
     },
+    computed: {
+        country(): any {
+            return this.$store.state.country;
+        },
+    },
     methods: {
         initForm() {
             const phone = this._userInfo.phone.split('-');
@@ -192,12 +197,12 @@ export default Vue.extend({
         otcMerchant() {
             this.changeLoading(true);
             this.$api.otcMerchant({
-                phone: `86-${this.form.phone}`,
+                phone: `${this.country.tel}-${this.form.phone}`,
                 email: this.form.email,
                 social_type: this.form.socialType,
                 social: this.form.social,
                 ice_name: this.form.iceName,
-                ice_phone: `86-${this.form.icePhone}`,
+                ice_phone: `${this.country.tel}-${this.form.icePhone}`,
                 ice_relation: this.form.iceRelation,
                 address: this.form.address,
             }).then((res: any) => {

@@ -10,7 +10,9 @@
                     clearable
                     v-model="form.phone"
                     autocomplete="username" type="text"
-                />
+                >
+                    <span @click="$router.push('/login/search')" class="primary-color login-form-item-country">+ {{country.tel}} </span>
+                </Inputs>
                 <Inputs
                     class="login-form-item"
                     :placeholder="$t('login.password')"
@@ -62,6 +64,11 @@ export default Vue.extend({
     //     }
     //     next();
     // },
+    computed: {
+        country() {
+            return this.$store.state.country;
+        },
+    },
     methods: {
         loginHandle() {
             const vfi: boolean = this.$verification.fromVfi([
@@ -78,7 +85,7 @@ export default Vue.extend({
             ]);
             if (vfi) {
                 this.$api.login({
-                    passport: `86-${this.form.phone}`,
+                    passport: `${this.country.tel}-${this.form.phone}`,
                     password: this.$md5(`${this.form.password}bagpaysol`),
                 }).then((res: any) => {
                     this.initUserInfo();

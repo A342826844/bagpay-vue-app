@@ -11,7 +11,9 @@
           v-model="form.phone"
           autocomplete="username"
           type="text"
-        />
+        >
+            <span @click="$router.push('/login/search')" class="primary-color login-form-item-country">+ {{country.tel}} </span>
+        </Inputs>
         <Inputs
           class="login-form-item img_code_input"
           :placeholder="$t('login.imgCode')"
@@ -96,6 +98,11 @@ export default Vue.extend({
         this.getImg();
         this.form.phone = (this.$route.query.phone as string) || '';
     },
+    computed: {
+        country() {
+            return this.$store.state.country;
+        },
+    },
     methods: {
         loginHandle() {
             if (this.isLoading) return;
@@ -127,7 +134,7 @@ export default Vue.extend({
             if (vfi) {
                 this.$api
                     .forgetPwd({
-                        passport: `86-${this.form.phone}`,
+                        passport: `${this.country.tel}-${this.form.phone}`,
                         new_password: this.$md5(`${this.form.password}bagpaysol`),
                         sms_code: this.form.code,
                     })
