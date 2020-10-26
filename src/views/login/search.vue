@@ -21,7 +21,7 @@
             >
                 <span class="title">{{item.name}}</span>
                 <span class="value">({{item.en}})</span>
-                <img src="../../assets/img/common/ok.png" v-if="index==item.short" class="is-active app-img-50" />
+                <img src="../../assets/img/common/ok.png" v-if="index==item.tel" class="is-active app-img-50" />
             </div>
         </div>
     </div>
@@ -36,15 +36,15 @@ export default {
             list,
             text: '',
             searchArry: [],
-            index: 'CN',
+            index: '86',
         };
     },
     created() {
-        this.searchArry = this.list;
+        this.searchArry = [...this.list];
+        this.index = this.$store.state.country.tel;
     },
     methods: {
         searchName() {
-            console.time();
             this.searchArry = this.list.filter((item) => {
                 const text = this.text.toLocaleLowerCase();
                 JSON.stringify(item).toLocaleLowerCase();
@@ -53,7 +53,6 @@ export default {
                 }
                 return false;
             });
-            console.timeEnd();
         },
         changeRadiou(e, obj) {
             this.index = obj.short;
