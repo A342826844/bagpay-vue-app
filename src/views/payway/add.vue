@@ -11,7 +11,7 @@
                 </div>
                 <div class="form-item">
                     <div class="lable" v-t="'payway.name'"></div>
-                    <Inputs v-model="form.real_name"></Inputs>
+                    <Inputs readonly v-model="form.real_name"></Inputs>
                 </div>
                 <div v-if="form.type === 1" class="form-item">
                     <div class="lable" v-t="'payway.bank'"></div>
@@ -88,6 +88,7 @@ export default Vue.extend({
     },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
+            vm.getVerStutas();
             if (from.name === 'PaywayBanks') {
                 vm.changeBankInfo();
             } else {
@@ -101,12 +102,18 @@ export default Vue.extend({
             this.form.real_name = '';
             this.form.sub_bank = '';
             this.form.qrc = '';
+            this.fileList = [];
         },
         changeBankInfo() {
             this.bankInfo = this.$store.state.bankInfo;
         },
         afterRead(file: any) {
             this.form.qrc = file.file;
+        },
+        getVerStutas() {
+            this.$api.getVerStutas().then((res: any) => {
+                this.form.real_name = res.data.real_name;
+            });
         },
         authHandle() {
             if (this._loading) return;

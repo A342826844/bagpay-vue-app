@@ -80,7 +80,7 @@
                     class="more-item"
                     @click="clickShowMore(item)"
                     v-for="item in moreShade"
-                    v-show="!(item.needOtc && (_userInfo.isOtc === '3'))"
+                    v-show="!(item.needOtc && (otcSattus !== 1))"
                     :key="item.name"
                 >
                     <img :src="item.img" alt=""/>
@@ -122,6 +122,7 @@ type data = {
     noDataShow: boolean;
     activeSymbol: string;
     side: 1|2;
+    otcSattus: number;
     // 获取渲染的数据
     renderData: {
         // 购买数据
@@ -172,6 +173,7 @@ export default Vue.extend({
             noDataShow: false,
             activeSymbol: '',
             side: 2,
+            otcSattus: 0,
             renderData: {
                 1: {},
                 2: {},
@@ -218,6 +220,7 @@ export default Vue.extend({
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
             vm.loadData();
+            vm.otcGetMerchant();
         });
     },
     watch: {
@@ -233,13 +236,31 @@ export default Vue.extend({
         }
     },
     methods: {
+        otcGetMerchant() {
+            return this.$api.otcGetMerchant().then((res: any) => {
+                if (res.data) {
+                    this.otcSattus = res.data.status;
+                }
+            });
+        },
         goTradeHandle(item: any) {
-            if (this._userInfo) {
+            //    "phone": "86-13100000000",//[string] 手机号
+            //     "email": "test@xx.com", //[string] 邮箱
+            //     "password": "1", //[string] 处理过的密码,不为空代表已设置
+            //     "pay_password": "1", //[string] 处理过的支付密码,不为空代表已设置
+            //     "nickname": "昵称",
+            //     "photo": "头像",
+            //     "ver_lv": 0, //实名认证级别 0.未认证 1.基础认证 2.身份认证 3.视频认证
+            //     "ga": "1", //处理过的google验证码,不为空代表已设置
+            //     "status": 1, //状态,1.正常 0.禁用
+            //     "created_at": "", //创建时间
+            if (!this._userInfo.pay_password) {
                 this.$dialog.confirm({
                     title: '温馨提示',
-                    message: '暂无支持的收付款方式',
+                    message: '请先绑定支付密码',
+                    confirmButtonText: '去绑定',
                 }).then(() => {
-                    this.$router.push('/payway');
+                    this.$router.push('/mine/safepass');
                 });
                 return;
             }
@@ -248,6 +269,7 @@ export default Vue.extend({
                 this.$dialog.confirm({
                     title: '温馨提示',
                     message: '暂无支持的收付款方式',
+                    confirmButtonText: '去绑定',
                 }).then(() => {
                     this.$router.push('/payway');
                 });
@@ -319,7 +341,48 @@ export default Vue.extend({
             this.resizeTab();
         },
         clickShowMore(item: any) {
+            this.showMore = false;
             if (item.name === 'otcAdv') {
+                //    "phone": "86-13100000000",//[string] 手机号
+                //     "email": "test@xx.com", //[string] 邮箱
+                //     "password": "1", //[string] 处理过的密码,不为空代表已设置
+                //     "pay_password": "1", //[string] 处理过的支付密码,不为空代表已设置
+                //     "nickname": "昵称",
+                //     "photo": "头像",
+                //     "ver_lv": 0, //实名认证级别 0.未认证 1.基础认证 2.身份认证 3.视频认证
+                //     "ga": "1", //处理过的google验证码,不为空代表已设置
+                //     "status": 1, //状态,1.正常 0.禁用
+                //     "created_at": "", //创建时间
+                if (this._userInfo.ver_lv === 0 || this._userInfo.ver_lv === 1 || this._userInfo.ver_lv === 2) {
+                    this.$dialog.confirm({
+                        title: '温馨提示',
+                        message: '您还未进行实名认证，请先认证',
+                        confirmButtonText: '去认证',
+                    }).then(() => {
+                        this.$router.push('/mine/safesetting');
+                    });
+                    return;
+                }
+                if (this.otcSattus !== 1) {
+                    this.$dialog.confirm({
+                        title: '温馨提示',
+                        message: '您还不是广告商家，请先去申请认证',
+                        confirmButtonText: '去认证',
+                    }).then(() => {
+                        this.$router.push('/otc/advBusiness');
+                    });
+                    return;
+                }
+                if (!this._userInfo.pay_password) {
+                    this.$dialog.confirm({
+                        title: '温馨提示',
+                        message: '请先绑定支付密码',
+                        confirmButtonText: '去绑定',
+                    }).then(() => {
+                        this.$router.push('/mine/safepass');
+                    });
+                    return;
+                }
                 this.$router.push({
                     name: item.name,
                     query: { symbol: this.activeSymbol },

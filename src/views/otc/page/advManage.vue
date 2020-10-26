@@ -41,9 +41,9 @@
                                 <span :class="item.status | otcOrderStateColor">{{item.status | otcOrderState}}</span>
                             </template>
                             <template slot="lable">
-                                <span>{{"价格"}} ({{_unit}})</span>
+                                <span>{{"价格"}} ({{_unitIcon}})</span>
                                 <span>{{"数量"}} ({{item.coin && item.coin.toUpperCase()}})</span>
-                                <span>{{"成交额"}} ({{_unit}})</span>
+                                <span>{{"成交额"}} ({{_unitIcon}})</span>
                             </template>
                             <template slot="value">
                                 <span>{{item.price}}</span>

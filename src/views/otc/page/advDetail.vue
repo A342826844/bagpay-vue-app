@@ -1,7 +1,7 @@
 <template>
-    <div @scroll="scrollHandle" class="otc-advdetail">
+    <div @scroll.capture="scrollLoad($event, scrollLoadHandle)" class="otc-advdetail">
         <Headers>
-            <span @click="cancelHandle" class="primary-color">下架</span>
+            <span v-show="orderDetail.status === 0" @click="cancelHandle" class="primary-color">下架</span>
         </Headers>
         <PullRefresh v-model="isLoading" @refresh="onRefresh">
             <Titles>
@@ -94,7 +94,7 @@
                             <template slot="value">
                                 <span>{{item.price}}</span>
                                 <span>{{item.amount}}</span>
-                                <span>{{item.value}}</span>
+                                <span>{{item.updated_at}}</span>
                             </template>
                         </NCardItem>
                     </li>
@@ -110,10 +110,12 @@
 <script lang="ts">
 import Vue from 'vue';
 import NCardItem from '@/components/card/index.vue';
+import scrollLoad from '@/minxin/scrollLoad';
 
 type data = {
     orderDetail: any;
     isLoading: boolean;
+    timer: any;
     form: {
         amount: string;
         value: string;
@@ -126,10 +128,12 @@ export default Vue.extend({
     components: {
         NCardItem,
     },
+    mixins: [scrollLoad],
     data(): data {
         return {
             isLoading: false,
-            list: [{ taker_side: 1, state: 2 }, {}, {}],
+            timer: 0,
+            list: [],
             orderDetail: {
                 // id: 1,
                 // uid: 10, // 所属用户id
@@ -159,28 +163,31 @@ export default Vue.extend({
         };
     },
     created() {
-        this.getOrder();
+        // this.getOrder();
+        this.orderDetail.id = Number(this.$route.query.id);
+        this.getOrderData();
     },
     methods: {
         onRefresh() {
-            this.getOrderDetail();
-            this.otcOrderDealList(true);
+            this.getOrderData(true);
+            (this as any).isEnd = false;
         },
-        getOrder() {
-            this.orderDetail.id = Number(this.$route.query.id);
-            if (!this.orderDetail.id) {
-                this.$router.go(-1);
-                return;
-            }
-            this.getOrderDetail();
+        // 滚动懒加载
+        scrollLoadHandle() {
             this.otcOrderDealList();
         },
-        scrollHandle() {
-            console.log('12112');
+        getOrderData(refresh?: boolean) {
+            if (!refresh) {
+                this.changeLoading(true);
+            }
+            Promise.all([this.getOrderDetail(), this.otcOrderDealList(refresh)]).finally(() => {
+                this.isLoading = false;
+                this.changeLoading(false);
+            });
         },
         getOrderDetail() {
             this.changeLoading(true);
-            this.$api.otcOrderGetById(this.orderDetail.id).then((res: any) => {
+            return this.$api.otcOrderGetById(this.orderDetail.id).then((res: any) => {
                 this.changeLoading(false);
                 if (res.data) {
                     this.orderDetail = res.data;
@@ -190,7 +197,8 @@ export default Vue.extend({
                 this.$normalToast('获取订单详情失败');
             });
         },
-        goAdvState() {
+        goAdvState(item: any) {
+            this.$router.push(`/otc/order/detail?id=${item.id}`);
             console.log('去订单详情');
         },
         otcOrderDealList(refresh?: boolean) {
@@ -203,10 +211,17 @@ export default Vue.extend({
                 offset: refresh ? 0 : this.list.length, // [int64] 跳过条数
                 limit: 15, // [int64] 最大返回条数
             };
-            this.$api.otcOrderDealList(params).then((res: any) => {
+            return this.$api.otcOrderDealList(params).then((res: any) => {
                 console.log(res);
                 if (res.data.list) {
-                    this.list = res.data.list;
+                    if (refresh) {
+                        this.list = res.data.list;
+                    } else {
+                        this.list = this.list.concat(res.data.list);
+                    }
+                }
+                if (this.list.length >= res.total) {
+                    (this as any).isEnd = true;
                 }
             });
         },
@@ -270,7 +285,7 @@ export default Vue.extend({
         padding-top: 33px;
         color: #333333;
         font-size: 28px;
-        height: 248px;
+        min-height: 248px;
         .lable{
             font-size: 24px;
         }

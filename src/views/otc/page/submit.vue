@@ -53,7 +53,7 @@
             <input
                 class="form-input app-padding40"
                 decimal
-                :placeholder="`单笔最低${minTip} ${_unit}`"
+                :placeholder="`单笔最低${minTip} ${_unitIcon}`"
                 v-model="form.value"
                 @input="inputAmount('value')"
             />

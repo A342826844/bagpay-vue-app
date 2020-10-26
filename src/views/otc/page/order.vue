@@ -41,9 +41,9 @@
                                 <span>{{item.state | otcDealState}}</span>
                             </template>
                             <template slot="lable">
-                                <span>{{"价格"}} ({{_unit}})</span>
+                                <span>{{"价格"}} ({{_unitIcon}})</span>
                                 <span>{{"数量"}} ({{item.coin && item.coin.toUpperCase()}})</span>
-                                <span>{{"成交额"}} ({{_unit}})</span>
+                                <span>{{"成交额"}} ({{_unitIcon}})</span>
                             </template>
                             <template slot="value">
                                 <span>{{item.price}}</span>
@@ -146,7 +146,6 @@ export default Vue.extend({
                 limit: this.limit, // [int64] 最大返回条数
             };
             if (loading) {
-                console.log(loading, 'loading');
                 this.changeLoading(true);
             }
             // 取消请求
@@ -156,8 +155,6 @@ export default Vue.extend({
                     delete axiosGoPromiseArr[index];
                 });
             }
-            // TODO
-            console.log(params);
             this.$api.otcOrderDealList(params).then((res: any) => {
                 this.changeLoading(false);
                 this.isLoading = false;

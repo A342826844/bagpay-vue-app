@@ -247,7 +247,7 @@ Vue.filter('otcOrderStateColor', (state: 0|1|2|3|4|5) => {
         4: 'gray-color',
         5: 'gray-color',
     };
-    return i18n.t(states[state]);
+    return states[state];
 });
 
 // 社交类型 SocialType

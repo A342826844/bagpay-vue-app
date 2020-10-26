@@ -67,6 +67,17 @@ export default Vue.extend({
             });
         },
         addHandle() {
+            console.log(this._userInfo.ver_lv);
+            if (this._userInfo.ver_lv < 1) {
+                this.$dialog.confirm({
+                    title: '温馨提示',
+                    message: '您还未进行LV1认证，请先认证',
+                    confirmButtonText: '去认证',
+                }).then(() => {
+                    this.$router.push('/mine/safesetting');
+                });
+                return;
+            }
             this.$router.push('/payway/add');
         },
     },

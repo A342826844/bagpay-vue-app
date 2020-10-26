@@ -97,10 +97,10 @@ export default Vue.extend({
                 transform: translateX(0);
             }
             &.active1{
-                transform: translateX(-100%);
+                transform: translateX(-100vw);
             }
             &.active2{
-                transform: translateX(-200%);
+                transform: translateX(-200vw);
             }
             &>li{
                 position: absolute;
@@ -122,10 +122,10 @@ export default Vue.extend({
                     left: 0;
                 }
                 &.item1{
-                    left: 100%;
+                    left: 100vw;
                 }
                 &.item2{
-                    left: 200%;
+                    left: 200vw;
                 }
             }
         }

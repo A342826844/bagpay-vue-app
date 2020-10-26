@@ -8,15 +8,24 @@
             </div>
             <div class="form-item">
                 <div class="lable">申诉原因</div>
-                <Inputs cols="30" rows="10" type="textarea" v-model="form.content"></Inputs>
+                <V-Field
+                    v-model="form.content"
+                    rows="3"
+                    autosize
+                    type="textarea"
+                    maxlength="60"
+                    :placeholder="'请输入申诉原因'"
+                    show-word-limit
+                >
+                </V-Field>
             </div>
             <div class="form-item">
                 <div class="lable">上传图片凭证</div>
-                <V-Uploader :max-count="3" v-model="fileList" multiple :after-read="afterRead"></V-Uploader>
+                <V-Uploader :max-count="3" v-model="fileList" multiple></V-Uploader>
             </div>
         </form>
         <div class="app-size-34 lxa-footer-btn flex-around-c">
-            <Button :disabled="disabled" :radius="false" @click="submitHandle" type="up">确定</Button>
+            <Button @click="submitHandle" >确定</Button>
         </div>
         <SelectPopup v-model="selectPopup">
             <SelectPopupItem
@@ -50,37 +59,57 @@ export default Vue.extend({
                 content: '',
                 type: 1,
             },
-            fileList: [
-                {
-                    url: 'https://img.yzcdn.cn/vant/leaf.jpg',
-                    status: 'uploading',
-                    message: '上传中...',
-                },
-            ],
+            fileList: [],
         };
+    },
+    created() {
+        this.id = this.$route.query.id as string;
     },
     methods: {
         submitHandle() {
             console.log('submitHandle');
+            if (!this.form.content) {
+                this.$normalToast('请输入申诉原因');
+                return;
+            }
+            if (!this.fileList.length) {
+                this.$normalToast('请上传照片凭证');
+                return;
+            }
+            this.otcAppealSubmit();
         },
         selectAppealType(item: number) {
             console.log(item);
             this.form.type = item;
         },
-        afterRead(file: any) {
-            console.log(file, 'afterRead');
-            // 通过 status 属性可以标识上传状态，uploading 表示上传中，failed 表示上传失败，done 表示上传完成。
-            file.status = 'uploading';
-        },
+        // afterRead(file: any) {
+        //     console.log(file, 'afterRead');
+        //     // 通过 status 属性可以标识上传状态，uploading 表示上传中，failed 表示上传失败，done 表示上传完成。
+        //     file.status = 'uploading';
+        // },
         otcAppealSubmit() {
-            const params = {
-                deal_id: this.id, // [string] 订单id
-                type: this.form.type, // [OtcAppealType] 问题类型
-                content: this.form.content, // [string] 总是描述
-                images: this.images.join(','), // [string] 申诉图片,逗号分隔
-            };
-            this.$api.otcAppealSubmit(params).then((res: any) => {
-                console.log(res);
+            // const params = {
+            //     deal_id: this.id, // [string] 订单id
+            //     type: this.form.type, // [OtcAppealType] 问题类型
+            //     content: this.form.content, // [string] 总是描述
+            //     images: this.images.join(','), // [string] 申诉图片,逗号分隔
+            // };
+            const params: any = new FormData();
+            this.fileList.forEach((item: any) => {
+                params.append('images', item.file);
+            });
+            params.append('deal_id', this.id);
+            params.append('type', `${this.form.type}`);
+            params.append('content', this.form.content);
+            this.changeLoading(true);
+            this.$api.otcAppealSubmit(params).then(() => {
+                this.changeLoading(false);
+                this.$normalToast('申诉成功');
+                setTimeout(() => {
+                    this.$router.go(-1);
+                }, 1000);
+            }).catch(() => {
+                this.changeLoading(false);
             });
         },
         textareaInput() {

@@ -239,6 +239,9 @@
         "ERR_NICKNAME_ALEARDY_EXIST": "昵称已存在",
         "ERR_USER_DISABLED": "用户已禁用",
         "ERR_BAD_VERIFICATION_CODE": "验证码错误",
+        "ERR_VERIFICATION_LV1_NEEDED": "必须完成lv1实名认证",
+        "ERR_VERIFICATION_LV2_NEEDED": "必须完成lv2实名认证",
+        "ERR_VERIFICATION_LV3_NEEDED": "必须完成lv3实名认证",
 
         "ERR_BALANCE_NOT_ENOUGH": "余额不足",
         "ERR_FROZEN_NOT_ENOUGH": "冻结的额度不足，系统故障",
