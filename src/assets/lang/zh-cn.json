@@ -111,6 +111,7 @@
         "imgCode": "图形码",
         "againEnter": "再次确认密码",
         "payPassword": "安全密码",
+        "userProtocol": "用户协议",
         "done": "完 成",
         "send": "发送",
         "nickname": "昵称",
@@ -184,6 +185,7 @@
     },
     "otc": {
         "otcAdv": "发布广告",
+        "protocol": "广告发布方协议",
         "manage": "广告管理",
         "order": "场外订单",
         "payment": "收款方式",

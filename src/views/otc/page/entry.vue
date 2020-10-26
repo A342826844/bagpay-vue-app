@@ -333,11 +333,11 @@ export default Vue.extend({
         },
         clickHandle(item: any) {
             this.side = item.side;
+            axiosGoPromiseArr.forEach((ele, index) => {
+                ele.cancel('001');
+                delete axiosGoPromiseArr[index];
+            });
             if (this.showDataStatus === 3) {
-                axiosGoPromiseArr.forEach((ele, index) => {
-                    ele.cancel('001');
-                    delete axiosGoPromiseArr[index];
-                });
                 this.loadData();
             }
             this.resizeTab();
