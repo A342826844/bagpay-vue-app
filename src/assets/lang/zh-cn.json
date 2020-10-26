@@ -143,6 +143,7 @@
         "unitPrice": "计价单位",
         "logout": "退出账号",
         "logoutTip": "确认退出登录",
+        "payPwd": "请先去设置安全密码",
         "feedback": "意见反馈",
         "aboutus": "关于我们",
         "realName1": "上传证件正面",

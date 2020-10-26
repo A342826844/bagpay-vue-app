@@ -46,8 +46,8 @@
                         </div>
                     </div>
                     <div class="list-values">
-                        <h5 class="lable">{{item.available}}</h5>
-                        <p class="value">$ {{changeRate(item.available, item.coin)}}</p>
+                        <h5 class="lable">{{hide === '1' ? '****' : item.available}}</h5>
+                        <p class="value">$ {{hide === '1' ? '****' : changeRate(item.available, item.coin)}}</p>
                     </div>
                 </li>
             </ul>
