@@ -71,7 +71,21 @@ export default Vue.extend({
                     .then((res: any) => {
                         if (res.code === 0) {
                             this.initUserInfo();
-                            this.$router.go(-1);
+                            this.$dialog.confirm({
+                                title: '审核成功',
+                                message: '实名认证（LV1）成功，可点击"下一步"申请实名认证（LV2）',
+                                confirmButtonText: '下一步',
+                                confirmButtonColor: '#5894EE',
+                                className: 'confirm_34',
+                                beforeClose: (action: any, done: any) => {
+                                    if (action === 'confirm') {
+                                        this.$router.replace('/mine/verlv2');
+                                    } else {
+                                        this.$router.go(-1);
+                                    }
+                                    done();
+                                },
+                            });
                         }
                     });
             }

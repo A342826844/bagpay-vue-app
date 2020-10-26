@@ -28,7 +28,6 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import uploadQiniu from '@/commons/upload/index';
 import Loading from '@/components/loading/index.vue';
 
 const idcard1 = require('../../assets/img/mine/idcard1.png');

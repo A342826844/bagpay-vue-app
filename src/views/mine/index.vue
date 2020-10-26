@@ -31,7 +31,7 @@ const manage = require('../../assets/img/mine/manage.png');
 const pay = require('../../assets/img/mine/pay.png');
 const safe = require('../../assets/img/mine/safe.png');
 const setting = require('../../assets/img/mine/setting.png');
-const feedback = require('../../assets/img/mine/feedback.png');
+// const feedback = require('../../assets/img/mine/feedback.png');
 const aboutus = require('../../assets/img/mine/aboutus.png');
 
 type listItem = {
