@@ -62,6 +62,7 @@ export const copyText = (value: string) => {
         document.body.removeChild(a);
         console.log(msg, '===');
         if (document.execCommand('copy')) {
+            normalToast(i18n.t('common.copySuccessful'));
             return true;
         }
         return false;

@@ -24,6 +24,7 @@ export default Vue.extend({
     },
     data() {
         return {
+            isLoading: false,
             codeTxt: `${this.$t('common.send2')}`,
             timer: null,
             timeNum: 0,
@@ -36,7 +37,7 @@ export default Vue.extend({
     },
     methods: {
         sendHandle() {
-            if (this.timeNum !== 0) return;
+            if (this.isLoading) return;
             if (this.type === 1 && !this.$verification.notEmpty(this.imgCode, this.$t('login.imgCode'))) return;
             if (this.$verification.phoneVfi(this.phone)) {
                 const data: any = {
@@ -47,6 +48,8 @@ export default Vue.extend({
                     data.captcha = this.imgCode;
                     data.captcha_id = this.imgCodeId;
                 }
+                this.isLoading = true;
+                this.changeLoading(true);
                 this.$api.registerCode(data).then((res: any) => {
                     if (res.code === 0) {
                         this.timeNum = 60;
@@ -59,7 +62,11 @@ export default Vue.extend({
                                 this.codeTxt = `${this.$t('common.repeat')}(${this.timeNum})`;
                             }
                         }, 1000) as any;
+                        this.$normalToast(this.$t('common.sendSuccess'));
                     }
+                }).finally(() => {
+                    this.isLoading = false;
+                    this.changeLoading(false);
                 });
             }
         },

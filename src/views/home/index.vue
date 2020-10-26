@@ -15,7 +15,7 @@
                 $<span class="home-assets-value">{{hide === '1' ? '****' : changeRate(activeCoin.available, symbol)}}</span>
             </h4>
             <div class="home-assets-address flex-between-c">
-                <p class="ellipsis">{{hide === '1' ? '****' : activeSymbol.address}}</p>
+                <p class="ellipsis" @click="$copyText(activeSymbol.address)">{{hide === '1' ? '****' : activeSymbol.address}}</p>
                 <img @click="$router.push({
                     path: '/payment',
                     query: {
@@ -46,8 +46,8 @@
                         </div>
                     </div>
                     <div class="list-values">
-                        <h5 class="lable">{{hide === '1' ? '****' : item.available}}</h5>
-                        <p class="value">$ {{hide === '1' ? '****' : changeRate(item.available, item.coin)}}</p>
+                        <h5 class="num_lable">{{hide === '1' ? '****' : item.available}}</h5>
+                        <p class="num_value">$ {{hide === '1' ? '****' : changeRate(item.available, item.coin)}}</p>
                     </div>
                 </li>
             </ul>
