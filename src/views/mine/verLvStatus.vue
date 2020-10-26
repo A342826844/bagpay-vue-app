@@ -35,7 +35,7 @@ export default Vue.extend({
                 return require(`@/assets/img/mine/status${this.status}.png`);
             default:
                 this.statusTxt = '审核未通过';
-                return require('@/assets/img/mine/status2.png');
+                return require('@/assets/img/mine/status3.png');
             }
         },
     },
