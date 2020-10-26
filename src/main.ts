@@ -98,7 +98,6 @@ Vue.mixin({
         },
         getUserBankList() {
             return this.$api.getUserBankList().then((res: any) => {
-                console.log('--');
                 if (res.data) {
                     this.$store.commit('setBankList', res.data);
                 }

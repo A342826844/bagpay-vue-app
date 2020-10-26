@@ -245,15 +245,27 @@ export default Vue.extend({
         },
         submitHandle() {
             console.log(this.pay_types);
-            if (!this.form.price) {
+            if (!Number(this.form.price)) {
                 this.$normalToast('请输入价格');
                 return;
             }
-            if (!this.form.amount) {
+            if (Number(this.form.price) <= 0) {
+                this.$normalToast('请输入大于0的价格');
+                return;
+            }
+            if (!Number(this.form.amount)) {
                 this.$normalToast('请输入数量');
                 return;
             }
-            if (!this.form.min_value) {
+            if (Number(this.form.amount) <= 0) {
+                this.$normalToast('请输入数量');
+                return;
+            }
+            if (!Number(this.form.min_value)) {
+                this.$normalToast('请输入单笔最低限额');
+                return;
+            }
+            if (Number(this.form.min_value) <= 0) {
                 this.$normalToast('请输入单笔最低限额');
                 return;
             }

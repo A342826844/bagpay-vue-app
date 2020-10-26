@@ -10,7 +10,7 @@
                     <div>
                         <div class="flex-start-c">
                             <h5 class="name">{{ orderDetail.nickname }}</h5>
-                            <img class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt="">
+                            <!-- <img class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt=""> -->
                         </div>
                         <p class="otc-submit-pay">{{ orderDetail.pay_types | payType}}</p>
                     </div>
@@ -26,7 +26,7 @@
                     </div>
                     <div class="text-align-r">
                         <p class="lable">限额</p>
-                        <h6 class="app-size-34 otc-submit-price">{{orderDetail.min_value}}~{{orderDetail.max_value}}</h6>
+                        <h6 class="app-size-34 otc-submit-price">{{_unitIcon}}{{orderDetail.min_value}}~{{orderDetail.max_value}}</h6>
                     </div>
                 </div>
                 <div class="app-padding40 app-margin-t40">
@@ -169,6 +169,10 @@ export default Vue.extend({
                 this.$normalToast('请输入数量或者金额');
                 return;
             }
+            if (Number(this.form.amount) <= 0) {
+                this.$normalToast('请输入数量或者金额');
+                return;
+            }
             // this.$dialog.confirm({
             //     title: '确认下单',
             //     messageAlign: 'left',
@@ -251,6 +255,7 @@ export default Vue.extend({
     }
     &-pay{
         margin-top: 8px;
+        text-align: left;
     }
     &-price{
         margin-top: 15px;

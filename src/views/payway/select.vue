@@ -7,7 +7,10 @@
                 <li @click="selectBank(item)" class="payway-li" v-for="item in renderList" :key="item.id">
                     <div class="flex-between-c">
                         <h5 class="app-size-34" v-if="item.type === 1">{{`${item.bank} ${item.sub_bank}`}}</h5>
-                        <h5 class="app-size-34" v-else>{{item.type | payType}}</h5>
+                        <h5 class="app-size-34" v-else>
+                            <span class="vertical-m">{{item.type | payType}}</span>
+                            <img @click="showImg(item)" class="payway-ercode app-img-50" src="../../assets/img/common/ercode.png" alt="">
+                        </h5>
                         <img v-show="id === item.id" class="app-img-50" src="../../assets/img/setting/ok.png" alt="">
                     </div>
                     <div class="payway-info">{{`${item.real_name}  ${item.account}`}}</div>
@@ -20,6 +23,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { ImagePreview } from 'vant';
 
 type data = {
     // list: Array<any>;
@@ -53,6 +57,11 @@ export default Vue.extend({
             setTimeout(() => {
                 this.$router.go(-1);
             }, 300);
+        },
+        showImg(item: any) {
+            ImagePreview({
+                images: [`${this.$api.getFile}${item.qrc}`],
+            });
         },
         setId(id: any) {
             this.id = Number(id);

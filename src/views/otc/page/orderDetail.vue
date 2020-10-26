@@ -111,7 +111,7 @@
             // OtcDealStateCanceled  = 3 //已取消 -->
             <Button @click="cancleHandle" v-if="orderDetail.state === 0 && orderDetail.taker_id === _userInfo.id" type="cancel">取消</Button>
             <Button @click="otcDealPadiHandle" v-if="orderDetail.state === 0 && orderDetail.taker_id === _userInfo.id">标记已支付</Button>
-            <Button @click="appealHandle" v-if="orderDetail.state === 1 && !orderDetail.appealing" type="down">申述</Button>
+            <Button @click="appealHandle" v-if="orderDetail.state === 1 && !orderDetail.appealing" type="down">申诉</Button>
             <Button @click="cancleAppealHandle" v-if="orderDetail.appealing" type="down">取消申诉</Button>
             <Button @click="releaseHandle" v-if="orderDetail.state === 1 && orderDetail.maker_id === _userInfo.id" type="up">释放</Button>
         </div>

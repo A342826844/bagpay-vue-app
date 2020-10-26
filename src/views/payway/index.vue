@@ -7,7 +7,10 @@
                 <li class="payway-li" v-for="item in list" :key="item.id">
                     <div class="flex-between-c">
                         <h5 class="app-size-34" v-if="item.type === 1">{{`${item.bank} ${item.sub_bank}`}}</h5>
-                        <h5 class="app-size-34" v-if="item.type !== 1">{{item.type | payType}}</h5>
+                        <h5 class="app-size-34" v-if="item.type !== 1">
+                            <span class="vertical-m">{{item.type | payType}}</span>
+                            <img @click="showImg(item)" class="payway-ercode app-img-50" src="../../assets/img/common/ercode.png" alt="">
+                        </h5>
                         <!-- {{item.status}} -->
                         <!-- <Switchs @on-change="changeHandle(item)" :value="!!item.status"></Switchs> -->
                         <V-Switch
@@ -29,6 +32,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { ImagePreview } from 'vant';
 
 // type data = {
 //     list: Array<any>;
@@ -70,6 +74,11 @@ export default Vue.extend({
             //         this.$normalToast('收款方式获取失败');
             //     }
             // });
+        },
+        showImg(item: any) {
+            ImagePreview({
+                images: [`${this.$api.getFile}${item.qrc}`],
+            });
         },
         addHandle() {
             console.log(this._userInfo.ver_lv);

@@ -3,7 +3,7 @@
         <TitleHeader :title="'订单申诉'" />
         <form class="app-padding40 app-size-34" action="">
             <div class="form-item">
-                <div class="lable">申述类型</div>
+                <div class="lable">申诉类型</div>
                 <Select @click="selectPopup = !selectPopup">{{ form.type | otcAppealType}}</Select>
             </div>
             <div class="form-item">

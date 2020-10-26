@@ -26,6 +26,7 @@ export default Vue.extend({
         if (this.$store.state.loginStatus) {
             this.getCoinList();
             this.initUserInfo();
+            this.getUserBankList();
             // this.$router.push('/home');
         }
     },

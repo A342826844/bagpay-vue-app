@@ -1,6 +1,6 @@
 <template>
     <div class="search-country">
-        <Headers :title="$t('common.country')"></Headers>
+        <Headers />
         <div class="positionF">
             <img class="search-img" src="../../assets/img/common/search.png" alt="">
             <input
@@ -70,20 +70,21 @@ export default {
 .search-country {
     .positionF {
         position: relative;
-        width: 608px;
-        margin: auto;
+        // width: 608px;
+        margin: auto 36px;
+        // margin: auto;
         .search-img {
             width: 36px;
             height: 36px;
             position: absolute;
             left: 33px;
-            top: 40px;
+            top: 55px;
         }
         .input {
             background-color: rgba(228, 228, 228, .5);
             color: #999;
-            width: 608px;
-            height: 63px;
+            width: 100%;
+            height: 100px;
             border: none;
             outline: none;
             border-radius: 30px;
@@ -100,10 +101,10 @@ export default {
         }
         .row {
             text-align: left;
-            line-height: 95px;
+            line-height: 130px;
             padding: 0 36px;
             background: #fff;
-            border-bottom: 1px solid #dcdcdc;
+            // border-bottom: 1px solid #dcdcdc;
             white-space: nowrap;
             .title {
                 color: #464646;

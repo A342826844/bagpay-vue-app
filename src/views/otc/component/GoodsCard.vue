@@ -5,7 +5,7 @@
                 <div class="text-align-l">
                     <div class="flex-start-c">
                         <h5 class="name">{{ renderData.nickname }}</h5>
-                        <img class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt="">
+                        <!-- <img class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt=""> -->
                     </div>
                     <p class="otc-good-card-pay value">{{ renderData.pay_types | payType}}</p>
                 </div>
