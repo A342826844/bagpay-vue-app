@@ -113,6 +113,11 @@ export default Vue.extend({
     },
     methods: {
         init() {
+            this.phoneCode = '';
+            this.emailCode = '';
+            this.googleCode = '';
+            this.payPwd = '';
+            this.loginPwd = '';
             this.phoneNum = this.phone || this._userInfo.phone.split('-')[1];
             switch (this.type) {
             case 1: // 修改密码
@@ -152,9 +157,17 @@ export default Vue.extend({
             });
         },
         open() {
-            this.init();
-            console.log(this._userInfo);
-            this.show = true;
+            if (this._userInfo.pay_password !== '1') {
+                this.$dialog.confirm({
+                    message: `${this.$t('mine.payPwd')}`,
+                    className: 'confirm_34',
+                }).then(() => {
+                    this.$router.push('/mine/safepass');
+                });
+            } else {
+                this.init();
+                this.show = true;
+            }
         },
         formatName(str: string) {
             const res = `${str.slice(0, 3)}***${str.slice(-3, str.length)}`;
