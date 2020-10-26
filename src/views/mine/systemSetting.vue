@@ -87,6 +87,7 @@ export default Vue.extend({
         logout() {
             this.$dialog.confirm({
                 message: `${this.$t('mine.logoutTip')}`,
+                className: 'confirm_34',
             }).then(() => {
                 this.$api.logout().then((res: any) => {
                     if (res.code === 0) {

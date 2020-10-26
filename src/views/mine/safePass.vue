@@ -3,9 +3,9 @@
         <TitleHeader :title="$t('mine.safePass')">
             <p class="app-padding40 realname-tip">设置/修改安全密码，用于提现、交易。</p>
             <form class="realname-form app-padding40" action="">
-                <div class="form-item">
+                <!-- <div class="form-item">
                     <Inputs readonly v-model="form.phone" :placeholder="$t('login.phone')"></Inputs>
-                </div>
+                </div> -->
                 <!-- <div class="form-item">
                     <Inputs v-model="form.code"  placeholder="验证码">
                         <Code :phone="this.form.phone" :type="6"></Code>

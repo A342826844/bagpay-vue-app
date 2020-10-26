@@ -149,6 +149,14 @@ export default Vue.extend({
     display: flex;
     align-items: center;
     position: relative;
+    &.img_code_input{
+        padding-right: 0px;
+        overflow: hidden;
+        .code-img{
+            vertical-align: middle;
+            height: 100%;
+        }
+    }
     .input-cont{
         flex: 1;
         width: 50px;

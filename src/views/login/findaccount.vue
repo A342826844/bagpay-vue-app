@@ -13,7 +13,7 @@
           type="text"
         />
         <Inputs
-          class="login-form-item"
+          class="login-form-item img_code_input"
           :placeholder="$t('login.imgCode')"
           v-model="form.imgCode"
           autocomplete="username"

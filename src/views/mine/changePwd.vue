@@ -4,14 +4,14 @@
       <div class="login-box app-padding40">
         <p class="login-tip">{{ $t("mine.changePwdTip") }}</p>
         <form @submit.prevent="" class="login-form" action="">
-          <Inputs
+          <!-- <Inputs
             class="login-form-item"
             :placeholder="$t('login.phone')"
             clearable
             v-model="form.phone"
             autocomplete="username"
             type="text"
-          />
+          /> -->
           <Inputs
             class="login-form-item"
             :placeholder="$t('login.newPwd')"

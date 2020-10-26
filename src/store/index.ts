@@ -117,6 +117,13 @@ export default new Vuex.Store({
             const coinInfo = state.symbolList.find((item: CoinInfo) => item.symbol === coin);
             return coinInfo || {};
         },
+        getCoinMap: (state) => () => {
+            const coinMap: any = {};
+            state.symbolList.forEach((item: CoinInfo) => {
+                coinMap[item.symbol] = item.name;
+            });
+            return coinMap || {};
+        },
         getOtcEnableList: (state) => state.symbolList.filter((item: CoinInfo) => item.enable_otc),
         getBankEnableList: (state) => state.bankList.filter((item: any) => item.status),
     },
