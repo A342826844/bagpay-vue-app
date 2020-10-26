@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 import {
-    Dialog, Switch, Field, Button, Tab, Tabs, PullRefresh, Popup, Uploader,
+    Dialog, Switch, Field, Button, Tab, Tabs, PullRefresh, Popup, Uploader, PasswordInput, NumberKeyboard,
 } from 'vant';
 import 'vant/lib/dialog/style';
 import 'vant/lib/switch/style';
@@ -13,6 +13,8 @@ import 'vant/lib/pull-refresh/style';
 import 'vant/lib/popup/style';
 import 'vant/lib/uploader/style';
 import 'vant/lib/image-preview/style';
+import 'vant/lib/password-input/style';
+import 'vant/lib/number-keyboard/style';
 
 // import Dialog from 'vant/lib/dialog';
 
@@ -32,5 +34,7 @@ Vue.component('V-Popup', Popup);
 Vue.component('V-Uploader', Uploader);
 Vue.component('V-Switch', Switch);
 Vue.component('V-Field', Field);
+Vue.component('V-Pass-Input', PasswordInput);
+Vue.component('V-Num-Key', NumberKeyboard);
 Vue.use(Dialog);
 // Vue.use(ImagePreview);
