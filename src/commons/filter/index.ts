@@ -150,7 +150,7 @@ Vue.filter('otcDealStateColor', (state: 0|1|2|3) => {
         2: 'green-color',
         3: '',
     };
-    return i18n.t(states[state]);
+    return states[state];
 });
 
 // 订单方向 OrderSide

@@ -132,8 +132,6 @@
             <Button @click="releaseHandle" v-if="
                 orderDetail.state === 1
                 &&
-                orderDetail.taker_id === _userInfo.id
-                &&
                 orderDetail.taker_side" type="up"
             >释放</Button>
         </div>
@@ -325,7 +323,7 @@ export default Vue.extend({
                 title: '确认取消交易',
                 messageAlign: 'left',
                 message: `<div class="app-reset-diolog-message">
-                    <span class="primary-color">如果您已经向卖家付款， 请不要取消交易</span>
+                    <span class="red-color">如果您已经向卖家付款， 请不要取消交易</span>
                     <span>取消规则： 买家24小时累计取消${this.configCommon.OtcGlobalMaxCancel}笔交易， 会限制当日买入功能</span>
                 </div>`,
             }).then(() => {
@@ -346,7 +344,7 @@ export default Vue.extend({
             this.$dialog.confirm({
                 title: '确认释放交易',
                 message: `<div class="app-reset-diolog-message">
-                    <span class="primary-color">如果您未收到买家付款， 请不要释放交易</span>
+                    <span class="red-color">如果您未收到买家付款， 请不要释放交易</span>
                 </div>`,
             }).then(() => {
                 this.changeLoading(true);
@@ -368,7 +366,7 @@ export default Vue.extend({
                 messageAlign: 'left',
                 message: `<div class="app-reset-diolog-message">
                     <span>请确认您已向卖家付款</span>
-                    <span class="primary-color">恶意点击将直接冻结账户</span>
+                    <span class="red-color">恶意点击将直接冻结账户</span>
                 </div>`,
             }).then(() => {
                 this.changeLoading(true);

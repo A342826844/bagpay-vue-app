@@ -25,8 +25,8 @@ import i18n from './i18n';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import './assets/less/index.less';
 import './plugins/vant';
+import './assets/less/index.less';
 import './commons/index';
 
 declare module 'vue/types/vue' {
