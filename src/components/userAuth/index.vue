@@ -157,12 +157,16 @@ export default Vue.extend({
             });
         },
         open() {
-            if (this._userInfo.pay_password !== '1') {
+            if (this._userInfo.pay_password !== '1' && this.type !== 3) {
                 this.$dialog.confirm({
                     message: `${this.$t('mine.payPwd')}`,
                     className: 'confirm_34',
-                }).then(() => {
-                    this.$router.push('/mine/safepass');
+                    beforeClose: (action: any, done: any) => {
+                        if (action === 'confirm') {
+                            this.$router.push('/mine/safepass');
+                        }
+                        done();
+                    },
                 });
             } else {
                 this.init();

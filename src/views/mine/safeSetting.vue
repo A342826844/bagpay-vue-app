@@ -13,10 +13,10 @@
           </div>
         </li>
         <li @click="$router.push('/mine/safepass')" class="flex-between-c payment_item">
-          <div v-t="_userInfo.pay_password === '0' ? 'mine.setSafePass' : 'mine.safePass'"></div>
+          <div v-t="_userInfo.pay_password !== '1' ? 'mine.setSafePass' : 'mine.safePass'"></div>
           <div>
-            <span class="vertical-m" :class="_userInfo.pay_password === '0' ? 'primary-color' : 'red-color'">{{
-              _userInfo.pay_password ? "已设置" : "未设置"
+            <span class="vertical-m" :class="_userInfo.pay_password !== '1' ? 'primary-color' : 'red-color'">{{
+              _userInfo.pay_password === '1' ? "已设置" : "未设置"
             }}</span>
             <img
               class="app-img-50"

@@ -153,6 +153,7 @@
         "realName5": "上传中",
         "safePass": "修改安全密码",
         "setSafePass": "设置安全密码",
+        "confirmSafePass": "确认安全密码",
         "forgetSafePass": "忘记安全密码",
         "changePwd": "修改登录密码",
         "changePwdTip": "修改登录密码",
