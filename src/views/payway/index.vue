@@ -14,7 +14,7 @@
                             :value="item.status"
                             :active-value="1"
                             :inactive-value="0"
-                            size="24px"
+                            size="20px"
                             @change="changeHandle(item)"
                             active-color="#5894EE"
                             inactive-color="#EDF3FB"/>

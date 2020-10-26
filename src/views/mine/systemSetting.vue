@@ -4,15 +4,13 @@
       <ul class="app-padding40 sys_cont">
         <li class="flex-between-c sys_item">
           <div v-t="'mine.hideAmount'"></div>
-          <div>
             <V-Switch v-model="hideBalance"
               active-value="1"
               inactive-value="0"
-              size="24px"
+              size="20px"
               @change="_change"
               active-color="#5894EE"
               inactive-color="#EDF3FB"/>
-          </div>
         </li>
         <li class="flex-between-c sys_item">
           <div v-t="'mine.changeLang'"></div>
