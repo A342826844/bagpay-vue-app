@@ -99,7 +99,6 @@ export default Vue.extend({
                 this.moveIng = true;
             }
             const moveX = e.touches[0].pageX - this.beginX;
-            const moveY = e.touches[0].pageY - this.beginY;
 
             const width = (this.$refs.tabBox as HTMLElement).clientWidth;
             if ((this.activeTab === 0 && moveX >= width / 5) || (this.activeTab === this.list.length - 1 && moveX <= -width / 5)) {
@@ -110,7 +109,7 @@ export default Vue.extend({
             //     return;
             // }
         },
-        endHandle(e: TouchEvent) {
+        endHandle(event: TouchEvent) {
             this.moveIng = false;
             const endStart = new Date().getTime();
 
@@ -118,7 +117,7 @@ export default Vue.extend({
                 this.moveTo = 0;
                 return;
             }
-            const width = (this.$refs.tabBox as HTMLElement).clientWidth;
+            const width = document.clientWidth;
             if (Math.abs(this.moveTo) >= width / 3 || ((endStart - this.beginTime <= 300) && (Math.abs(this.moveTo) > 10))) {
                 const next = this.moveTo > 0 ? -1 : 1;
                 this.activeTab += next;
