@@ -4,7 +4,7 @@ module.exports = {
         proxy: {
             '/api': {
                 /* 目标代理服务器地址 */
-                target: process.env.VUE_APP_JAVA_apiUrl,
+                target: 'https://bp-api.qdu.io/',
                 /* 允许跨域 */
                 ws: true,
                 secure: false,
