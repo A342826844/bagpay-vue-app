@@ -35,7 +35,7 @@
                         <NCardItem :showArrow="true" @click="goAdvState(item)" v-for="(item, index) in list" :key="index">
                             <template slot="title">
                                 <span>{{item.coin && item.coin.toUpperCase()}}</span>
-                                <span :class="item.taker_side|orderSideColor">{{item.taker_side | orderSide}}</span>
+                                <span :class="item.type|orderSideColor">{{item.type | orderSideTypeUser}}</span>
                             </template>
                             <template slot="right">
                                 <span :class="item.status | otcOrderStateColor">{{item.status | otcOrderState}}</span>

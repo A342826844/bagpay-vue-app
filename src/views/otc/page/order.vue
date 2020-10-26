@@ -35,10 +35,10 @@
                         <NCardItem :showArrow="true" @click="goAdvState(item)" v-for="(item, index) in list" :key="index">
                             <template slot="title">
                                 <span>{{item.coin && item.coin.toUpperCase()}}</span>
-                                <span :class="item.taker_side|orderSideColor">{{item.taker_side | orderSide}}</span>
+                                <span :class="item.taker_side|orderSideColor">{{item.taker_side | orderSideUser(item.taker_id, _userInfo.id)}}</span>
                             </template>
                             <template slot="right">
-                                <span>{{item.state | otcDealState}}</span>
+                                <span :class="item.state | otcDealStateColor">{{item.state | otcDealState}}</span>
                             </template>
                             <template slot="lable">
                                 <span>{{"价格"}} ({{_unitIcon}})</span>

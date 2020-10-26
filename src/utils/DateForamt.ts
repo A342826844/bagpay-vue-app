@@ -18,7 +18,7 @@ type stradegyTime = {
 }
 
 export default class DateForamt {
-    private date: Date | '--';
+    private date: Date;
 
     private SECOND = 1000;
 
@@ -39,9 +39,6 @@ export default class DateForamt {
             this.date = new Date(`${date} GMT+0`.replace('-', '/'));
         } else {
             this.date = new Date(date);
-        }
-        if (!DateForamt.isValidDate(this.date)) {
-            this.date = '--';
         }
         const zh = {
             just: '刚刚',
@@ -86,14 +83,14 @@ export default class DateForamt {
         }
     }
 
-    getDate() {
+    getDate(): Date {
         return this.date;
     }
 
     // 日期
     // 获取序列化日期时间字符串
     getDateForamt(fmt = 'yyyy-MM-dd') {
-        if (this.date === '--') return this.date;
+        if (!DateForamt.isValidDate(this.date)) return '--';
         let res = fmt;
         if (this.date.getFullYear() <= 1999) {
             this.date = new Date(this.date.getTime() * 1000); // 判断毫秒还是秒
@@ -122,7 +119,7 @@ export default class DateForamt {
     // 倒计时
     // 获取序列化倒计时时间字符串
     getTimeDown(fmt = 'hh:mm:ss') {
-        if (this.date === '--') return this.date;
+        if (!DateForamt.isValidDate(this.date)) return '--';
         let res = fmt;
         const day = Math.floor(this.date.getTime() / this.DAY);
         const hour = Math.floor((this.date.getTime() - day * this.DAY) / this.HOUR);
@@ -149,7 +146,7 @@ export default class DateForamt {
     // 跨时区
     // 获取序列化跨时区时间字符串
     getStradegyTime() {
-        if (this.date === '--') return this.date;
+        if (!DateForamt.isValidDate(this.date)) return '--';
         const diffValue = new Date().getTime() - this.date.getTime();
         if (diffValue < 0) return '--';
         const monthC = diffValue / this.MONTH;

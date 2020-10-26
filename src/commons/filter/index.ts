@@ -126,12 +126,12 @@ Vue.filter('otcAppealState', (state: 0|1|2|3|4|5|6) => {
 
 // otc订单状态 OtcDealState
 Vue.filter('otcDealState', (state: 0|1|2|3) => {
-	// OtcDealStateTrading   = 0 //交易中
+	// OtcDealStateTrading   = 0 //交易中, 待支付
 	// OtcDealStatePayed     = 1 //已支付
 	// OtcDealStateDone      = 2 //已放币,已完成
 	// OtcDealStateCanceled  = 3 //已取消
     const states = {
-        0: 'common.stateTrading',
+        0: 'common.statePaying',
         1: 'common.statePayed',
         2: 'common.done',
         3: 'common.canceled',
@@ -140,7 +140,7 @@ Vue.filter('otcDealState', (state: 0|1|2|3) => {
 });
 // otc订单状态 OtcDealState
 Vue.filter('otcDealStateColor', (state: 0|1|2|3) => {
-	// OtcDealStateTrading   = 0 //交易中
+	// OtcDealStateTrading   = 0 //交易中, 待支付
 	// OtcDealStatePayed     = 1 //已支付
 	// OtcDealStateDone      = 2 //已放币,已完成
 	// OtcDealStateCanceled  = 3 //已取消
@@ -163,7 +163,7 @@ Vue.filter('orderSide', (state: 1|2) => {
     };
     return i18n.t(states[state]);
 });
-// 订单方向 OrderSide
+// 广告方向 OrderSide
 Vue.filter('orderSideType', (state: 1|2) => {
 	// OrderSideSell  = 1 // 出售
 	// OrderSideBuy   = 2 // 购买
@@ -173,6 +173,33 @@ Vue.filter('orderSideType', (state: 1|2) => {
     };
     return i18n.t(states[state]);
 });
+// 广告方向用户自己看到的 OrderSide
+Vue.filter('orderSideTypeUser', (state: 1|2) => {
+	// OrderSideBuy   = 1 // 购买
+	// OrderSideSell  = 2 // 出售
+    const states = {
+        1: 'common.sideBuyT',
+        2: 'common.sideSellT',
+    };
+    return i18n.t(states[state]);
+});
+// 订单方向 OrderSide
+Vue.filter('orderSideUser', (state: 1|2, taker_id: number, user_id: number) => {
+	// OrderSideBuy   = 1 // 买入
+	// OrderSideSell  = 2 // 卖出
+    const states1 = {
+        1: 'common.sideBuy',
+        2: 'common.sideSellT',
+    };
+    const states2 = {
+        1: 'common.sideSell',
+        2: 'common.sideBuyT',
+    };
+    if (taker_id === user_id) {
+        return i18n.t(states1[state]);
+    }
+    return i18n.t(states2[state]);
+});
 
 // 订单方向渲染颜色 OrderSide
 Vue.filter('orderSideColor', (state: 1|2) => {
@@ -181,6 +208,16 @@ Vue.filter('orderSideColor', (state: 1|2) => {
     const states = {
         1: 'green-color',
         2: 'red-color',
+    };
+    return states[state];
+});
+// 订单方向渲染颜色 OrderSide
+Vue.filter('orderSideUserColor', (state: 1|2) => {
+	// OrderSideSell  = 1 // 卖出
+	// OrderSideBuy   = 2 // 买入
+    const states = {
+        1: 'red-color',
+        2: 'green-color',
     };
     return states[state];
 });

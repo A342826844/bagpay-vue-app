@@ -61,6 +61,7 @@
         "stateSolvedByUser": "用户已自行解决",
         "stateCanceled": "已撤消",
         "stateTrading": "交易中",
+        "statePaying": "待支付",
         "statePayed": "已支付",
         "typeBuyer": "买家",
         "typeSeller": "卖家",

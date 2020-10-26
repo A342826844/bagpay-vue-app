@@ -14,7 +14,7 @@
                             <div class="flex-start-c">
                                 <h5 class="name">
                                     {{orderDetail.coin | toUpperCase}}
-                                    <span :class="orderDetail.type | orderSideColor">{{ orderDetail.type | orderSide}}</span></h5>
+                                    <span :class="orderDetail.type | orderSideColor">{{ orderDetail.type | orderSideTypeUser}}</span></h5>
                             </div>
                             <p class="otc-advdetail-pay">{{ orderDetail.pay_types | payType}}</p>
                         </div>
@@ -60,7 +60,7 @@
                 <div class="order-info otc-advdetail-card app-padding40">
                     <div class="flex-between-c">
                         <p>发布时间</p>
-                        <p>{{ orderDetail.created_at}}</p>
+                        <p>{{ orderDetail.created_at | date('yyyy-MM-dd hh:mm:ss')}}</p>
                     </div>
                     <div class="flex-between-c">
                         <p>订单编号</p>
@@ -81,10 +81,10 @@
                         <NCardItem :showArrow="true" @click="goAdvState(item)" v-for="(item, index) in list" :key="index">
                             <template slot="title">
                                 <span>{{item.coin && item.coin.toUpperCase()}}</span>
-                                <span>{{item.taker_side | orderSide}}</span>
+                                <span :class="item.taker_side | orderSideUserColor">{{item.taker_side | orderSideType}}</span>
                             </template>
                             <template slot="right">
-                                <span>{{item.state | otcOrderState}}</span>
+                                <span :class="item.state | otcDealStateColor">{{item.state | otcDealState}}</span>
                             </template>
                             <template slot="lable">
                                 <span>{{"价格"}} ({{_unit}})</span>

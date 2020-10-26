@@ -4,7 +4,7 @@
         <PullRefresh v-model="isLoading" @refresh="onRefresh">
             <Titles border>
                 <span :class="orderDetail.state | otcOrderStateColor">{{orderDetail.state | otcDealState}}</span>
-                <span v-if="orderDetail.state === 0" class="red-color" slot="right">{{download | timeDown('mm:ss')}}</span>
+                <span v-if="orderDetail.state === 0" class="red-color order-detail-download" slot="right">{{download | timeDown('mm:ss')}}</span>
             </Titles>
             <div>
                 <div class="order-detail-top flex-between-c app-padding40">
@@ -18,7 +18,9 @@
                     </div>
                     <div class="text-align-r">
                         <p class="lable">订单类型</p>
-                        <p class="value" :class="orderDetail.taker_side|orderSideColor">{{ orderDetail.taker_side | orderSide}}</p>
+                        <p class="" :class="orderDetail.taker_side|orderSideColor">
+                            {{ orderDetail.taker_side | orderSideUser(orderDetail.taker_id, _userInfo.id)}}
+                        </p>
                     </div>
                 </div>
                 <div class="order-detail-list">
@@ -54,8 +56,7 @@
                             </div>
                             <div class="flex-between-c list-item-2">
                                 <div class="value">订单时间</div>
-                                <!-- <div class="value">{{ orderDetail.created_at | date('yyyy-MM-dd hh:mm:ss')}}</div> -->
-                                <div class="value">{{ orderDetail.created_at}}</div>
+                                <div class="value">{{ orderDetail.created_at | date('yyyy-MM-dd hh:mm:ss')}}</div>
                             </div>
                         </li>
                         <li class="app-padding40">
@@ -81,12 +82,11 @@
                             </div>
                             <div class="flex-between-c list-item-2">
                                 <div class="value">申诉时间</div>
-                                <!-- <div class="value">{{ orderDetail.created_at | date('yyyy-MM-dd hh:mm:ss')}}</div> -->
-                                <div class="value">{{ appealData.created_at}}</div>
+                                <div class="value">{{ orderDetail.created_at | date('yyyy-MM-dd hh:mm:ss')}}</div>
                             </div>
                             <div v-show="appealData.suggest" class="flex-between-c list-item-2">
                                 <div class="value">处理意见</div>
-                                <!-- <div class="value">{{ orderDetail.created_at | date('yyyy-MM-dd hh:mm:ss')}}</div> -->
+                                <div class="value">{{ orderDetail.created_at | date('yyyy-MM-dd hh:mm:ss')}}</div>
                                 <div
                                     @click="showSuggestHandle(appealData.suggest)"
                                     class=" primary-color appeal-suggest ellipsis"
@@ -109,11 +109,33 @@
             // OtcDealStatePayed     = 1 //已支付
             // OtcDealStateDone      = 2 //已放币,已完成
             // OtcDealStateCanceled  = 3 //已取消 -->
-            <Button @click="cancleHandle" v-if="orderDetail.state === 0 && orderDetail.taker_id === _userInfo.id" type="cancel">取消</Button>
-            <Button @click="otcDealPadiHandle" v-if="orderDetail.state === 0 && orderDetail.taker_id === _userInfo.id">标记已支付</Button>
-            <Button @click="appealHandle" v-if="orderDetail.state === 1 && !orderDetail.appealing" type="down">申诉</Button>
+            <Button @click="cancleHandle" v-if="
+                orderDetail.state === 0
+                &&
+                orderDetail.taker_id === _userInfo.id
+                &&
+                orderDetail.taker_side" type="cancel"
+            >取消</Button>
+            <Button @click="otcDealPadiHandle" v-if="
+                orderDetail.state === 0
+                &&
+                orderDetail.taker_id === _userInfo.id
+                &&
+                orderDetail.taker_side"
+            >标记已支付</Button>
+            <Button @click="appealHandle" v-if="
+                orderDetail.state === 1
+                &&
+                !orderDetail.appealing" type="down"
+            >申诉</Button>
             <Button @click="cancleAppealHandle" v-if="orderDetail.appealing" type="down">取消申诉</Button>
-            <Button @click="releaseHandle" v-if="orderDetail.state === 1 && orderDetail.maker_id === _userInfo.id" type="up">释放</Button>
+            <Button @click="releaseHandle" v-if="
+                orderDetail.state === 1
+                &&
+                orderDetail.taker_id === _userInfo.id
+                &&
+                orderDetail.taker_side" type="up"
+            >释放</Button>
         </div>
         <van-dialog v-model="show" close-on-click-overlay :show-confirm-button="false" title="支付方式">
             <div class="pay-dialog app-padding40">
@@ -133,6 +155,10 @@
                     <span>账号</span>
                     <span @click="$copyText(payDetail.account)" class="primary-color">{{payDetail.account}}</span>
                 </div>
+                <div class="flex-between-c">
+                    <span>二维码</span>
+                    <img @click="showPayImg(payDetail.qrc)" class="app-img-50" :src="`${$api.getFile}${payDetail.qrc}`" alt="">
+                </div>
             </div>
         </van-dialog>
     </div>
@@ -141,6 +167,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { ImagePreview } from 'vant';
+import { DateForamt } from '@/utils/tool';
 
 type data = {
     show: boolean;
@@ -199,6 +226,9 @@ export default Vue.extend({
         this.id = Number(this.$route.query.id);
         this.getOrderData();
     },
+    destroyed() {
+        clearInterval(this.timer);
+    },
     methods: {
         onRefresh() {
             this.getOrderData(true);
@@ -238,7 +268,8 @@ export default Vue.extend({
         getDownload(created_at: string) {
             clearInterval(this.timer);
             // TODO 时间搓
-            const createdAt = new Date(created_at.replace('-', '/')).getTime();
+            const createdAt = new DateForamt(created_at, true).getDate().getTime();
+
             console.log(createdAt, this.configCommon.OtcGlobalDealTimeout);
             const OtcGlobalDealTimeout = Number(this.configCommon.OtcGlobalDealTimeout) * 1000;
             this.timer = setInterval(() => {
@@ -249,7 +280,7 @@ export default Vue.extend({
                 console.log(this.download);
                 if (this.download <= 0) {
                     clearInterval(this.timer);
-                    // this.getOrderDetail();
+                    this.getOrderDetail();
                 }
             }, 1000);
         },
@@ -274,6 +305,11 @@ export default Vue.extend({
                 if (!err.data) {
                     this.$normalToast('获取订单详情失败');
                 }
+            });
+        },
+        showPayImg(qrc: string) {
+            ImagePreview({
+                images: [`${this.$api.getFile}${qrc}`],
             });
         },
         imagePreviewHandle(index: number) {
@@ -430,6 +466,9 @@ export default Vue.extend({
                     }
                 }
             }
+        }
+        &-download{
+            font-size: 28px;
         }
     }
     .pay-dialog{
