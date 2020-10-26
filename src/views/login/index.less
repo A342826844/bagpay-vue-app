@@ -20,6 +20,19 @@
             &:last-child{
                 margin-bottom: 0;
             }
+            &-country{
+                &::after {
+                    content: '';
+                    // vertical-align: middle;
+                    display: inline-block;
+                    border: 10px solid;
+                    width: 0;
+                    height: 0;
+                    border-left-color: transparent;
+                    border-right-color: transparent;
+                    border-bottom-color: transparent;
+                }
+            }
         }
     }
 }

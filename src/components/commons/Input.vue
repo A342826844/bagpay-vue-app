@@ -163,10 +163,10 @@ export default Vue.extend({
         background: transparent;
     }
     &-right{
-        position: absolute;
-        right: 40px;
-        top: 0;
-        bottom: 0;
+        // position: absolute;
+        // right: 40px;
+        // top: 0;
+        // bottom: 0;
         margin: auto;
         height: 99px;
         line-height: 99px;

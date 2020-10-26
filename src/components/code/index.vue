@@ -29,13 +29,18 @@ export default Vue.extend({
             timeNum: 0,
         };
     },
+    computed: {
+        country(): any {
+            return this.$store.state.country;
+        },
+    },
     methods: {
         sendHandle() {
             if (this.timeNum !== 0) return;
             if (this.type === 1 && !this.$verification.notEmpty(this.imgCode, this.$t('login.imgCode'))) return;
             if (this.$verification.phoneVfi(this.phone)) {
                 const data: any = {
-                    phone: `86-${this.phone}`,
+                    phone: `${this.country.tel}-${this.phone}`,
                     type: this.type,
                 };
                 if (this.type === 1) {

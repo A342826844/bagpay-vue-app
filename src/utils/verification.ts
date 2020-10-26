@@ -1,5 +1,6 @@
 import { normalToast } from '@/commons/dom/index';
 import i18n from '@/i18n/index';
+import store from '@/store/index';
 // 手机号验证
 function phoneVfi(phone: string) {
     const reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
