@@ -61,11 +61,11 @@
           ></Inputs>
         </div>
       </form>
-      <div class="lxa-footer-btn">
-        <Button @click="auth()" v-t="'common.ok'" :disabled="!form.address || (needMede === '1' && !form.memoAddr) || !form.remark"></Button>
-      </div>
       <user-auth ref="UserAuth" :type="6" @save="saveHandle"></user-auth>
     </TitleHeader>
+    <div class="lxa-footer-btn">
+      <Button @click="auth()" v-t="'common.ok'" :disabled="!form.address || (needMede === '1' && !form.memoAddr) || !form.remark"></Button>
+    </div>
   </div>
 </template>
 

@@ -42,11 +42,11 @@
           </PoptipItem>
         </Poptip>
       </div>
-      <div class="lxa-footer-btn">
-            <Button @click="vfyBus()" class="app-size-34" v-t="'otc.vfyBus'"></Button>
-            <!-- <Button @click="loginHandle" v-t="'login.login'"></Button> -->
-        </div>
     </TitleHeader>
+    <div class="lxa-footer-btn">
+          <Button @click="vfyBus()" class="app-size-34" v-t="'otc.vfyBus'"></Button>
+          <!-- <Button @click="loginHandle" v-t="'login.login'"></Button> -->
+      </div>
   </div>
 </template>
 
