@@ -76,8 +76,7 @@ export default Vue.extend({
     },
     mounted() {
         this.$nextTick(() => {
-            const phone = this._userInfo.phone.split('-');
-            this.form.phone = phone[1] || '';
+            this.form.phone = this._getPhone;
         });
     },
     computed: {
@@ -168,6 +167,10 @@ export default Vue.extend({
         .form-item{
             margin-top: 30px;
         }
+    }
+    .re_input{
+        color: #5894EE;
+        margin-top: 90px;
     }
 }
 </style>

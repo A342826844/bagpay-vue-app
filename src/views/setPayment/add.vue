@@ -97,16 +97,28 @@ export default Vue.extend({
             },
         };
     },
-    activated() {
-        this.symbol = this.$store.state.addAddr.symbol || '';
-        this.needMede = this.$store.state.addAddr.needMede || '';
-        this.form.address = this.$store.state.qrcodeResult || '';
-    },
-    created() {
-        this.symbol = this.$store.state.addAddr.symbol || '';
-        this.needMede = this.$store.state.addAddr.needMede || '';
+    beforeRouteEnter(to, from, next) {
+        next((vm: any) => {
+            vm.initPramis();
+            if (!(from.name === 'choisesymbol' || from.name === 'scanQRCode')) {
+                vm.clear();
+            }
+        });
     },
     methods: {
+        clear() {
+            this.form = {
+                address: '',
+                memoAddr: '',
+                remark: '',
+            };
+            this.$store.commit('setQrcodeResult', '');
+        },
+        initPramis() {
+            this.symbol = this.$store.state.addAddr.symbol || '';
+            this.needMede = this.$store.state.addAddr.needMede || '';
+            this.form.address = this.$store.state.qrcodeResult || '';
+        },
         init() {
             this.$api.getCoinProtocols({
                 coin: this.symbol,

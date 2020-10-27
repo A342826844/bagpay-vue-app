@@ -65,10 +65,9 @@ export default Vue.extend({
             },
         };
     },
-    created() {
+    mounted() {
         this.$nextTick(() => {
-            const phone = this._userInfo.phone.split('-');
-            this.form.phone = phone[1] || '';
+            this.form.phone = this._getPhone;
         });
     },
     computed: {

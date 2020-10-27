@@ -24,12 +24,15 @@ export default Vue.extend({
     },
     created() {
         if (this.$store.state.loginStatus) {
-            this.getCoinList();
-            this.initUserInfo();
-            this.getUserBankList();
-            this.$router.push('/home');
+            this.init();
+        } else {
             this.plusInitHandle();
         }
+    },
+    computed: {
+        lang(): string {
+            return this.$store.state.lang;
+        },
     },
     methods: {
         plusInitHandle() {
@@ -64,10 +67,22 @@ export default Vue.extend({
                 document.addEventListener('plusready', plusReady, false);
             }
         },
-    },
-    computed: {
-        lang(): string {
-            return this.$store.state.lang;
+        init() {
+            Promise.all([
+                this.getCoinList(),
+                this.initUserInfo(),
+                this.getUserBankList(),
+            ]).then(() => {
+                this.plusInitHandle();
+                this.$router.push('/home');
+            }).catch((error) => {
+                if (error.response && error.response.status === 401) {
+                    this.plusInitHandle();
+                    // this.$router.push('/');
+                } else {
+                    this.init();
+                }
+            });
         },
     },
 });

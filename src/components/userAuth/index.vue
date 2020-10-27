@@ -118,7 +118,7 @@ export default Vue.extend({
             this.googleCode = '';
             this.payPwd = '';
             this.loginPwd = '';
-            this.phoneNum = this.phone || this._userInfo.phone.split('-')[1];
+            this.phoneNum = this.phone || this._getPhone;
             switch (this.type) {
             case 1: // 修改密码
                 this.verifyType = 4;

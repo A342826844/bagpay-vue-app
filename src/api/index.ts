@@ -88,6 +88,8 @@ export const getUserInfo = (data: params) => postGolang('/user/profile', data);
 export const changePwd = (data: params) => postGolang('/user/change-password', data);
 // 支付密码
 export const changePayPwd = (data: params) => postGolang('/user/change-pay-password', data);
+// 忘记支付密码
+export const forgetPayPwd = (data: params) => postGolang('/user/forget-pay-password', data);
 // 添加提币地址
 export const addAddress = (data: params) => postGolang('/withdraw/address/add', data);
 // 删除提币地址
