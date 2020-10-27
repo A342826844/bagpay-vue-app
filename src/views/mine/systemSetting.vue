@@ -16,11 +16,12 @@
           <div v-t="'mine.changeLang'"></div>
           <div @click="isShowLang = !isShowLang">
             <span class="vertical-m">{{ $t('language')}}</span>
-            <img
+            <span style="display: inline-block" class="app-img-50"></span>
+            <!-- <img
               class="app-img-50"
               src="../../assets/img/common/arrow_right.png"
               alt=""
-            />
+            /> -->
           </div>
           <SelectPopup v-model="isShowLang">
             <SelectPopupItem
@@ -33,12 +34,13 @@
         <li class="flex-between-c sys_item">
           <div v-t="'mine.unitPrice'"></div>
           <div>
-            <span class="vertical-m">USD</span>
-            <img
+            <span class="vertical-m">{{_unit}}</span>
+            <span style="display: inline-block" class="app-img-50"></span>
+            <!-- <img
               class="app-img-50"
               src="../../assets/img/common/arrow_right.png"
               alt=""
-            />
+            /> -->
           </div>
         </li>
         <li class="flex-between-c sys_item" @click="logout">

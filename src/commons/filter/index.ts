@@ -352,3 +352,8 @@ Vue.filter('langType', (state: 'zh-cn'|'en-us') => {
     };
     return i18n.t(states[state]);
 });
+
+// 手机号加密处理
+Vue.filter('formatName', (str: string) => { 
+    return str.slice(0,5)+'***'+str.slice(-3, str .length);
+});
