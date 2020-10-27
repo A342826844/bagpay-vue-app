@@ -146,7 +146,7 @@ export default Vue.extend({
     methods: {
         initForm() {
             this.form.phone = this._getPhone;
-            this.form.email = this._userInfo.email;
+            this.form.email = '';
         },
         deposit() {
             const val: boolean = this.$verification.fromVfi([
