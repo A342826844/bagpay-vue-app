@@ -18,10 +18,10 @@
             </div>
             <Poptip class="payment-poptip">
                 <PoptipItem>
-                    {{ $t("home.paymentTip1") }}
+                    {{ $t("home.paymentTip1", {"symbol": symbol.toUpperCase()}) }}
                 </PoptipItem>
                 <PoptipItem>
-                    {{ $t("home.paymentTip2") }}
+                    {{ $t("home.paymentTip2", {"symbol": symbol.toUpperCase()}) }}
                 </PoptipItem>
                 <PoptipItem>
                     {{ $t("home.paymentTip3") }}

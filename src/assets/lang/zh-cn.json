@@ -134,8 +134,8 @@
         "assets": "资产",
         "paymentTip": "扫描二维码，转入",
         "addSymbol": "添加币种",
-        "paymentTip1": "最小转入金额：0.001USDT，小于最小金额的充值将不会上账",
-        "paymentTip2": "请勿向上述地址充值任何非USDT资产否则资产将不可找回。",
+        "paymentTip1": "最小转入金额：0.001{symbol}，小于最小金额的充值将不会上账",
+        "paymentTip2": "请勿向上述地址充值任何非{symbol}资产否则资产将不可找回。",
         "paymentTip3": "充值至上述地址后，需要1个网络节点的确认才能到账。"
     },
     "mine": {
