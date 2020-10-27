@@ -5,7 +5,7 @@
                 <h3 class="mine-header-coin">{{_userInfo.nickname}}</h3>
             </div>
             <div>
-                <img class="app-img-50" src="../../assets/img/common/qrcode1.png" alt="">
+                <!-- <img class="app-img-50" src="../../assets/img/common/qrcode1.png" alt=""> -->
             </div>
         </div>
         <div class="mine-body">

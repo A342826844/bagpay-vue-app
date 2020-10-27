@@ -32,7 +32,6 @@
             <div class="form-item form-item-card" v-show="needMemo === '1'">
                 <div class="lable" v-t="'payment.memoAddr'"></div>
                 <Inputs v-model="form.memoAddr" readonly :placeholder="`${symbol.toUpperCase()} ${$t('payment.memoAddr')}`">
-                    <img class="app-img-50" src="../../assets/img/common/qrcode1.png" alt="">
                 </Inputs>
             </div>
             <div class="form-item">
