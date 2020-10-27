@@ -112,6 +112,13 @@ export default Vue.extend({
             },
         };
     },
+    beforeRouteEnter(to, from, next) {
+        next((vm: any) => {
+            if (from.name === 'entry') {
+                vm.clear();
+            }
+        });
+    },
     created() {
         console.log(navigator.appVersion);
         this.getImg();
@@ -123,6 +130,16 @@ export default Vue.extend({
         },
     },
     methods: {
+        clear() {
+            this.form = {
+                code: '',
+                nickname: '',
+                phone: '',
+                password: '',
+                confirmPassword: '',
+                imgCode: '',
+            };
+        },
         loginHandle() {
             if (this.isLoading) return;
             this.isLoading = true;

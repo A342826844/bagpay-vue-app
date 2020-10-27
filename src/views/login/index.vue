@@ -59,6 +59,13 @@ export default Vue.extend({
             },
         };
     },
+    beforeRouteEnter(to, from, next) {
+        next((vm: any) => {
+            if (from.name === 'entry') {
+                vm.clear();
+            }
+        });
+    },
     // beforeRouteLeave(to, from, next) {
     //     console.log(to);
     //     const enablePath = (to.name !== 'entry') && (to.name !== 'findaccount') && (to.name !== 'home');
@@ -73,6 +80,12 @@ export default Vue.extend({
         },
     },
     methods: {
+        clear() {
+            this.form = {
+                phone: '',
+                password: '',
+            };
+        },
         loginHandle() {
             const vfi: boolean = this.$verification.fromVfi([
                 {

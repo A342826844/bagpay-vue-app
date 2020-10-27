@@ -74,6 +74,7 @@ const routes: Array<RouteConfig> = [
         name: 'findaccount',
         component: Findaccount,
         meta: {
+            keepAlive: true,
             noLogin: true,
         },
     },
@@ -87,6 +88,7 @@ const routes: Array<RouteConfig> = [
         name: 'register',
         component: Register,
         meta: {
+            keepAlive: true,
             noLogin: true,
         },
     },

@@ -104,7 +104,23 @@ export default Vue.extend({
             return this.$store.state.country;
         },
     },
+    beforeRouteEnter(to, from, next) {
+        next((vm: any) => {
+            if (from.name === 'login') {
+                vm.clear();
+            }
+        });
+    },
     methods: {
+        clear() {
+            this.form = {
+                code: '',
+                phone: '',
+                password: '',
+                confirmPassword: '',
+                imgCode: '',
+            };
+        },
         loginHandle() {
             if (this.isLoading) return;
             this.isLoading = true;

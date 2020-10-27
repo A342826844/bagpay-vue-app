@@ -97,15 +97,26 @@ export default Vue.extend({
             },
         };
     },
-    activated() {
-        this.symbol = this.$store.state.addAddr.symbol || '';
-        this.needMede = this.$store.state.addAddr.needMede || '';
-    },
-    created() {
-        this.symbol = this.$store.state.addAddr.symbol || '';
-        this.needMede = this.$store.state.addAddr.needMede || '';
+    beforeRouteEnter(to, from, next) {
+        next((vm: any) => {
+            vm.initPramis();
+            if (from.name !== 'choisesymbol') {
+                vm.clear();
+            }
+        });
     },
     methods: {
+        clear() {
+            this.form = {
+                address: '',
+                memoAddr: '',
+                remark: '',
+            };
+        },
+        initPramis() {
+            this.symbol = this.$store.state.addAddr.symbol || '';
+            this.needMede = this.$store.state.addAddr.needMede || '';
+        },
         init() {
             this.$api.getCoinProtocols({
                 coin: this.symbol,

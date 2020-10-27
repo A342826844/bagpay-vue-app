@@ -169,5 +169,9 @@ export default Vue.extend({
             margin-top: 30px;
         }
     }
+    .re_input{
+        color: #5894EE;
+        margin-top: 90px;
+    }
 }
 </style>
