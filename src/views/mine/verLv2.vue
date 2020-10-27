@@ -75,6 +75,8 @@ export default Vue.extend({
     },
     methods: {
         saveHandle() {
+            if (this._loading) return;
+            this.changeLoading(true);
             const vfy: boolean = this.$verification.fromVfi([
                 {
                     type: 'empty',
@@ -102,6 +104,8 @@ export default Vue.extend({
                         this.initUserInfo();
                         this.$router.go(-1);
                     }
+                }).finally(() => {
+                    this.changeLoading(false);
                 });
             }
         },
