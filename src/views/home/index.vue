@@ -93,7 +93,7 @@ export default Vue.extend({
             return this.$store.getters.getCoinInfo(this.symbol);
         },
         coinMap(): any {
-            return this.$store.getters.getCoinMap();
+            return this.$store.getters.getCoinMap;
         },
     },
     created() {

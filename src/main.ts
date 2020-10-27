@@ -40,6 +40,7 @@ declare module 'vue/types/vue' {
         _loading: boolean;
         _unit: string;
         _unitIcon: string;
+        _getPhone: string;
         changeLoading: Function;
         initUserInfo: Function;
         getCoinList: Function;
@@ -76,6 +77,9 @@ Vue.mixin({
         },
         _unit() {
             return (this.$store as Store<any>).state.unit;
+        },
+        _getPhone() {
+            return (this.$store as Store<any>).getters.getPhone || '';
         },
         _unitIcon() {
             return (this.$store as Store<any>).state.unitIcon;

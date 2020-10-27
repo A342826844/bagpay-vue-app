@@ -117,7 +117,11 @@ export default new Vuex.Store({
             const coinInfo = state.symbolList.find((item: CoinInfo) => item.symbol === coin);
             return coinInfo || {};
         },
-        getCoinMap: (state) => () => {
+        getPhone: (state) => {
+            const phone: string = state.userInfo.phone || '';
+            return phone.split(`${state.country.tel}-`)[1];
+        },
+        getCoinMap: (state) => {
             const coinMap: any = {};
             state.symbolList.forEach((item: CoinInfo) => {
                 coinMap[item.symbol] = item.name;
