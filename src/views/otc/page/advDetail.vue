@@ -76,7 +76,7 @@
                         </div>
                     </div>
                 </div>
-                <ul class="otc-advdetail-card">
+                <ul class="otc-advdetail-card order-list">
                     <li>
                         <NCardItem :showArrow="true" @click="goAdvState(item)" v-for="(item, index) in list" :key="index">
                             <template slot="title">
@@ -270,6 +270,9 @@ export default Vue.extend({
         background: #ffffff;
         margin-bottom: 24px;
         padding-top: 40px;
+    }
+    .order-list{
+        padding-top: 0;
     }
     &-tradeinfo{
         padding-top: 33px;

@@ -212,14 +212,21 @@ Vue.filter('orderSideColor', (state: 1|2) => {
     return states[state];
 });
 // 订单方向渲染颜色 OrderSide
-Vue.filter('orderSideUserColor', (state: 1|2) => {
+Vue.filter('orderSideUserColor', (state: 1|2, taker_id: number, user_id: number) => {
 	// OrderSideSell  = 1 // 卖出
 	// OrderSideBuy   = 2 // 买入
-    const states = {
+    const states1 = {
+        1: 'green-color',
+        2: 'red-color',
+    };
+    const states2 = {
         1: 'red-color',
         2: 'green-color',
     };
-    return states[state];
+    if (taker_id === user_id) {
+        return states1[state];
+    }
+    return states2[state];
 });
 
 // otc申诉用户类型 OtcAppealUserType

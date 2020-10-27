@@ -223,18 +223,15 @@ export default Vue.extend({
             vm.otcGetMerchant();
         });
     },
-    watch: {
-        coins(value) {
-            if (!this.activeSymbol) {
-                this.activeSymbol = value[0].symbol;
-            }
-        },
-    },
     created() {
         if (this.coins.length) {
             this.activeSymbol = this.coins[0].symbol;
         } else {
-            this.getCoinList();
+            this.changeLoading(true);
+            this.getCoinList().then(() => {
+                this.activeSymbol = this.coins[0].symbol;
+                this.loadData();
+            });
         }
     },
     methods: {
@@ -403,6 +400,7 @@ export default Vue.extend({
                 ...item,
                 title: item.symbol.toUpperCase(),
             }));
+            if (!coins.length) return [];
             return menuHandle(coins);
         },
         userBank(): Array<any> {

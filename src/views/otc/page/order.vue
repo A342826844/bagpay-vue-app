@@ -1,5 +1,5 @@
 <template>
-    <div class="adv-manage">
+    <div @scroll.capture="scrollLoad($event, scrollLoadHandle)" class="adv-manage">
         <Drawer position="right" v-model="isShow">
             <OrderFilter :title="'筛选'">
                 <SubOrderFilter title="状态">
@@ -24,9 +24,9 @@
                 </SubOrderFilter>
             </OrderFilter>
         </Drawer>
-        <TitleHeader fill :title="'场外订单'">
+        <TitleHeader :title="'场外订单'">
             <img slot="header" @click="isShow=!isShow" class="app-img-50" src="@/assets/img/common/screen.png" alt="">
-            <div @scroll.capture="scrollLoad($event, scrollLoadHandle)" class="app-margin-t40">
+            <div class="app-margin-t40">
                 <div class="body-content-slot" slot="history">
                     <PullRefresh
                         v-model="isLoading"
@@ -35,7 +35,9 @@
                         <NCardItem :showArrow="true" @click="goAdvState(item)" v-for="(item, index) in list" :key="index">
                             <template slot="title">
                                 <span>{{item.coin && item.coin.toUpperCase()}}</span>
-                                <span :class="item.taker_side|orderSideColor">{{item.taker_side | orderSideUser(item.taker_id, _userInfo.id)}}</span>
+                                <span :class="item.taker_side|orderSideUserColor(item.taker_id, _userInfo.id)">
+                                    {{item.taker_side | orderSideUser(item.taker_id, _userInfo.id)}}
+                                </span>
                             </template>
                             <template slot="right">
                                 <span :class="item.state | otcDealStateColor">{{item.state | otcDealState}}</span>
@@ -70,7 +72,6 @@ import Drawer from '@/components/commons/Drawer.vue';
 import { OrderFilter, SubOrderFilter, SubOrderFilterItem } from '@/components/Orders/index';
 import NCardItem from '@/components/card/index.vue';
 import { OtcDealState } from '@/commons/config/index';
-import scrollLoad from '@/minxin/scrollLoad';
 
 export default Vue.extend({
     components: {
@@ -81,7 +82,6 @@ export default Vue.extend({
         SubOrderFilterItem,
         NCardItem,
     },
-    mixins: [scrollLoad],
     data() {
         return {
             OtcDealState,
@@ -95,16 +95,12 @@ export default Vue.extend({
             list: [],
         };
     },
-    created() {
-        // this.$store.commit('changeLoading', true);
-        this.loadData();
-    },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
             if (from.name === 'orderdetail' && vm.list.length) {
                 return;
             }
-            vm.initParams(true);
+            vm.initParams();
         });
     },
     computed: {
@@ -114,38 +110,49 @@ export default Vue.extend({
     },
     methods: {
         onRefresh() {
-            this.initParams(false);
+            this.initParams(true);
         },
         // 滚动懒加载
         scrollLoadHandle() {
-            this.loadData(true);
+            this.loadData();
+        },
+        scrollLoad(event: Event) {
+            console.log(this.loadMore, this.isEnd);
+            const scroll = (event.target as HTMLElement);
+            const { scrollTop, scrollHeight, clientHeight } = scroll;
+            if ((clientHeight + scrollTop > scrollHeight - 50) && (clientHeight + scrollTop !== scrollHeight) && !this.loadMore && !this.isEnd) {
+                this.loadMore = true;
+                this.loadData();
+            }
         },
         // 请求参数初始化
-        initParams(loading?: boolean) {
-            this.list = [];
+        initParams(refresh?: boolean) {
+            if (!refresh) {
+                this.list = [];
+            }
             this.isEnd = false;
             this.loadMore = false;
-            this.loadData(loading);
+            this.loadData(refresh);
         },
         changeState(state: number) {
             this.state = state;
-            this.initParams(true);
+            this.initParams();
         },
         changeCoin(coin: string) {
             this.coin = coin;
-            this.initParams(true);
+            this.initParams();
         },
         // 加载数据
-        loadData(loading?: boolean) {
+        loadData(refresh?: boolean) {
             const params = {
                 coin: this.coin, // [string] 币种
                 state: this.state, // [OtcOrderState] -1取全部
                 // begin: 0, // [time] 开始时间
                 // end: 0, // [time] 结束时间
-                offset: loading ? 0 : this.list.length, // [int64] 跳过条数
+                offset: refresh ? 0 : this.list.length, // [int64] 跳过条数
                 limit: this.limit, // [int64] 最大返回条数
             };
-            if (loading) {
+            if (!refresh) {
                 this.changeLoading(true);
             }
             // 取消请求
@@ -158,17 +165,17 @@ export default Vue.extend({
             this.$api.otcOrderDealList(params).then((res: any) => {
                 this.changeLoading(false);
                 this.isLoading = false;
+                this.loadMore = false;
                 if (res.data.list) {
-                    if (loading) {
+                    if (refresh) {
                         this.list = res.data.list;
                     } else {
                         this.list = this.list.concat(res.data.list);
                     }
-                    if (this.list.length >= res.total) {
+                    if (this.list.length >= res.data.total) {
                         this.isEnd = true;
+                        console.log('this.isEnd');
                     }
-                } else {
-                    this.list = [];
                 }
             }).catch(() => {
                 this.changeLoading(false);
@@ -192,6 +199,7 @@ export default Vue.extend({
   flex-direction: column;
   position: relative;
   background: #fff;
+  overflow: scroll;
 }
 
 </style>

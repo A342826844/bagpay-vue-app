@@ -39,36 +39,36 @@
                     </div>
                 </div>
             </div>
+            <form class="otc-submit-form app-padding40 text-align-l app-size-34">
+                <div class="form-lable">购买数量</div>
+                <input
+                    class="form-input app-padding40"
+                    :decimal="2"
+                    :placeholder="`最大可买${maxTip} ${orderDetail.coin && orderDetail.coin.toUpperCase()}`"
+                    v-model="form.amount"
+                    @input="inputAmount('amount')"
+                />
+                <div class="form-lable">支付金额</div>
+                <input
+                    class="form-input app-padding40"
+                    decimal
+                    :placeholder="`单笔最低${minTip} ${_unitIcon}`"
+                    v-model="form.value"
+                    @input="inputAmount('value')"
+                />
+            </form>
+            <div>
+                <Poptip>
+                    <PoptipItem>
+                        为保障资金安全，当您账户安全策略变更、密码修改、我们会对提币进行人工审核，请耐心等待工作人员电话或邮件联系。
+                    </PoptipItem>
+                    <PoptipItem>
+                        请务必确认电脑及浏览器安全，防止信息被篡改或泄露。
+                    </PoptipItem>
+                </Poptip>
+            </div>
         </TitleHeader>
-        <form class="otc-submit-form app-padding40 text-align-l app-size-34">
-            <div class="form-lable">购买数量</div>
-            <input
-                class="form-input app-padding40"
-                :decimal="2"
-                :placeholder="`最大可买${maxTip} ${orderDetail.coin && orderDetail.coin.toUpperCase()}`"
-                v-model="form.amount"
-                @input="inputAmount('amount')"
-            />
-            <div class="form-lable">支付金额</div>
-            <input
-                class="form-input app-padding40"
-                decimal
-                :placeholder="`单笔最低${minTip} ${_unitIcon}`"
-                v-model="form.value"
-                @input="inputAmount('value')"
-            />
-        </form>
-        <div>
-            <Poptip>
-                <PoptipItem>
-                    为保障资金安全，当您账户安全策略变更、密码修改、我们会对提币进行人工审核，请耐心等待工作人员电话或邮件联系。
-                </PoptipItem>
-                <PoptipItem>
-                    请务必确认电脑及浏览器安全，防止信息被篡改或泄露。
-                </PoptipItem>
-            </Poptip>
-        </div>
-        <div class="otc-submit-btn app-size-34 lxa-footer-bottom flex-around-c">
+        <div class="otc-submit-btn custom-footer app-size-34 flex-around-c">
             <Button :radius="false" @click="$router.go(-1)" type="cancel">取消（{{download}} s）</Button>
             <Button :radius="false" @click="submitHandle" type="up">确定</Button>
         </div>
@@ -243,6 +243,7 @@ export default Vue.extend({
     height: 100%;
     padding-bottom: 100px;
     overflow: scroll;
+    position: relative;
     .lable{
         color: #A5A5A5;
     }
@@ -294,9 +295,10 @@ export default Vue.extend({
             margin-bottom: 43px;
         }
     }
-    // &-btn{
-    //     padding-left: 40px;
-    //     padding-right: 40px;
-    // }
+    &-btn{
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
 }
 </style>
