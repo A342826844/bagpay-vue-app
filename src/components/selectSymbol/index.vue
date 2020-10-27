@@ -22,7 +22,7 @@
                 <!-- <img :src="activeItem.img2" alt=""> -->
             </li>
         </ul>
-        <noData v-if="!isLoading && (!addrList.length)"/>
+        <noData class="small" v-if="!isLoading && (!addrList.length)"/>
         </div>
     </div>
 </template>

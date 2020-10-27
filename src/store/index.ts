@@ -119,7 +119,7 @@ export default new Vuex.Store({
         },
         getPhone: (state) => {
             const phone: string = state.userInfo.phone || '';
-            return phone.split(`${state.country.tel}-`)[1];
+            return phone.slice(`${state.country.tel}-`.length);
         },
         getCoinMap: (state) => {
             const coinMap: any = {};

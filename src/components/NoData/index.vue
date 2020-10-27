@@ -52,6 +52,9 @@ export default Vue.extend({
         width: 200px;
         height: auto;
     }
+    &.small > img {
+        width: 160px;
+    }
     & > p {
         margin-top: 25px;
         font-size: 24px;
