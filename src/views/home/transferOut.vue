@@ -46,6 +46,17 @@
                     </div>
                 </div>
             </form>
+            <Poptip>
+                <PoptipItem>
+                    {{ `24小时内最高可转${this.maxAmount} ${this.symbol.toUpperCase()}` }}
+                </PoptipItem>
+                <PoptipItem>
+                    为保障资金安全，当您账户安全策略变更、密码修改、我们会对提币进行人工审核，请耐心等待工作人员电话或邮件联系。
+                </PoptipItem>
+                <PoptipItem>
+                    请务必确认电脑及浏览器安全，防止信息被篡改或泄露。
+                </PoptipItem>
+            </Poptip>
         </TitleHeader>
         <div class="lxa-footer-btn">
             <Button @click="auth" v-t="'common.ok'"></Button>
@@ -68,6 +79,8 @@ type form = {
 type data = {
     symbol: string;
     isLoading: boolean;
+    amount: number;
+    maxAmount: number;
     form: form;
 }
 
@@ -77,6 +90,8 @@ export default Vue.extend({
         return {
             symbol: this.$route.query.symbol as string,
             isLoading: false,
+            amount: 0,
+            maxAmount: 0,
             form: {
                 address: '',
                 memo: '',
@@ -97,22 +112,54 @@ export default Vue.extend({
     },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
-            if (from.name === 'transferhistory') {
+            vm.initAddress();
+            if (from.name !== 'addrList') {
                 vm.initParams();
             }
         });
     },
-    activated() {
-        this.form.address = this.address.address || '';
-        this.form.memo = this.address.memo || '';
-    },
     methods: {
+        initAddress() {
+            this.form.address = this.address.address || '';
+            this.form.memo = this.address.memo || '';
+        },
         initParams() {
-            this.form.address = '';
-            this.form.memo = '';
             this.form.value = '';
             this.form.password = '';
             this.form.remark = '';
+            this.isLoading = true;
+            this.changeLoading(true);
+            Promise.all([this.getDayAmount(), this.getCoinOne()]).finally(() => {
+                this.isLoading = false;
+                this.changeLoading(false);
+            });
+        },
+        getDayAmount() {
+            return this.$api.getDayAmount({
+                coin: this.symbol,
+            }).then((res: any) => {
+                this.amount = res.data || 0;
+            });
+        },
+        getCoinOne() {
+            return this.$api.getCoinOne({
+                coin: this.symbol,
+            }).then((res: any) => {
+                if (res.data) {
+                    if (this._userInfo.ver_lv === 1) {
+                        this.maxAmount = res.data.out_max_lv_1;
+                    } else if (this._userInfo.ver_lv === 2) {
+                        this.maxAmount = res.data.out_max_lv_2;
+                    } else if (this._userInfo.ver_lv === 3) {
+                        this.maxAmount = res.data.out_max;
+                    } else {
+                        this.maxAmount = 0;
+                    }
+                    console.log(this.maxAmount);
+                } else {
+                    this.maxAmount = 0;
+                }
+            });
         },
         auth() {
             if (this.isLoading) return;
@@ -128,7 +175,10 @@ export default Vue.extend({
                     value: this.form.value,
                 },
             ]);
-            if (vfi) {
+            if (!vfi) return;
+            if (Number(this.form.value) + this.amount > this.maxAmount) {
+                this.$normalToast(`24小时内最高可转${this.maxAmount} ${this.symbol.toUpperCase()}`);
+            } else {
                 (this.$refs.UserAuth as any).open();
             }
         },
@@ -181,7 +231,6 @@ export default Vue.extend({
         width: 50px;
     }
     &-form{
-        padding-bottom: 150px;
         .form-item{
             margin-top: 76px;
             &:last-child{

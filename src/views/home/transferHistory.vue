@@ -181,8 +181,21 @@ export default Vue.extend({
             });
         },
         goLink(path: string) {
-            this.$store.commit('setAddress', {});
-            this.$router.push(`${path}?symbol=${this.symbol}`);
+            if (path === 'transferOut' && this._userInfo.ver_lv === 0) {
+                this.$dialog.confirm({
+                    message: `${this.$t('mine.payPwd')}`,
+                    className: 'confirm_34',
+                    beforeClose: (action: any, done: any) => {
+                        if (action === 'confirm') {
+                            this.$router.push('/mine/safepass');
+                        }
+                        done();
+                    },
+                });
+            } else {
+                this.$store.commit('setAddress', {});
+                this.$router.push(`${path}?symbol=${this.symbol}`);
+            }
         },
         tabChangeHandle(value: any) {
             console.log(value);
