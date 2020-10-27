@@ -24,15 +24,27 @@ export default Vue.extend({
     },
     created() {
         if (this.$store.state.loginStatus) {
-            this.getCoinList();
-            this.initUserInfo();
-            this.getUserBankList();
             // this.$router.push('/home');
+            this.init();
         }
     },
     computed: {
         lang(): string {
             return this.$store.state.lang;
+        },
+    },
+    methods: {
+        init() {
+            this.changeLoading(true);
+            Promise.all([
+                this.getCoinList(),
+                this.initUserInfo(),
+                this.getUserBankList(),
+            ]).catch(() => {
+                this.init();
+            }).finally(() => {
+                this.changeLoading(false);
+            });
         },
     },
 });

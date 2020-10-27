@@ -94,7 +94,7 @@ Vue.mixin({
         },
         // 获取用户信息
         initUserInfo() {
-            this.$api.getUserInfo().then((res: any) => {
+            return this.$api.getUserInfo().then((res: any) => {
                 if (res.code === 0) {
                     this.$store.commit('setUserInfo', res.data);
                 }
