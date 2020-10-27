@@ -9,7 +9,7 @@
                         <div class="add-bg">
                             <img class="img_cont" :src="uploadList.img" alt="">
                             <Loading v-show="isoading"/>
-                            <p class="primary-color">{{$t(uploadList.title)}}</p>
+                            <p class="primary-color" v-show="!uploadList.val" >{{$t(uploadList.title)}}</p>
                         </div>
                     </li>
                 </ul>
@@ -30,9 +30,7 @@
 import Vue from 'vue';
 import Loading from '@/components/loading/index.vue';
 
-const idcard1 = require('../../assets/img/mine/idcard1.png');
-const idcard2 = require('../../assets/img/mine/idcard2.png');
-const idcard3 = require('../../assets/img/mine/idcard3.png');
+const verlvVideo = require('../../assets/img/mine/verlv_video.png');
 
 type data = {
     isoading: boolean;
@@ -50,7 +48,7 @@ export default Vue.extend({
             uploadList: {
                 val: '',
                 title: 'mine.realName4',
-                img: idcard1,
+                img: verlvVideo,
                 name: 'idcardimg1',
                 percent: 0,
             },
@@ -137,6 +135,9 @@ export default Vue.extend({
                 width: 100%;
                 height: 311px;
                 margin-top: 32px;
+                background: url('../../assets/img/mine/idCardBor.png');
+                background-size: 100% 100%;
+                padding: 15px;
                 .img_cont{
                     width: 100%;
                     max-width: 100%;

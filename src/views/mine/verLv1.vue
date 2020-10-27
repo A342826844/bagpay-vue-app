@@ -28,7 +28,7 @@
       </PoptipItem>
     </Poptip>
     <div class="lxa-footer-btn">
-      <Button @click="save" v-t="'common.ok'"></Button>
+      <Button @click="save" v-t="'common.ok'" :disabled="!form.userName || !form.idCard"></Button>
     </div>
   </div>
 </template>

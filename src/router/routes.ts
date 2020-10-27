@@ -48,7 +48,6 @@ const Entry = () => import('@/views/entry/index.vue');
 const Login = () => import('@/views/login/index.vue');
 const LoginSearch = () => import('@/views/login/search.vue');
 const Findaccount = () => import('@/views/login/findaccount.vue');
-const SetPayPassword = () => import('@/views/login/setPayPassword.vue');
 const Register = () => import('@/views/login/register.vue');
 
 const routes: Array<RouteConfig> = [
@@ -77,11 +76,6 @@ const routes: Array<RouteConfig> = [
         meta: {
             noLogin: true,
         },
-    },
-    {
-        path: '/setpaypassword',
-        name: 'setpaypassword',
-        component: SetPayPassword,
     },
     {
         path: '/mine/protocol',

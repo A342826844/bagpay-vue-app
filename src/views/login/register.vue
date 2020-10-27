@@ -12,6 +12,7 @@
             clearable
             v-model="form.nickname"
             autocomplete="username"
+            :autofocus="true"
             type="text"
           />
           <Inputs
@@ -63,7 +64,8 @@
 
     </TitleHeader>
     <div class="lxa-footer-btn">
-      <Button @click="loginHandle" v-t="'login.register'"></Button>
+      <Button @click="loginHandle" v-t="'login.register'"
+        :disabled="!form.nickname || !form.phone || !form.imgCode || !form.code || !form.password || !form.confirmPassword"></Button>
     </div>
   </div>
 </template>
@@ -71,6 +73,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import Code from '@/components/code/index.vue';
+
+const assetsS = require('@/assets/img/common/confirm.gif');
 
 type form = {
   code: string;
@@ -82,7 +86,7 @@ type form = {
 };
 
 type data = {
-  islogin: boolean;
+  isLoading: boolean;
   imgUrl: string;
   imgCode: string;
   form: form;
@@ -95,7 +99,7 @@ export default Vue.extend({
     },
     data(): data {
         return {
-            islogin: false,
+            isLoading: false,
             imgUrl: '',
             imgCode: '',
             form: {
@@ -120,6 +124,9 @@ export default Vue.extend({
     },
     methods: {
         loginHandle() {
+            if (this.isLoading) return;
+            this.isLoading = true;
+            this.changeLoading(true);
             const vfi: boolean = this.$verification.fromVfi([
                 {
                     type: 'name',
@@ -155,11 +162,17 @@ export default Vue.extend({
                     verification_code: this.form.code,
                 }).then((res: any) => {
                     if (res.code === 0) {
-                        this.$router.push({
-                            name: 'login',
+                        this.$toast({
+                            message: '注册成功',
+                            icon: assetsS,
+                            onClose: () => {
+                                this.$router.replace('/login');
+                            },
                         });
                     }
-                    console.log(res);
+                }).finally(() => {
+                    this.isLoading = false;
+                    this.changeLoading(false);
                 });
             }
         },

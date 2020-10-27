@@ -31,7 +31,7 @@
                             <Inputs v-model="form.floating_rate" placeholder="溢价率(30~50)">%</Inputs>
                         </div> -->
                         <div class="form-item">
-                            <Inputs decimal type="number" v-model="form.price" :placeholder="`${item.title}价格`">
+                            <Inputs decimal type="number" :autofocus="true" v-model="form.price" :placeholder="`${item.title}价格`">
                                 {{_unitIcon}}
                             </Inputs>
                         </div>
@@ -101,7 +101,7 @@
             <SelectPopupItem v-for="item in PayType" :key="item" @click="selectPayType(item)">{{ item | payType }}</SelectPopupItem>
         </SelectPopup>
         <div class="app-size-34 lxa-footer-btn">
-            <Button @click="submitHandle">发 布</Button>
+            <Button @click="submitHandle" :disabled="!form.price || !form.amount || !form.min_value || !form.max_value">发 布</Button>
         </div>
     </div>
 </template>

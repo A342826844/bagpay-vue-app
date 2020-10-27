@@ -9,6 +9,7 @@
                     :placeholder="$t('login.phone')"
                     clearable
                     v-model="form.phone"
+                    :autofocus="true"
                     autocomplete="username" type="text"
                 >
                     <span @click="$router.push('/login/search')" class="primary-color login-form-item-country">+ {{country.tel}} </span>
@@ -23,7 +24,9 @@
                 />
             </form>
             <p class="login-box-link">
-                <span @click="goFindAccount" class="primary-color" href="javascript:void(0)" v-t="'login.findAccount'"></span>
+                <span @click="goFindAccount" class="primary-color"
+                    :disabled="!form.phone || !form.password"
+                    href="javascript:void(0)" v-t="'login.findAccount'"></span>
             </p>
         </div>
         <div class="lxa-footer-btn">

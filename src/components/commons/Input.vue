@@ -10,6 +10,7 @@
             @input="inputHandle"
             v-model="inputV"
             :type="type"
+            :autofocus="autofocus"
             :maxlength="maxlength"
         >
         <img
@@ -47,6 +48,10 @@ export default Vue.extend({
             type: Boolean,
             default: false,
         },
+        autofocus: {
+            type: Boolean,
+            default: false,
+        },
         selfInput: {
             type: Boolean,
             default: false, // 是否在父组件中，用input事件手动设置value
@@ -79,6 +84,13 @@ export default Vue.extend({
     },
     created() {
         this.inputV = `${this.value}` || '';
+    },
+    mounted() {
+        if (this.autofocus) {
+            this.$nextTick(() => {
+                (this.$refs.input as any).focus();
+            });
+        }
     },
     watch: {
         value(value) {

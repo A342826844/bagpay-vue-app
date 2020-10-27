@@ -12,6 +12,7 @@
                     v-model="form.content"
                     rows="3"
                     autosize
+                    :autofocus="true"
                     type="textarea"
                     maxlength="60"
                     :placeholder="'请输入申诉原因'"

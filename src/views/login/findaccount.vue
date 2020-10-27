@@ -51,7 +51,8 @@
       </form>
     </div>
     <div class="lxa-footer-btn">
-      <Button @click="loginHandle" v-t="'login.done'"></Button>
+      <Button @click="loginHandle" v-t="'login.done'"
+        :disabled="!form.phone || !form.imgCode || !form.code || !form.password || !form.confirmPassword"></Button>
     </div>
   </div>
 </template>

@@ -86,7 +86,7 @@ export default Vue.extend({
             this.isLoading = true;
             this.changeLoading(true);
             this.$api.getVerStutas().then((res: any) => {
-                if (res.data) {
+                if (res.code === 0) {
                     this.verLvStatus = res.data;
                     if (this._userInfo.ver_lv === 0) {
                         this.verLvTxt = '未认证';

@@ -17,6 +17,7 @@
             :placeholder="$t('login.newPwd')"
             clearable
             v-model="form.password"
+            :autofocus="true"
             autocomplete="current-password"
             type="password"
           />
@@ -32,7 +33,7 @@
       </div>
     </TitleHeader>
     <div class="lxa-footer-btn">
-      <Button @click="auth" v-t="'login.done'"></Button>
+      <Button @click="auth" v-t="'login.done'" :disabled="!form.password || !form.confirmPassword"></Button>
     </div>
     <user-auth ref="UserAuth" :type="1" @save="loginHandle"></user-auth>
   </div>
