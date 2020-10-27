@@ -8,7 +8,7 @@
                         <input type="file" @change="fileChange($event, item.name)" accept="image/*" name="" />
                         <div class="add-bg">
                             <img :src="item.img" alt="">
-                            <p class="primary-color">{{$t(item.title)}}</p>
+                            <p class="primary-color" v-show="!item.val">{{$t(item.title)}}</p>
                         </div>
                         <div class="myProgress" v-show="!!item.percent">
                             <Progress :percent="item.percent"/>
@@ -201,6 +201,9 @@ export default Vue.extend({
                 width: 100%;
                 height: 311px;
                 margin-top: 32px;
+                background: url('../../assets/img/mine/idCardBor.png');
+                background-size: 100% 100%;
+                padding: 15px;
                 img{
                     width: 100%;
                     max-width: 100%;
