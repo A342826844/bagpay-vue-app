@@ -14,6 +14,12 @@
 
 <script>
 // import Headers from '@/component/header';
+import {
+    getQueryValue,
+    isBagPayUrl,
+    getQueryUrl,
+    queryStringify,
+} from '@/utils/tool';
 
 export default {
     // components: {
@@ -30,6 +36,7 @@ export default {
     },
     beforeRouteEnter(to, from, next) {
         next((vm) => {
+            vm.$store.commit('changgeQrcodeResult', '');
             // H5 plus事件处理
             if (window.plus) {
                 vm.plusReady();
@@ -38,6 +45,20 @@ export default {
             }
         });
     },
+    // created() {
+    //     setTimeout(() => {
+    //         const result = 'pagpay://addr?&address=0xe1472c66b811bb40a2c709b4a1b89a36502c06f1&symbol=eth&value=&memo=';
+    //         // const value = result.split('?')[1] || '';
+    //         // this.$router.replace(`/transferout?${value}`);
+    //         const value = result.split('?')[1] || '';
+    //         const data = getQueryUrl(getQueryValue(result));
+    //         this.$store.commit('setAddress', {
+    //             address: data.address,
+    //             memo: data.memo,
+    //         });
+    //         this.$router.replace(`/transferout?${value}`);
+    //     }, 2000);
+    // },
     beforeDestroy() {
         if (window.plus) {
             window.plus.key.removeEventListener('backbutton', this.goBackHandle, false);
@@ -55,9 +76,10 @@ export default {
             this.createSubview();
         },
         scanPicture() {
+            console.log('121212');
             window.plus.gallery.pick((path) => {
                 window.plus.barcode.scan(path, this.onmarked, () => {
-                    window.plus.nativeUI.toast(this.$r('无法识别此图片'));
+                    window.plus.nativeUI.toast(this.$t('无法识别此图片'));
                 });
             }, (err) => {
                 console.log(`Failed: ${err.message}`);
@@ -79,7 +101,22 @@ export default {
             //     type = `其它${type}`;
             //     break;
             // }
+            console.log(type, res);
             const result = res.replace(/\r\n/g, '');
+            console.log(result, 'result');
+            if (Number(this.$router.query.type) === 1) {
+                const data = getQueryUrl(result);
+                if (data.address) {
+                    this.$store.commit('setAddress', {
+                        address: data.address,
+                        memo: data.memo,
+                    });
+                    this.$router.replace(`/transferout?${result}`);
+                } else {
+                    window.plus.nativeUI.toast('无法识别此图片');
+                }
+                return;
+            }
             this.$store.commit('changgeQrcodeResult', result);
             this.$router.go(-1);
         },
@@ -103,7 +140,7 @@ export default {
             }, {
                 tag: 'font',
                 id: 'text-left',
-                text: this.$r('common.bFlash'),
+                text: this.$t('common.bFlash'),
                 position: {
                     width: '50%',
                     left: '0px',
@@ -114,7 +151,7 @@ export default {
             }, {
                 tag: 'font',
                 id: 'text-right',
-                text: this.$r('common.scanPicture'),
+                text: this.$t('common.scanPicture'),
                 position: {
                     width: '50%',
                     left: '50%',

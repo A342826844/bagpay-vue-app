@@ -27,8 +27,43 @@ export default Vue.extend({
             this.getCoinList();
             this.initUserInfo();
             this.getUserBankList();
-            // this.$router.push('/home');
+            this.$router.push('/home');
+            this.plusInitHandle();
         }
+    },
+    methods: {
+        plusInitHandle() {
+            const plusReady = () => {
+            // Android处理返回键
+                let count = 0;
+                (window as any).plus.key.addEventListener('backbutton', () => {
+                    if (count === 0) {
+                        if (!this.$route.meta.showFooter || (this.$route.name !== 'entry')) {
+                            this.$router.go(-1);
+                        } else {
+                            count += 1;
+                            this.$normalToast(this.$t('common.exitProgram'), 2000);
+                            setTimeout(() => {
+                                count = 0;
+                            }, 2000);
+                        }
+                    } else if (count === 1) {
+                        (window as any).plus.runtime.quit();
+                    }
+                }, false);
+                // (window as any).plus.navigator.setStatusBarBackground(plusConfig.DEFAULT_BAR_BACKGROUND);
+                // (window as any).plus.navigator.setStatusBarStyle(plusConfig.DARK);
+                // 关闭启动界面
+                setTimeout(() => {
+                    (window as any).plus.navigator.closeSplashscreen();
+                }, 200);
+            };
+            if ((window as any).plus) {
+                plusReady();
+            } else {
+                document.addEventListener('plusready', plusReady, false);
+            }
+        },
     },
     computed: {
         lang(): string {

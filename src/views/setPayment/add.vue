@@ -34,7 +34,7 @@
               show-word-limit
           >
           <div slot="button" class="button_cont">
-              <img class="app-img-50" @click="$copyText(form.address)" src="@/assets/img/common/qrcode1.png" alt="">
+              <img class="app-img-50" @click="$router.push('/scanQRCode')" src="@/assets/img/common/qrcode1.png" alt="">
           </div>
           </V-Field>
         </div>
@@ -100,6 +100,7 @@ export default Vue.extend({
     activated() {
         this.symbol = this.$store.state.addAddr.symbol || '';
         this.needMede = this.$store.state.addAddr.needMede || '';
+        this.form.address = this.$store.state.qrcodeResult || '';
     },
     created() {
         this.symbol = this.$store.state.addAddr.symbol || '';

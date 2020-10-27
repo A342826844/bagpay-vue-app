@@ -147,7 +147,7 @@ export default Vue.extend({
         initForm() {
             const phone = this._userInfo.phone.split('-');
             this.form.phone = phone[1] || '';
-            this.form.email = this._userInfo.email;
+            // this.form.email = this._userInfo.email;
         },
         deposit() {
             const val: boolean = this.$verification.fromVfi([

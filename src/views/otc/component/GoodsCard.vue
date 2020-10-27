@@ -17,7 +17,8 @@
             <div class="flex-between-c otc-good-card-num">
                 <div class="text-align-l value">
                     <div>
-                        <span class="lable">数量</span> {{ renderData.total }}  {{renderData.coin.toUpperCase()}}
+                        <span class="lable">数量</span>
+                        {{ Number((renderData.total - renderData.filled - renderData.frozen).toFixed(4)) }}  {{renderData.coin.toUpperCase()}}
                     </div>
                     <div>
                         <span class="lable">限额</span> ${{ renderData.min_value }}~{{ renderData.max_value }}

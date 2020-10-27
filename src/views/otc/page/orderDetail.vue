@@ -109,6 +109,8 @@
             // OtcDealStatePayed     = 1 //已支付
             // OtcDealStateDone      = 2 //已放币,已完成
             // OtcDealStateCanceled  = 3 //已取消 -->
+            <!-- {{showPayBtn}}
+            {{showReleasBtn}} -->
             <Button @click="cancleHandle" v-if="showPayBtn" type="cancel">取消</Button>
             <Button @click="otcDealPadiHandle" v-if="showPayBtn">标记已支付</Button>
             <Button @click="appealHandle" v-if="orderDetail.state === 1&&!orderDetail.appealing" type="down">申诉</Button>
@@ -133,7 +135,7 @@
                     <span>账号</span>
                     <span @click="$copyText(payDetail.account)" class="primary-color">{{payDetail.account}}</span>
                 </div>
-                <div class="flex-between-c">
+                <div v-if="payDetail.type !== 1" class="flex-between-c">
                     <span>二维码</span>
                     <img @click="showPayImg(payDetail.qrc)" class="app-img-50" :src="`${$api.getFile}${payDetail.qrc}`" alt="">
                 </div>
@@ -201,11 +203,11 @@ export default Vue.extend({
         },
         showPayBtn(): boolean {
             // state = 0 &&  (购买 || 买入)
-            return this.orderDetail.state === 0 && !this.getTakerType(this.orderDetail.taker_side, this.orderDetail.maker_id, this._userInfo.id);
+            return this.orderDetail.state === 0 && this.getTakerType(this.orderDetail.taker_side, this.orderDetail.maker_id, this._userInfo.id);
         },
         showReleasBtn(): boolean {
             // state = 2 &&  (出售 || 卖出)
-            return this.orderDetail.state === 1 && this.getTakerType(this.orderDetail.taker_side, this.orderDetail.maker_id, this._userInfo.id);
+            return this.orderDetail.state === 1 && !this.getTakerType(this.orderDetail.taker_side, this.orderDetail.maker_id, this._userInfo.id);
         },
     },
     created() {
@@ -216,17 +218,44 @@ export default Vue.extend({
         clearInterval(this.timer);
     },
     methods: {
+        // 订单方向 OrderSide
+        // Vue.filter('orderSideUser', (state: 1|2, taker_id: number, user_id: number) => {
+        //     // OrderSideBuy   = 1 // 买入
+        //     // OrderSideSell  = 2 // 卖出
+        //     const states1 = {
+        //         1: 'common.sideBuy', 买入
+        //         2: 'common.sideSellT', 出售
+        //     };
+        //     const states2 = {
+        //         1: 'common.sideSell', 卖出
+        //         2: 'common.sideBuyT', 购买
+        //     };
+        //     if (taker_id === user_id) {
+        //         return i18n.t(states1[state]);
+        //     }
+        //     return i18n.t(states2[state]);
+        // });
         /** 判断交易方向
          *
          * @return true (购买 || 买入)
          * @return false (出售 || 卖出)
          */
         getTakerType(taker_side: number, maker_id: number, userId: string|number) {
-            if (taker_side === 0) { // 购买, 出售
-                return maker_id === Number(userId);
+            // console.log(taker_side, maker_id, userId);
+            if (maker_id === Number(userId)) {
+                // return taker_side === 2; // true => 买入  false => 出售
+                if (taker_side === 2) {
+                    return true; // 购买
+                }
+                return false; // 卖出
+                // return;
             }
+            if (taker_side === 2) {
+                return false; // 出售
+            }
+            return true; // 买入
             // 买入 卖出
-            return maker_id !== Number(userId);
+            // return taker_side === 1; // false => 卖出  true => 购买
         },
         onRefresh() {
             this.getOrderData(true);
@@ -243,7 +272,6 @@ export default Vue.extend({
         },
         otcAppealByOrderId() {
             return this.$api.otcAppealByOrderId(this.id).then((res: any) => {
-                console.log(res);
                 if (res.data) {
                     this.appealData = res.data;
                 }
@@ -253,7 +281,6 @@ export default Vue.extend({
             this.changeLoading(true);
             return this.$api.getBankListById(this.orderDetail.bank_info_id).then((res: any) => {
                 this.changeLoading(false);
-                console.log(res);
                 this.payDetail = res.data;
             }).catch((err: any) => {
                 this.changeLoading(false);
@@ -268,14 +295,10 @@ export default Vue.extend({
             // TODO 时间搓
             const createdAt = new DateForamt(created_at, true).getDate().getTime();
 
-            console.log(createdAt, this.configCommon.OtcGlobalDealTimeout);
             const OtcGlobalDealTimeout = Number(this.configCommon.OtcGlobalDealTimeout) * 1000;
             this.timer = setInterval(() => {
-                console.log('==');
                 const nowTimer = new Date().getTime();
-                console.log(nowTimer, createdAt);
                 this.download = OtcGlobalDealTimeout - (nowTimer - createdAt);
-                console.log(this.download);
                 if (this.download <= 0) {
                     clearInterval(this.timer);
                     this.getOrderDetail();
@@ -289,6 +312,7 @@ export default Vue.extend({
                 if (res.data) {
                     // eslint-disable-next-line prefer-destructuring
                     this.orderDetail = res.data;
+                    this.getTakerType(this.orderDetail.taker_side, this.orderDetail.maker_id, this._userInfo.id);
                     if (this.orderDetail.state === 0) {
                         this.getDownload(this.orderDetail.created_at);
                     } else {
@@ -311,8 +335,6 @@ export default Vue.extend({
             });
         },
         imagePreviewHandle(index: number) {
-            console.log(this);
-            console.log(Object.keys(this).indexOf('$dialog'));
             ImagePreview({
                 images: this.appealImages,
                 startPosition: index,

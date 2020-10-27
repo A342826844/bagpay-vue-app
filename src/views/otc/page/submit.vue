@@ -40,11 +40,11 @@
                 </div>
             </div>
             <form class="otc-submit-form app-padding40 text-align-l app-size-34">
-                <div class="form-lable">购买数量</div>
+                <div class="form-lable">{{ orderDetail.type | orderSideType}}数量</div>
                 <input
                     class="form-input app-padding40"
                     :decimal="2"
-                    :placeholder="`最大可买${maxTip} ${orderDetail.coin && orderDetail.coin.toUpperCase()}`"
+                    :placeholder="`最大交易${maxTip} ${orderDetail.coin && orderDetail.coin.toUpperCase()}`"
                     v-model="form.amount"
                     @input="inputAmount('amount')"
                 />
