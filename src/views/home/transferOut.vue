@@ -237,9 +237,6 @@ export default Vue.extend({
             &:last-child{
                 margin-top: 63px;
             }
-            .lable{
-                margin-bottom: 43px;
-            }
             .amount-input{
                 height: 169px;
                 line-height: 169px;

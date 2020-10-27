@@ -9,7 +9,7 @@
                         <h5 class="app-size-34" v-if="item.type === 1">{{`${item.bank}`}}</h5>
                         <h5 class="app-size-34" v-if="item.type !== 1">
                             <span class="vertical-m">{{item.type | payType}}</span>
-                            <img @click="showImg(item)" class="payway-ercode app-img-50" src="../../assets/img/common/ercode.png" alt="">
+                            <img @click="showImg(item)" class="payway-ercode app-img-35" src="../../assets/img/common/ercode.png" alt="">
                         </h5>
                         <!-- {{item.status}} -->
                         <!-- <Switchs @on-change="changeHandle(item)" :value="!!item.status"></Switchs> -->
