@@ -90,7 +90,7 @@ export default Vue.extend({
     },
     computed: {
         activeCoin(): any {
-            return this.$store.getters.getCoinInfo(this.symbol);
+            return this.symbolList.find((item: any) => item.coin === this.symbol) || {};
         },
         coinMap(): any {
             return this.$store.getters.getCoinMap;
