@@ -107,6 +107,7 @@ export default Vue.extend({
                     this.initUserInfo();
                     if (res.code === 0) {
                         this.$store.commit('setLoginState', 1);
+                        this.$store.commit('setsessionId', res.data);
                         this.$router.push({
                             name: 'home',
                         });

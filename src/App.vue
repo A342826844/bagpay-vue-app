@@ -24,8 +24,9 @@ export default Vue.extend({
     },
     created() {
         if (this.$store.state.loginStatus) {
-            // this.$router.push('/home');
             this.init();
+        } else {
+            this.plusInitHandle();
         }
     },
     computed: {
@@ -34,16 +35,53 @@ export default Vue.extend({
         },
     },
     methods: {
+        plusInitHandle() {
+            const plusReady = () => {
+            // Android处理返回键
+                let count = 0;
+                (window as any).plus.key.addEventListener('backbutton', () => {
+                    if (count === 0) {
+                        if (!this.$route.meta.showFooter || (this.$route.name !== 'entry')) {
+                            this.$router.go(-1);
+                        } else {
+                            count += 1;
+                            this.$normalToast(this.$t('common.exitProgram'), 2000);
+                            setTimeout(() => {
+                                count = 0;
+                            }, 2000);
+                        }
+                    } else if (count === 1) {
+                        (window as any).plus.runtime.quit();
+                    }
+                }, false);
+                // (window as any).plus.navigator.setStatusBarBackground(plusConfig.DEFAULT_BAR_BACKGROUND);
+                // (window as any).plus.navigator.setStatusBarStyle(plusConfig.DARK);
+                // 关闭启动界面
+                setTimeout(() => {
+                    (window as any).plus.navigator.closeSplashscreen();
+                }, 200);
+            };
+            if ((window as any).plus) {
+                plusReady();
+            } else {
+                document.addEventListener('plusready', plusReady, false);
+            }
+        },
         init() {
-            this.changeLoading(true);
             Promise.all([
                 this.getCoinList(),
                 this.initUserInfo(),
                 this.getUserBankList(),
-            ]).catch(() => {
-                this.init();
-            }).finally(() => {
-                this.changeLoading(false);
+            ]).then(() => {
+                this.plusInitHandle();
+                this.$router.push('/home');
+            }).catch((error) => {
+                if (error.response && error.response.status === 401) {
+                    this.plusInitHandle();
+                    // this.$router.push('/');
+                } else {
+                    this.init();
+                }
             });
         },
     },

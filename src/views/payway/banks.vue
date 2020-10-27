@@ -5,7 +5,7 @@
                 <li @click="selectBank(item)" class="payway-li" v-for="item in list" :key="item.id">
                     <div class="flex-between-c">
                         <div>
-                            <img class="app-img-50" :src="item.img" alt="">
+                            <!-- <img class="app-img-50" :src="item.img" alt=""> -->
                             <h5 style="display: inline-block" class="app-size-34">{{item.title}}</h5>
                         </div>
                         <img v-show="id === item.id" class="app-img-50" src="../../assets/img/setting/ok.png" alt="">

@@ -7,6 +7,9 @@
     "common": {
         "send": "发 送",
         "send2": "发送",
+        "exitProgram": "再按一次退出程序",
+        "invitationSuccess": "分享成功",
+        "invitationFail": "分享失败",
         "save": "保 存",
         "scan": "扫一扫",
         "bFlash": "闪光灯",

@@ -34,7 +34,7 @@
               show-word-limit
           >
           <div slot="button" class="button_cont">
-              <img class="app-img-50" @click="$copyText(form.address)" src="@/assets/img/common/qrcode1.png" alt="">
+              <img class="app-img-50" @click="$router.push('/scanQRCode')" src="@/assets/img/common/qrcode1.png" alt="">
           </div>
           </V-Field>
         </div>
@@ -61,11 +61,11 @@
           ></Inputs>
         </div>
       </form>
-      <div class="lxa-footer-btn">
-        <Button @click="auth()" v-t="'common.ok'" :disabled="!form.address || (needMede === '1' && !form.memoAddr) || !form.remark"></Button>
-      </div>
       <user-auth ref="UserAuth" :type="6" @save="saveHandle"></user-auth>
     </TitleHeader>
+    <div class="lxa-footer-btn">
+      <Button @click="auth()" v-t="'common.ok'" :disabled="!form.address || (needMede === '1' && !form.memoAddr) || !form.remark"></Button>
+    </div>
   </div>
 </template>
 
@@ -100,7 +100,7 @@ export default Vue.extend({
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
             vm.initPramis();
-            if (from.name !== 'choisesymbol') {
+            if (!(from.name === 'choisesymbol' || from.name === 'scanQRCode')) {
                 vm.clear();
             }
         });
@@ -112,10 +112,12 @@ export default Vue.extend({
                 memoAddr: '',
                 remark: '',
             };
+            this.$store.commit('setQrcodeResult', '');
         },
         initPramis() {
             this.symbol = this.$store.state.addAddr.symbol || '';
             this.needMede = this.$store.state.addAddr.needMede || '';
+            this.form.address = this.$store.state.qrcodeResult || '';
         },
         init() {
             this.$api.getCoinProtocols({

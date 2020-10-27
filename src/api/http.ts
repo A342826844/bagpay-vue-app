@@ -1,7 +1,7 @@
 import { axiosOfJava, axiosOfGoLang } from './axios';
 
 // const baseURL = 'http://127.0.0.1:3000';
-const baseURL = '/api';
+const baseURL = process.env.VUE_APP_GOLANG_apiUrl;
 
 interface Config {
     formdata?: boolean;

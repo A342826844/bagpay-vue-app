@@ -54,14 +54,21 @@
     width: 100%;
     // background-color: #ffffff;
 }
+//适配iPhone X
+.custom-footer{
+    bottom: 0 !important;
+    bottom: constant(safe-area-inset-bottom) !important;
+    bottom: env(safe-area-inset-bottom) !important;
+}
 .lxa-footer-bottom{
-    position: absolute;
+    position: fixed;
     margin: 0 auto;
-    bottom: 0;
+    bottom: 15px;
     left: 0;
     right: 0;
     text-align: center;
     background-color: #ffffff;
+    // .custom-footer;
 }
 
 .app-toast-shade {

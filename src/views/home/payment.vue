@@ -5,7 +5,7 @@
                 <h5 class="payment-card-title">{{$t('payment.paymentTip') + symbol.toUpperCase()}}</h5>
                 <div class="payment-card-qrcode" :style="{width: `${size + 15}px`, height: `${size + 15}px`}">
                     <Loading v-show="!address"/>
-                    <QrcodeVue v-show="address" foreground="#5894EE" :size="size" :value="address"></QrcodeVue>
+                    <QrcodeVue ref="qrcode" v-show="qrValue" foreground="#5894EE" :size="size" :value="qrValue"></QrcodeVue>
                 </div>
                 <div>
                     <h5 class="payment-card-title" v-t="'payment.paymentAddr'"></h5>
@@ -13,7 +13,7 @@
                 </div>
                 <div class="payment-card-btn">
                     <img @click="$copyText(address)" src="../../assets/img/common/copy.png" alt="">
-                    <img src="../../assets/img/common/share.png" alt="">
+                    <img @click="shareDataHandle" src="../../assets/img/common/share.png" alt="">
                 </div>
             </div>
             <Poptip class="payment-poptip">
@@ -35,10 +35,19 @@
 import Vue from 'vue';
 import QrcodeVue from 'qrcode.vue';
 import Loading from '@/components/loading/index.vue'; // @ is an alias to /src
+import {
+    // getQueryValue,
+    // isBagPayUrl,
+    // getQueryUrl,
+    queryStringify,
+} from '@/utils/tool';
 
 type data = {
     address: string;
     symbol: string;
+    qrValue: string;
+    memo: string;
+    value: string;
     size: number;
 }
 
@@ -52,6 +61,9 @@ export default Vue.extend({
         return {
             address: '',
             symbol: '',
+            qrValue: '',
+            value: '',
+            memo: '',
             size: 100,
         };
     },
@@ -61,12 +73,41 @@ export default Vue.extend({
         this.getDeposit();
     },
     methods: {
+        shareDataHandle() {
+            try {
+                const qrcodeDom = ((this.$refs.qrcode as any).$el as HTMLElement);
+                const canvas = (qrcodeDom.querySelector('canvas') as HTMLCanvasElement);
+                const base64 = canvas.toDataURL('image/png');
+                this.$saveImg(base64, (url: string) => {
+                    this.$shareDataHandle({
+                        type: 'image',
+                        pictures: [url],
+                        title: '',
+                    }, () => {
+                        // that.$normalToast(that.$t('invitauser.invitationSuccess'), 1000);
+                    }, () => {
+                        this.$normalToast(this.$t('common.invitationFail'), 1000);
+                    });
+                }, () => {
+                    this.$normalToast(this.$t('common.invitationFail'), 1000);
+                });
+            } catch (e) {
+                this.$normalToast(this.$t('common.invitationFail'), 1000);
+            }
+        },
         getDeposit() {
             this.$api.getDeposit({
                 coin: this.symbol,
             }).then((res: any) => {
                 if (res.data) {
                     this.address = res.data.address;
+                    this.memo = res.data.memo;
+                    this.qrValue = queryStringify({
+                        address: this.address,
+                        symbol: this.symbol,
+                        value: '',
+                        memo: this.memo,
+                    });
                 }
             });
         },

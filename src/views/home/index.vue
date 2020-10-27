@@ -7,7 +7,7 @@
                 <h3 class="home-header-coin">{{symbol.toUpperCase()}}</h3>
             </div>
             <div>
-                <img src="../../assets/img/common/qrcode1.png" alt="">
+                <img @click="$router.push(`/scanQRCode?type=${1}`)" src="../../assets/img/common/qrcode1.png" alt="">
             </div>
         </div>
         <div class="home-assets flex-around-s flex-column">

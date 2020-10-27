@@ -45,6 +45,7 @@ export default new Vuex.Store({
         unit: 'USD', // 计价单位
         unitIcon: '$', // 计价单位符号
         unitDecimal: 4, // 计价单位小数位数
+        sessionId: localStorage.getItem('sessionId') || '', // sessionId
         userInfo: {
             id: '',
             nickname: '',
@@ -53,6 +54,7 @@ export default new Vuex.Store({
             phone: '',
             status: '',
         },
+        qrcodeResult: '',
         country: defaultCountry(),
         loginStatus: Number(localStorage.getItem('loginStatus')),
         addAddr: {}, // 添加提币地址
@@ -66,6 +68,10 @@ export default new Vuex.Store({
     mutations: {
         changeLoading(state, loading) {
             state.loading = loading;
+        },
+        setsessionId(state, value) {
+            state.sessionId = value;
+            localStorage.setItem('sessionId', value);
         },
         setSymbol(state, symbolStr) {
             state.symbol = symbolStr;
@@ -83,8 +89,10 @@ export default new Vuex.Store({
             state.loginStatus = status;
         },
         setBankList(state, list) {
-            console.log(list, '---');
             state.bankList = list;
+        },
+        changgeQrcodeResult(state, value) {
+            state.qrcodeResult = value;
         },
         setAddress(state, address) {
             state.address = address;

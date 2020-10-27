@@ -50,6 +50,8 @@ const LoginSearch = () => import('@/views/login/search.vue');
 const Findaccount = () => import('@/views/login/findaccount.vue');
 const Register = () => import('@/views/login/register.vue');
 
+const ScanQRCode = () => import('@/views/scanQRCode/index.vue'); // 扫描二维码
+
 const routes: Array<RouteConfig> = [
     {
         path: '/',
@@ -316,6 +318,11 @@ const routes: Array<RouteConfig> = [
         path: '/choisesymbol',
         name: 'choisesymbol',
         component: ChoiseSymbol,
+    },
+    {
+        path: '/scanQRCode',
+        name: 'scanQRCode',
+        component: ScanQRCode,
     },
 ];
 

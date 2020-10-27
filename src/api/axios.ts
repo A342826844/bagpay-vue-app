@@ -30,7 +30,7 @@ function resetConfig(config: AxiosRequestConfig, lang: string, Authorization?: s
         resConfig.params.lang = lang;
     }
     if (Authorization) {
-        resConfig.headers.Authorization = `Bearer ${Authorization}`;
+        resConfig.headers.sid = `${Authorization}`;
     }
     return resConfig;
 }
@@ -81,8 +81,8 @@ axiosOfGoLang.interceptors.request.use(
         });
         // 语言国际化
         const { lang } = store.state;
-        // const AUTH_TOKEN = store.state.userInfo.token;
-        return resetConfig(config, lang);
+        const AUTH_TOKEN = store.state.sessionId;
+        return resetConfig(config, lang, AUTH_TOKEN);
     },
     (error) => Promise.reject(error),
 );
