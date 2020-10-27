@@ -87,6 +87,7 @@ export default Vue.extend({
             };
         },
         loginHandle() {
+            if (this._loading) return;
             const vfi: boolean = this.$verification.fromVfi([
                 {
                     type: 'empty',
@@ -100,20 +101,37 @@ export default Vue.extend({
                 },
             ]);
             if (vfi) {
+                this.changeLoading(true);
                 this.$api.login({
                     passport: `${this.country.tel}-${this.form.phone}`,
                     password: this.$md5(`${this.form.password}bagpaysol`),
                 }).then((res: any) => {
-                    this.initUserInfo();
                     if (res.code === 0) {
-                        this.$store.commit('setLoginState', 1);
+                        // this.$store.commit('setLoginState', 1);
                         this.$store.commit('setsessionId', res.data);
-                        this.$router.push({
-                            name: 'home',
-                        });
+                        this.getAllData();
                     }
+                }).finally(() => {
+                    this.changeLoading(false);
                 });
             }
+        },
+        getAllData() {
+            Promise.all([
+                this.getCoinList(),
+                this.initUserInfo(),
+                this.getUserBankList(),
+            ]).then(() => {
+                this.$store.commit('setLoginState', 1);
+                // this.$store.commit('setsessionId', data);
+                this.$router.push({
+                    name: 'home',
+                });
+            }).catch(() => {
+                this.$normalToast('登录失败');
+            }).finally(() => {
+                this.changeLoading(false);
+            });
         },
         // 忘记密码
         goFindAccount() {

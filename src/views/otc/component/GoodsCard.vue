@@ -28,7 +28,9 @@
                     <Button
                         @click="$emit('click', renderData)"
                         size="mini"
-                        :disabled="renderData.uid == _userInfo.id"
+                        :disabled="
+                            renderData.uid == _userInfo.id|| Number((renderData.total - renderData.filled - renderData.frozen).toFixed(4)) === 0
+                        "
                         :type="side === 2 ? 'up' : 'down'"
                     >
                         {{ side | orderSideType}}

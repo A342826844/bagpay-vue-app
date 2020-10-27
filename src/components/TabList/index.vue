@@ -241,7 +241,6 @@ export default Vue.extend({
                     this.position = VERTICAL;
                 }
             }
-            console.log(this.position);
             if (this.position === VERTICAL) return;
 
             // 阻止移动端的滑动默认事件

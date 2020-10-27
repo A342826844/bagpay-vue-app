@@ -219,6 +219,9 @@ export default Vue.extend({
     },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
+            if (from.name !== 'otcsubmit') {
+                vm.initData();
+            }
             vm.loadData();
             vm.otcGetMerchant();
         });
@@ -235,6 +238,16 @@ export default Vue.extend({
         }
     },
     methods: {
+        initData() {
+            this.renderData = {
+                1: {},
+                2: {},
+            };
+            this.paramsData = {
+                1: {},
+                2: {},
+            };
+        },
         otcGetMerchant() {
             return this.$api.otcGetMerchant().then((res: any) => {
                 if (res.data) {

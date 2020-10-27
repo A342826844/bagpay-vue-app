@@ -18,7 +18,7 @@
                     <form @submit.prevent="" class="otc-advertising-form app-size-34" action="">
                         <div class="form-item">
                             <Select @click="$router.push(`/choisesymbol?symbol=${form.coin}&type=1`)">
-                                <IconImg class="app-img-50" :symbol="form.coin"/>
+                                <IconImg class="app-img-50 form-item-start" :symbol="form.coin"/>
                                 <span class="form-item-select-coin vertical-m">{{coinSHow}}</span>
                             </Select>
                         </div>
@@ -32,20 +32,33 @@
                         </div> -->
                         <div class="form-item">
                             <Inputs decimal type="number" :autofocus="true" v-model="form.price" :placeholder="`${item.title}价格`">
+                                <span class="form-item-start" slot="start">价格</span>
                                 {{_unitIcon}}
                             </Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs :decimal="2" v-model="form.amount" :placeholder="`${item.title}数量`">{{coinSHow}}</Inputs>
+                            <Inputs :decimal="2" v-model="form.amount" :placeholder="`${item.title}数量`">
+                                <span class="form-item-start" slot="start">数量</span>
+                                {{coinSHow}}
+                            </Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs readonly :value="total || '总额'">{{_unitIcon}}</Inputs>
+                            <Inputs readonly :value="total || '总额'">
+                                <span class="form-item-start" slot="start">总额</span>
+                                {{_unitIcon}}
+                            </Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs decimal v-model="form.min_value" placeholder="单笔最低限额">{{_unitIcon}}</Inputs>
+                            <Inputs decimal v-model="form.min_value" placeholder="单笔最低限额">
+                                <span class="form-item-start" slot="start">最低</span>
+                                {{_unitIcon}}
+                            </Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs decimal v-model="form.max_value" placeholder="单笔最高限额">{{_unitIcon}}</Inputs>
+                            <Inputs decimal v-model="form.max_value" placeholder="单笔最高限额">
+                                <span class="form-item-start" slot="start">最高</span>
+                                {{_unitIcon}}
+                            </Inputs>
                         </div>
                         <div @click="selectPayHandle" class="form-item">
                             <Select>
@@ -325,12 +338,18 @@ export default Vue.extend({
         padding-top: 50px;
     }
     .app-poptip{
-        padding-bottom: 150px;
+        padding-bottom: 60px;
     }
     &-form{
         .form-item{
             margin-bottom: 36px;
             transition: all 0.3s;
+            &:last-child{
+                margin-bottom: 0;
+            }
+            &-start{
+                margin-right: 60px;
+            }
             &-show{
                 height: 100px;
             }

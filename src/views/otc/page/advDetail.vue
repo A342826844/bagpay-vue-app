@@ -72,7 +72,7 @@
                     <div class="text-align-l otc-advdetail-mark">
                         <p class="lable">备注</p>
                         <div class="otc-advdetail-num">
-                            {{ orderDetail.remark }}
+                            {{ orderDetail.remark || '商家很懒，什么都没写' }}
                         </div>
                     </div>
                 </div>
@@ -115,6 +115,8 @@ import scrollLoad from '@/minxin/scrollLoad';
 type data = {
     orderDetail: any;
     isLoading: boolean;
+    loadMore: boolean;
+    isEnd: boolean;
     timer: any;
     form: {
         amount: string;
@@ -133,6 +135,8 @@ export default Vue.extend({
         return {
             isLoading: false,
             timer: 0,
+            loadMore: false,
+            isEnd: false,
             list: [],
             orderDetail: {
                 // id: 1,
@@ -169,12 +173,20 @@ export default Vue.extend({
     },
     methods: {
         onRefresh() {
-            this.getOrderData(true);
             (this as any).isEnd = false;
+            this.getOrderData(true);
         },
         // 滚动懒加载
         scrollLoadHandle() {
             this.otcOrderDealList();
+        },
+        scrollLoad(event: Event) {
+            const scroll = (event.target as HTMLElement);
+            const { scrollTop, scrollHeight, clientHeight } = scroll;
+            if ((clientHeight + scrollTop > scrollHeight - 50) && (clientHeight + scrollTop !== scrollHeight) && !this.loadMore && !this.isEnd) {
+                this.loadMore = true;
+                this.otcOrderDealList();
+            }
         },
         getOrderData(refresh?: boolean) {
             if (!refresh) {
@@ -186,7 +198,6 @@ export default Vue.extend({
             });
         },
         getOrderDetail() {
-            this.changeLoading(true);
             return this.$api.otcOrderGetById(this.orderDetail.id).then((res: any) => {
                 this.changeLoading(false);
                 if (res.data) {
@@ -199,7 +210,6 @@ export default Vue.extend({
         },
         goAdvState(item: any) {
             this.$router.push(`/otc/order/detail?id=${item.id}`);
-            console.log('去订单详情');
         },
         otcOrderDealList(refresh?: boolean) {
             const params = {
@@ -212,7 +222,7 @@ export default Vue.extend({
                 limit: 15, // [int64] 最大返回条数
             };
             return this.$api.otcOrderDealList(params).then((res: any) => {
-                console.log(res);
+                this.loadMore = false;
                 if (res.data.list) {
                     if (refresh) {
                         this.list = res.data.list;
@@ -220,9 +230,11 @@ export default Vue.extend({
                         this.list = this.list.concat(res.data.list);
                     }
                 }
-                if (this.list.length >= res.total) {
+                if (this.list.length >= res.data.total) {
                     (this as any).isEnd = true;
                 }
+            }).catch(() => {
+                this.loadMore = false;
             });
         },
         cancelHandle() {
@@ -305,6 +317,7 @@ export default Vue.extend({
     }
     .order-info{
         line-height: 50px;
+        font-size: 28px;
     }
     &-btn{
         padding-left: 40px;

@@ -22,7 +22,9 @@
                 <div class="flex-between-c app-padding40 app-margin-t40">
                     <div class="text-align-l">
                         <p class="lable">数量({{orderDetail.coin && orderDetail.coin.toUpperCase()}})</p>
-                        <h6 class="app-size-34 otc-submit-price">{{ orderDetail.total }}</h6>
+                        <h6 class="app-size-34 otc-submit-price">
+                            {{ Number((orderDetail.total - orderDetail.filled - orderDetail.frozen).toFixed(4)) }}
+                        </h6>
                     </div>
                     <div class="text-align-r">
                         <p class="lable">限额</p>

@@ -6,7 +6,7 @@
             <ul class="payway-box app-padding40 text-align-l">
                 <li @click="selectBank(item)" class="payway-li" v-for="item in renderList" :key="item.id">
                     <div class="flex-between-c">
-                        <h5 class="app-size-34" v-if="item.type === 1">{{`${item.bank} ${item.sub_bank}`}}</h5>
+                        <h5 class="app-size-34" v-if="item.type === 1">{{`${item.bank}`}}</h5>
                         <h5 class="app-size-34" v-else>
                             <span class="vertical-m">{{item.type | payType}}</span>
                             <img @click="showImg(item)" class="payway-ercode app-img-50" src="../../assets/img/common/ercode.png" alt="">
