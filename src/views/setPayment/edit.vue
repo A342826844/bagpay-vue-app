@@ -18,6 +18,7 @@
                     rows="2"
                     autosize
                     readonly
+                    :autofocus="true"
                     type="textarea"
                     maxlength="64"
                     :placeholder="`${symbol.toUpperCase()} ${$t('payment.address')}`"

@@ -11,6 +11,7 @@
                         autosize
                         type="textarea"
                         maxlength="64"
+                        :autofocus="true"
                         :placeholder="`${symbol.toUpperCase()} ${$t('payment.address')}`"
                         show-word-limit
                     >

@@ -12,6 +12,7 @@
             clearable
             v-model="form.nickname"
             autocomplete="username"
+            :autofocus="true"
             type="text"
           />
           <Inputs

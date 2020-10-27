@@ -8,6 +8,7 @@
                     class="login-form-item"
                     :placeholder="$t('login.phone')"
                     clearable
+                    :autofocus="true"
                     v-model="form.phone"
                     autocomplete="username" type="text"
                 />

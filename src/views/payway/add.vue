@@ -11,7 +11,7 @@
                 </div>
                 <div class="form-item">
                     <div class="lable" v-t="'payway.name'"></div>
-                    <Inputs readonly v-model="form.real_name"></Inputs>
+                    <Inputs readonly v-model="form.real_name" :autofocus="true"></Inputs>
                 </div>
                 <div v-if="form.type === 1" class="form-item">
                     <div class="lable" v-t="'payway.bank'"></div>

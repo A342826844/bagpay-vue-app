@@ -9,6 +9,7 @@
                     :placeholder="$t('login.phone')"
                     clearable
                     v-model="form.phone"
+                    :autofocus="true"
                     autocomplete="username" type="text"
                 >
                     <span @click="$router.push('/login/search')" class="primary-color login-form-item-country">+ {{country.tel}} </span>

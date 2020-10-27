@@ -7,6 +7,7 @@
           :placeholder="$t('login.phone')"
           clearable
           v-model="form.phone"
+          :autofocus="true"
           type="text"
         />
         <Inputs

@@ -27,6 +27,7 @@
               v-model="form.address"
               rows="2"
               autosize
+              :autofocus="true"
               type="textarea"
               maxlength="64"
               :placeholder="`${symbol.toUpperCase()} ${$t('payment.address')}`"

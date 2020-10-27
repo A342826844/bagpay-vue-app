@@ -31,7 +31,7 @@
                             <Inputs v-model="form.floating_rate" placeholder="溢价率(30~50)">%</Inputs>
                         </div> -->
                         <div class="form-item">
-                            <Inputs decimal type="number" v-model="form.price" :placeholder="`${item.title}价格`">
+                            <Inputs decimal type="number" :autofocus="true" v-model="form.price" :placeholder="`${item.title}价格`">
                                 {{_unitIcon}}
                             </Inputs>
                         </div>

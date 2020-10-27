@@ -17,6 +17,7 @@
             :placeholder="$t('login.newPwd')"
             clearable
             v-model="form.password"
+            :autofocus="true"
             autocomplete="current-password"
             type="password"
           />
