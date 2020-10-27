@@ -23,6 +23,7 @@ const Payway = () => import('@/views/payway/index.vue');
 const PaywayAdd = () => import('@/views/payway/add.vue');
 const PaywayBanks = () => import('@/views/payway/banks.vue');
 const PaywaySelect = () => import('@/views/payway/select.vue');
+const MineProtocol = () => import('@/views/mine/protocol.vue');
 
 const SetPayment = () => import('@/views/setPayment/index.vue');
 const SetPaymentAdd = () => import('@/views/setPayment/add.vue');
@@ -81,6 +82,11 @@ const routes: Array<RouteConfig> = [
         path: '/setpaypassword',
         name: 'setpaypassword',
         component: SetPayPassword,
+    },
+    {
+        path: '/mine/protocol',
+        name: 'mineprotocol',
+        component: MineProtocol,
     },
     {
         path: '/register',
