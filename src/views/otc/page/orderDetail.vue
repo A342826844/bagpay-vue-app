@@ -109,31 +109,11 @@
             // OtcDealStatePayed     = 1 //已支付
             // OtcDealStateDone      = 2 //已放币,已完成
             // OtcDealStateCanceled  = 3 //已取消 -->
-            <Button @click="cancleHandle" v-if="
-                orderDetail.state === 0
-                &&
-                orderDetail.taker_id === _userInfo.id
-                &&
-                orderDetail.taker_side" type="cancel"
-            >取消</Button>
-            <Button @click="otcDealPadiHandle" v-if="
-                orderDetail.state === 0
-                &&
-                orderDetail.taker_id === _userInfo.id
-                &&
-                orderDetail.taker_side"
-            >标记已支付</Button>
-            <Button @click="appealHandle" v-if="
-                orderDetail.state === 1
-                &&
-                !orderDetail.appealing" type="down"
-            >申诉</Button>
+            <Button @click="cancleHandle" v-if="showPayBtn" type="cancel">取消</Button>
+            <Button @click="otcDealPadiHandle" v-if="showPayBtn">标记已支付</Button>
+            <Button @click="appealHandle" v-if="orderDetail.state === 1&&!orderDetail.appealing" type="down">申诉</Button>
             <Button @click="cancleAppealHandle" v-if="orderDetail.appealing" type="down">取消申诉</Button>
-            <Button @click="releaseHandle" v-if="
-                orderDetail.state === 1
-                &&
-                orderDetail.taker_side" type="up"
-            >释放</Button>
+            <Button @click="releaseHandle" v-if="showReleasBtn" type="up">释放</Button>
         </div>
         <van-dialog v-model="show" close-on-click-overlay :show-confirm-button="false" title="支付方式">
             <div class="pay-dialog app-padding40">
@@ -219,6 +199,14 @@ export default Vue.extend({
         configCommon(): any {
             return this.$store.state.configCommon;
         },
+        showPayBtn(): boolean {
+            // state = 0 &&  (购买 || 买入)
+            return this.orderDetail.state === 0 && !this.getTakerType(this.orderDetail.taker_side, this.orderDetail.maker_id, this._userInfo.id);
+        },
+        showReleasBtn(): boolean {
+            // state = 2 &&  (出售 || 卖出)
+            return this.orderDetail.state === 1 && this.getTakerType(this.orderDetail.taker_side, this.orderDetail.maker_id, this._userInfo.id);
+        },
     },
     created() {
         this.id = Number(this.$route.query.id);
@@ -228,6 +216,18 @@ export default Vue.extend({
         clearInterval(this.timer);
     },
     methods: {
+        /** 判断交易方向
+         *
+         * @return true (购买 || 买入)
+         * @return false (出售 || 卖出)
+         */
+        getTakerType(taker_side: number, maker_id: number, userId: string|number) {
+            if (taker_side === 0) { // 购买, 出售
+                return maker_id === Number(userId);
+            }
+            // 买入 卖出
+            return maker_id !== Number(userId);
+        },
         onRefresh() {
             this.getOrderData(true);
         },
@@ -330,7 +330,7 @@ export default Vue.extend({
                 this.changeLoading(true);
                 this.$api.otcDealCancel(this.orderDetail.id).then(() => {
                     this.changeLoading(false);
-                    this.getOrderDetail();
+                    this.getOrderData();
                     this.$normalToast('取消成功');
                 }).catch((err: any) => {
                     this.changeLoading(false);
@@ -350,7 +350,7 @@ export default Vue.extend({
                 this.changeLoading(true);
                 this.$api.otcDealRelease(this.orderDetail.id).then(() => {
                     this.changeLoading(false);
-                    this.getOrderDetail();
+                    this.getOrderData();
                     this.$normalToast('释放成功');
                 }).catch((err: any) => {
                     this.changeLoading(false);
@@ -371,7 +371,7 @@ export default Vue.extend({
             }).then(() => {
                 this.changeLoading(true);
                 this.$api.otcDealPadi(this.orderDetail.id).then(() => {
-                    this.getOrderDetail();
+                    this.getOrderData();
                     this.$normalToast('确认成功');
                     this.changeLoading(false);
                 }).catch((err: any) => {
@@ -389,7 +389,7 @@ export default Vue.extend({
             }).then(() => {
                 this.changeLoading(true);
                 this.$api.otcAppealCancel(this.appealData.id).then(() => {
-                    this.getOrderDetail();
+                    this.getOrderData();
                     this.$normalToast('取消申诉成功');
                     this.changeLoading(false);
                 }).catch((err: any) => {

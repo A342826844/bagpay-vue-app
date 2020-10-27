@@ -2,6 +2,12 @@
   <div class="set-payment-add">
     <TitleHeader :title="$t('mine.safeSetting')">
       <ul class="app-padding40 payment_cont">
+        <li class="flex-between-c payment_item">
+          <div v-t="'mine.phone'"></div>
+          <div>
+            {{_userInfo.phone | formatName}}<span style="display: inline-block" class="app-img-50"></span>
+          </div>
+        </li>
         <li @click="$router.push('/mine/forgetSafePass')" v-if="_userInfo.pay_password === '1'" class="flex-between-c payment_item">
           <div v-t="'mine.forgetSafePass'"></div>
           <div>

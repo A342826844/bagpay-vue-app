@@ -283,7 +283,7 @@ export default Vue.extend({
                 return;
             }
             if (Number(this.form.max_value) <= Number(this.form.min_value)) {
-                this.$normalToast('单笔最高限额不能低于最高限额');
+                this.$normalToast('单笔最高限额不能低于最底限额');
                 return;
             }
             this.otcOrderPlace();

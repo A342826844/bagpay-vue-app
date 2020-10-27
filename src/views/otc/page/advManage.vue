@@ -1,5 +1,5 @@
 <template>
-    <div class="adv-manage">
+    <div @scroll.capture="scrollLoad" class="adv-manage">
         <Drawer position="right" v-model="isShow">
             <OrderFilter :title="'筛选'">
                 <SubOrderFilter title="状态">
@@ -24,9 +24,9 @@
                 </SubOrderFilter>
             </OrderFilter>
         </Drawer>
-        <TitleHeader fill :title="'广告管理'">
+        <TitleHeader :title="'广告管理'">
             <img slot="header" @click="isShow=!isShow" class="app-img-50" src="@/assets/img/common/screen.png" alt="">
-            <div @scroll.capture="scrollLoad($event, scrollLoadHandle)" class="app-margin-t40">
+            <div class="app-margin-t40">
                 <div class="body-content-slot" slot="history">
                     <PullRefresh
                         v-model="isLoading"
@@ -70,7 +70,6 @@ import Drawer from '@/components/commons/Drawer.vue';
 import { OrderFilter, SubOrderFilter, SubOrderFilterItem } from '@/components/Orders/index';
 import NCardItem from '@/components/card/index.vue';
 import { OtcOrderState } from '@/commons/config/index';
-import scrollLoad from '@/minxin/scrollLoad';
 
 export default Vue.extend({
     components: {
@@ -81,7 +80,6 @@ export default Vue.extend({
         SubOrderFilterItem,
         NCardItem,
     },
-    mixins: [scrollLoad],
     data() {
         return {
             OtcOrderState,
@@ -89,22 +87,18 @@ export default Vue.extend({
             isShow: false,
             loadMore: false,
             coin: '',
-            limit: 10,
+            limit: 3,
             isEnd: false,
             isLoading: false,
             list: [],
         };
-    },
-    created() {
-        // this.$store.commit('changeLoading', true);
-        // this.loadData(true);
     },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
             if (from.name === 'otcAdvDetail' && vm.list.length) {
                 return;
             }
-            vm.initParams(true);
+            vm.initParams();
         });
     },
     computed: {
@@ -114,40 +108,45 @@ export default Vue.extend({
     },
     methods: {
         onRefresh() {
-            this.initParams(false);
+            this.initParams(true);
         },
         // 滚动懒加载
-        scrollLoadHandle() {
-            this.loadData(true);
+        scrollLoad(event: Event) {
+            const scroll = (event.target as HTMLElement);
+            const { scrollTop, scrollHeight, clientHeight } = scroll;
+            if ((clientHeight + scrollTop > scrollHeight - 50) && (clientHeight + scrollTop !== scrollHeight) && !this.loadMore && !this.isEnd) {
+                this.loadMore = true;
+                this.loadData();
+            }
         },
         // 请求参数初始化
-        initParams(loading?: boolean) {
-            if (loading) {
+        initParams(refresh?: boolean) {
+            if (!refresh) {
                 this.list = [];
             }
             this.isEnd = false;
             this.loadMore = false;
-            this.loadData(loading);
+            this.loadData(refresh);
         },
         changeState(status: number) {
             this.status = status;
-            this.initParams(true);
+            this.initParams();
         },
         changeCoin(coin: string) {
             this.coin = coin;
-            this.initParams(true);
+            this.initParams();
         },
         // 加载数据
-        loadData(loading?: boolean) {
+        loadData(refresh?: boolean) {
             const params = {
                 coin: this.coin, // [string] 币种
                 status: this.status, // [OtcOrderState] -1取全部
                 // begin: 0, // [time] 开始时间
                 // end: 0, // [time] 结束时间
-                offset: loading ? 0 : this.list.length, // [int64] 跳过条数
+                offset: refresh ? 0 : this.list.length, // [int64] 跳过条数
                 limit: this.limit, // [int64] 最大返回条数
             };
-            if (loading) {
+            if (!refresh) {
                 this.changeLoading(true);
             }
             // 取消请求
@@ -159,15 +158,16 @@ export default Vue.extend({
             }
             this.$api.otcOrderList(params).then((res: any) => {
                 this.isLoading = false;
+                this.loadMore = false;
                 this.changeLoading(false);
                 if (res.data.list) {
-                    if (loading) {
+                    if (refresh) {
                         this.list = res.data.list;
                     } else {
                         this.list = this.list.concat(res.data.list);
                     }
                 }
-                if (this.list.length >= res.total) {
+                if (this.list.length >= res.data.total) {
                     this.isEnd = true;
                 }
             }).catch(() => {
@@ -189,6 +189,7 @@ export default Vue.extend({
 <style lang="less" scoped>
 .adv-manage{
   height: 100%;
+  overflow: scroll;
   display: flex;
   flex-direction: column;
   position: relative;

@@ -5,9 +5,9 @@
         </Headers>
         <div class="entry-banner">
             <ul
-                @touchmove.stop.prevent="moveHandle"
-                @touchstart.stop.prevent="startHandle"
-                @touchend.stop.prevent="endHandle"
+                @touchmove="moveHandle"
+                @touchstart="startHandle"
+                @touchend="endHandle"
                 :class="`active${activeTab}`"
                 :style="{
                     transform: moveIng ? bodyLeft : '',
@@ -60,8 +60,14 @@ type data = {
     beginX: number;
     beginY: number;
     beginTime: number;
+
+    position: string;
+
     list: Array<ListItem>;
 }
+
+const HORIZONTAL = 'HORIZONTAL';
+const VERTICAL = 'VERTICAL';
 
 export default Vue.extend({
     name: 'Home',
@@ -74,6 +80,8 @@ export default Vue.extend({
             beginX: 0,
             beginY: 0,
             beginTime: 0,
+
+            position: '',
 
             list: [
                 {
@@ -111,6 +119,20 @@ export default Vue.extend({
                 this.moveIng = true;
             }
             const moveX = e.touches[0].pageX - this.beginX;
+            const moveY = e.touches[0].pageY - this.beginY;
+
+            // 判断用户滑动方向， 让垂直滚动和水平滚动不能同时触发
+            if (!this.position) {
+                if (Math.abs(moveX) > Math.abs(moveY)) {
+                    this.position = HORIZONTAL;
+                } else {
+                    this.position = VERTICAL;
+                }
+            }
+            if (this.position === VERTICAL) return;
+            // 阻止移动端的滑动默认事件
+            e.stopPropagation();
+            e.preventDefault();
 
             const width = document.documentElement.clientWidth;
             if ((this.activeTab === 0 && moveX >= width / 5) || (this.activeTab === this.list.length - 1 && moveX <= -width / 5)) {
@@ -121,8 +143,9 @@ export default Vue.extend({
             //     return;
             // }
         },
-        endHandle(event: TouchEvent) {
+        endHandle() {
             this.moveIng = false;
+            this.position = '';
             const endStart = new Date().getTime();
 
             if ((this.activeTab === 0 && this.moveTo >= 0) || (this.activeTab === this.list.length - 1 && this.moveTo <= 0)) {
@@ -213,6 +236,7 @@ export default Vue.extend({
         font-size: 28px;
         &-tab{
             position: relative;
+            width: 54px;
             &>.active-tip, &>p{
                 width: 42px;
                 height: 11px;
