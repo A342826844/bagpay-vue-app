@@ -45,6 +45,9 @@
                                 <div class="values">
                                     <h5 class="value red-color">
                                         {{$t('payment.transferOut')}}
+                                        <span class="status_label" :class="{
+                                            gery: item.status === 1 || item.status > 2,
+                                        }">{{item.status | withdrawState}}</span>
                                     </h5>
                                     <p class="sub-value">{{item.created_at}}</p>
                                     <p class="sub-value">{{item.address.replace(item.address.slice(5,-5), '*****')}}</p>
@@ -52,7 +55,8 @@
                                 <div class="values">
                                     <h5 class="value">{{item.amount}}</h5>
                                     <p class="sub-value">手续费：<span class="price">{{item.fee}}</span></p>
-                                    <img class="cancel_img" @click="cancel(item.id)" src="@/assets/img/mine/cancel.png" alt="">
+                                    <img class="cancel_img" @click="cancel(item.id)"
+                                        v-if="item.status === 0" src="@/assets/img/mine/cancel.png" alt="">
                                 </div>
                             </li>
                         </ul>
@@ -252,6 +256,14 @@ export default Vue.extend({
                         }
                         &:last-child{
                             text-align: right;
+                        }
+                        .status_label{
+                            font-size: 24px;
+                            margin-left: 40px;
+                            color:#5894EE;
+                            &.grey{
+                                color: #A6A6A6;
+                            }
                         }
                         .value{
                             font-size: 34px;
