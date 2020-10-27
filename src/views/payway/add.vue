@@ -37,7 +37,7 @@
             <user-auth ref="UserAuth" :type="6" @save="addHandle"></user-auth>
         </TitleHeader>
         <div class="lxa-footer-btn">
-            <Button @click="authHandle" v-t="'common.ok'"></Button>
+            <Button @click="authHandle" v-t="'common.ok'" :disabled="!form.real_name || !form.account || !form.sub_bank"></Button>
         </div>
         <SelectPopup v-model="payPopup">
             <SelectPopupItem v-for="item in PayType" :key="item" @click="selectPayType(item)">{{ item | payType }}</SelectPopupItem>

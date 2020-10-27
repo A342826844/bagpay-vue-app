@@ -101,7 +101,7 @@
             <SelectPopupItem v-for="item in PayType" :key="item" @click="selectPayType(item)">{{ item | payType }}</SelectPopupItem>
         </SelectPopup>
         <div class="app-size-34 lxa-footer-btn">
-            <Button @click="submitHandle">发 布</Button>
+            <Button @click="submitHandle" :disabled="!form.price || !form.amount || !form.min_value || !form.max_value">发 布</Button>
         </div>
     </div>
 </template>

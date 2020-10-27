@@ -64,7 +64,8 @@
 
     </TitleHeader>
     <div class="lxa-footer-btn">
-      <Button @click="loginHandle" v-t="'login.register'"></Button>
+      <Button @click="loginHandle" v-t="'login.register'"
+        :disabled="!form.nickname || !form.phone || !form.imgCode || !form.code || !form.password || !form.confirmPassword"></Button>
     </div>
   </div>
 </template>

@@ -70,7 +70,7 @@
         </div>
         <div class="otc-submit-btn app-size-34 lxa-footer-bottom flex-around-c">
             <Button :radius="false" @click="$router.go(-1)" type="cancel">取消（{{download}} s）</Button>
-            <Button :radius="false" @click="submitHandle" type="up">确定</Button>
+            <Button :radius="false" @click="submitHandle" :disabled="!form.amount || !form.value" type="up">确定</Button>
         </div>
     </div>
 </template>

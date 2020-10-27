@@ -23,7 +23,7 @@
             </Poptip>
         </TitleHeader>
         <div class="lxa-footer-btn">
-            <Button @click="saveHandle" v-t="'common.ok'"></Button>
+            <Button @click="saveHandle" :disabled="!uploadList[0].val || !uploadList[1].val || !uploadList[2].val" v-t="'common.ok'"></Button>
         </div>
     </div>
 </template>

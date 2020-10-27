@@ -89,6 +89,7 @@
           @click="deposit"
           class="app-size-34"
           v-t="'otc.deposit'"
+          :disabled="!form.phone || !form.email || !form.social || !form.iceName || !form.icePhone || !form.address"
         ></Button>
       </div>
     </TitleHeader>

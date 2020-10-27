@@ -60,7 +60,7 @@
             </Poptip>
         </TitleHeader>
         <div class="lxa-footer-btn">
-            <Button @click="auth" v-t="'common.ok'"></Button>
+            <Button @click="auth" v-t="'common.ok'" :disabled="!form.address || (charge.need_memo === 1 && !form.memo) || !form.value"></Button>
         </div>
         <user-auth ref="UserAuth" :type="8" @save="saveHandle"></user-auth>
     </div>

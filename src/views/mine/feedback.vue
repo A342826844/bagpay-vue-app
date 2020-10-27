@@ -13,7 +13,7 @@
             </form>
         </TitleHeader>
         <div class="lxa-footer-btn">
-            <Button @click="saveHandle" v-t="'common.send'"></Button>
+            <Button @click="saveHandle" v-t="'common.send'" :disabled="!form.userName || !form.idCard"></Button>
         </div>
     </div>
 </template>

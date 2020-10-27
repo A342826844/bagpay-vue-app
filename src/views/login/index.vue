@@ -24,7 +24,9 @@
                 />
             </form>
             <p class="login-box-link">
-                <span @click="goFindAccount" class="primary-color" href="javascript:void(0)" v-t="'login.findAccount'"></span>
+                <span @click="goFindAccount" class="primary-color"
+                    :disabled="!form.phone || !form.password"
+                    href="javascript:void(0)" v-t="'login.findAccount'"></span>
             </p>
         </div>
         <div class="lxa-footer-btn">
