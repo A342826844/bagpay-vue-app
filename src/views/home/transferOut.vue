@@ -40,7 +40,7 @@
                     <div class="lable" v-t="'payment.remark'"></div>
                     <Inputs v-model="form.remark" :placeholder="$t('payment.remark')"></Inputs>
                 </div> -->
-                <div class="form-item">
+                <div class="fee_label">
                     <div class="lable flex-between-c">
                         <p>手续费</p>
                         <p>{{`${charge.out_fee}  ${symbol.toUpperCase()}`}}</p>
@@ -121,6 +121,7 @@ export default Vue.extend({
     },
     methods: {
         initAddress() {
+            this.symbol = this.$route.query.symbol as string;
             this.form.address = this.address.address || '';
             this.form.memo = this.address.memo || '';
         },
@@ -232,10 +233,16 @@ export default Vue.extend({
         width: 50px;
     }
     &-form{
+        margin-top: 76px;
+        .fee_label{
+            margin-top: 20px;
+        }
         .form-item{
-            margin-top: 76px;
-            &:last-child{
-                margin-top: 63px;
+            &+.form-item{
+                margin-top: 60px;
+            }
+            .lable{
+                margin-bottom: 40px;
             }
             .amount-input{
                 height: 169px;

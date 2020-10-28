@@ -64,6 +64,9 @@ export default Vue.extend({
             if (from.name === 'entry') {
                 vm.clear();
             }
+            if (from.name === 'register') {
+                vm.setPhone();
+            }
         });
     },
     // beforeRouteLeave(to, from, next) {
@@ -85,6 +88,9 @@ export default Vue.extend({
                 phone: '',
                 password: '',
             };
+        },
+        setPhone() {
+            this.form.phone = this.$route.query.phone as string;
         },
         loginHandle() {
             if (this._loading) return;

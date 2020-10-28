@@ -86,7 +86,6 @@ type form = {
 };
 
 type data = {
-  isLoading: boolean;
   imgUrl: string;
   imgCode: string;
   form: form;
@@ -99,7 +98,6 @@ export default Vue.extend({
     },
     data(): data {
         return {
-            isLoading: false,
             imgUrl: '',
             imgCode: '',
             form: {
@@ -182,7 +180,7 @@ export default Vue.extend({
                             message: '注册成功',
                             icon: assetsS,
                             onClose: () => {
-                                this.$router.replace('/login');
+                                this.$router.replace(`/login?phone=${this.form.phone}`);
                             },
                         });
                     }
