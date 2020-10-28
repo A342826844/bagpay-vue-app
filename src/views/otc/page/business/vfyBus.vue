@@ -131,7 +131,6 @@ export default Vue.extend({
     // },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
-            console.log(from.name);
             if (from.name !== 'OtcProtocol') {
                 vm.initForm();
             }
@@ -144,16 +143,12 @@ export default Vue.extend({
     },
     methods: {
         initForm() {
-            this.form = {
-                phone: '',
-                email: '',
-                socialType: '0',
-                social: '',
-                iceName: '',
-                icePhone: '',
-                iceRelation: '0',
-                address: '',
-            };
+            this.form.socialType = '0';
+            this.form.social = '';
+            this.form.iceName = '';
+            this.form.icePhone = '';
+            this.form.iceRelation = '0';
+            this.form.address = '';
             this.form.phone = this._getPhone;
             this.form.email = '';
         },
@@ -200,6 +195,10 @@ export default Vue.extend({
                         
                     </div>`,
                 }).then(() => {
+                    if (Number(this.$route.query.type) === 1) {
+                        this.otcMerchantUpdate();
+                        return;
+                    }
                     this.otcMerchant();
                 });
             }
@@ -207,6 +206,26 @@ export default Vue.extend({
         otcMerchant() {
             this.changeLoading(true);
             this.$api.otcMerchant({
+                phone: `${this.country.tel}-${this.form.phone}`,
+                email: this.form.email,
+                social_type: this.form.socialType,
+                social: this.form.social,
+                ice_name: this.form.iceName,
+                ice_phone: `${this.country.tel}-${this.form.icePhone}`,
+                ice_relation: this.form.iceRelation,
+                address: this.form.address,
+            }).then((res: any) => {
+                this.changeLoading(false);
+                if (res.code === 0) {
+                    this.$router.go(-1);
+                }
+            }).catch(() => {
+                this.changeLoading(false);
+            });
+        },
+        otcMerchantUpdate() {
+            this.changeLoading(true);
+            this.$api.otcMerchantUpdate({
                 phone: `${this.country.tel}-${this.form.phone}`,
                 email: this.form.email,
                 social_type: this.form.socialType,

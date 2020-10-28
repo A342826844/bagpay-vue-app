@@ -147,7 +147,7 @@ export default Vue.extend({
             if (this._loading) return;
             const vfi: boolean = this.$verification.fromVfi([
                 {
-                    type: 'name',
+                    type: 'empty',
                     value: this.form.nickname,
                 },
                 {

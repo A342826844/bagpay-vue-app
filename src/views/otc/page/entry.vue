@@ -41,11 +41,11 @@
                         @change='changeCoinHandle(item.side)'
                         >
                         <V-Tab
-                            v-for="(subItem) in coins"
+                            v-for="(subItem, index) in coins"
                             :title="subItem.title"
                             :name="subItem.symbol"
                             :disabled="!subItem.symbol"
-                            :key="subItem.symbol"
+                            :key="index"
                         >
                             <transition name="fade">
                                 <div class="otc-tabbar-page" v-show="subItem.symbol === activeSymbol">
@@ -373,6 +373,7 @@ export default Vue.extend({
                 //     "ga": "1", //处理过的google验证码,不为空代表已设置
                 //     "status": 1, //状态,1.正常 0.禁用
                 //     "created_at": "", //创建时间
+                console.log(this._userInfo, 1221);
                 if (this._userInfo.ver_lv === 0 || this._userInfo.ver_lv === 1 || this._userInfo.ver_lv === 2) {
                     this.$dialog.confirm({
                         title: '温馨提示',
