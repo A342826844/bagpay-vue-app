@@ -24,7 +24,11 @@ const queryStringify = (data: any): string => {
     if (!data) return '';
     let res = '';
     Object.keys(data).forEach((item) => {
-        res += `${item}=${data[item]}&`;
+        if (res) {
+            res += `&${item}=${data[item]}`;
+        } else {
+            res += `${item}=${data[item]}`;
+        }
     });
     return res;
 };

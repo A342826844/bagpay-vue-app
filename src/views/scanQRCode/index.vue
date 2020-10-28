@@ -72,19 +72,27 @@ export default {
             // 获取窗口对象
             this.ws = window.plus.webview.currentWebview();
             // this.ws = this.$refs.qrcode;
-            this.scan = window.plus.barcode.create('barcode', [window.plus.barcode.QR], {
-                top: '0',
-                left: '0',
-                width: '100%',
-                height: '100%',
-                scanbarColor: '#1DA7FF',
-                position: 'static',
-                frameColor: '#1DA7FF',
-            });
+            this.scan = window.plus.barcode.create('barcode',
+                [
+                    window.plus.barcode.QR,
+                    window.plus.barcode.AZTEC,
+                    window.plus.barcode.DATAMATRIX,
+                    window.plus.barcode.CODABAR,
+                    window.plus.barcode.MAXICODE,
+                ], {
+                    top: '0',
+                    left: '0',
+                    width: '100%',
+                    height: '100%',
+                    scanbarColor: '#1DA7FF',
+                    position: 'static',
+                    frameColor: '#1DA7FF',
+                });
+            console.log(this.scan);
             this.scan.onmarked = this.onmarked;
-            this.scan.start();
             this.ws.append(this.scan);
             this.createSubview();
+            this.scan.start();
         },
         scanPicture() {
             window.plus.gallery.pick((path) => {
@@ -111,24 +119,32 @@ export default {
             //     type = `其它${type}`;
             //     break;
             // }
-            const result = res.replace(/\r\n/g, '');
-            if (Number(this.$router.query.type) === 1) {
-                const data = getQueryUrl(result);
-                console.log(data, '====');
-                if (data.address) {
-                    this.$store.commit('setAddress', {
-                        address: data.address,
-                        memo: data.memo,
-                    });
-                    this.$router.replace(`/transferout?${result}`);
-                } else {
-                    window.plus.nativeUI.toast('无法识别此图片');
+            window.plus.nativeUI.toast(`${res}111111111111`);
+            console.log(this);
+            try {
+                const result = res.replace(/\r\n/g, '');
+                if (Number(this.$route.query.type) === 1) {
+                    const data = getQueryUrl(result);
+                    console.log(data, '====');
+                    if (data.address) {
+                        // this.$store.commit('setAddress', {
+                        //     address: data.address,
+                        //     memo: data.memo,
+                        // });
+                        console.log(result);
+                        this.$router.push(`/transferout?symbol=${data.symbol}`);
+                        this.goBackHandle(true);
+                    } else {
+                        window.plus.nativeUI.toast('无法识别此图片');
+                    }
+                    return;
                 }
-                return;
+                this.$store.commit('changgeQrcodeResult', result);
+                this.goBackHandle(true);
+                this.$router.go(-1);
+            } catch (e) {
+                console.log(e);
             }
-            this.$store.commit('changgeQrcodeResult', result);
-            // this.$router.go(-1);
-            this.goBackHandle(true);
         },
         createSubview() {
             const baise_go = 'baise_go.png';
