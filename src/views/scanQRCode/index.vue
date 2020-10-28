@@ -119,31 +119,27 @@ export default {
             //     type = `其它${type}`;
             //     break;
             // }
-            window.plus.nativeUI.toast(`${res}111111111111`);
-            console.log(this);
-            try {
-                const result = res.replace(/\r\n/g, '');
+            const result = res.replace(/\r\n/g, '');
+            const data = getQueryUrl(result);
+            if (data.address) {
                 if (Number(this.$route.query.type) === 1) {
-                    const data = getQueryUrl(result);
-                    console.log(data, '====');
-                    if (data.address) {
-                        // this.$store.commit('setAddress', {
-                        //     address: data.address,
-                        //     memo: data.memo,
-                        // });
-                        console.log(result);
-                        this.$router.push(`/transferout?symbol=${data.symbol}`);
-                        this.goBackHandle(true);
-                    } else {
-                        window.plus.nativeUI.toast('无法识别此图片');
-                    }
-                    return;
+                    this.$store.commit('setAddress', {
+                        address: data.address,
+                        memo: data.memo,
+                    });
+                    this.$router.replace(`/transferout?symbol=${data.symbol}`);
+                    this.goBackHandle();
+                } else {
+                    this.$store.commit('changgeQrcodeResult', data.address);
+                    this.goBackHandle();
+                    this.$router.go(-1);
                 }
+            } else if (Number(this.$route.query.type) === 1) {
+                window.plus.nativeUI.toast('无法识别此图片');
+            } else {
                 this.$store.commit('changgeQrcodeResult', result);
-                this.goBackHandle(true);
+                this.goBackHandle();
                 this.$router.go(-1);
-            } catch (e) {
-                console.log(e);
             }
         },
         createSubview() {
