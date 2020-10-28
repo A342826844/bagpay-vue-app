@@ -36,7 +36,8 @@ export default class DateForamt {
 
     constructor(date: number|string, needUTC?: boolean) {
         if (needUTC && typeof date === 'string') {
-            this.date = new Date(`${date}`.replace('-', '/'));
+            const str = `${date} GMT+0000`.replace(/-/g, '/');
+            this.date = new Date(str);
         } else {
             this.date = new Date(date);
         }

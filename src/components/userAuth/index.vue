@@ -144,6 +144,9 @@ export default Vue.extend({
             case 8: // 提币
                 this.verifyType = 17;
                 break;
+            case 10: // 场外卖出
+                this.verifyType = 10;
+                break;
             default:
                 this.verifyType = 0;
                 break;

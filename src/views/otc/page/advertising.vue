@@ -110,6 +110,7 @@
             <SelectPopupItem @click="changeRateType(1)">{{$t('otc.floatingPrice')}}</SelectPopupItem>
             <SelectPopupItem @click="isfloatRate = false">{{$t('otc.fixedPrice')}}</SelectPopupItem>
         </SelectPopup> -->
+        <user-auth ref="UserAuth" :type="10" @save="saveHandle"></user-auth>
         <SelectPopup v-model="payPopup">
             <SelectPopupItem v-for="item in PayType" :key="item" @click="selectPayType(item)">{{ item | payType }}</SelectPopupItem>
         </SelectPopup>
@@ -299,9 +300,17 @@ export default Vue.extend({
                 this.$normalToast('单笔最高限额不能低于最底限额');
                 return;
             }
-            this.otcOrderPlace();
+            if (this.form.type === 2) {
+                (this.$refs.UserAuth as any).open();
+            } else {
+                this.saveHandle({});
+            }
+            // this.otcOrderPlace();
         },
-        otcOrderPlace() {
+        // saveHandle(data) {
+
+        // },
+        saveHandle(data: any) {
             // coin: [string] 币种标识
             // type: [OrderSide] 交易方向
             // price: [float64] 价格
@@ -317,6 +326,7 @@ export default Vue.extend({
                 ...this.form,
                 total: this.total,
                 pay_types: this.pay_types.join(','),
+                ...data,
             };
             this.changeLoading(true);
             this.$api.otcOrderPlace(params).then((res: any) => {

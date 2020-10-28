@@ -110,6 +110,12 @@ export default Vue.extend({
             return `translateX(calc(${this.moveTo}px - ${this.activeTab * 100}vw))`;
         },
     },
+    created() {
+        if (localStorage.getItem('isinit')) {
+            this.activeTab = 2;
+        }
+        localStorage.setItem('isinit', `${new Date().getTime()}`);
+    },
     methods: {
         nextHandle() {
             this.activeTab += 1;

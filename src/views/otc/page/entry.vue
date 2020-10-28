@@ -24,7 +24,7 @@
         >
             <div slot="right" class="otc-header-right">
                 <!-- <img class="app-img-50" @click="screen=true" src="@/assets/img/common/screen.png" alt=""> -->
-                <img class="app-img-50" @click="showMore=true" src="@/assets/img/common/more.png" alt="">
+                <img class="app-img-50" @click="showMoreHandle(true)" src="@/assets/img/common/more.png" alt="">
             </div>
             <div class="otc-list" v-for="(item) in bodyTabList" :key="item.value" :slot="item.value">
                 <div class="otc-tabbar" @scroll.capture="scrollLoad($event, loadData)">
@@ -74,7 +74,7 @@
                 </div>
             </div>
         </TabList>
-        <div class="more-shade" v-show="showMore" @click.self="showMore=false">
+        <div class="more-shade" v-show="showMore" @click.self="showMoreHandle(false)">
             <div class="more-content">
                 <div
                     class="more-item"
@@ -255,6 +255,14 @@ export default Vue.extend({
                 }
             });
         },
+        showMoreHandle(showMore: boolean) {
+            this.showMore = showMore;
+            if (showMore) {
+                this.$overflowScrolling(false);
+            } else {
+                this.$overflowScrolling(true);
+            }
+        },
         goTradeHandle(item: any) {
             //    "phone": "86-13100000000",//[string] 手机号
             //     "email": "test@xx.com", //[string] 邮箱
@@ -353,7 +361,7 @@ export default Vue.extend({
             this.resizeTab();
         },
         clickShowMore(item: any) {
-            this.showMore = false;
+            this.showMoreHandle(false);
             if (item.name === 'otcAdv') {
                 //    "phone": "86-13100000000",//[string] 手机号
                 //     "email": "test@xx.com", //[string] 邮箱
@@ -368,7 +376,7 @@ export default Vue.extend({
                 if (this._userInfo.ver_lv === 0 || this._userInfo.ver_lv === 1 || this._userInfo.ver_lv === 2) {
                     this.$dialog.confirm({
                         title: '温馨提示',
-                        message: '您还未进行实名认证，请先认证',
+                        message: '您需要先完成lv3认证，请先认证',
                         confirmButtonText: '去认证',
                     }).then(() => {
                         this.$router.push('/mine/safesetting');
@@ -500,6 +508,9 @@ export default Vue.extend({
                 border: none;
             }
         }
+    }
+    .content-list{
+        padding-bottom: 150px;
     }
     &-tabbar-page{
         height: calc(100vh - 315px);

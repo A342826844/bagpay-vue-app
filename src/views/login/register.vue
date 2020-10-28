@@ -141,9 +141,7 @@ export default Vue.extend({
             };
         },
         loginHandle() {
-            if (this.isLoading) return;
-            this.isLoading = true;
-            this.changeLoading(true);
+            if (this._loading) return;
             const vfi: boolean = this.$verification.fromVfi([
                 {
                     type: 'name',
@@ -172,6 +170,7 @@ export default Vue.extend({
                 },
             ]);
             if (vfi) {
+                this.changeLoading(true);
                 this.$api.register({
                     nickname: this.form.nickname,
                     passport: `${this.country.tel}-${this.form.phone}`,
@@ -188,7 +187,6 @@ export default Vue.extend({
                         });
                     }
                 }).finally(() => {
-                    this.isLoading = false;
                     this.changeLoading(false);
                 });
             }

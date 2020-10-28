@@ -22,6 +22,11 @@ export default Vue.extend({
         Loading,
         Footer,
     },
+    data() {
+        return {
+            total: 0,
+        };
+    },
     created() {
         if (this.$store.state.loginStatus) {
             this.init();
@@ -80,6 +85,12 @@ export default Vue.extend({
                     this.plusInitHandle();
                     // this.$router.push('/');
                 } else {
+                    this.total += 1;
+                    if (this.total >= 5) {
+                        this.$router.push('/');
+                        this.plusInitHandle();
+                        return;
+                    }
                     this.init();
                 }
             });

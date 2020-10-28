@@ -1,5 +1,5 @@
 <template>
-    <div @scroll.capture="scrollLoad($event, scrollLoadHandle)" class="otc-advdetail">
+    <div @scroll.capture="scrollLoad" class="otc-advdetail">
         <Headers>
             <span v-show="orderDetail.status === 0" @click="cancelHandle" class="primary-color">下架</span>
         </Headers>
@@ -110,7 +110,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import NCardItem from '@/components/card/index.vue';
-import scrollLoad from '@/minxin/scrollLoad';
+// import scrollLoad from '@/minxin/scrollLoad';
 
 type data = {
     orderDetail: any;
@@ -130,7 +130,7 @@ export default Vue.extend({
     components: {
         NCardItem,
     },
-    mixins: [scrollLoad],
+    // mixins: [scrollLoad],
     data(): data {
         return {
             isLoading: false,
@@ -177,9 +177,6 @@ export default Vue.extend({
             this.getOrderData(true);
         },
         // 滚动懒加载
-        scrollLoadHandle() {
-            this.otcOrderDealList();
-        },
         scrollLoad(event: Event) {
             const scroll = (event.target as HTMLElement);
             const { scrollTop, scrollHeight, clientHeight } = scroll;
