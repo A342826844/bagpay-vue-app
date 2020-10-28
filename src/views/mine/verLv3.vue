@@ -9,7 +9,7 @@
                         <div class="add-bg">
                             <img class="img_cont" :src="uploadList.img" alt="">
                             <Loading v-show="isoading"/>
-                            <p class="primary-color" v-show="!uploadList.val" >{{$t(uploadList.title)}}</p>
+                            <p class="primary-color">{{$t(uploadList.title)}}</p>
                         </div>
                     </li>
                 </ul>
@@ -27,6 +27,7 @@
 import Vue from 'vue';
 import Loading from '@/components/loading/index.vue';
 
+const assetsS = require('@/assets/img/common/confirm.gif');
 const verlvVideo = require('../../assets/img/mine/verlv_video.png');
 
 type data = {
@@ -67,8 +68,17 @@ export default Vue.extend({
                 this.$api.postVerLv3(formData).then((res: any) => {
                     if (res.code === 0) {
                         this.initUserInfo();
-                        this.$router.go(-1);
+                        this.$toast({
+                            message: '上传成功',
+                            icon: assetsS,
+                            onClose: () => {
+                                this.$router.go(-1);
+                            },
+                        });
                     }
+                }).catch(() => {
+                    this.uploadList.val = '';
+                    this.$normalToast('文件上传失败');
                 }).finally(() => {
                     this.uploadList.title = 'mine.realName4';
                     this.isoading = false;
@@ -78,7 +88,7 @@ export default Vue.extend({
         fileChange(e: any, name: string) {
             const file = e.target.files[0];
             if (file.size > 10 * 1024 * 1024) {
-                // this.$normalToast(this.$t('setting.realName.IDCartRule4'));
+                this.$normalToast('文件过大，请重新选择');
                 return;
             }
             // 上传正确的图片格式
@@ -101,7 +111,7 @@ export default Vue.extend({
                     this.saveHandle();
                 } else {
                     // 格式
-                    // this.$normalToast(this.$t('setting.realName.IDCartRule4'));
+                    this.$normalToast('文件格式错误，只支持MP4,MOV,AVI后缀视频文件');
                 }
             }
         },

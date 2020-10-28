@@ -34,13 +34,13 @@ Vue.filter('toUpperCase', (n: string) => {
 
 // 充值状态类型 DepositState
 Vue.filter('depositState', (state: 0|1|2) => {
-    // DepositStateWaitReview   = 0 //等待审核
-	// DepositStateWaitConfirm  = 2 //等待确认
-    // DepositStateDone         = 1 //已完成
+    // DepositStateWaitReview   = 0 //等待确认
+    // DepositStateDone         = 1 //已到账
+	// DepositStateAbnormal  = 2 //异常
     const states = {
         0: 'common.waitReview',
         1: 'common.waitComfirm',
-        2: 'common.done',
+        2: 'common.abnormal',
     };
     return i18n.t(states[state]);
 });
