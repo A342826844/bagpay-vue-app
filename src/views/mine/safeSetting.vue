@@ -105,9 +105,6 @@ export default Vue.extend({
             }).finally(() => {
                 this.isLoading = false;
                 this.changeLoading(false);
-                if (this.verLvStatus === null) {
-                    this.init();
-                }
             });
         },
         goVerLv() {
