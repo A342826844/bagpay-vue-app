@@ -9,7 +9,9 @@
                 </div>
                 <div class="transfer-history-top txt_right">
                     <p class="sub-value">{{$t('common.frozen')}}</p>
-                    <h3 class="value">{{activeSymbol.otc_frozen + activeSymbol.sys_frozen + activeSymbol.withdraw_frozen}}</h3>
+                    <h3 class="value">
+                        {{(activeSymbol.otc_frozen || 0) + (activeSymbol.sys_frozen || 0) + (activeSymbol.withdraw_frozen || 0)}}
+                    </h3>
                 </div>
             </div>
             <div class="transfer-history-card flex-item-1">
@@ -29,9 +31,9 @@
                             <li class="app-padding40 flex-between-c" v-for="(item, index) in rechargeList" :key="index">
                                 <div class="values">
                                     <!-- <h5 class="value green-color">{{$t('payment.transferIn')}}</h5> -->
-                                    <span class="status_label" :class="{
+                                    <h5 class="status_label" :class="{
                                         gery: item.status > 0,
-                                    }">{{item.status | depositState}}</span>
+                                    }">{{item.status | depositState}}</h5>
                                     <p class="sub-value">{{item.created_at}}</p>
                                 </div>
                                 <div class="values">
@@ -49,9 +51,9 @@
                                     <!-- <h5 class="value red-color">
                                         {{$t('payment.transferOut')}}
                                     </h5> -->
-                                    <span class="status_label" :class="{
+                                    <h5 class="status_label" :class="{
                                         gery: item.status === 1 || item.status > 2,
-                                    }">{{item.status | withdrawState}}</span>
+                                    }">{{item.status | withdrawState}}</h5>
                                     <p class="sub-value">{{item.created_at}}</p>
                                     <p class="sub-value">{{item.address.replace(item.address.slice(5,-5), '*****')}}</p>
                                 </div>
