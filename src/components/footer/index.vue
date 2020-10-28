@@ -23,9 +23,9 @@
 import Vue from 'vue';
 
 const assetsN = require('@/assets/img/footer/assets_n.png');
-const assetsS = require('@/assets/img/footer/assets_s.png');
+const assetsS = require('@/assets/img/footer/assets_s.gif');
 const mineN = require('@/assets/img/footer/mine_n.png');
-const mineS = require('@/assets/img/footer/mine_s.png');
+const mineS = require('@/assets/img/footer/mine_s.gif');
 const otcN = require('@/assets/img/footer/otc_n.png');
 const otcS = require('@/assets/img/footer/otc_s.gif');
 
