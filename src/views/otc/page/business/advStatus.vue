@@ -22,7 +22,7 @@ export default Vue.extend({
     },
     methods: {
         reset() {
-            this.$router.replace('/otc/vfyBus');
+            this.$router.replace('/otc/vfyBus?type=1');
         },
         getImg() {
             switch (this.status) {
@@ -48,6 +48,9 @@ export default Vue.extend({
 </script>
 
 <style lang='less' scoped>
+    .adv_status{
+        height: 100%;
+    }
     .img_cont{
         margin-top: 200px;
         margin-bottom: 100px;

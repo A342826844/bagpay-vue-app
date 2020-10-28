@@ -82,11 +82,10 @@
                             </div>
                             <div class="flex-between-c list-item-2">
                                 <div class="value">申诉时间</div>
-                                <div class="value">{{ orderDetail.created_at | date('yyyy-MM-dd hh:mm:ss')}}</div>
+                                <div class="value">{{ appealData.created_at | date('yyyy-MM-dd hh:mm:ss')}}</div>
                             </div>
                             <div v-show="appealData.suggest" class="flex-between-c list-item-2">
                                 <div class="value">处理意见</div>
-                                <div class="value">{{ orderDetail.created_at | date('yyyy-MM-dd hh:mm:ss')}}</div>
                                 <div
                                     @click="showSuggestHandle(appealData.suggest)"
                                     class=" primary-color appeal-suggest ellipsis"
@@ -113,8 +112,10 @@
             {{showReleasBtn}} -->
             <Button @click="cancleHandle" v-if="showPayBtn" type="cancel">取消</Button>
             <Button @click="otcDealPadiHandle" v-if="showPayBtn">标记已支付</Button>
-            <Button @click="appealHandle" v-if="orderDetail.state === 1&&!orderDetail.appealing" type="down">申诉</Button>
-            <Button @click="cancleAppealHandle" v-if="orderDetail.appealing && (appealData.uid === Number(_userInfo.id))" type="down">取消申诉</Button>
+            <Button @click="appealHandle" v-if="orderDetail.state === 1 && !orderDetail.appealing && !appealData.id" type="down">申诉</Button>
+            <Button @click="cancleAppealHandle" v-if="orderDetail.appealing && appealingStatus(appealData.uid, appealData.user_type)" type="down">
+                取消申诉
+            </Button>
             <Button @click="releaseHandle" v-if="showReleasBtn && !orderDetail.appealing" type="up">释放</Button>
             <Button @click="showAppealing" v-if="showReleasBtn && orderDetail.appealing" type="down">申诉中</Button>
         </div>
@@ -256,6 +257,15 @@ export default Vue.extend({
             return true; // 买入
             // 买入 卖出
             // return taker_side === 1; // false => 卖出  true => 购买
+        },
+        appealingStatus(uid: number, type: number) {
+            if (uid === Number(this._userInfo.id) && type === 1) {
+                return true;
+            }
+            if (uid !== Number(this._userInfo.id) && type === 2) {
+                return true;
+            }
+            return false;
         },
         onRefresh() {
             this.getOrderData(true);
