@@ -34,7 +34,7 @@
               show-word-limit
           >
           <div slot="button" class="button_cont">
-              <img class="app-img-50" @click="$router.push('/scanQRCode')" src="@/assets/img/common/qrcode1.png" alt="">
+              <img class="app-img-50" v-show="_isplus" @click="$router.push('/scanQRCode')" src="@/assets/img/common/qrcode1.png" alt="">
           </div>
           </V-Field>
         </div>

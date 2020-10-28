@@ -87,6 +87,9 @@ Vue.mixin({
         _configCommon() {
             return (this.$store as Store<any>).state.configCommon;
         },
+        _isplus() {
+            return !!(window as any).plus;
+        },
     },
     methods: {
         changeLoading(state) {
