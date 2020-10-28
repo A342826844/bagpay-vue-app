@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 import './filter/index';
-import { normalToast, copyText } from './dom/index';
+import { normalToast, copyText, overflowScrolling } from './dom/index';
 import { shareDataHandle, downloadImg, saveImg } from './plus/index';
 
 declare module 'vue/types/vue' {
@@ -18,6 +18,7 @@ declare module 'vue/types/vue' {
         $shareDataHandle: Function;
         $downloadImg: Function;
         $saveImg: Function;
+        $overflowScrolling: Function;
         $logoutHandle: Function;
         $loginRoute: (path: string, loginPth?: string) => void;
     }
@@ -25,6 +26,7 @@ declare module 'vue/types/vue' {
 
 Vue.prototype.$normalToast = normalToast;
 Vue.prototype.$copyText = copyText;
+Vue.prototype.$overflowScrolling = overflowScrolling;
 
 Vue.prototype.$downloadImg = downloadImg; // 下载网络图片
 Vue.prototype.$shareDataHandle = shareDataHandle; // 分享
@@ -45,3 +47,5 @@ Vue.prototype.$logoutHandle = function () {
     this.$store.commit('setLoginState', 0);
     this.$store.commit('setHideBalance', '');
 };
+
+console.log('entry.common');

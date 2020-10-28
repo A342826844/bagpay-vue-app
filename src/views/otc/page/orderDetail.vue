@@ -117,6 +117,7 @@
             <Button @click="cancleAppealHandle" v-if="orderDetail.appealing" type="down">取消申诉</Button>
             <Button @click="releaseHandle" v-if="showReleasBtn" type="up">释放</Button>
         </div>
+        <user-auth ref="UserAuth" :type="10" @save="saveHandle"></user-auth>
         <van-dialog v-model="show" close-on-click-overlay :show-confirm-button="false" title="支付方式">
             <div class="pay-dialog app-padding40">
                 <div class="flex-between-c">
@@ -369,17 +370,20 @@ export default Vue.extend({
                     <span class="red-color">如果您未收到买家付款， 请不要释放交易</span>
                 </div>`,
             }).then(() => {
-                this.changeLoading(true);
-                this.$api.otcDealRelease(this.orderDetail.id).then(() => {
-                    this.changeLoading(false);
-                    this.getOrderData();
-                    this.$normalToast('释放成功');
-                }).catch((err: any) => {
-                    this.changeLoading(false);
-                    if (!err.data) {
-                        this.$normalToast('网络错误，刷新后重试');
-                    }
-                });
+                (this.$refs.UserAuth as any).open();
+            });
+        },
+        saveHandle(data: any) {
+            this.changeLoading(true);
+            this.$api.otcDealRelease(this.orderDetail.id, data).then(() => {
+                this.changeLoading(false);
+                this.getOrderData();
+                this.$normalToast('释放成功');
+            }).catch((err: any) => {
+                this.changeLoading(false);
+                if (!err.data) {
+                    this.$normalToast('网络错误，刷新后重试');
+                }
             });
         },
         otcDealPadiHandle() {

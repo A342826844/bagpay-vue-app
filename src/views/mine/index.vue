@@ -85,6 +85,9 @@ export default Vue.extend({
             ],
         };
     },
+    created() {
+        this.initUserInfo();
+    },
     methods: {
         goLink(item: listItem) {
             this.$router.push(`${item.path}`);

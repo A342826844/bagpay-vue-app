@@ -43,7 +43,9 @@ function idCardVfi(idCard: string) {
 
 // 昵称验证
 function nameVfi(name: string) {
-    const reg = /^[\u4e00-\u9fa5]|[A-Za-z]$/;
+    // const reg = /^[\u4e00-\u9fa5]|[A-Za-z]$/;
+    // eslint-disable-next-line no-useless-escape
+    const reg = /^(?:[\u4e00-\u9fa5]+)(?:●[\u4e00-\u9fa5]+)*$|^[a-zA-Z0-9]+\s?[\.·\-()a-zA-Z]*[a-zA-Z]+$/;
     const vfi: boolean = reg.test(name);
     if (vfi === false) normalToast(i18n.t('error.nameErr'));
     return vfi;

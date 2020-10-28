@@ -32,7 +32,7 @@ export const otcOrderCancel = (id: number) => postGolang(`/otc/order/cancel/${id
 // 取消订单
 export const otcDealCancel = (id: number) => postGolang(`/otc/deal/cancel/${id}`, { id });
 // 释放订单
-export const otcDealRelease = (id: number) => postGolang(`/otc/deal/release/${id}`, { id });
+export const otcDealRelease = (id: number, data: params) => postGolang(`/otc/deal/release/${id}`, { id, ...data });
 // 标记为已付款(仅买家可调用)
 export const otcDealPadi = (id: number) => getGolang(`/otc/deal/paid/${id}`, { id });
 // 广告下单

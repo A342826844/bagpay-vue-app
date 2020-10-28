@@ -34,7 +34,7 @@
                     <V-Uploader :max-count="1" v-model="fileList" multiple :after-read="afterRead"></V-Uploader>
                 </div>
             </form>
-            <user-auth ref="UserAuth" :type="6" @save="addHandle"></user-auth>
+            <user-auth ref="UserAuth" :type="5" @save="addHandle"></user-auth>
         </TitleHeader>
         <div class="lxa-footer-btn">
             <Button @click="authHandle" v-t="'common.ok'" :disabled="!form.real_name || !form.account || !form.sub_bank"></Button>

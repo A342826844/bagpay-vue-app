@@ -114,6 +114,7 @@ export default Vue.extend({
             this.isLoading = true;
             this.getUserBankList();
             this.changeLoading(true);
+            this.initUserInfo();
             Promise.all([this.getDeposit(), this.initBalances(), this.getExchangeRate()]).finally(() => {
                 this.isLoading = false;
                 this.changeLoading(false);
