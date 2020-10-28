@@ -10,7 +10,7 @@
             <Inputs
                 v-if="sendType.indexOf(4) !== -1"
                 class="safe-verify-item"
-                :placeholder="$t('common.enterPhoneCode')"
+                :placeholder="$t('login.vCode')"
                 v-model="phoneCode"
                 type="number">
                 <span slot="start" class="auth_label" v-text="formatName(phoneNum)"></span>
@@ -252,17 +252,16 @@ export default Vue.extend({
 
 <style lang="less" scoped>
 .safe-veirfy {
-    padding: 0 15px;
+    padding: 0 40px;
     padding-bottom: 28px;
     width: 100%;
     background-color: #fff;
     .auth_label{
-        margin-right: 20px;
+        margin-right: 30px;
     }
     .safe-verify-h {
     display: flex;
     padding: 50px 25px 32px;
-    border-bottom: solid 1px #dcdcdc;
     margin-bottom: 20px;
     & > span {
         flex-grow: 1;
@@ -280,11 +279,10 @@ export default Vue.extend({
     }
     }
     .safe-verify-item {
-        margin-bottom: 10px;
+        margin-bottom: 30px;
     }
     .safe-verify-enter {
-        margin: 50px 70px 0;
-        width: 580px;
+        margin: 60px 0px 0;
         height: 90px;
         line-height: 90px;
         background-color: #bfbfbf;
