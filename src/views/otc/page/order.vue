@@ -173,7 +173,6 @@ export default Vue.extend({
                     }
                     if (this.list.length >= res.data.total) {
                         this.isEnd = true;
-                        console.log('this.isEnd');
                     }
                 }
             }).catch(() => {

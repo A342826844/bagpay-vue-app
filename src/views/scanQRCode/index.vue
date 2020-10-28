@@ -76,7 +76,6 @@ export default {
             this.createSubview();
         },
         scanPicture() {
-            console.log('121212');
             window.plus.gallery.pick((path) => {
                 window.plus.barcode.scan(path, this.onmarked, () => {
                     window.plus.nativeUI.toast(this.$t('无法识别此图片'));
@@ -101,9 +100,7 @@ export default {
             //     type = `其它${type}`;
             //     break;
             // }
-            console.log(type, res);
             const result = res.replace(/\r\n/g, '');
-            console.log(result, 'result');
             if (Number(this.$router.query.type) === 1) {
                 const data = getQueryUrl(result);
                 if (data.address) {

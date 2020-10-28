@@ -118,7 +118,6 @@ export default Vue.extend({
         });
     },
     created() {
-        console.log(navigator.appVersion);
         this.getImg();
         this.form.phone = (this.$route.query.phone as string) || '';
     },

@@ -157,7 +157,6 @@ export default Vue.extend({
                     } else {
                         this.maxAmount = 0;
                     }
-                    console.log(this.maxAmount);
                 } else {
                     this.maxAmount = 0;
                 }

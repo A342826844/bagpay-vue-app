@@ -211,7 +211,6 @@ export default Vue.extend({
             if (dioLeng.length < 2) return;
             const { unitDecimal } = this.$store.state;
             const { decimal } = this.coinInfo;
-            console.log(unitDecimal);
             if (value === 'amount') {
                 this.form[value] = `${dioLeng[0]}.${String(dioLeng[1]).replace(/\./g, '').slice(0, decimal)}`;
             } else {
@@ -231,7 +230,6 @@ export default Vue.extend({
                 this.changeLoading(false);
                 this.$router.replace(`/otc/order/detail?id=${res.data.id}`);
             }).catch((err: any) => {
-                console.log(err);
                 this.$normalToast('下单失败');
                 this.changeLoading(false);
             });

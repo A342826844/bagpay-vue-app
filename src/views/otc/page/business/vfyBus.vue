@@ -129,7 +129,6 @@ export default Vue.extend({
     //     this.$nextTick(() => {
     //         const phone = this._userInfo.phone.split('-');
     //         this.form.phone = phone[1] || '';
-    //         console.log(this._userInfo);
     //         this.form.email = this._userInfo.email;
     //     });
     // },

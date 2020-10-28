@@ -40,9 +40,6 @@ export default Vue.extend({
         },
     },
     methods: {
-        testHandle() {
-            console.log(this.$slots);
-        },
         goback() {
             if (typeof this.$listeners.back === 'function') {
                 this.$emit('back');

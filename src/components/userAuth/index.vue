@@ -19,7 +19,7 @@
             <Inputs
                 v-if="sendType.indexOf(3) !== -1"
                 class="safe-verify-item"
-                :placeholder="$t('common.enterEmailCode')"
+                :placeholder="$t('login.vCode')"
                 v-model="emailCode"
                 type="number">
                 <span slot="start" class="auth_label" v-text="formatName(email || _userInfo.email)"></span>
@@ -28,7 +28,7 @@
             <Inputs
                 v-if="sendType.indexOf(5) !== -1"
                 class="safe-verify-item"
-                :placeholder="$t('common.enterGoogleCode')"
+                :placeholder="$t('login.vCode')"
                 v-model="googleCode"
                 type="number">
                 <span slot="start" class="auth_label" v-text="formatName(google || _userInfo.ga)"></span>

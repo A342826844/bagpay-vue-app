@@ -47,5 +47,3 @@ Vue.prototype.$logoutHandle = function () {
     this.$store.commit('setLoginState', 0);
     this.$store.commit('setHideBalance', '');
 };
-
-console.log('entry.common');

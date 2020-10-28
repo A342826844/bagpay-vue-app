@@ -42,15 +42,12 @@ export default Vue.extend({
     methods: {
         plusInitHandle() {
             const plusReady = () => {
-                console.log('plusInitHandle');
                 // Android处理返回键
                 let count = 0;
                 (window as any).plus.key.addEventListener('backbutton', () => {
                     if (count === 0) {
-                        console.log(this.$route.meta.showFooter, this.$route.name);
                         if (!this.$route.meta.showFooter && (this.$route.name !== 'entry')) {
                             this.$router.go(-1);
-                            console.log('true');
                         } else {
                             count += 1;
                             this.$normalToast(this.$t('common.exitProgram'), 2000);

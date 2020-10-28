@@ -21,8 +21,6 @@
                     sticky
                     sticky-top="sub"
                     :defaultVal="active"
-                    @change="tabChangeHandle"
-                    @on-click="clickHandle"
                     class="transfer-tab"
                     :tabList="bodyTabList"
                 >
@@ -205,12 +203,6 @@ export default Vue.extend({
                 this.$store.commit('setAddress', {});
                 this.$router.push(`${path}?symbol=${this.symbol}`);
             }
-        },
-        tabChangeHandle(value: any) {
-            console.log(value);
-        },
-        clickHandle(value: any) {
-            console.log(value);
         },
     },
 });

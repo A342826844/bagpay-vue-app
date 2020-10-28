@@ -68,7 +68,6 @@ export default Vue.extend({
     },
     methods: {
         submitHandle() {
-            console.log('submitHandle');
             if (!this.form.content) {
                 this.$normalToast('请输入申诉原因');
                 return;
@@ -80,11 +79,9 @@ export default Vue.extend({
             this.otcAppealSubmit();
         },
         selectAppealType(item: number) {
-            console.log(item);
             this.form.type = item;
         },
         // afterRead(file: any) {
-        //     console.log(file, 'afterRead');
         //     // 通过 status 属性可以标识上传状态，uploading 表示上传中，failed 表示上传失败，done 表示上传完成。
         //     file.status = 'uploading';
         // },
@@ -112,15 +109,6 @@ export default Vue.extend({
             }).catch(() => {
                 this.changeLoading(false);
             });
-        },
-        textareaInput() {
-            console.log('textareaInput');
-        },
-        showImgHandle() {
-            console.log('showImgHandle');
-        },
-        fileChange() {
-            console.log('fileChange');
         },
     },
 });

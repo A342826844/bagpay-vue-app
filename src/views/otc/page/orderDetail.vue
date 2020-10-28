@@ -242,7 +242,6 @@ export default Vue.extend({
          * @return false (出售 || 卖出)
          */
         getTakerType(taker_side: number, maker_id: number, userId: string|number) {
-            // console.log(taker_side, maker_id, userId);
             if (maker_id === Number(userId)) {
                 // return taker_side === 2; // true => 买入  false => 出售
                 if (taker_side === 2) {
