@@ -81,7 +81,6 @@ export default Vue.extend({
             });
         },
         addHandle() {
-            console.log(this._userInfo.ver_lv);
             if (this._userInfo.ver_lv < 1) {
                 this.$dialog.confirm({
                     title: '温馨提示',

@@ -111,7 +111,6 @@ Vue.mixin({
             return this.$api.getCoinList().then((res: any) => {
                 if (res.data) {
                     this.$store.commit('setSymbolList', res.data);
-                    console.log(res.data, '--------');
                 }
             });
         },

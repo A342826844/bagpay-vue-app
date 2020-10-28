@@ -178,7 +178,6 @@ export default Vue.extend({
         },
         // 去广告详情页
         goAdvState(item: { id: any }) {
-            console.log(item);
             this.$router.push(`/otc/adv/detail?id=${item.id}`);
         },
     },

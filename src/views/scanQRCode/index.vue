@@ -97,24 +97,21 @@ export default {
         },
         // 二维码扫描成功
         onmarked(type, res) {
-            let subType = '';
-            switch (type) {
-            case window.plus.barcode.QR:
-                subType = 'QR';
-                break;
-            case window.plus.barcode.EAN13:
-                subType = 'EAN13';
-                break;
-            case window.plus.barcode.EAN8:
-                subType = 'EAN8';
-                break;
-            default:
-                subType = `其它${type}`;
-                break;
-            }
-            console.log(subType, res, 'subType');
+            // switch (type) {
+            // case window.plus.barcode.QR:
+            //     type = 'QR';
+            //     break;
+            // case window.plus.barcode.EAN13:
+            //     type = 'EAN13';
+            //     break;
+            // case window.plus.barcode.EAN8:
+            //     type = 'EAN8';
+            //     break;
+            // default:
+            //     type = `其它${type}`;
+            //     break;
+            // }
             const result = res.replace(/\r\n/g, '');
-            console.log(result, 'result');
             if (Number(this.$router.query.type) === 1) {
                 const data = getQueryUrl(result);
                 console.log(data, '====');

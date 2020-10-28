@@ -72,9 +72,6 @@ export default Vue.extend({
             hideBalance: this.$store.state.hideBalance,
         };
     },
-    created() {
-        console.log(langType);
-    },
     methods: {
         _change(val: any) {
             this.$store.commit('setHideBalance', val);

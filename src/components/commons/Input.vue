@@ -124,7 +124,6 @@ export default Vue.extend({
             }, 50);
         },
         decimalHandle(decimal: number) {
-            console.log(this.inputV);
             if ((this.inputV.includes('.') && this.inputV.split('.')[1].length) > decimal) {
                 this.inputV = `${this.inputV.split('.')[0]}.${this.inputV.split('.')[1].slice(0, decimal)}`;
             }

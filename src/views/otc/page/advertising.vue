@@ -207,7 +207,6 @@ export default Vue.extend({
         next((vm: any) => {
             if (from.name === 'choisesymbol') {
                 const symbol = sessionStorage.getItem('symbol');
-                console.log(symbol);
                 vm.setCoin(symbol);
             } else if (from.name === 'PaywaySelect') {
                 vm.selectPayType(vm.$store.state.bankInfo.type);
@@ -258,7 +257,6 @@ export default Vue.extend({
             this.form.remark = '';
         },
         submitHandle() {
-            console.log(this.pay_types);
             if (!Number(this.form.price)) {
                 this.$normalToast('请输入价格');
                 return;
@@ -292,7 +290,6 @@ export default Vue.extend({
                 return;
             }
             if (Number(this.form.min_value) > Number(this.total)) {
-                console.log(this.form.min_value, this.total);
                 this.$normalToast('单笔最低限额不能大于支付金额');
                 return;
             }

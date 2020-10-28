@@ -60,7 +60,6 @@ export const copyText = (value: string) => {
         const msg = document.execCommand('copy') ? i18n.t('common.copySuccessful') : i18n.t('common.copyUnsuccessful');
         normalToast(msg, 1000);
         document.body.removeChild(a);
-        console.log(msg, '===');
         if (document.execCommand('copy')) {
             normalToast(i18n.t('common.copySuccessful'));
             return true;
