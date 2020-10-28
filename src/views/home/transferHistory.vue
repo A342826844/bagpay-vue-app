@@ -247,6 +247,7 @@ export default Vue.extend({
             &>ul{
                 &>li{
                     height: 142px;
+                    align-items: flex-start;
                     .values{
                         &:first-child{
                             text-align: left;
