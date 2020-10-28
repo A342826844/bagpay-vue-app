@@ -59,13 +59,17 @@
             autocomplete="current-password"
             type="password"
           />
+          <V-Checkbox class="login-form-item login-form-check" v-model="checked" shape="square">
+           {{ $t("login.registTip") }}
+           《<span class="primary-color" @click.stop="$router.push('/mine/protocol')">{{$app_mark}}{{ $t("login.userProtocol") }}</span>》
+          </V-Checkbox>
         </form>
       </div>
 
     </TitleHeader>
     <div class="lxa-footer-btn">
       <Button @click="loginHandle" v-t="'login.register'"
-        :disabled="!form.nickname || !form.phone || !form.imgCode || !form.code || !form.password || !form.confirmPassword"></Button>
+        :disabled="!form.nickname || !form.phone || !form.imgCode || !form.code || !form.password || !form.confirmPassword || !checked"></Button>
     </div>
   </div>
 </template>
@@ -89,6 +93,7 @@ type data = {
   imgUrl: string;
   imgCode: string;
   form: form;
+  checked: boolean;
 };
 
 export default Vue.extend({
@@ -100,6 +105,7 @@ export default Vue.extend({
         return {
             imgUrl: '',
             imgCode: '',
+            checked: true,
             form: {
                 code: '',
                 nickname: '',

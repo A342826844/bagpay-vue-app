@@ -80,10 +80,10 @@
           </PoptipItem>
         </Poptip>
         <div class="check_cont">
-          <van-checkbox v-model="checked" shape="square">
+          <V-Checkbox v-model="checked" shape="square">
            {{ $t("business.vfiBusTip3") }}
            《<span class="primary-color" @click.stop="$router.push('/otc/protocol')">{{ $t("business.vfiBusTip4") }}</span>》
-          </van-checkbox>
+          </V-Checkbox>
         </div>
         <Button
           @click="deposit"
@@ -99,13 +99,10 @@
 <script lang="ts">
 import Vue from 'vue';
 import { SocialType, Relationship } from '@/commons/config/index';
-import 'vant/lib/checkbox/style';
-import { Checkbox } from 'vant';
+// import 'vant/lib/checkbox/style';
+// import { Checkbox } from 'vant';
 
 export default Vue.extend({
-    components: {
-        VanCheckbox: Checkbox,
-    },
     data() {
         return {
             SocialType,
@@ -134,7 +131,10 @@ export default Vue.extend({
     // },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
-            vm.initForm();
+            console.log(from.name);
+            if (from.name !== 'OtcProtocol') {
+                vm.initForm();
+            }
         });
     },
     computed: {
@@ -144,6 +144,16 @@ export default Vue.extend({
     },
     methods: {
         initForm() {
+            this.form = {
+                phone: '',
+                email: '',
+                socialType: '0',
+                social: '',
+                iceName: '',
+                icePhone: '',
+                iceRelation: '0',
+                address: '',
+            };
             this.form.phone = this._getPhone;
             this.form.email = '';
         },

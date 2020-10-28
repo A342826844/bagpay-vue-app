@@ -84,6 +84,9 @@ const routes: Array<RouteConfig> = [
         path: '/mine/protocol',
         name: 'mineprotocol',
         component: MineProtocol,
+        meta: {
+            noLogin: true,
+        },
     },
     {
         path: '/register',
@@ -198,6 +201,9 @@ const routes: Array<RouteConfig> = [
             path: 'vfyBus',
             name: 'otcVfyBus',
             component: VfyBus,
+            meta: {
+                keepAlive: true,
+            },
         }, {
             path: 'advStatus',
             name: 'otcAdvStatus',

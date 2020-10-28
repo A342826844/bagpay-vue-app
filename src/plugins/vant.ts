@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 import {
-    Dialog, Toast, Switch, Field, Button, Tab, Tabs, PullRefresh, Popup, Uploader, PasswordInput, NumberKeyboard,
+    Dialog, Toast, Switch, Field, Button, Tab, Tabs, PullRefresh, Popup, Uploader, PasswordInput, NumberKeyboard, Checkbox,
 } from 'vant';
 import 'vant/lib/dialog/style';
 import 'vant/lib/switch/style';
@@ -16,6 +16,7 @@ import 'vant/lib/image-preview/style';
 import 'vant/lib/password-input/style';
 import 'vant/lib/number-keyboard/style';
 import 'vant/lib/toast/style';
+import 'vant/lib/checkbox/style';
 
 // import Dialog from 'vant/lib/dialog';
 
@@ -38,6 +39,7 @@ Vue.component('V-Switch', Switch);
 Vue.component('V-Field', Field);
 Vue.component('V-Pass-Input', PasswordInput);
 Vue.component('V-Num-Key', NumberKeyboard);
+Vue.component('V-Checkbox', Checkbox);
 Vue.use(Dialog);
 Vue.use(Toast);
 // Vue.use(ImagePreview);

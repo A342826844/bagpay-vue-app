@@ -35,7 +35,7 @@ function pwd2Vfi(pwd: string, pwd2: string) {
 
 // 身份证验证
 function idCardVfi(idCard: string) {
-    const reg = /^[A-Za-z0-9]{4,40}$/;
+    const reg = /^[A-Za-z0-9]{8,30}$/;
     const vfi: boolean = reg.test(idCard);
     if (vfi === false) normalToast(i18n.t('error.idCardErr'));
     return vfi;

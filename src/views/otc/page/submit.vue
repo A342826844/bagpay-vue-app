@@ -239,7 +239,7 @@ export default Vue.extend({
             this.$api.otcDealSubmit(params).then((res: any) => {
                 this.changeLoading(false);
                 this.$router.replace(`/otc/order/detail?id=${res.data.id}`);
-            }).catch((err: any) => {
+            }).catch(() => {
                 this.$normalToast('下单失败');
                 this.changeLoading(false);
             });
