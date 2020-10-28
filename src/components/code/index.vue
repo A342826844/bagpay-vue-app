@@ -35,6 +35,14 @@ export default Vue.extend({
             return this.$store.state.country;
         },
     },
+    activated() {
+        this.isLoading = false;
+        if (this.timer) {
+            clearInterval(this.timer as any);
+        }
+        this.codeTxt = `${this.$t('common.send2')}`;
+        this.timeNum = 0;
+    },
     methods: {
         sendHandle() {
             if (this.isLoading) return;
