@@ -256,7 +256,6 @@ export default Vue.extend({
                         }
                         .status_label{
                             font-size: 34px;
-                            margin-left: 40px;
                             color:#5894EE;
                             &.grey{
                                 color: #A6A6A6;
