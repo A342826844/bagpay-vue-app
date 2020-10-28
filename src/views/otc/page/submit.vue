@@ -70,6 +70,7 @@
                 </Poptip>
             </div>
         </TitleHeader>
+        <user-auth ref="UserAuth" :type="10" @save="saveHandle"></user-auth>
         <div class="otc-submit-btn custom-footer app-size-34 flex-around-c">
             <Button :radius="false" @click="$router.go(-1)" type="cancel">取消（{{download}} s）</Button>
             <Button :radius="false" @click="submitHandle" :disabled="!form.amount || !form.value" type="up">确定</Button>
@@ -184,7 +185,15 @@ export default Vue.extend({
             // }).then(() => {
             //     this.otcDealSubmit();
             // });
-            this.otcDealSubmit();
+            console.log(this.orderDetail);
+            if (this.orderDetail.type === 1) {
+                (this.$refs.UserAuth as any).open();
+            } else {
+                this.otcDealSubmit({});
+            }
+        },
+        saveHandle(data: any) {
+            this.otcDealSubmit(data);
         },
         inputAmount(value: 'amount'|'value') {
             this.inputSliceHandle(value);
@@ -218,12 +227,13 @@ export default Vue.extend({
                 this.form[value] = `${dioLeng[0]}.${String(dioLeng[1]).replace(/\./g, '').slice(0, unitDecimal)}`;
             }
         },
-        otcDealSubmit() {
+        otcDealSubmit(data: any) {
             const params = {
                 order_id: this.orderDetail.id, // [int64] 广告id
                 pay_type: Number(this.orderDetail.pay_types), // [PayType] 支付类型
                 price: this.orderDetail.price, // [float64] 价格
                 amount: Number(this.form.amount), // [float64] 数量
+                ...data,
             };
             if (this._loading) return;
             this.changeLoading(true);

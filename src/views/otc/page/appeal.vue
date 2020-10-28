@@ -26,7 +26,7 @@
             </div>
         </form>
         <div class="app-size-34 lxa-footer-btn flex-around-c">
-            <Button @click="submitHandle" >确定</Button>
+            <Button :disabled="!form.content || !fileList.length" @click="submitHandle" >确定</Button>
         </div>
         <SelectPopup v-model="selectPopup">
             <SelectPopupItem
@@ -128,7 +128,6 @@ export default Vue.extend({
 <style lang="less" scoped>
 .otc-appeal{
     height: 100%;
-    padding-bottom: 100px;
     overflow: scroll;
     text-align: left;
     .form-item{

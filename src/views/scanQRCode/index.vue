@@ -38,11 +38,13 @@ export default {
         next((vm) => {
             vm.$store.commit('changgeQrcodeResult', '');
             // H5 plus事件处理
-            if (window.plus) {
-                vm.plusReady();
-            } else {
-                document.addEventListener('plusready', vm.plusReady, false);
-            }
+            vm.$nextTick(() => {
+                if (window.plus) {
+                    vm.plusReady();
+                } else {
+                    document.addEventListener('plusready', vm.plusReady, false);
+                }
+            });
         });
     },
     // created() {
@@ -70,13 +72,21 @@ export default {
             // 获取窗口对象
             this.ws = window.plus.webview.currentWebview();
             // this.ws = this.$refs.qrcode;
-            this.scan = new window.plus.barcode.Barcode('bcid');
+            this.scan = window.plus.barcode.create('barcode', [window.plus.barcode.QR], {
+                top: '0',
+                left: '0',
+                width: '100%',
+                height: '100%',
+                scanbarColor: '#1DA7FF',
+                position: 'static',
+                frameColor: '#1DA7FF',
+            });
             this.scan.onmarked = this.onmarked;
             this.scan.start();
+            this.ws.append(this.scan);
             this.createSubview();
         },
         scanPicture() {
-            console.log('121212');
             window.plus.gallery.pick((path) => {
                 window.plus.barcode.scan(path, this.onmarked, () => {
                     window.plus.nativeUI.toast(this.$t('无法识别此图片'));
@@ -87,25 +97,27 @@ export default {
         },
         // 二维码扫描成功
         onmarked(type, res) {
-            // switch (type) {
-            // case window.plus.barcode.QR:
-            //     type = 'QR';
-            //     break;
-            // case window.plus.barcode.EAN13:
-            //     type = 'EAN13';
-            //     break;
-            // case window.plus.barcode.EAN8:
-            //     type = 'EAN8';
-            //     break;
-            // default:
-            //     type = `其它${type}`;
-            //     break;
-            // }
-            console.log(type, res);
+            let subType = '';
+            switch (type) {
+            case window.plus.barcode.QR:
+                subType = 'QR';
+                break;
+            case window.plus.barcode.EAN13:
+                subType = 'EAN13';
+                break;
+            case window.plus.barcode.EAN8:
+                subType = 'EAN8';
+                break;
+            default:
+                subType = `其它${type}`;
+                break;
+            }
+            console.log(subType, res, 'subType');
             const result = res.replace(/\r\n/g, '');
             console.log(result, 'result');
             if (Number(this.$router.query.type) === 1) {
                 const data = getQueryUrl(result);
+                console.log(data, '====');
                 if (data.address) {
                     this.$store.commit('setAddress', {
                         address: data.address,
@@ -118,7 +130,8 @@ export default {
                 return;
             }
             this.$store.commit('changgeQrcodeResult', result);
-            this.$router.go(-1);
+            // this.$router.go(-1);
+            this.goBackHandle(true);
         },
         createSubview() {
             const baise_go = 'baise_go.png';

@@ -114,10 +114,10 @@
             <Button @click="cancleHandle" v-if="showPayBtn" type="cancel">取消</Button>
             <Button @click="otcDealPadiHandle" v-if="showPayBtn">标记已支付</Button>
             <Button @click="appealHandle" v-if="orderDetail.state === 1&&!orderDetail.appealing" type="down">申诉</Button>
-            <Button @click="cancleAppealHandle" v-if="orderDetail.appealing" type="down">取消申诉</Button>
-            <Button @click="releaseHandle" v-if="showReleasBtn" type="up">释放</Button>
+            <Button @click="cancleAppealHandle" v-if="orderDetail.appealing && (appealData.uid === Number(_userInfo.id))" type="down">取消申诉</Button>
+            <Button @click="releaseHandle" v-if="showReleasBtn && !orderDetail.appealing" type="up">释放</Button>
+            <Button @click="showAppealing" v-if="showReleasBtn && orderDetail.appealing" type="down">申诉中</Button>
         </div>
-        <user-auth ref="UserAuth" :type="10" @save="saveHandle"></user-auth>
         <van-dialog v-model="show" close-on-click-overlay :show-confirm-button="false" title="支付方式">
             <div class="pay-dialog app-padding40">
                 <div class="flex-between-c">
@@ -271,6 +271,12 @@ export default Vue.extend({
                 this.isLoading = false;
             });
         },
+        showAppealing() {
+            this.$dialog.alert({
+                title: '温馨提示',
+                message: '此订单在申诉中， 如有疑问请联系客服',
+            });
+        },
         otcAppealByOrderId() {
             return this.$api.otcAppealByOrderId(this.id).then((res: any) => {
                 if (res.data) {
@@ -370,20 +376,17 @@ export default Vue.extend({
                     <span class="red-color">如果您未收到买家付款， 请不要释放交易</span>
                 </div>`,
             }).then(() => {
-                (this.$refs.UserAuth as any).open();
-            });
-        },
-        saveHandle(data: any) {
-            this.changeLoading(true);
-            this.$api.otcDealRelease(this.orderDetail.id, data).then(() => {
-                this.changeLoading(false);
-                this.getOrderData();
-                this.$normalToast('释放成功');
-            }).catch((err: any) => {
-                this.changeLoading(false);
-                if (!err.data) {
-                    this.$normalToast('网络错误，刷新后重试');
-                }
+                this.changeLoading(true);
+                this.$api.otcDealRelease(this.orderDetail.id).then(() => {
+                    this.changeLoading(false);
+                    this.getOrderData();
+                    this.$normalToast('释放成功');
+                }).catch((err: any) => {
+                    this.changeLoading(false);
+                    if (!err.data) {
+                        this.$normalToast('网络错误，刷新后重试');
+                    }
+                });
             });
         },
         otcDealPadiHandle() {
