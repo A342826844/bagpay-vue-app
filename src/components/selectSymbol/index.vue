@@ -133,7 +133,7 @@ export default Vue.extend({
         margin-right: 20px;
         img{
             width: 100px;
-            margin-bottom: 20px;
+            margin-bottom: 60px;
         }
     }
     .select-symbol-right{
