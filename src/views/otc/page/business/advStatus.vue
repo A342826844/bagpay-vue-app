@@ -4,6 +4,9 @@
         <img :src="getImg()" alt="" class="img_cont">
         <div class="status_txt">{{statusTxt}}</div>
     </TitleHeader>
+    <div class="lxa-footer-btn" v-if="status === '2'">
+        <Button @click="reset" v-t="'mine.resetReal'"></Button>
+    </div>
   </div>
 </template>
 
@@ -18,6 +21,9 @@ export default Vue.extend({
         };
     },
     methods: {
+        reset() {
+            this.$router.replace('/otc/vfyBus');
+        },
         getImg() {
             switch (this.status) {
             case '0':

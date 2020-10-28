@@ -1,6 +1,7 @@
 <template>
   <div class="ver_lv">
-    <TitleHeader :title="`${$t('mine.realName')}(LV1)`" />
+    <TitleHeader :title="`${$t('mine.realName')}`" />
+    <p class="realname-tip app-padding40">当前认证等级(LV1)</p>
     <div class="realname-form app-padding40">
       <div class="form-item">
         <Inputs v-model="form.userName" :placeholder="$t('payway.name')" clearable></Inputs>
@@ -101,9 +102,10 @@ export default Vue.extend({
 }
 .realname-tip {
   text-align: left;
+  padding-top: 34px;
 }
 .realname-form {
-  margin-top: 109px;
+  margin-top: 100px;
   .form-item {
     margin-top: 30px;
   }

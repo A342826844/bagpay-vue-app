@@ -86,7 +86,6 @@ type form = {
 };
 
 type data = {
-  isLoading: boolean;
   imgUrl: string;
   imgCode: string;
   form: form;
@@ -99,7 +98,6 @@ export default Vue.extend({
     },
     data(): data {
         return {
-            isLoading: false,
             imgUrl: '',
             imgCode: '',
             form: {
@@ -141,9 +139,7 @@ export default Vue.extend({
             };
         },
         loginHandle() {
-            if (this.isLoading) return;
-            this.isLoading = true;
-            this.changeLoading(true);
+            if (this._loading) return;
             const vfi: boolean = this.$verification.fromVfi([
                 {
                     type: 'name',
@@ -172,6 +168,7 @@ export default Vue.extend({
                 },
             ]);
             if (vfi) {
+                this.changeLoading(true);
                 this.$api.register({
                     nickname: this.form.nickname,
                     passport: `${this.country.tel}-${this.form.phone}`,
@@ -183,12 +180,11 @@ export default Vue.extend({
                             message: '注册成功',
                             icon: assetsS,
                             onClose: () => {
-                                this.$router.replace('/login');
+                                this.$router.replace(`/login?phone=${this.form.phone}`);
                             },
                         });
                     }
                 }).finally(() => {
-                    this.isLoading = false;
                     this.changeLoading(false);
                 });
             }

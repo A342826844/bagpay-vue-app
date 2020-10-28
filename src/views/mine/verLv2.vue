@@ -1,7 +1,7 @@
 <template>
     <div class="realname">
-        <TitleHeader :title="`${$t('mine.realName')}(LV2)`">
-            <!-- <p class="app-padding40 realname-tip">申请实名认证</p> -->
+        <TitleHeader :title="`${$t('mine.realName')}`">
+            <p class="realname-tip app-padding40">当前认证等级(LV2)</p>
             <form class="realname-form app-padding40" action="">
                 <ul>
                     <li v-for="item in uploadList" :key="item.name">
@@ -192,7 +192,7 @@ export default Vue.extend({
         text-align: left;
     }
     &-form{
-        margin-top: 109px;
+        margin-top: 100px;
         .form-item{
             margin-top: 30px;
         }

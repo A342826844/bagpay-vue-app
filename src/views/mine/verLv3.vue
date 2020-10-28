@@ -1,7 +1,7 @@
 <template>
     <div class="realname">
-        <TitleHeader :title="`${$t('mine.realName')}(LV3)`">
-            <!-- <p class="app-padding40 realname-tip">申请实名认证</p> -->
+        <TitleHeader :title="`${$t('mine.realName')}`">
+            <p class="realname-tip app-padding40">当前认证等级(LV3)</p>
             <form class="realname-form app-padding40" action="">
                 <ul>
                     <li>
@@ -14,14 +14,11 @@
                     </li>
                 </ul>
             </form>
-            <Poptip>
-                <PoptipItem>
-                    {{$t('mine.verLv3Tip1')}}
-                </PoptipItem>
-                <PoptipItem>
-                    {{$t('mine.verLv3Tip2')}}
-                </PoptipItem>
-            </Poptip>
+            <div class="label_txt">请录制视频时口述以下内容：</div>
+            <div class="label_cont">
+                <div class="label_item">{{$t('mine.verLv3Tip1')}}</div>
+                <div class="label_item">{{$t('mine.verLv3Tip2')}}</div>
+            </div>
         </TitleHeader>
     </div>
 </template>
@@ -121,8 +118,26 @@ export default Vue.extend({
         margin-top: 34px;
         text-align: left;
     }
+    .label_txt{
+        color: #3E80CA;
+        text-align: left;
+        padding: 80px 40px 20px;
+    }
+    .label_cont{
+        background-color: #F4F6F9;
+        margin: 0 40px 80px;
+        padding: 40px;
+        font-size: 28px;
+        text-align: left;
+        .label_item{
+            line-height: 50px;
+            &+.label_item{
+                margin-top: 40px;
+            }
+        }
+    }
     &-form{
-        margin-top: 109px;
+        margin-top: 100px;
         .form-item{
             margin-top: 30px;
         }

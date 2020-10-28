@@ -13,7 +13,8 @@
         <div class="home-assets flex-around-s flex-column">
             <h4 class="home-assets-account" @click="_change">
                 $<span class="home-assets-value">{{
-                    hide === '1' ? '****' : changeRate(activeCoin.available + activeCoin.otc_frozen + activeCoin.sys_frozen, symbol)
+                    hide === '1' ? '****' :
+                    changeRate(activeCoin.available + activeCoin.otc_frozen + activeCoin.sys_frozen + activeCoin.withdraw_frozen, symbol)
                 }}</span>
             </h4>
             <div class="home-assets-address flex-between-c">
