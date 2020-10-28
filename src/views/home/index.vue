@@ -131,7 +131,7 @@ export default Vue.extend({
             if (!value) {
                 return '0';
             }
-            return (value * this.rate[coin]).toFixed(this.unitDecimal);
+            return (value * (this.rate[coin] || 0)).toFixed(this.unitDecimal);
         },
         getDeposit() {
             return this.$api.getDeposit({

@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="values">
                                     <h5 class="value">{{item.amount}}</h5>
-                                    <p class="sub-value">手续费：<span class="price">0</span></p>
+                                    <p class="sub-value">手续费：<span class="price">{{item.fee || 0}}</span></p>
                                 </div>
                             </li>
                         </ul>

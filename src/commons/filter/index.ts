@@ -46,7 +46,7 @@ Vue.filter('depositState', (state: 0|1|2) => {
 });
 
 // 充值类型 DepositType
-Vue.filter('depositState', (state: 0|1) => {
+Vue.filter('depositType', (state: 0|1) => {
     // DepositTypeNormal      DepositType = 0 //链上转入
 	// DepositTypeInternal    DepositType = 1 //内部转入
     const states = {
