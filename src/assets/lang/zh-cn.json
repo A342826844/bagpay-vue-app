@@ -12,6 +12,8 @@
         "invitationFail": "分享失败",
         "save": "保 存",
         "scan": "扫一扫",
+        "imgTooBig": "图片太大",
+        "compressing": "压缩中",
         "bFlash": "闪光灯",
         "scanPicture": "相  册",
         "cancle": "取 消",

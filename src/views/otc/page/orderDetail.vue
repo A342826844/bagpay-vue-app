@@ -117,7 +117,9 @@
                 取消申诉
             </Button>
             <Button @click="releaseHandle" v-if="showReleasBtn && !orderDetail.appealing" type="up">释放</Button>
-            <Button @click="showAppealing" v-if="showReleasBtn && orderDetail.appealing" type="down">申诉中</Button>
+            <Button @click="showAppealing" v-if="orderDetail.appealing && !appealingStatus(appealData.uid, appealData.user_type)" type="down">
+                申诉中
+            </Button>
         </div>
         <van-dialog v-model="show" close-on-click-overlay :show-confirm-button="false" title="支付方式">
             <div class="pay-dialog app-padding40">
@@ -262,7 +264,7 @@ export default Vue.extend({
             if (uid === Number(this._userInfo.id) && type === 1) {
                 return true;
             }
-            if (uid !== Number(this._userInfo.id) && type === 2) {
+            if (uid === Number(this._userInfo.id) && type === 2) {
                 return true;
             }
             return false;

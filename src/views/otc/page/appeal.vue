@@ -22,7 +22,7 @@
             </div>
             <div class="form-item">
                 <div class="lable">上传图片凭证</div>
-                <V-Uploader :max-count="3" v-model="fileList" multiple></V-Uploader>
+                <V-Uploader :after-read="afterRead" :max-count="3" v-model="fileList" multiple></V-Uploader>
             </div>
         </form>
         <div class="app-size-34 lxa-footer-btn flex-around-c">
@@ -81,10 +81,18 @@ export default Vue.extend({
         selectAppealType(item: number) {
             this.form.type = item;
         },
-        // afterRead(file: any) {
-        //     // 通过 status 属性可以标识上传状态，uploading 表示上传中，failed 表示上传失败，done 表示上传完成。
-        //     file.status = 'uploading';
-        // },
+        afterRead(file: any) {
+            // 通过 status 属性可以标识上传状态，uploading 表示上传中，failed 表示上传失败，done 表示上传完成。
+            file.status = 'uploading';
+            file.message = this.$t('common.compressing');
+            this.$compress(file.file).then((res: any) => {
+                file.file = res;
+                file.status = 'done';
+            }).catch(() => {
+                file.status = 'failed';
+                file.message = this.$t('common.imgTooBig');
+            });
+        },
         otcAppealSubmit() {
             // const params = {
             //     deal_id: this.id, // [string] 订单id
