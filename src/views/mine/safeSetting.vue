@@ -88,14 +88,15 @@ export default Vue.extend({
             this.$api.getVerStutas().then((res: any) => {
                 if (res.code === 0) {
                     this.verLvStatus = res.data;
+                    const verLv = this._userInfo.ver_lv < 3 ? this._userInfo.ver_lv + 1 : this._userInfo.ver_lv;
                     if (this._userInfo.ver_lv === 0) {
                         this.verLvTxt = '未认证';
                         this.verLvClass = 'red-color';
                     } else if (this.verLvStatus.status_lv_1 === 1 || this.verLvStatus.status_lv_2 === 1 || this.verLvStatus.status_lv_3 === 1) {
-                        this.verLvTxt = `审核中(LV${this._userInfo.ver_lv + 1})`;
+                        this.verLvTxt = `审核中(LV${verLv})`;
                         this.verLvClass = 'primary-color';
                     } else if (this.verLvStatus.status_lv_1 === 3 || this.verLvStatus.status_lv_2 === 3 || this.verLvStatus.status_lv_3 === 3) {
-                        this.verLvTxt = `未通过(LV${this._userInfo.ver_lv + 1})`;
+                        this.verLvTxt = `未通过(LV${verLv})`;
                         this.verLvClass = 'red-color';
                     } else if (this.verLvStatus.status_lv_1 === 2 || this.verLvStatus.status_lv_2 === 2 || this.verLvStatus.status_lv_3 === 2) {
                         this.verLvTxt = `已认证(LV${this._userInfo.ver_lv})`;
