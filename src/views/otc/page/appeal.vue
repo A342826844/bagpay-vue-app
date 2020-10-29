@@ -102,7 +102,9 @@ export default Vue.extend({
             // };
             const params: any = new FormData();
             this.fileList.forEach((item: any) => {
-                params.append('images', item.file);
+                if (item.status === 'done') {
+                    params.append('images', item.file);
+                }
             });
             params.append('deal_id', this.id);
             params.append('type', `${this.form.type}`);

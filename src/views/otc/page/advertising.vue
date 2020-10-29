@@ -15,11 +15,14 @@
                 :tabList="bodyTabList"
             >
                 <div v-for="item in bodyTabList" :key="item.type" :slot="item.value" class="app-padding40">
+                    {{item.type}}
                     <form @submit.prevent="" class="otc-advertising-form app-size-34" action="">
                         <div class="form-item">
-                            <Select @click="$router.push(`/choisesymbol?symbol=${form.coin}&type=1`)">
-                                <IconImg class="app-img-50 form-item-start" :symbol="form.coin"/>
-                                <span class="form-item-select-coin vertical-m">{{coinSHow}}</span>
+                            <Select @click="$router.push(`/choisesymbol?symbol=${formTemp['form'+item.type].coin}&type=1`)">
+                                <IconImg class="app-img-50 form-item-start" :symbol="formTemp['form'+item.type].coin"/>
+                                <span class="form-item-select-coin vertical-m">
+                                    {{formTemp['form'+item.type].coin && formTemp['form'+item.type].coin.toUpperCase()}}
+                                </span>
                             </Select>
                         </div>
                         <!-- <div @click="selectPopup = !selectPopup" class="form-item">
@@ -31,13 +34,19 @@
                             <Inputs v-model="form.floating_rate" placeholder="溢价率(30~50)">%</Inputs>
                         </div> -->
                         <div class="form-item">
-                            <Inputs decimal type="number" :autofocus="true" v-model="form.price" :placeholder="`${item.title}价格`">
+                            <Inputs
+                                decimal
+                                type="number"
+                                :autofocus="true"
+                                v-model="formTemp[`form${item.type}`].price"
+                                :placeholder="`${item.title}价格`"
+                            >
                                 <span class="form-item-start" slot="start">价格</span>
                                 {{_unitIcon}}
                             </Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs :decimal="2" v-model="form.amount" :placeholder="`${item.title}数量`">
+                            <Inputs :decimal="2" v-model="formTemp[`form${item.type}`].amount" :placeholder="`${item.title}数量`">
                                 <span class="form-item-start" slot="start">数量</span>
                                 {{coinSHow}}
                             </Inputs>
@@ -49,13 +58,13 @@
                             </Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs decimal v-model="form.min_value" placeholder="单笔最低限额">
+                            <Inputs decimal v-model="formTemp[`form${item.type}`].min_value" placeholder="单笔最低限额">
                                 <span class="form-item-start" slot="start">最低</span>
                                 {{_unitIcon}}
                             </Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs decimal v-model="form.max_value" placeholder="单笔最高限额">
+                            <Inputs decimal v-model="formTemp[`form${item.type}`].max_value" placeholder="单笔最高限额">
                                 <span class="form-item-start" slot="start">最高</span>
                                 {{_unitIcon}}
                             </Inputs>
@@ -70,15 +79,15 @@
                                     <span v-show="bankInfo.type">{{bankInfo.type | payType}}</span>
                                     <span v-show="!bankInfo.type">收款方式</span>
                                 </span> -->
-                                <span v-if="pay_types.length" class="vertical-m">{{pay_types[0] | payType}}</span>
-                                <span v-if="!pay_types.length" class="vertical-m">{{form.type === 1 ? '支付方式' : '收款方式'}}</span>
+                                <span v-if="formTemp[`form${item.type}`].length" class="vertical-m">{{pay_types[0] | payType}}</span>
+                                <span v-if="!formTemp[`form${item.type}`].length" class="vertical-m">{{item.type === 1 ? '支付方式' : '收款方式'}}</span>
                             </Select>
                         </div>
                         <!-- TODO 备注 -->
                         <div class="form-item text-align-l">备注</div>
                         <div class="form-item">
                             <V-Field
-                                v-model="form.remark"
+                                v-model="formTemp[`form${item.type}`].remark"
                                 rows="3"
                                 autosize
                                 type="textarea"
@@ -104,7 +113,15 @@
                         </PoptipItem>
                     </Poptip>
                     <div class="app-size-34 lxa-footer-btn">
-                        <Button @click="submitHandle" :disabled="!form.price || !form.amount || !form.min_value || !form.max_value">发 布</Button>
+                        <Button
+                            @click="submitHandle"
+                            :disabled="!formTemp[`form${item.type}`].price
+                            ||
+                            !formTemp[`form${item.type}`].amount
+                            ||
+                            !formTemp[`form${item.type}`].min_value
+                            ||
+                            !formTemp[`form${item.type}`].max_value">发 布</Button>
                     </div>
                 </div>
             </TabList>
@@ -132,6 +149,7 @@ type data = {
     selectPopup: boolean;
     payPopup: boolean;
     exchangeRate: any;
+    type: 1|2;
     form: {
         price: string|number;
         amount: string|number;
@@ -143,6 +161,34 @@ type data = {
         remark: string|number;
         min_value: string|number;
         max_value: string|number;
+    };
+    formTemp: {
+        form1: {
+            price: string|number;
+            amount: string|number;
+            type: string|number;
+            coin: string|number;
+            country: number;
+            currency: number;
+            floating_rate: string|number;
+            remark: string|number;
+            min_value: string|number;
+            max_value: string|number;
+            pay_types: Array<any>;
+        };
+        form2: {
+            price: string|number;
+            amount: string|number;
+            type: string|number;
+            coin: string|number;
+            country: number;
+            currency: number;
+            floating_rate: string|number;
+            remark: string|number;
+            min_value: string|number;
+            max_value: string|number;
+            pay_types: Array<any>;
+        };
     };
 }
 
@@ -157,6 +203,7 @@ export default Vue.extend({
             payPopup: false,
             pay_types: [], // TODO: 出售和购买的支付方式不一样
             exchangeRate: {},
+            type: 1,
             form: {
                 coin: '',
                 type: 1,
@@ -169,21 +216,52 @@ export default Vue.extend({
                 country: 1,
                 currency: 1,
             },
+            formTemp: {
+                form1: {
+                    coin: '',
+                    type: 1,
+                    price: '',
+                    amount: '',
+                    min_value: '',
+                    max_value: '',
+                    floating_rate: 0,
+                    remark: '',
+                    country: 1,
+                    currency: 1,
+                    pay_types: [],
+                },
+                form2: {
+                    coin: '',
+                    type: 1,
+                    price: '',
+                    amount: '',
+                    min_value: '',
+                    max_value: '',
+                    floating_rate: 0,
+                    remark: '',
+                    country: 1,
+                    currency: 1,
+                    pay_types: [],
+                },
+            },
         };
     },
     computed: {
         coinInfo(): CoinInfo {
-            return this.$store.getters.getCoinInfo(this.form.coin);
+            return this.$store.getters.getCoinInfo(this.formTemp[this.typeKey].coin);
         },
         coinSHow(): string {
-            return ((this as any).form.coin || '').toUpperCase();
+            return ((this as any).formTemp[this.typeKey].coin || '').toUpperCase();
         },
         total(): string {
-            const res = Number((this as any).form.amount) * Number((this as any).form.price);
+            const res = Number((this as any).formTemp[this.typeKey].amount) * Number((this as any).formTemp[this.typeKey].price);
             return res ? res.toFixed(2) : '';
         },
         bankInfo(): any {
             return this.$store.state.bankInfo;
+        },
+        typeKey(): 'form1'| 'form2' {
+            return (`form${this.type}` as 'form1'| 'form2');
         },
         bodyTabList(): any {
             return [
@@ -200,7 +278,8 @@ export default Vue.extend({
         },
     },
     created() {
-        this.form.coin = (this.$route.query.symbol as string) || '';
+        this.formTemp.form1.coin = (this.$route.query.symbol as string) || '';
+        this.formTemp.form2.coin = (this.$route.query.symbol as string) || '';
         this.getExchangeRate();
     },
     beforeRouteEnter(to, from, next) {
@@ -219,9 +298,11 @@ export default Vue.extend({
     methods: {
         tabChangeHandle(item: any) {
             this.form.type = item.type;
+            this.type = item.type;
         },
         setCoin(coin: string) {
-            this.form.coin = coin;
+            const key: 'form1'|'form2' = (`form${this.type}` as 'form1'|'form2');
+            this.formTemp[key].coin = coin;
         },
         getExchangeRate() {
             this.$api.getExchangeRate().then((res: any) => {
@@ -231,12 +312,12 @@ export default Vue.extend({
             });
         },
         changePrice() {
-            if (this.exchangeRate[this.form.coin]) {
-                this.form.price = `${this.exchangeRate[this.form.coin]}`;
+            if (this.exchangeRate[this.formTemp[this.typeKey].coin]) {
+                this.formTemp[this.typeKey].price = `${this.exchangeRate[this.formTemp[this.typeKey].coin]}`;
             }
         },
         selectPayHandle() {
-            if (this.form.type === 1) {
+            if (this.formTemp[this.typeKey].type === 1) {
                 this.payPopup = !this.payPopup;
             } else {
                 //  TODO: 跳收款方式
@@ -245,59 +326,65 @@ export default Vue.extend({
         },
         selectPayType(item: number) {
             if (item) {
-                this.pay_types = [item];
+                this.formTemp[this.typeKey].pay_types = [item];
             }
         },
         initFormData() {
-            this.form.price = '';
-            this.form.amount = '';
-            this.form.min_value = '';
-            this.form.max_value = '';
-            this.form.floating_rate = '';
-            this.form.remark = '';
+            this.formTemp.form1.price = '';
+            this.formTemp.form1.amount = '';
+            this.formTemp.form1.min_value = '';
+            this.formTemp.form1.max_value = '';
+            this.formTemp.form1.floating_rate = '';
+            this.formTemp.form1.remark = '';
+            this.formTemp.form2.price = '';
+            this.formTemp.form2.amount = '';
+            this.formTemp.form2.min_value = '';
+            this.formTemp.form2.max_value = '';
+            this.formTemp.form2.floating_rate = '';
+            this.formTemp.form2.remark = '';
         },
         submitHandle() {
-            if (!Number(this.form.price)) {
+            if (!Number(this.formTemp[this.typeKey].price)) {
                 this.$normalToast('请输入价格');
                 return;
             }
-            if (Number(this.form.price) <= 0) {
+            if (Number(this.formTemp[this.typeKey].price) <= 0) {
                 this.$normalToast('请输入大于0的价格');
                 return;
             }
-            if (!Number(this.form.amount)) {
+            if (!Number(this.formTemp[this.typeKey].amount)) {
                 this.$normalToast('请输入数量');
                 return;
             }
-            if (Number(this.form.amount) <= 0) {
+            if (Number(this.formTemp[this.typeKey].amount) <= 0) {
                 this.$normalToast('请输入数量');
                 return;
             }
-            if (!Number(this.form.min_value)) {
+            if (!Number(this.formTemp[this.typeKey].min_value)) {
                 this.$normalToast('请输入单笔最低限额');
                 return;
             }
-            if (Number(this.form.min_value) <= 0) {
+            if (Number(this.formTemp[this.typeKey].min_value) <= 0) {
                 this.$normalToast('请输入单笔最低限额');
                 return;
             }
-            if (!this.form.max_value) {
+            if (!this.formTemp[this.typeKey].max_value) {
                 this.$normalToast('请输入单笔最高限额');
                 return;
             }
-            if (!this.pay_types.length) {
+            if (!this.formTemp[this.typeKey].pay_types.length) {
                 this.$normalToast('请选择收付款方式');
                 return;
             }
-            if (Number(this.form.min_value) > Number(this.total)) {
+            if (Number(this.formTemp[this.typeKey].min_value) > Number(this.total)) {
                 this.$normalToast('单笔最低限额不能大于支付金额');
                 return;
             }
-            if (Number(this.form.max_value) <= Number(this.form.min_value)) {
+            if (Number(this.formTemp[this.typeKey].max_value) <= Number(this.formTemp[this.typeKey].min_value)) {
                 this.$normalToast('单笔最高限额不能低于最底限额');
                 return;
             }
-            if (this.form.type === 2) {
+            if (this.formTemp[this.typeKey].type === 2) {
                 (this.$refs.UserAuth as any).open();
             } else {
                 this.saveHandle({});
@@ -322,7 +409,7 @@ export default Vue.extend({
             const params = {
                 ...this.form,
                 total: this.total,
-                pay_types: this.pay_types.join(','),
+                pay_types: this.formTemp[this.typeKey].pay_types.join(','),
                 ...data,
             };
             this.changeLoading(true);
