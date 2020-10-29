@@ -15,7 +15,7 @@ if (configCommonStr) {
 }
 
 const hideBalance = localStorage.getItem('hideBalance') || '0';
-const lang = localStorage.getItem('lang') || 'zh-cn';
+const lang = localStorage.getItem('lang') || 'zh-CN';
 const symbol = localStorage.getItem('symbol') || 'usdt';
 
 const defaultCountry = () => {

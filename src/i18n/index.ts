@@ -44,11 +44,12 @@ export const { langs, messages, langType } = loadLocaleMessages();
  */
 export const defaultLang = (_lang: string): string => {
     let lang = '';
+    debugger;
     const thinkLanguage = window.localStorage.getItem('lang') || navigator.language.toLowerCase() || '';
     if (langs.indexOf(thinkLanguage) !== -1) {
         lang = thinkLanguage;
-    } else if (thinkLanguage.indexOf('zh') !== -1 && langs.indexOf('zh-cn') !== -1) {
-        lang = 'zh-cn';
+    } else if (thinkLanguage.indexOf('zh') !== -1 && langs.indexOf('zh-CN') !== -1) {
+        lang = 'zh-CN';
     }
     return lang || _lang || thinkLanguage[0];
 };

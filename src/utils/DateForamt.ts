@@ -73,14 +73,14 @@ export default class DateForamt {
         };
         const L = {
             'en-us': en,
-            'zh-cn': zh,
+            'zh-CN': zh,
             'zh-tw': tw,
         };
-        const lan = localStorage.getItem('think_language') || 'zh-cn';
+        const lan = localStorage.getItem('lang') || 'zh-CN';
         if (lan === 'en-us' || lan === 'zh-tw' || lan === 'zh-tw') {
             this.language = L[lan];
         } else {
-            this.language = L['zh-cn'];
+            this.language = L['zh-CN'];
         }
     }
 

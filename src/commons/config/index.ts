@@ -85,6 +85,6 @@ export const OtcAppealType = [
 
 // 语言类型
 export const LangType = [
-    'zh-cn', //           = 1 //简体中文
+    'zh-CN', //           = 1 //简体中文
     'en-us', //           = 2 //英文
 ];
