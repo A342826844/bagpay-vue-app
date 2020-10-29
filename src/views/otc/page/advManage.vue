@@ -87,7 +87,7 @@ export default Vue.extend({
             isShow: false,
             loadMore: false,
             coin: '',
-            limit: 3,
+            limit: 15,
             isEnd: false,
             isLoading: false,
             list: [],
