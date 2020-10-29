@@ -5,11 +5,12 @@
 /* eslint-disable spaced-comment */
 
 import i18n from '@/i18n';
+import { normalToast } from '@/commons/dom/index';
 
 const IMAGE_MAX = 2 * 1024 * 1024; // 图片最大上传大小
 
 // 压缩函数
-const compress = (img: any, encoder = 0.6) => {
+const compress = (img: any, encoder = 0.9) => {
     let canvas: any = document.createElement('canvas');
     const ctx: any = canvas.getContext('2d');
     //    瓦片canvas
@@ -67,14 +68,15 @@ const toBlob = (basestr: string, type: any) => {
     return blob;
 };
 
-const cutDownImg = (file: { type: any }, encoder = 0.5) => new Promise((resolve, reject) => {
+const cutDownImg = (file: File, encoder = 0.9) => new Promise((resolve, reject) => {
     if (!file) return;
     let img: any = new Image();
     const callback = () => {
         const data = compress(img, encoder); // base64
         const res = toBlob(data, file.type);
         if (res.size > IMAGE_MAX) {
-            i18n.t('common.imgTooBig');
+            normalToast(i18n.t('common.imgTooBig'));
+            reject();
         }
         resolve(res);
         img = null;
