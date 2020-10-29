@@ -71,10 +71,10 @@ export default Vue.extend({
                             }
                         }, 1000) as any;
                         this.$normalToast(this.$t('common.sendSuccess'));
-                        this.$dialog.alert({
-                            title: '验证码',
-                            message: res.data.code,
-                        });
+                        // this.$dialog.alert({
+                        //     title: '验证码',
+                        //     message: res.data.code,
+                        // });
                     }
                 }).finally(() => {
                     this.isLoading = false;

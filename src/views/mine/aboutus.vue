@@ -7,7 +7,7 @@
           src="../../assets/img/logo/logo.png"
           alt=""
         />
-        <p class="aboutus-box-version">v 1.0.3</p>
+        <p class="aboutus-box-version">v {{version}}</p>
         <div class="aboutus-box-upload app-padding40">
           <Inputs readonly value="版本更新" @click.native="saveHandle">
             <img
