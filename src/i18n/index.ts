@@ -44,7 +44,6 @@ export const { langs, messages, langType } = loadLocaleMessages();
  */
 export const defaultLang = (_lang: string): string => {
     let lang = '';
-    debugger;
     const thinkLanguage = window.localStorage.getItem('lang') || navigator.language.toLowerCase() || '';
     if (langs.indexOf(thinkLanguage) !== -1) {
         lang = thinkLanguage;
