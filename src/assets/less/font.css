@@ -1,0 +1,24 @@
+@font-face {
+    font-family: "Alibaba-PuHuiTi-Regular";
+    src: url("../font/Alibaba-PuHuiTi-Regular.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Alibaba-PuHuiTi-Bold";
+    src: url("../font/Alibaba-PuHuiTi-Bold.ttf");
+    font-weight: Bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: "AlibabaSans-Bold";
+    src: url("../font/AlibabaSans-Bold.otf");
+    font-weight: Bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: "AlibabaSans-Regular";
+    src: url("../font/AlibabaSans-Regular.otf");
+    font-weight: normal;
+    font-style: normal;
+}

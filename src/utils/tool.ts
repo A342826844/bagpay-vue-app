@@ -33,6 +33,11 @@ const queryStringify = (data: any): string => {
     return res;
 };
 
+const isHttpUrl = (str: string) => {
+    if ((str.substring(0, 7) === 'http://') || (str.substring(0, 8) === 'https://')) return true;
+    return false;
+};
+
 export {
     DateForamt,
     Empty,
@@ -40,4 +45,5 @@ export {
     isBagPayUrl,
     getQueryUrl,
     queryStringify,
+    isHttpUrl,
 };

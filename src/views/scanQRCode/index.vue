@@ -15,10 +15,8 @@
 <script>
 // import Headers from '@/component/header';
 import {
-    getQueryValue,
-    isBagPayUrl,
     getQueryUrl,
-    queryStringify,
+    isHttpUrl,
 } from '@/utils/tool';
 
 export default {
@@ -135,7 +133,13 @@ export default {
                     this.$router.go(-1);
                 }
             } else if (Number(this.$route.query.type) === 1) {
-                window.plus.nativeUI.toast('无法识别此图片');
+                if (isHttpUrl(result)) {
+                    window.plus.runtime.openURL(result, () => {
+                        this.$normalToast('更新失败,请开启浏览器权限');
+                    });
+                }
+                this.$router.replace(`/scanvalue?value=${result}`);
+                this.goBackHandle();
             } else {
                 this.$store.commit('changgeQrcodeResult', result);
                 this.goBackHandle();

@@ -1,6 +1,6 @@
 <template>
-    <div id="app">
-        <div id="main" :class="lang === 'en-us'?'en-us':''">
+    <div id="app" :class="[lang]">
+        <div id="main">
             <keep-alive>
                 <router-view v-if="$route.meta.keepAlive"></router-view>
             </keep-alive>

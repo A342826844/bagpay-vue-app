@@ -54,7 +54,7 @@ export default Vue.extend({
                     activeIcon: assetsS,
                 }, {
                     path: '/otc/entry',
-                    name: 'otc',
+                    name: 'otcentry',
                     title: 'OTC',
                     defaultIcon: otcN,
                     activeIcon: otcS,
