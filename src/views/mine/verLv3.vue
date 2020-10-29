@@ -87,7 +87,7 @@ export default Vue.extend({
         },
         fileChange(e: any, name: string) {
             const file = e.target.files[0];
-            if (file.size > 10 * 1024 * 1024) {
+            if (file.size > 20 * 1024 * 1024) {
                 this.$normalToast('文件过大，请重新选择');
                 return;
             }
