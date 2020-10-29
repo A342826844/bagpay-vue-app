@@ -88,7 +88,8 @@ export default Vue.extend({
             this.$compress(file.file).then((res: any) => {
                 file.file = res;
                 file.status = 'done';
-            }).catch(() => {
+            }).catch((err: any) => {
+                console.log(err);
                 file.status = 'failed';
                 file.message = this.$t('common.imgTooBig');
             });

@@ -15,7 +15,6 @@
                 :tabList="bodyTabList"
             >
                 <div v-for="item in bodyTabList" :key="item.type" :slot="item.value" class="app-padding40">
-                    {{item.type}}
                     <form @submit.prevent="" class="otc-advertising-form app-size-34" action="">
                         <div class="form-item">
                             <Select @click="$router.push(`/choisesymbol?symbol=${formTemp['form'+item.type].coin}&type=1`)">
@@ -79,8 +78,12 @@
                                     <span v-show="bankInfo.type">{{bankInfo.type | payType}}</span>
                                     <span v-show="!bankInfo.type">收款方式</span>
                                 </span> -->
-                                <span v-if="formTemp[`form${item.type}`].length" class="vertical-m">{{pay_types[0] | payType}}</span>
-                                <span v-if="!formTemp[`form${item.type}`].length" class="vertical-m">{{item.type === 1 ? '支付方式' : '收款方式'}}</span>
+                                <span v-if="formTemp[`form${item.type}`].pay_types.length" class="vertical-m">
+                                    {{formTemp[`form${item.type}`].pay_types[0] | payType}}
+                                </span>
+                                <span v-if="!formTemp[`form${item.type}`].pay_types.length" class="vertical-m">
+                                    {{item.type === 1 ? '支付方式' : '收款方式'}}
+                                </span>
                             </Select>
                         </div>
                         <!-- TODO 备注 -->
@@ -317,7 +320,7 @@ export default Vue.extend({
             }
         },
         selectPayHandle() {
-            if (this.formTemp[this.typeKey].type === 1) {
+            if (this.type === 1) {
                 this.payPopup = !this.payPopup;
             } else {
                 //  TODO: 跳收款方式
@@ -384,7 +387,7 @@ export default Vue.extend({
                 this.$normalToast('单笔最高限额不能低于最底限额');
                 return;
             }
-            if (this.formTemp[this.typeKey].type === 2) {
+            if (this.type === 2) {
                 (this.$refs.UserAuth as any).open();
             } else {
                 this.saveHandle({});
@@ -407,8 +410,9 @@ export default Vue.extend({
             // floating_rate: [float64] 采用浮动价格后有效，溢价比例，0为不采用浮动价格, 1为不溢价，大于1为正溢价，小于1为负溢价
             // remark: [string] 备注
             const params = {
-                ...this.form,
+                ...this.formTemp[this.typeKey],
                 total: this.total,
+                type: this.type,
                 pay_types: this.formTemp[this.typeKey].pay_types.join(','),
                 ...data,
             };
