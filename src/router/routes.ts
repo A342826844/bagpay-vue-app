@@ -161,7 +161,7 @@ const routes: Array<RouteConfig> = [
                 showFooter: true,
                 needLogin: true,
                 keepAlive: true,
-                name: 'otc',
+                name: 'otcentry',
             },
         }, {
             path: 'order',

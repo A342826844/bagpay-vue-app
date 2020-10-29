@@ -103,6 +103,9 @@
                             广告若产生场外交易请及时处理
                         </PoptipItem>
                     </Poptip>
+                    <div class="app-size-34 lxa-footer-btn">
+                        <Button @click="submitHandle" :disabled="!form.price || !form.amount || !form.min_value || !form.max_value">发 布</Button>
+                    </div>
                 </div>
             </TabList>
         </div>
@@ -114,9 +117,6 @@
         <SelectPopup v-model="payPopup">
             <SelectPopupItem v-for="item in PayType" :key="item" @click="selectPayType(item)">{{ item | payType }}</SelectPopupItem>
         </SelectPopup>
-        <div class="app-size-34 lxa-footer-bottom">
-            <Button @click="submitHandle" :disabled="!form.price || !form.amount || !form.min_value || !form.max_value">发 布</Button>
-        </div>
     </div>
 </template>
 
@@ -345,7 +345,7 @@ export default Vue.extend({
         padding-top: 50px;
     }
     .app-poptip{
-        padding-bottom: 60px;
+        margin-bottom: 30px;
     }
     &-form{
         .form-item{

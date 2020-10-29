@@ -1,5 +1,6 @@
 import Vue from 'vue';
 
+import compress from '@/utils/compress';
 import './filter/index';
 import { normalToast, copyText, overflowScrolling } from './dom/index';
 import { shareDataHandle, downloadImg, saveImg } from './plus/index';
@@ -19,6 +20,7 @@ declare module 'vue/types/vue' {
         $downloadImg: Function;
         $saveImg: Function;
         $overflowScrolling: Function;
+        $compress: Function;
         $logoutHandle: Function;
         $loginRoute: (path: string, loginPth?: string) => void;
     }
@@ -27,6 +29,8 @@ declare module 'vue/types/vue' {
 Vue.prototype.$normalToast = normalToast;
 Vue.prototype.$copyText = copyText;
 Vue.prototype.$overflowScrolling = overflowScrolling;
+
+Vue.prototype.$compress = compress; // 图片压缩
 
 Vue.prototype.$downloadImg = downloadImg; // 下载网络图片
 Vue.prototype.$shareDataHandle = shareDataHandle; // 分享
