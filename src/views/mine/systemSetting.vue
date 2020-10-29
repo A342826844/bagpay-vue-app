@@ -14,7 +14,7 @@
         </li>
         <li class="flex-between-c sys_item">
           <div v-t="'mine.changeLang'"></div>
-          <div @click="isShowLang = !isShowLang">
+          <div >
             <span class="vertical-m">{{ $t('language')}}</span>
             <span style="display: inline-block" class="app-img-50"></span>
             <!-- <img
