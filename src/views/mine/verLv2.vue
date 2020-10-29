@@ -111,44 +111,18 @@ export default Vue.extend({
         },
         fileChange(e: any, name: string) {
             const file = e.target.files[0];
-            if (file.size > 10 * 1024 * 1024) {
-                // this.$normalToast(this.$t('setting.realName.IDCartRule4'));
-                return;
-            }
-            // 上传正确的图片格式
-            const imgName = [
-                'png',
-                'PNG',
-                'jpg',
-                'JPG',
-                'bmp',
-                'BMP',
-                'gif',
-                'GIF',
-                'jpeg',
-                'JPEG',
-            ];
-            if (file) {
-                const str1 = file.name.split('.');
-                const letn = str1.length;
-                const geImg = str1[letn - 1];
-                const isFlase = imgName.indexOf(geImg);
-                if (isFlase !== -1) {
-                    // this.uploadImgHandle(file, name);
-                    this.uploadList = this.uploadList.map((item) => {
-                        const res = { ...item };
-                        if (item.name === name) {
-                            res.img = URL.createObjectURL(file);
-                            res.val = file;
-                            res.percent = 0;
-                        }
-                        return res;
-                    });
-                } else {
-                    // 格式
-                    // this.$normalToast(this.$t('setting.realName.IDCartRule4'));
-                }
-            }
+            this.$compress(file).then((res: any) => {
+                console.log(res);
+                this.uploadList = this.uploadList.map((item) => {
+                    const newItem = { ...item };
+                    if (item.name === name) {
+                        newItem.img = URL.createObjectURL(res);
+                        newItem.val = res;
+                        newItem.percent = 0;
+                    }
+                    return newItem;
+                });
+            });
         },
         uploadProgress(percent: number, name: string) {
             this.uploadList = this.uploadList.map((item: any) => {

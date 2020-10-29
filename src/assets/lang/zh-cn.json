@@ -13,6 +13,7 @@
         "save": "保 存",
         "scan": "扫一扫",
         "imgTooBig": "图片太大",
+        "imgErr": "文件格式错误",
         "compressing": "压缩中",
         "bFlash": "闪光灯",
         "scanPicture": "相  册",

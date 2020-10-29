@@ -58,27 +58,52 @@ const compress = (img: any, encoder = 0.9) => {
 };
 
 // 将base64的图片转成二进制对象
-const toBlob = (basestr: string, type: any) => {
-    const text = window.atob(basestr.split(',')[1]);
-    const buffer: any = new Uint8Array(text.length);
-    for (let i = 0; i < text.length; i++) {
-        buffer[i] = text.charCodeAt(i);
+const toBlob = (basestr: string) => {
+    const arr: any = basestr.split(',');
+    const bstr = atob(arr[1]);
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const buffer: any = new Uint8Array(bstr.length);
+    for (let i = 0; i < bstr.length; i++) {
+        buffer[i] = bstr.charCodeAt(i);
     }
-    const blob = new Blob(buffer, { type });
-    return blob;
+    return new Blob([buffer], { type: mime });
 };
-
-const cutDownImg = (file: File, encoder = 0.9) => new Promise((resolve, reject) => {
+const defaultImg = [
+    'png',
+    'PNG',
+    'jpg',
+    'JPG',
+    'bmp',
+    'BMP',
+    'gif',
+    'GIF',
+    'jpeg',
+    'JPEG',
+];
+const cutDownImg = (file: File, encoder = 0.9, imgName = defaultImg) => new Promise((resolve, reject) => {
     if (!file) return;
+    const str1 = file.name.split('.');
+    const letn = str1.length;
+    const geImg = str1[letn - 1];
+    const isFlase = imgName.indexOf(geImg);
+    if (isFlase === -1) {
+        normalToast(i18n.t('common.imgErr'));
+        reject(new Error('1'));
+    }
     let img: any = new Image();
     const callback = () => {
         const data = compress(img, encoder); // base64
-        const res = toBlob(data, file.type);
+        const res = toBlob(data);
         if (res.size > IMAGE_MAX) {
             normalToast(i18n.t('common.imgTooBig'));
-            reject();
+            reject(new Error('2'));
         }
-        resolve(res);
+        const newFile = new window.File(
+            [res],
+            file.name,
+            { type: res.type },
+        );
+        resolve(newFile);
         img = null;
     };
     try {
