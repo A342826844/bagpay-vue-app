@@ -89,9 +89,12 @@ export default Vue.extend({
                 file.file = res;
                 file.status = 'done';
             }).catch((err: any) => {
-                console.log(err);
                 file.status = 'failed';
-                file.message = this.$t('common.imgTooBig');
+                if (err.message === '1') {
+                    file.message = this.$t('common.imgErr');
+                } else {
+                    file.message = this.$t('common.imgTooBig');
+                }
             });
         },
         otcAppealSubmit() {

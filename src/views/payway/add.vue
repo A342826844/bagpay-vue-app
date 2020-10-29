@@ -49,6 +49,8 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable no-param-reassign */
+
 import Vue from 'vue';
 import { PayType } from '@/commons/config/index';
 
@@ -65,7 +67,7 @@ type data = {
         real_name: string;
         bank: string;
         sub_bank: string;
-        qrc: string;
+        qrc: any;
     };
 };
 
@@ -111,7 +113,17 @@ export default Vue.extend({
             this.bankInfo = this.$store.state.bankInfo;
         },
         afterRead(file: any) {
-            this.form.qrc = file.file;
+            this.$compress(file.file).then((res: Blob) => {
+                this.form.qrc = res;
+                file.status = 'done';
+            }).catch((err: any) => {
+                file.status = 'failed';
+                if (err.message === '1') {
+                    file.message = this.$t('common.imgErr');
+                } else {
+                    file.message = this.$t('common.imgTooBig');
+                }
+            });
         },
         getVerStutas() {
             this.$api.getVerStutas().then((res: any) => {
