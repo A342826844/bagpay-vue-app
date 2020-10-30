@@ -14,7 +14,12 @@ export default Vue.extend({
     },
     methods: {
         getImg() {
-            return require(`@/assets/img/symbol/${this.symbol}.png`);
+            try {
+                const image = require(`@/assets/img/symbol/${this.symbol}.png`);
+                return image;
+            } catch (error) {
+                return require('@/assets/img/symbol/default.png');
+            }
         },
     },
 });
