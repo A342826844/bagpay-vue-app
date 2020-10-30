@@ -21,7 +21,7 @@
             >
                 <span class="title">{{item.name}}</span>
                 <span class="value">({{item.en}})</span>
-                <img src="../../assets/img/common/ok.png" v-if="index==item.tel" class="is-active app-img-50" />
+                <img ref="active" src="../../assets/img/common/ok.png" v-if="index==item.tel" class="is-active app-img-50" />
             </div>
         </div>
     </div>
@@ -36,12 +36,19 @@ export default {
             list,
             text: '',
             searchArry: [],
-            index: '86',
+            index: '',
         };
     },
     created() {
         this.searchArry = [...this.list];
         this.index = this.$store.state.country.tel;
+    },
+    mounted() {
+        this.$nextTick(() => {
+            if (this.$refs.active[0]) {
+                this.$refs.active[0].scrollIntoView({ behavior: 'auto', block: 'center', inline: 'nearest' });
+            }
+        });
     },
     methods: {
         searchName() {
