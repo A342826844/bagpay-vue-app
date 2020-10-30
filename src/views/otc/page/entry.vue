@@ -302,9 +302,8 @@ export default Vue.extend({
         },
         changeCoinHandle(side: number) {
             if (side !== this.side) return;
-            axiosGoPromiseArr.forEach((ele, index) => {
-                ele.cancel('001');
-                delete axiosGoPromiseArr[index];
+            axiosGoPromiseArr.value.forEach((ele) => {
+                ele.cancel(ele);
             });
             if (this.showDataStatus === 3) {
                 this.loadData();
@@ -338,7 +337,7 @@ export default Vue.extend({
                     this.$set(this.paramsData[this.side], this.activeSymbol, res.data.total);
                 }
             }).catch((err: any) => {
-                if (err.message === '001') return;
+                if (err.message.cancleId) return;
                 this.changeLoading(false);
             });
         },
@@ -351,9 +350,8 @@ export default Vue.extend({
         },
         clickHandle(item: any) {
             this.side = item.side;
-            axiosGoPromiseArr.forEach((ele, index) => {
-                ele.cancel('001');
-                delete axiosGoPromiseArr[index];
+            axiosGoPromiseArr.value.forEach((ele) => {
+                ele.cancel(ele);
             });
             if (this.showDataStatus === 3) {
                 this.loadData();

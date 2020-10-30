@@ -1,0 +1,103 @@
+.html{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.body_container{
+    margin: 0;
+    padding: 0;
+    background: url(../img/bg.png) no-repeat;
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+}
+
+#app{
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.logo_box{
+    text-align: center;
+    width: 100%;
+    /* height: 32vw; */
+    padding-top: 30px;
+    padding-bottom: 20px;
+}
+
+.logo_img{
+    width: 24vw;
+    height: 36.48vw;
+    margin: 0 auto;
+}
+
+.white_bg{
+    margin-left: 5vw;
+    margin-right: 5vw;
+    margin-bottom: 10vw;
+    background-color: white;
+    height: calc(100vh - 20% - 60px - 5vw - 20px);
+    min-height: 150vw;
+    border-radius: 10px;
+}
+
+.swiper-container{
+    margin:10px auto;
+    width: 85vw;;
+    height:105vw;
+    overflow: hidden;
+    /* border:1px solid red; */
+}
+
+.swiper-wrapper,.swiper-slide, .swi_img{
+    width: auto;
+    height:60vw;
+    margin: 0 auto;
+    text-align: center
+}
+
+.blue_title{
+    font-weight: bold;
+    font-size: 20px;
+    color: #5894EE
+}
+
+.btn_box{
+    margin: auto;
+}
+
+.android_btn, .ios_btn{
+    width: 80%;
+    height: 10vw;
+    line-height: 10vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #5894EE;
+    box-sizing: border-box;
+    margin: 0 auto 7vw;
+    border-radius: 10px;
+    border: 1px solid #5894EE;
+    padding-top: 3vh;
+    padding-bottom: 3vh;
+    /* padding-left: 13vw;
+    padding-right: 3.5vw; */
+    font-size: 5vw;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.ios_img{
+    background:#5894EE url(../img/appleLogo3x.png) no-repeat 3vw;
+    background-size: 5vw;
+}
+.loading{
+    width: 10vw;
+}
+.android_img{
+    background: url(../img/androidLogo3x.png) no-repeat 3vw;
+    background-size: 5vw;
+}

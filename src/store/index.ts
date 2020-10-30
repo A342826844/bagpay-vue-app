@@ -21,10 +21,10 @@ const symbol = localStorage.getItem('symbol') || 'usdt';
 const defaultCountry = () => {
     const moblepre = localStorage.getItem('moblepre');
     const countryItem = {
-        en: 'China',
-        name: '中国',
-        short: 'CN',
-        tel: '86',
+        en: 'Kampuchea(Cambodia)',
+        name: '柬埔寨',
+        short: 'KH',
+        tel: '855',
     };
     if (!moblepre || moblepre === 'undefined' || moblepre === 'null') return countryItem;
     for (let i = 0; i < countryList.length; i++) {
@@ -127,7 +127,11 @@ export default new Vuex.Store({
         },
         getPhone: (state) => {
             const phone: string = state.userInfo.phone || '';
-            return phone.slice(`${state.country.tel}-`.length);
+            const index = phone.indexOf('-');
+            if (phone.indexOf('-') !== -1) {
+                return phone.slice(index + 1);
+            }
+            return phone;
         },
         getCoinMap: (state) => {
             const coinMap: any = {};

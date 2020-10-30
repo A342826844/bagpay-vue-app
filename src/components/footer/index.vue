@@ -49,7 +49,7 @@ export default Vue.extend({
                 {
                     path: '/home',
                     name: 'home',
-                    title: '首页',
+                    title: 'home',
                     defaultIcon: assetsN,
                     activeIcon: assetsS,
                 }, {
@@ -61,7 +61,7 @@ export default Vue.extend({
                 }, {
                     path: '/mine',
                     name: 'mine',
-                    title: '我的',
+                    title: 'mine',
                     needLogin: true,
                     defaultIcon: mineN,
                     activeIcon: mineS,
