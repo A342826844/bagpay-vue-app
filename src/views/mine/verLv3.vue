@@ -85,7 +85,7 @@ export default Vue.extend({
                 });
             }
         },
-        fileChange(e: any, name: string) {
+        fileChange(e: any) {
             const file = e.target.files[0];
             if (file.size > 20 * 1024 * 1024) {
                 this.$normalToast(this.$t('common.fileBigTip'));

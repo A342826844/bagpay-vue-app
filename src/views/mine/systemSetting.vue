@@ -12,35 +12,26 @@
               active-color="#5894EE"
               inactive-color="#EDF3FB"/>
         </li>
-        <li class="flex-between-c sys_item">
+        <li  @click="isShowLang = true" class="flex-between-c sys_item">
           <div v-t="'mine.changeLang'"></div>
-          <div >
+          <div>
             <span class="vertical-m">{{ $t('language')}}</span>
-            <span style="display: inline-block" class="app-img-50"></span>
-            <!-- <img
+            <img
               class="app-img-50"
               src="../../assets/img/common/arrow_right.png"
               alt=""
-            /> -->
+            />
           </div>
-          <SelectPopup v-model="isShowLang">
-            <SelectPopupItem
-              v-for="item in langType"
-              @click="setLang(item)"
-              :key="item.value"
-              >{{ item.label }}</SelectPopupItem>
-          </SelectPopup>
         </li>
         <li class="flex-between-c sys_item">
           <div v-t="'mine.unitPrice'"></div>
           <div>
             <span class="vertical-m">{{_unit}}</span>
-            <span style="display: inline-block" class="app-img-50"></span>
-            <!-- <img
+            <img
               class="app-img-50"
               src="../../assets/img/common/arrow_right.png"
               alt=""
-            /> -->
+            />
           </div>
         </li>
         <li class="flex-between-c sys_item" @click="logout">
@@ -55,12 +46,19 @@
         </li>
       </ul>
     </TitleHeader>
+    <SelectPopup v-model="isShowLang">
+      <SelectPopupItem
+        v-for="item in langType"
+        @click="setLang(item)"
+        :key="item.value"
+        >{{ item.label }}</SelectPopupItem>
+    </SelectPopup>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { langType } from '@/i18n/index';
+import i18n, { langType } from '@/i18n/index';
 
 export default Vue.extend({
     name: 'SetPaymentAdd',
@@ -79,7 +77,7 @@ export default Vue.extend({
         setLang(item: any) {
             this.lang = item.value;
             this.$store.commit('setLang', item.value);
-            this.$i18n.locale = item.value;
+            i18n.locale = item.value;
         },
         logout() {
             this.$dialog.confirm({

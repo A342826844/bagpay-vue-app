@@ -1,6 +1,6 @@
 <template>
     <div class="payment primary-bg">
-        <TitleHeader theme="dark" :title="$t('payment.paymentTitle')">
+        <TitleHeader theme="primary" :title="$t('payment.paymentTitle')">
             <div class="payment-card">
                 <h5 class="payment-card-title">{{$t('payment.paymentTip') + symbol.toUpperCase()}}</h5>
                 <div class="payment-card-qrcode" :style="{width: `${size + 15}px`, height: `${size + 15}px`}">

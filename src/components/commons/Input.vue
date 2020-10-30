@@ -119,7 +119,7 @@ export default Vue.extend({
         focusHandle(event: FocusEvent) {
             this.$emit('focus');
             if (event.target) {
-                (event.target as HTMLElement).scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+                (event.target as HTMLElement).scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
             }
             clearTimeout(this.timer);
             this.timer = setTimeout(() => {

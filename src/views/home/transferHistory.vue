@@ -1,6 +1,6 @@
 <template>
     <div class="transfer-history primary-bg flex-column">
-        <Headers bold theme="dark" :title="symbol.toUpperCase()"/>
+        <Headers bold theme="primary" :title="symbol.toUpperCase()"/>
         <div class="transfer-history-box flex-item-1 flex-column">
             <div class="top_flex app-padding40">
                 <div class="transfer-history-top txt_left">

@@ -3,16 +3,8 @@
         <img
             v-if="isBack"
             @click="goback"
-            v-show="theme === 'dark'"
             class="goBack"
-            src="@/assets/img/common/baise_go.png" alt=""
-        >
-        <img
-            v-if="isBack"
-            @click="goback"
-            v-show="theme === 'light'"
-            class="goBack"
-            src="@/assets/img/common/previous_page.png" alt=""
+            :src="theme === 'light' ? previous_page : baise_go" alt=""
         >
         <span class="title" :class="[{'bold-title': bold}]">{{title}}</span>
         <span class="rightTitle" @click="$emit('right-click')">{{value}}</span>
@@ -23,6 +15,9 @@
 <script lang="ts">
 import Vue from 'vue';
 
+const previous_page = require('@/assets/img/common/previous_page.png');
+const baise_go = require('@/assets/img/common/baise_go.png');
+
 export default Vue.extend({
     name: 'layout',
     props: {
@@ -32,7 +27,7 @@ export default Vue.extend({
         },
         theme: {
             type: String,
-            default: 'light', // light dark
+            default: 'light', // light dark primary
         },
         bold: {
             type: Boolean,
@@ -43,6 +38,12 @@ export default Vue.extend({
         value: {
             type: String,
         },
+    },
+    data() {
+        return {
+            previous_page,
+            baise_go,
+        };
     },
     methods: {
         /** */
@@ -59,6 +60,7 @@ export default Vue.extend({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+@import '../../assets/less/color.less';
 .app-headers {
     background: #fff;
     height: 88px;
@@ -72,6 +74,10 @@ export default Vue.extend({
     z-index: 1000;
     &.dark{
         background: transparent;
+        color: #fff;
+    }
+    &.primary{
+        background: @primary;
         color: #fff;
     }
     .rightTitle, .right{

@@ -7,7 +7,7 @@
             class="app-title-headers-title app-padding40 flex-between-end"
             :class="[{'border-b': border}, {'border-padding': border}]"
         >
-            <h3>
+            <h3 ref="title">
                 <template v-if="title">{{title}}</template>
                 <slot name="title"></slot>
             </h3>
@@ -39,6 +39,12 @@ export default Vue.extend({
             default: 'light', // light dark
         },
     },
+    // mounted() {
+    //     window.addEventListener('scroll', this.scrollHandle, true);
+    // },
+    // beforeDestroy() {
+    //     window.removeEventListener('scroll', this.scrollHandle, true);
+    // },
     methods: {
         goback() {
             if (typeof this.$listeners.back === 'function') {
@@ -47,12 +53,19 @@ export default Vue.extend({
             }
             this.$router.go(-1);
         },
+        // scrollHandle(event: Event) {
+        //     if (event.target) {
+        //         console.log(event.target.scrollX);
+        //     }
+        //     console.log((this.$refs.title as HTMLElement).offsetTop);
+        // },
     },
 });
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+@import '../../assets/less/color.less';
 .app-title-headers {
     &-title{
         background: #ffffff;
@@ -72,6 +85,15 @@ export default Vue.extend({
         background: transparent;
         .app-title-headers-title{
             background: transparent;
+        }
+        h3{
+            color: #ffffff;
+        }
+    }
+    &.primary{
+        background: @primary;
+        .app-title-headers-title{
+            background: @primary;
         }
         h3{
             color: #ffffff;
