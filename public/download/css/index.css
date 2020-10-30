@@ -40,14 +40,14 @@
     margin-bottom: 10vw;
     background-color: white;
     height: calc(100vh - 20% - 60px - 5vw - 20px);
-    min-height: 140vw;
+    min-height: 150vw;
     border-radius: 10px;
 }
 
 .swiper-container{
     margin:10px auto;
     width: 85vw;;
-    height:95vw;
+    height:105vw;
     overflow: hidden;
     /* border:1px solid red; */
 }
@@ -62,7 +62,7 @@
 .blue_title{
     font-weight: bold;
     font-size: 20px;
-    color: #184394
+    color: #5894EE
 }
 
 .btn_box{
@@ -76,11 +76,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #6D95DD;
+    color: #5894EE;
     box-sizing: border-box;
     margin: 0 auto 7vw;
     border-radius: 10px;
-    border: 1px solid #6D95DD;
+    border: 1px solid #5894EE;
     padding-top: 3vh;
     padding-bottom: 3vh;
     /* padding-left: 13vw;
@@ -91,7 +91,7 @@
 }
 
 .ios_img{
-    background:#6D95DD url(../img/appleLogo3x.png) no-repeat 3vw;
+    background:#5894EE url(../img/appleLogo3x.png) no-repeat 3vw;
     background-size: 5vw;
 }
 .loading{
