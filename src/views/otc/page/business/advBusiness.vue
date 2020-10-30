@@ -32,13 +32,13 @@
       <div class="adv_bottom">
         <Poptip>
           <PoptipItem>
-            请先完成实名认证V3级
+            {{$t('business.busTip1')}}
           </PoptipItem>
           <PoptipItem>
-            请保证账户余额大于5000（U)作为申请成为商家的保证金，在解除商家后保证金会自动退回
+            {{$t('business.busTip2')}}
           </PoptipItem>
           <PoptipItem>
-            保证提交资料的合法行，仔细阅读商家条款。
+            {{$t('business.busTip3')}}
           </PoptipItem>
         </Poptip>
       </div>

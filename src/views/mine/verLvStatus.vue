@@ -3,7 +3,7 @@
     <TitleHeader :title="`${$t('mine.realName')}(LV${verLv})`">
         <img :src="getImg()" alt="" class="img_cont">
         <div class="status_txt">{{statusTxt}}</div>
-        <div class="reason_title" v-if="reason">拒绝理由</div>
+        <div class="reason_title" v-if="reason">{{$t('mine.refusal')}}</div>
         <div class="status_reason" v-if="reason">{{reason}}</div>
     </TitleHeader>
     <div class="lxa-footer-btn" v-if="status === '3'">
@@ -31,16 +31,16 @@ export default Vue.extend({
         getImg() {
             switch (this.status) {
             case '1':
-                this.statusTxt = '审核已提交，等待客服处理';
+                this.statusTxt = `${this.$t('business.busStatus1')}`;
                 return require(`@/assets/img/mine/status${this.status}.png`);
             case '2':
-                this.statusTxt = '您已认证成功';
+                this.statusTxt = `${this.$t('business.busStatus4')}`;
                 return require(`@/assets/img/mine/status${this.status}.png`);
             case '3':
-                this.statusTxt = '审核未通过';
+                this.statusTxt = `${this.$t('business.busStatus3')}`;
                 return require(`@/assets/img/mine/status${this.status}.png`);
             default:
-                this.statusTxt = '审核未通过';
+                this.statusTxt = `${this.$t('business.busStatus3')}`;
                 return require('@/assets/img/mine/status3.png');
             }
         },

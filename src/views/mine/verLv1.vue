@@ -1,7 +1,7 @@
 <template>
   <div class="ver_lv">
     <TitleHeader :title="`${$t('mine.realName')}`" />
-    <p class="realname-tip app-padding40">当前认证等级(LV1)</p>
+    <p class="realname-tip app-padding40">{{$t('mine.currentLv', {num: '1'})}}</p>
     <div class="realname-form app-padding40">
       <div class="form-item">
         <Inputs v-model="form.userName" :placeholder="$t('payway.name')" clearable></Inputs>
@@ -20,7 +20,7 @@
         >
       </SelectPopup>
       <div class="form-item">
-        <Inputs v-model="form.idCard" placeholder="证件号码" clearable></Inputs>
+        <Inputs v-model="form.idCard" :placeholder="$t('mine.cardNum')" clearable></Inputs>
       </div>
     </div>
     <Poptip>
@@ -73,9 +73,9 @@ export default Vue.extend({
                         if (res.code === 0) {
                             this.initUserInfo();
                             this.$dialog.confirm({
-                                title: '审核成功',
-                                message: '实名认证（LV1）成功，可点击"下一步"申请实名认证（LV2）',
-                                confirmButtonText: '下一步',
+                                title: `${this.$t('mine.auditSuccess')}`,
+                                message: `${this.$t('mine.auditTip1')}`,
+                                confirmButtonText: `${this.$t('mine.nextStep')}`,
                                 confirmButtonColor: '#5894EE',
                                 className: 'confirm_34',
                                 beforeClose: (action: any, done: any) => {

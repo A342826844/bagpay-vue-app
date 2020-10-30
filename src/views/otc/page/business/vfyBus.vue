@@ -182,18 +182,18 @@ export default Vue.extend({
                 },
             ]);
             if (this.checked === false) {
-                this.$normalToast('请勾选广告发布方协议');
+                this.$normalToast(this.$t('business.checkAgree'));
             } else if (val) {
                 this.$dialog.confirm({
-                    title: '确认申请',
+                    title: `${this.$t('business.confirmApply')}`,
                     messageAlign: 'left',
                     message: `<div class="app-reset-diolog-message">
-                        需缴纳<span class="primary-color">
+                        ${this.$t('business.needPay', {
+        text: `<span class="primary-color">
                             ${this._configCommon.OtcMerchantBailAmount} ${(this._configCommon.OtcMerchantBailCoin)}
-                        </span>
-                        保证金，保证金将从资金余额 扣除，请保证资金余额充足。
-                        
-                    </div>`,
+                        </span>`,
+    })}
+                      </div>`,
                 }).then(() => {
                     if (Number(this.$route.query.type) === 1) {
                         this.otcMerchantUpdate();

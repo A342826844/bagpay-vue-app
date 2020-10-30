@@ -1,7 +1,7 @@
 <template>
     <div class="realname">
         <TitleHeader :title="`${$t('mine.realName')}`">
-            <p class="realname-tip app-padding40">当前认证等级(LV2)</p>
+            <p class="realname-tip app-padding40">{{$t('mine.currentLv', {num: '2'})}}</p>
             <form class="realname-form app-padding40" action="">
                 <ul>
                     <li v-for="item in uploadList" :key="item.name">

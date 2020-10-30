@@ -52,7 +52,7 @@ export default Vue.extend({
             }).catch((err: any) => {
                 this.changeLoading(false);
                 if (!err.data) {
-                    this.$normalToast('银行卡列表获取失败, 请稍后重试');
+                    this.$normalToast(this.$t('mine.banksFailed'));
                 }
             });
         },

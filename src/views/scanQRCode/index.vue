@@ -95,7 +95,7 @@ export default {
         scanPicture() {
             window.plus.gallery.pick((path) => {
                 window.plus.barcode.scan(path, this.onmarked, () => {
-                    window.plus.nativeUI.toast(this.$t('无法识别此图片'));
+                    window.plus.nativeUI.toast(this.$t('common.unrecognized'));
                 });
             }, (err) => {
                 console.log(`Failed: ${err.message}`);

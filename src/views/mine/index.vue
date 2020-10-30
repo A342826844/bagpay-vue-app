@@ -53,27 +53,27 @@ export default Vue.extend({
                 {
                     name: 'manage',
                     img: manage,
-                    title: '管理钱包',
+                    title: `${this.$t('payment.setPaymentTitle')}`,
                     path: '/setpayment',
                 }, {
                     name: 'payway',
                     img: pay,
-                    title: '收款设置',
+                    title: `${this.$t('mine.collectionSet')}`,
                     path: '/payway',
                 }, {
                     name: 'safe',
                     img: safe,
-                    title: '安全认证',
+                    title: `${this.$t('mine.safeSetting')}`,
                     path: '/mine/safesetting',
                 }, {
                     name: 'setting',
                     img: setting,
-                    title: '系统设置',
+                    title: `${this.$t('mine.systemSetting')}`,
                     path: '/mine/systemsetting',
                 }, {
                     name: 'aboutus',
                     img: aboutus,
-                    title: '关于我们',
+                    title: `${this.$t('mine.aboutus')}`,
                     path: '/mine/aboutus',
                 },
                 // {

@@ -42,20 +42,20 @@
                 </div> -->
                 <div class="fee_label">
                     <div class="lable flex-between-c">
-                        <p>手续费</p>
+                        <p>{{$t('home.serviceCharge')}}</p>
                         <p>{{`${charge.out_fee}  ${symbol.toUpperCase()}`}}</p>
                     </div>
                 </div>
             </form>
             <Poptip>
                 <PoptipItem>
-                    {{ `24小时内最高可转${this.maxAmount} ${this.symbol.toUpperCase()}` }}
+                    {{$t('home.paymentTip4', {"txt": `${this.maxAmount} ${this.symbol.toUpperCase()}`})}}
                 </PoptipItem>
                 <PoptipItem>
-                    为保障资金安全，当您账户安全策略变更、密码修改、我们会对提币进行人工审核，请耐心等待工作人员电话或邮件联系。
+                    {{$t('home.paymentTip5')}}
                 </PoptipItem>
                 <PoptipItem>
-                    请务必确认电脑及浏览器安全，防止信息被篡改或泄露。
+                    {{$t('home.paymentTip6')}}
                 </PoptipItem>
             </Poptip>
         </TitleHeader>
@@ -178,7 +178,7 @@ export default Vue.extend({
             ]);
             if (!vfi) return;
             if (Number(this.form.value) + this.amount > this.maxAmount) {
-                this.$normalToast(`24小时内最高可转${this.maxAmount} ${this.symbol.toUpperCase()}`);
+                this.$normalToast(this.$t('home.paymentTip4', { txt: `${this.maxAmount} ${this.symbol.toUpperCase()}` }));
             } else {
                 (this.$refs.UserAuth as any).open();
             }

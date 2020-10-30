@@ -1,8 +1,8 @@
 <template>
     <div @scroll.capture="scrollLoad($event, scrollLoadHandle)" class="adv-manage">
         <Drawer position="right" v-model="isShow">
-            <OrderFilter :title="'筛选'">
-                <SubOrderFilter title="状态">
+            <OrderFilter :title="$t('common.screen')">
+                <SubOrderFilter :title="$t('common.status')">
                     <SubOrderFilterItem
                         :active="state === item"
                         v-for="item in OtcDealState"
@@ -13,7 +13,7 @@
                     </SubOrderFilterItem>
                     <SubOrderFilterItem :active="state === -1" @click="changeState(-1)">{{$t('common.all')}}</SubOrderFilterItem>
                 </SubOrderFilter>
-                <SubOrderFilter title="币种">
+                <SubOrderFilter :title="$t('common.currency')">
                     <SubOrderFilterItem
                         v-for="item in symbolList"
                         :active="coin === item.symbol"
@@ -24,7 +24,7 @@
                 </SubOrderFilter>
             </OrderFilter>
         </Drawer>
-        <TitleHeader :title="'场外订单'">
+        <TitleHeader :title="$t('otc.order')">
             <img slot="header" @click="isShow=!isShow" class="app-img-50" src="@/assets/img/common/screen.png" alt="">
             <div class="app-margin-t40">
                 <div class="body-content-slot" slot="history">
@@ -43,9 +43,9 @@
                                 <span :class="item.state | otcDealStateColor">{{item.state | otcDealState}}</span>
                             </template>
                             <template slot="lable">
-                                <span>{{"价格"}} ({{_unitIcon}})</span>
-                                <span>{{"数量"}} ({{item.coin && item.coin.toUpperCase()}})</span>
-                                <span>{{"成交额"}} ({{_unitIcon}})</span>
+                                <span>{{$t('common.price')}} ({{_unitIcon}})</span>
+                                <span>{{$t('otc.num')}} ({{item.coin && item.coin.toUpperCase()}})</span>
+                                <span>{{$t('otc.turnover')}} ({{_unitIcon}})</span>
                             </template>
                             <template slot="value">
                                 <span>{{item.price}}</span>
@@ -54,7 +54,7 @@
                             </template>
                         </NCardItem>
                         <div class="loadMore-loading"><Loading type='component' :loading='loadMore'></Loading></div>
-                        <p v-if="isEnd && list.length" class="color-gray">{{'暂无更多'}}</p>
+                        <p v-if="isEnd && list.length" class="color-gray">{{$t('common.noMore')}}</p>
                         <noData v-if="!_loading && (!list.length)"/>
                     </PullRefresh>
                 </div>

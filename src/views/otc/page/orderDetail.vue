@@ -9,15 +9,15 @@
             <div>
                 <div class="order-detail-top flex-between-c app-padding40">
                     <div class="text-align-l">
-                        <p class="lable">成交总额</p>
+                        <p class="lable" v-t="'otc.totalTurnover'"></p>
                         <h5 class="primary-color app-size-34">{{ orderDetail.value }}</h5>
                     </div>
                     <div class="text-align-l">
-                        <p class="lable">交易币种</p>
+                        <p class="lable" v-t="'otc.buyCurrency'"></p>
                         <p class="value">{{ orderDetail.coin | toUpperCase }}</p>
                     </div>
                     <div class="text-align-r">
-                        <p class="lable">订单类型</p>
+                        <p class="lable" v-t="'otc.orderType'"></p>
                         <p class="" :class="orderDetail.taker_side|orderSideColor">
                             {{ orderDetail.taker_side | orderSideUser(orderDetail.taker_id, _userInfo.id)}}
                         </p>
@@ -27,19 +27,19 @@
                     <ul class="app-padding40">
                         <li class="app-padding40">
                             <div class="flex-between-c">
-                                <div class="lable">单价</div>
+                                <div class="lable" v-t="'otc.unitPrice'"></div>
                                 <div class="primary-color">{{ orderDetail.price }} {{_unitIcon}}</div>
                             </div>
                             <div class="flex-between-c list-item-2">
-                                <div class="lable">数量</div>
+                                <div class="lable" v-t="'otc.num'"></div>
                                 <div class="value">{{ orderDetail.amount }} {{orderDetail.coin | toUpperCase}}</div>
                             </div>
                         </li>
                         <li v-if="false" class="app-padding40">
                             <div class="flex-between-c">
-                                <div class="lable">商家</div>
+                                <div class="lable" v-t="'otc.bus'"></div>
                                 <div class="lable">
-                                    <span class="vertical-m">查看TA详细</span>
+                                    <span class="vertical-m" v-t="'otc.seeDetails'"></span>
                                     <img class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt="">
                                 </div>
                             </div>
@@ -51,17 +51,17 @@
                         </li>
                         <li class="app-padding40">
                             <div class="flex-between-c">
-                                <div class="lable">订单编号 </div>
+                                <div class="lable" v-t="'otc.orderNum'"> </div>
                                 <div class="value">#{{ orderDetail.id }}#</div>
                             </div>
                             <div class="flex-between-c list-item-2">
-                                <div class="value">订单时间</div>
+                                <div class="value" v-t="'otc.orderTime'"></div>
                                 <div class="value">{{ orderDetail.created_at | date('yyyy-MM-dd hh:mm:ss')}}</div>
                             </div>
                         </li>
                         <li class="app-padding40">
                             <div class="flex-between-c">
-                                <div class="lable">支付方式</div>
+                                <div class="lable" v-t="'common.payway'"></div>
                                 <div @click="showPayHandle" class="primary-color">
                                     <span class="vertical-m">{{ orderDetail.pay_type | payType}}</span>
                                     <img class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt="">
@@ -69,23 +69,23 @@
                             </div>
                             <div class="flex-between-c list-item-2">
                                 <!-- TODO: 支付信息 -->
-                                <div class="value">付款参考号</div>
+                                <div class="value" v-t="'otc.payNum'"></div>
                                 <div class="value">{{ orderDetail.pay_tag }}</div>
                             </div>
                         </li>
                         <li v-if="orderDetail.appealing" class="app-padding40">
                             <div class="flex-between-c">
-                                <div class="lable">申诉</div>
+                                <div class="lable" v-t="'otc.appeal'"></div>
                                 <div >
                                     {{ appealData.type | otcAppealType}}
                                 </div>
                             </div>
                             <div class="flex-between-c list-item-2">
-                                <div class="value">申诉时间</div>
+                                <div class="value" v-t="'otc.appealTime'"></div>
                                 <div class="value">{{ appealData.created_at | date('yyyy-MM-dd hh:mm:ss')}}</div>
                             </div>
                             <div v-show="appealData.suggest" class="flex-between-c list-item-2">
-                                <div class="value">处理意见</div>
+                                <div class="value" v-t="'otc.opinions'"></div>
                                 <div
                                     @click="showSuggestHandle(appealData.suggest)"
                                     class=" primary-color appeal-suggest ellipsis"
@@ -110,37 +110,38 @@
             // OtcDealStateCanceled  = 3 //已取消 -->
             <!-- {{showPayBtn}}
             {{showReleasBtn}} -->
-            <Button @click="cancleHandle" v-if="showPayBtn" type="cancel">取消</Button>
-            <Button @click="otcDealPadiHandle" v-if="showPayBtn">标记已支付</Button>
-            <Button @click="appealHandle" v-if="orderDetail.state === 1 && !orderDetail.appealing && !appealData.id" type="down">申诉</Button>
+            <Button @click="cancleHandle" v-if="showPayBtn" type="cancel">{{$t('common.cancle2')}}</Button>
+            <Button @click="otcDealPadiHandle" v-if="showPayBtn">{{$t('otc.markPaid')}}</Button>
+            <Button @click="appealHandle"
+                v-if="orderDetail.state === 1 && !orderDetail.appealing && !appealData.id" type="down">{{$t('otc.appeal')}}</Button>
             <Button @click="cancleAppealHandle" v-if="orderDetail.appealing && appealingStatus(appealData.uid, appealData.user_type)" type="down">
-                取消申诉
+                {{$t('otc.cancelAppeal')}}
             </Button>
-            <Button @click="releaseHandle" v-if="showReleasBtn && !orderDetail.appealing" type="up">释放</Button>
+            <Button @click="releaseHandle" v-if="showReleasBtn && !orderDetail.appealing" type="up">{{$t('otc.release')}}</Button>
             <Button @click="showAppealing" v-if="orderDetail.appealing && !appealingStatus(appealData.uid, appealData.user_type)" type="down">
-                申诉中
+                {{$t('otc.appealing')}}
             </Button>
         </div>
-        <van-dialog v-model="show" close-on-click-overlay :show-confirm-button="false" title="支付方式">
+        <van-dialog v-model="show" close-on-click-overlay :show-confirm-button="false" :title="$t('common.payway')">
             <div class="pay-dialog app-padding40">
                 <div class="flex-between-c">
-                    <span>方式 </span>
+                    <span v-t="'otc.mode'"></span>
                     <span>{{payDetail.type | payType}}</span>
                 </div>
                 <div class="flex-between-c">
-                    <span>姓名</span>
+                    <span v-t="'payway.name'"></span>
                     <span @click="$copyText(payDetail.real_name)" class="primary-color">{{payDetail.real_name}}</span>
                 </div>
                 <div v-if="payDetail.type === 1" class="flex-between-c">
-                    <span>开户行</span>
+                    <span v-t="'payway.bankDeposit'"></span>
                     <span @click="$copyText(payDetail.bank)" class="primary-color">{{payDetail.bank}}</span>
                 </div>
                 <div class="flex-between-c">
-                    <span>账号</span>
+                    <span v-t="'payway.account'"></span>
                     <span @click="$copyText(payDetail.account)" class="primary-color">{{payDetail.account}}</span>
                 </div>
                 <div v-if="payDetail.type !== 1" class="flex-between-c">
-                    <span>二维码</span>
+                    <span v-t="'payway.qrc'"></span>
                     <img @click="showPayImg(payDetail.qrc)" class="app-img-50" :src="`${$api.getFile}${payDetail.qrc}`" alt="">
                 </div>
             </div>
@@ -284,8 +285,8 @@ export default Vue.extend({
         },
         showAppealing() {
             this.$dialog.alert({
-                title: '温馨提示',
-                message: '此订单在申诉中， 如有疑问请联系客服',
+                title: `${this.$t('common.poptip')}`,
+                message: `${this.$t('otc.contactAppealing')}`,
             });
         },
         otcAppealByOrderId() {
@@ -303,7 +304,7 @@ export default Vue.extend({
             }).catch((err: any) => {
                 this.changeLoading(false);
                 if (!err.data) {
-                    this.$normalToast('获取支付信息失败，请稍后重试');
+                    this.$normalToast(this.$t('otc.payInfoFailed'));
                 }
                 throw new Error();
             });
@@ -338,12 +339,12 @@ export default Vue.extend({
                     }
                     return;
                 }
-                this.$normalToast('获取订单详情失败');
+                this.$normalToast(this.$t('otc.orderInfoFailed'));
             }).catch((err: any) => {
                 this.isLoading = false;
                 this.changeLoading(false);
                 if (!err.data) {
-                    this.$normalToast('获取订单详情失败');
+                    this.$normalToast(this.$t('otc.orderInfoFailed'));
                 }
             });
         },
@@ -360,89 +361,89 @@ export default Vue.extend({
         },
         cancleHandle() {
             this.$dialog.confirm({
-                title: '确认取消交易',
+                title: `${this.$t('otc.cancelPay')}`,
                 messageAlign: 'left',
                 message: `<div class="app-reset-diolog-message">
-                    <span class="red-color">如果您已经向卖家付款， 请不要取消交易</span>
-                    <span>取消规则： 买家24小时累计取消${this.configCommon.OtcGlobalMaxCancel}笔交易， 会限制当日买入功能</span>
+                    <span class="red-color">${this.$t('otc.noCancelPay')}</span>
+                    <span>${this.$t('otc.cancelRule', { num: this.configCommon.OtcGlobalMaxCancel })}</span>
                 </div>`,
             }).then(() => {
                 this.changeLoading(true);
                 this.$api.otcDealCancel(this.orderDetail.id).then(() => {
                     this.changeLoading(false);
                     this.getOrderData();
-                    this.$normalToast('取消成功');
+                    this.$normalToast(this.$t('otc.cancelSuccess'));
                 }).catch((err: any) => {
                     this.changeLoading(false);
                     if (!err.data) {
-                        this.$normalToast('网络错误，刷新后重试');
+                        this.$normalToast(this.$t('common.networkErr'));
                     }
                 });
             });
         },
         releaseHandle() {
             this.$dialog.confirm({
-                title: '确认释放交易',
+                title: `${this.$t('otc.releasePay')}`,
                 message: `<div class="app-reset-diolog-message">
-                    <span class="red-color">如果您未收到买家付款， 请不要释放交易</span>
+                    <span class="red-color">${this.$t('otc.noReleasePay')}</span>
                 </div>`,
             }).then(() => {
                 this.changeLoading(true);
                 this.$api.otcDealRelease(this.orderDetail.id).then(() => {
                     this.changeLoading(false);
                     this.getOrderData();
-                    this.$normalToast('释放成功');
+                    this.$normalToast(this.$t('otc.releaseSuccess'));
                 }).catch((err: any) => {
                     this.changeLoading(false);
                     if (!err.data) {
-                        this.$normalToast('网络错误，刷新后重试');
+                        this.$normalToast(this.$t('common.networkErr'));
                     }
                 });
             });
         },
         otcDealPadiHandle() {
             this.$dialog.confirm({
-                title: '付款确认',
+                title: `${this.$t('otc.payConfirm')}`,
                 messageAlign: 'left',
                 message: `<div class="app-reset-diolog-message">
-                    <span>请确认您已向卖家付款</span>
-                    <span class="red-color">恶意点击将直接冻结账户</span>
+                    <span>${this.$t('otc.confirmPay')}</span>
+                    <span class="red-color">${this.$t('otc.maliciousClick')}</span>
                 </div>`,
             }).then(() => {
                 this.changeLoading(true);
                 this.$api.otcDealPadi(this.orderDetail.id).then(() => {
                     this.getOrderData();
-                    this.$normalToast('确认成功');
+                    this.$normalToast(this.$t('otc.confirmSuccess'));
                     this.changeLoading(false);
                 }).catch((err: any) => {
                     this.changeLoading(false);
                     if (!err.data) {
-                        this.$normalToast('网络错误，刷新后重试');
+                        this.$normalToast(this.$t('common.networkErr'));
                     }
                 });
             });
         },
         cancleAppealHandle() {
             this.$dialog.confirm({
-                title: '确认取消申诉',
-                message: '确认取消本次申诉',
+                title: `${this.$t('otc.confirmAppeal')}`,
+                message: `${this.$t('otc.noConfirmAppeal')}`,
             }).then(() => {
                 this.changeLoading(true);
                 this.$api.otcAppealCancel(this.appealData.id).then(() => {
                     this.getOrderData();
-                    this.$normalToast('取消申诉成功');
+                    this.$normalToast(this.$t('otc.cancelAppealSuccess'));
                     this.changeLoading(false);
                 }).catch((err: any) => {
                     this.changeLoading(false);
                     if (!err.data) {
-                        this.$normalToast('网络错误，刷新后重试');
+                        this.$normalToast(this.$t('common.networkErr'));
                     }
                 });
             });
         },
         showSuggestHandle(suggest: string) {
             this.$dialog.alert({
-                title: '处理意见',
+                title: `${this.$t('otc.opinions')}`,
                 message: suggest,
             });
         },

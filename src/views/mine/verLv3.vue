@@ -1,7 +1,7 @@
 <template>
     <div class="realname">
         <TitleHeader :title="`${$t('mine.realName')}`">
-            <p class="realname-tip app-padding40">当前认证等级(LV3)</p>
+            <p class="realname-tip app-padding40">{{$t('mine.currentLv', {num: '3'})}}</p>
             <form class="realname-form app-padding40" action="">
                 <ul>
                     <li>
@@ -14,7 +14,7 @@
                     </li>
                 </ul>
             </form>
-            <div class="label_txt">请录制视频时口述以下内容：</div>
+            <div class="label_txt">{{$t('mine.lv3Tip')}}</div>
             <div class="label_cont">
                 <div class="label_item">{{$t('mine.verLv3Tip1')}}</div>
                 <div class="label_item">{{$t('mine.verLv3Tip2')}}</div>
@@ -69,7 +69,7 @@ export default Vue.extend({
                     if (res.code === 0) {
                         this.initUserInfo();
                         this.$toast({
-                            message: '上传成功',
+                            message: `${this.$t('common.uploadSuccess')}`,
                             icon: assetsS,
                             onClose: () => {
                                 this.$router.go(-1);
@@ -78,7 +78,7 @@ export default Vue.extend({
                     }
                 }).catch(() => {
                     this.uploadList.val = '';
-                    this.$normalToast('文件上传失败');
+                    this.$normalToast(this.$t('common.uploadFailed'));
                 }).finally(() => {
                     this.uploadList.title = 'mine.realName4';
                     this.isoading = false;
@@ -88,7 +88,7 @@ export default Vue.extend({
         fileChange(e: any, name: string) {
             const file = e.target.files[0];
             if (file.size > 20 * 1024 * 1024) {
-                this.$normalToast('文件过大，请重新选择');
+                this.$normalToast(this.$t('common.fileBigTip'));
                 return;
             }
             // 上传正确的图片格式
@@ -111,7 +111,7 @@ export default Vue.extend({
                     this.saveHandle();
                 } else {
                     // 格式
-                    this.$normalToast('文件格式错误，只支持MP4,MOV,AVI后缀视频文件');
+                    this.$normalToast(this.$t('common.fileErr'));
                 }
             }
         },

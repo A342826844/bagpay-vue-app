@@ -3,12 +3,12 @@
         <TitleHeader :title="$t('mine.feedback')">
             <form class="feedback-form app-padding40" action="">
                 <div class="form-item">
-                    <div class="lable">意见问题</div>
-                    <Inputs v-model="form.userName" placeholder="姓名" clearable></Inputs>
+                    <div class="lable">{{$t('mine.opinionQuest')}}</div>
+                    <Inputs v-model="form.userName" :placeholder="$t('payway.name')" clearable></Inputs>
                 </div>
                 <div class="form-item">
-                    <div class="lable">意见</div>
-                    <Inputs v-model="form.idCard"  placeholder="证件号码" clearable></Inputs>
+                    <div class="lable">{{$t('mine.opinion')}}</div>
+                    <Inputs v-model="form.idCard" :placeholder="$t('mine.cardNum')" clearable></Inputs>
                 </div>
             </form>
         </TitleHeader>

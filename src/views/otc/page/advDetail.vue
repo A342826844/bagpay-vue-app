@@ -19,17 +19,17 @@
                             <p class="otc-advdetail-pay">{{ orderDetail.pay_types | payType}}</p>
                         </div>
                         <div class="text-align-r">
-                            <p class="lable">单价</p>
+                            <p class="lable" v-t="'otc.unitPrice'"></p>
                             <h6 class="app-size-34 primary-color otc-advdetail-price">{{ orderDetail.price }}</h6>
                         </div>
                     </div>
                     <div class="flex-between-c app-padding40 app-margin-t40">
                         <div class="text-align-l">
-                            <p class="lable">数量({{orderDetail.coin | toUpperCase}})</p>
+                            <p class="lable">{{$t('otc.num')}}({{orderDetail.coin | toUpperCase}})</p>
                             <h6 class="app-size-34 otc-advdetail-price">{{ orderDetail.total }}</h6>
                         </div>
                         <div class="text-align-r">
-                            <p class="lable">限额</p>
+                            <p class="lable" v-t="'otc.quota'"></p>
                             <h6 class="app-size-34 otc-advdetail-price">{{_unitIcon}}{{orderDetail.min_value}}~{{orderDetail.max_value}}</h6>
                         </div>
                     </div>
@@ -38,41 +38,41 @@
                     </div>
                     <div class="otc-advdetail-tradeinfo flex-between-c app-padding40">
                         <div class="text-align-l">
-                            <p class="lable">成交({{orderDetail.coin | toUpperCase}}) </p>
+                            <p class="lable">{{$t('otc.deal')}}({{orderDetail.coin | toUpperCase}}) </p>
                             <p class="name  otc-advdetail-price">{{orderDetail.filled}}</p>
                         </div>
                         <div class="text-align-l">
-                            <p class="lable">冻结({{orderDetail.coin | toUpperCase}})</p>
+                            <p class="lable">{{$t('common.frozen')}}({{orderDetail.coin | toUpperCase}})</p>
                             <p class="name  otc-advdetail-price">{{orderDetail.frozen}}</p>
                         </div>
                         <div class="text-align-r">
-                            <p class="lable">溢价率</p>
+                            <p class="lable" v-t="'common.premium'"></p>
                             <p class="name  otc-advdetail-price">--</p>
                         </div>
                     </div>
                 </div>
                 <div v-if="false" class="pay-type app-padding40">
                     <div class="pay-type-box app-padding40">
-                        <p>收款方式</p>
+                        <p v-t="'otc.payment'"></p>
                         <p>{{ orderDetail.pay_types | payType}}</p>
                     </div>
                 </div>
                 <div class="order-info otc-advdetail-card app-padding40">
                     <div class="flex-between-c">
-                        <p>发布时间</p>
+                        <p v-t="'common.releaseTime'"></p>
                         <p>{{ orderDetail.created_at | date('yyyy-MM-dd hh:mm:ss')}}</p>
                     </div>
                     <div class="flex-between-c">
-                        <p>订单编号</p>
+                        <p v-t="'otc.orderNum'"></p>
                         <p>{{ orderDetail.id }}#</p>
                     </div>
                     <div class="app-margin-t40">
                         <div class="border-b "></div>
                     </div>
                     <div class="text-align-l otc-advdetail-mark">
-                        <p class="lable">备注</p>
+                        <p class="lable" v-t="'payment.remark'"></p>
                         <div class="otc-advdetail-num">
-                            {{ orderDetail.remark || '商家很懒，什么都没写' }}
+                            {{ orderDetail.remark || $t('payment.defaultRemark') }}
                         </div>
                     </div>
                 </div>
@@ -87,9 +87,9 @@
                                 <span :class="item.state | otcDealStateColor">{{item.state | otcDealState}}</span>
                             </template>
                             <template slot="lable">
-                                <span>{{"价格"}} ({{_unit}})</span>
-                                <span>{{"数量"}} ({{item.coin && item.coin.toUpperCase()}})</span>
-                                <span>{{"时间"}} </span>
+                                <span>{{$t('common.price')}} ({{_unit}})</span>
+                                <span>{{$t('otc.num')}} ({{item.coin && item.coin.toUpperCase()}})</span>
+                                <span>{{$t('common.time')}} </span>
                             </template>
                             <template slot="value">
                                 <span>{{item.price}}</span>
@@ -202,7 +202,7 @@ export default Vue.extend({
                 }
             }).catch(() => {
                 this.changeLoading(false);
-                this.$normalToast('获取订单详情失败');
+                this.$normalToast(this.$t('otc.orderInfoFailed'));
             });
         },
         goAdvState(item: any) {
@@ -236,7 +236,7 @@ export default Vue.extend({
         },
         cancelHandle() {
             this.$dialog.confirm({
-                title: '确认下架广告',
+                title: `${this.$t('otc.shelfAdv')}`,
             }).then(() => {
                 this.changeLoading(true);
                 this.$api.otcOrderCancel(this.orderDetail.id).then(() => {

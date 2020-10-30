@@ -73,16 +73,16 @@ export default Vue.extend({
             }).catch((err: any) => {
                 this.changeLoading(false);
                 if (!err.data) {
-                    this.$normalToast('收款方式获取失败');
+                    this.$normalToast(this.$t('common.collectionFailure'));
                 }
             });
         },
         addHandle() {
             if (this._userInfo.ver_lv < 1) {
                 this.$dialog.confirm({
-                    title: '温馨提示',
-                    message: '您还未进行LV1认证，请先认证',
-                    confirmButtonText: '去认证',
+                    title: `${this.$t('common.poptip')}`,
+                    message: `${this.$t('mine.notCertified', { num: 1 })}`,
+                    confirmButtonText: `${this.$t('mine.toAuthenticate')}`,
                 }).then(() => {
                     this.$router.push('/mine/safesetting');
                 });

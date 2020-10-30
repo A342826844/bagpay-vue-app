@@ -1,7 +1,7 @@
 <template>
     <div class="entry">
         <Headers :isBack="false">
-            <span v-show="activeTab !== 2" class="primary-color" @click="activeTab = 2">跳过</span>
+            <span v-show="activeTab !== 2" class="primary-color" @click="activeTab = 2">{{$t('entry.skip')}}</span>
         </Headers>
         <div class="entry-banner">
             <ul
@@ -22,8 +22,8 @@
             </ul>
         </div>
         <div v-show="activeTab === 2" class="entry-btn app-size-34">
-            <Button @click="$router.push('/login')" class="entry-btn-item">登录账号</Button>
-            <Button @click="$router.push('/register')" class="entry-btn-item" border type="info">创建账号</Button>
+            <Button @click="$router.push('/login')" class="entry-btn-item">{{$t('login.loginTitle')}}</Button>
+            <Button @click="$router.push('/register')" class="entry-btn-item" border type="info">{{$t('login.registerTitle')}}</Button>
         </div>
         <div v-show="activeTab !== 2" class="entry-next flex-between-c">
             <span  href="javascript:void(0)"></span>

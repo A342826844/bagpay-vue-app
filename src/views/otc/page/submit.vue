@@ -169,11 +169,11 @@ export default Vue.extend({
         },
         submitHandle() {
             if (!Number(this.form.amount)) {
-                this.$normalToast('请输入数量或者金额');
+                this.$normalToast(this.$t('otc.enterNum'));
                 return;
             }
             if (Number(this.form.amount) <= 0) {
-                this.$normalToast('请输入数量或者金额');
+                this.$normalToast(this.$t('otc.enterNum'));
                 return;
             }
             // this.$dialog.confirm({
@@ -240,7 +240,7 @@ export default Vue.extend({
                 this.changeLoading(false);
                 this.$router.replace(`/otc/order/detail?id=${res.data.id}`);
             }).catch(() => {
-                this.$normalToast('下单失败');
+                this.$normalToast(this.$t('otc.orderFailed'));
                 this.changeLoading(false);
             });
         },

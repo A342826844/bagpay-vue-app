@@ -203,14 +203,14 @@ export default Vue.extend({
             this.changeLoading(true);
             this.$api.addUserBank(params).then(() => {
                 this.changeLoading(false);
-                this.$normalToast('添加成功');
+                this.$normalToast(this.$t('mine.addSuccess'));
                 setTimeout(() => {
                     this.$router.go(-1);
                 }, 1500);
             }).catch((err: any) => {
                 this.changeLoading(false);
                 if (!err.data) {
-                    this.$normalToast('添加失败，请稍后重试');
+                    this.$normalToast(this.$t('mine.addFailed'));
                 }
             });
         },

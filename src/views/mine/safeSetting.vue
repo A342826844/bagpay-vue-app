@@ -22,7 +22,7 @@
           <div v-t="_userInfo.pay_password !== '1' ? 'mine.setSafePass' : 'mine.safePass'"></div>
           <div>
             <span class="vertical-m" :class="_userInfo.pay_password !== '1' ? 'red-color' : 'primary-color'">{{
-              _userInfo.pay_password === '1' ? "已设置" : "未设置"
+              _userInfo.pay_password === '1' ? $t('mine.set') : $t('mine.notSet')
             }}</span>
             <img
               class="app-img-50"
@@ -34,7 +34,7 @@
         <li @click="$router.push('/mine/changePwd')" class="flex-between-c payment_item">
           <div v-t="'mine.changePwd'"></div>
           <div>
-            <span class="vertical-m primary-color">已设置</span>
+            <span class="vertical-m primary-color">{{$t('mine.set')}}</span>
             <img
               class="app-img-50"
               src="../../assets/img/common/arrow_right.png"
@@ -90,16 +90,16 @@ export default Vue.extend({
                     this.verLvStatus = res.data;
                     const verLv = this._userInfo.ver_lv < 3 ? this._userInfo.ver_lv + 1 : this._userInfo.ver_lv;
                     if (this._userInfo.ver_lv === 0) {
-                        this.verLvTxt = '未认证';
+                        this.verLvTxt = `${this.$t('mine.notCertified1')}`;
                         this.verLvClass = 'red-color';
                     } else if (this.verLvStatus.status_lv_1 === 1 || this.verLvStatus.status_lv_2 === 1 || this.verLvStatus.status_lv_3 === 1) {
-                        this.verLvTxt = `审核中(LV${verLv})`;
+                        this.verLvTxt = `${this.$t('mine.underReview')}(LV${verLv})`;
                         this.verLvClass = 'primary-color';
                     } else if (this.verLvStatus.status_lv_1 === 3 || this.verLvStatus.status_lv_2 === 3 || this.verLvStatus.status_lv_3 === 3) {
-                        this.verLvTxt = `未通过(LV${verLv})`;
+                        this.verLvTxt = `${this.$t('mine.failed')}(LV${verLv})`;
                         this.verLvClass = 'red-color';
                     } else if (this.verLvStatus.status_lv_1 === 2 || this.verLvStatus.status_lv_2 === 2 || this.verLvStatus.status_lv_3 === 2) {
-                        this.verLvTxt = `已认证(LV${this._userInfo.ver_lv})`;
+                        this.verLvTxt = `${this.$t('mine.certified')}(LV${this._userInfo.ver_lv})`;
                         this.verLvClass = 'primary-color';
                     }
                 }

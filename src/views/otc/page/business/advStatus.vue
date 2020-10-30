@@ -27,19 +27,19 @@ export default Vue.extend({
         getImg() {
             switch (this.status) {
             case '0':
-                this.statusTxt = '审核已提交，等待客服处理';
+                this.statusTxt = `${this.$t('business.busStatus1')}`;
                 return require(`@/assets/img/mine/status${Number(this.status) + 1}.png`);
             case '1':
-                this.statusTxt = '您已认证广告商家';
+                this.statusTxt = `${this.$t('business.busStatus2')}`;
                 return require(`@/assets/img/mine/status${Number(this.status) + 1}.png`);
             case '2':
-                this.statusTxt = '审核未通过';
+                this.statusTxt = `${this.$t('business.busStatus3')}`;
                 return require(`@/assets/img/mine/status${Number(this.status) + 1}.png`);
             case '3': case '4': case '5':
-                this.statusTxt = '审核未通过';
+                this.statusTxt = `${this.$t('business.busStatus3')}`;
                 return require('@/assets/img/mine/status3.png');
             default:
-                this.statusTxt = '审核未通过';
+                this.statusTxt = `${this.$t('business.busStatus3')}`;
                 return require('@/assets/img/mine/status3.png');
             }
         },

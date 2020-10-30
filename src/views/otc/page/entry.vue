@@ -2,7 +2,7 @@
     <div class="otc">
         <Drawer position="right" v-model="screen">
             <OrderFilter size='small' :title="$t('common.screen')">
-                <SubOrderFilter title="状态">
+                <SubOrderFilter :title="$t('common.status')">
                     <SubOrderFilterItem>待付款</SubOrderFilterItem>
                     <SubOrderFilterItem :active="true">待付款</SubOrderFilterItem>
                     <SubOrderFilterItem>待付款</SubOrderFilterItem>
@@ -276,9 +276,9 @@ export default Vue.extend({
             //     "created_at": "", //创建时间
             if (!this._userInfo.pay_password) {
                 this.$dialog.confirm({
-                    title: '温馨提示',
-                    message: '请先绑定支付密码',
-                    confirmButtonText: '去绑定',
+                    title: `${this.$t('common.poptip')}`,
+                    message: `${this.$t('otc.payPwd')}`,
+                    confirmButtonText: `${this.$t('otc.bind')}`,
                 }).then(() => {
                     this.$router.push('/mine/safepass');
                 });
@@ -287,9 +287,9 @@ export default Vue.extend({
             const bankRes = this.userBank.some((subItem) => subItem.type === Number(item.pay_types));
             if (!bankRes) {
                 this.$dialog.confirm({
-                    title: '温馨提示',
-                    message: '暂无支持的收付款方式',
-                    confirmButtonText: '去绑定',
+                    title: `${this.$t('common.poptip')}`,
+                    message: `${this.$t('otc.noPayWay')}`,
+                    confirmButtonText: `${this.$t('otc.bind')}`,
                 }).then(() => {
                     this.$router.push('/payway');
                 });
@@ -376,9 +376,9 @@ export default Vue.extend({
                 console.log(this._userInfo, 1221);
                 if (this._userInfo.ver_lv === 0 || this._userInfo.ver_lv === 1 || this._userInfo.ver_lv === 2) {
                     this.$dialog.confirm({
-                        title: '温馨提示',
-                        message: '您需要先完成lv3认证，请先认证',
-                        confirmButtonText: '去认证',
+                        title: `${this.$t('common.poptip')}`,
+                        message: `${this.$t('mine.notCertified', { num: 3 })}`,
+                        confirmButtonText: `${this.$t('mine.toAuthenticate')}`,
                     }).then(() => {
                         this.$router.push('/mine/safesetting');
                     });
@@ -386,9 +386,9 @@ export default Vue.extend({
                 }
                 if (this.otcSattus !== 1) {
                     this.$dialog.confirm({
-                        title: '温馨提示',
-                        message: '您还不是广告商家，请先去申请认证',
-                        confirmButtonText: '去认证',
+                        title: `${this.$t('common.poptip')}`,
+                        message: `${this.$t('otc.noBusiness')}`,
+                        confirmButtonText: `${this.$t('mine.toAuthenticate')}`,
                     }).then(() => {
                         this.$router.push('/otc/advBusiness');
                     });
@@ -396,9 +396,9 @@ export default Vue.extend({
                 }
                 if (!this._userInfo.pay_password) {
                     this.$dialog.confirm({
-                        title: '温馨提示',
-                        message: '请先绑定支付密码',
-                        confirmButtonText: '去绑定',
+                        title: `${this.$t('common.poptip')}`,
+                        message: `${this.$t('otc.payPwd')}`,
+                        confirmButtonText: `${this.$t('otc.bind')}`,
                     }).then(() => {
                         this.$router.push('/mine/safepass');
                     });

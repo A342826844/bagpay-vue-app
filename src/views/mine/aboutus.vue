@@ -9,7 +9,7 @@
         />
         <p class="aboutus-box-version">v {{version}}</p>
         <div class="aboutus-box-upload app-padding40">
-          <Inputs readonly value="版本更新" @click.native="saveHandle">
+          <Inputs readonly :value="$t('mine.updateV')" @click.native="saveHandle">
             <img
               class="app-img-50"
               src="../../assets/img/common/arrow_right.png"
@@ -19,7 +19,7 @@
         </div>
       </div>
     </TitleHeader>
-    <van-dialog v-model="show" :title="force_update ? '强制更新' : '更新'" :show-confirm-button="!force_update">
+    <van-dialog v-model="show" :title="force_update ? $t('mine.forceUpdate') : $t('mine.update')" :show-confirm-button="!force_update">
         <van-circle v-model="rate" :rate="progress" :speed="100" :text="toastOperateTitle" />
     </van-dialog>
   </div>
@@ -49,7 +49,7 @@ export default Vue.extend({
             isLoading: false,
             show: false,
             force_update: false,
-            toastOperateTitle: '正在下载 0%',
+            toastOperateTitle: `${this.$t('mine.downloading')} 0%`,
             form: {
                 userName: '',
                 idCard: '',
@@ -78,7 +78,7 @@ export default Vue.extend({
             }).then((res: any) => {
                 if (res.code === 0) {
                     if (!res.data) {
-                        this.$normalToast('当前已是最新版本');
+                        this.$normalToast(this.$t('mine.newestV'));
                         return;
                     }
                     if (res.data.force_update) {
@@ -87,8 +87,8 @@ export default Vue.extend({
                         this.downlaodApp(res.data.url);
                     } else {
                         this.$dialog.confirm({
-                            title: '版本更新',
-                            message: '检测到新版本， 是否更新',
+                            title: `${this.$t('mine.updateV')}`,
+                            message: `${this.$t('mine.updateTip')}`,
                         }).then(() => {
                             this.show = true;
                             this.downlaodApp(res.data.url);
@@ -109,7 +109,7 @@ export default Vue.extend({
                     // window.plus.runtime.quit();
                         this.show = false;
                     }, () => {
-                        this.$normalToast('安装失败');
+                        this.$normalToast(this.$t('mine.installFailed'));
                         this.show = false;
                     });
                 }
@@ -119,7 +119,7 @@ export default Vue.extend({
                 // eslint-disable-next-line no-mixed-operators
                 const temp = download.downloadedSize / download.totalSize * 100;
                 this.progress = temp ? Number(temp.toFixed(2)) : 0;
-                this.toastOperateTitle = `正在下载 ${this.progress}%`;
+                this.toastOperateTitle = `${this.$t('mine.downloading')} ${this.progress}%`;
             });
         },
     },

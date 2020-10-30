@@ -1,7 +1,9 @@
 <template>
     <div class="otc-advertising">
         <Headers>
-            <span>市场参考价： <span @click="changePrice" class="primary-color">{{exchangeRate[form.coin] || '--'}} {{_unitIcon}}</span></span>
+            <span>
+                {{$t('otc.referencePrice')}} <span @click="changePrice" class="primary-color">{{exchangeRate[form.coin] || '--'}} {{_unitIcon}}</span>
+            </span>
         </Headers>
         <div class="otc-advertising-box">
             <TabList
@@ -38,33 +40,33 @@
                                 type="number"
                                 :autofocus="true"
                                 v-model="formTemp[`form${item.type}`].price"
-                                :placeholder="`${item.title}价格`"
+                                :placeholder="`${item.title}${$t('common.price')}`"
                             >
-                                <span class="form-item-start" slot="start">价格</span>
+                                <span class="form-item-start" slot="start">{{$t('common.price')}}</span>
                                 {{_unitIcon}}
                             </Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs :decimal="2" v-model="formTemp[`form${item.type}`].amount" :placeholder="`${item.title}数量`">
-                                <span class="form-item-start" slot="start">数量</span>
+                            <Inputs :decimal="2" v-model="formTemp[`form${item.type}`].amount" :placeholder="`${item.title}${$t('otc.num')}`">
+                                <span class="form-item-start" slot="start" v-t="'otc.num'"></span>
                                 {{coinSHow}}
                             </Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs readonly :value="total || '总额'">
-                                <span class="form-item-start" slot="start">总额</span>
+                            <Inputs readonly :value="total || $t('otc.total')">
+                                <span class="form-item-start" slot="start">{{$t('otc.total')}}}</span>
                                 {{_unitIcon}}
                             </Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs decimal v-model="formTemp[`form${item.type}`].min_value" placeholder="单笔最低限额">
-                                <span class="form-item-start" slot="start">最低</span>
+                            <Inputs decimal v-model="formTemp[`form${item.type}`].min_value" :placeholder="$t('otc.minLimit')">
+                                <span class="form-item-start" slot="start">{{$t('otc.min')}}</span>
                                 {{_unitIcon}}
                             </Inputs>
                         </div>
                         <div class="form-item">
-                            <Inputs decimal v-model="formTemp[`form${item.type}`].max_value" placeholder="单笔最高限额">
-                                <span class="form-item-start" slot="start">最高</span>
+                            <Inputs decimal v-model="formTemp[`form${item.type}`].max_value" :placeholder="$t('otc.maxLimit')">
+                                <span class="form-item-start" slot="start">{{$t('otc.max')}}</span>
                                 {{_unitIcon}}
                             </Inputs>
                         </div>
@@ -82,12 +84,12 @@
                                     {{formTemp[`form${item.type}`].pay_types[0] | payType}}
                                 </span>
                                 <span v-if="!formTemp[`form${item.type}`].pay_types.length" class="vertical-m">
-                                    {{item.type === 1 ? '支付方式' : '收款方式'}}
+                                    {{item.type === 1 ? $t('common.payway') : $t('otc.payment')}}
                                 </span>
                             </Select>
                         </div>
                         <!-- TODO 备注 -->
-                        <div class="form-item text-align-l">备注</div>
+                        <div class="form-item text-align-l">{{$t('payment.remark')}}</div>
                         <div class="form-item">
                             <V-Field
                                 v-model="formTemp[`form${item.type}`].remark"
@@ -95,7 +97,7 @@
                                 autosize
                                 type="textarea"
                                 maxlength="60"
-                                :placeholder="'备注信息（非必填）'"
+                                :placeholder="$t('payment.remarkTip')"
                                 show-word-limit
                             >
                             </V-Field>
@@ -106,13 +108,14 @@
                             单个发布广告买入/卖出数量限制 0.01~1000 {{coinSHow}}
                         </PoptipItem> -->
                         <PoptipItem>
-                            认证广告商家发布广告将没有累计限制
+                            {{$t('otc.advTip1')}}
                         </PoptipItem>
                         <PoptipItem>
-                            发布广告暂仅支持固定价格，数字货币价格浮动，请随时调整
+                            {{$t('otc.advTip2')}}
                         </PoptipItem>
                         <PoptipItem>
-                            广告若产生场外交易请及时处理
+
+                            {{$t('otc.advTip3')}}
                         </PoptipItem>
                     </Poptip>
                     <div class="app-size-34 lxa-footer-btn">
@@ -124,7 +127,7 @@
                             ||
                             !formTemp[`form${item.type}`].min_value
                             ||
-                            !formTemp[`form${item.type}`].max_value">发 布</Button>
+                            !formTemp[`form${item.type}`].max_value">{{$t('common.release')}}</Button>
                     </div>
                 </div>
             </TabList>
@@ -269,11 +272,11 @@ export default Vue.extend({
         bodyTabList(): any {
             return [
                 {
-                    title: '购买',
+                    title: this.$t('common.sideBuyT'),
                     value: 'buy',
                     type: 1,
                 }, {
-                    title: '出售',
+                    title: this.$t('common.sideSellT'),
                     value: 'sell',
                     type: 2,
                 },
@@ -348,43 +351,43 @@ export default Vue.extend({
         },
         submitHandle() {
             if (!Number(this.formTemp[this.typeKey].price)) {
-                this.$normalToast('请输入价格');
+                this.$normalToast(this.$t('otc.enterPrice'));
                 return;
             }
             if (Number(this.formTemp[this.typeKey].price) <= 0) {
-                this.$normalToast('请输入大于0的价格');
+                this.$normalToast(this.$t('otc.enterPrice2', { num: '0' }));
                 return;
             }
             if (!Number(this.formTemp[this.typeKey].amount)) {
-                this.$normalToast('请输入数量');
+                this.$normalToast(this.$t('otc.enterNum2'));
                 return;
             }
             if (Number(this.formTemp[this.typeKey].amount) <= 0) {
-                this.$normalToast('请输入数量');
+                this.$normalToast(this.$t('otc.enterNum2'));
                 return;
             }
             if (!Number(this.formTemp[this.typeKey].min_value)) {
-                this.$normalToast('请输入单笔最低限额');
+                this.$normalToast(this.$t('otc.minLimit2'));
                 return;
             }
             if (Number(this.formTemp[this.typeKey].min_value) <= 0) {
-                this.$normalToast('请输入单笔最低限额');
+                this.$normalToast(this.$t('otc.minLimit2'));
                 return;
             }
             if (!this.formTemp[this.typeKey].max_value) {
-                this.$normalToast('请输入单笔最高限额');
+                this.$normalToast(this.$t('otc.maxLimit2'));
                 return;
             }
             if (!this.formTemp[this.typeKey].pay_types.length) {
-                this.$normalToast('请选择收付款方式');
+                this.$normalToast(this.$t('otc.selectPayWay'));
                 return;
             }
             if (Number(this.formTemp[this.typeKey].min_value) > Number(this.total)) {
-                this.$normalToast('单笔最低限额不能大于支付金额');
+                this.$normalToast(this.$t('otc.minLimit3'));
                 return;
             }
             if (Number(this.formTemp[this.typeKey].max_value) <= Number(this.formTemp[this.typeKey].min_value)) {
-                this.$normalToast('单笔最高限额不能低于最底限额');
+                this.$normalToast(this.$t('otc.maxLimit3'));
                 return;
             }
             if (this.type === 2) {

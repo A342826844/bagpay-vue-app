@@ -62,7 +62,7 @@ export default Vue.extend({
             }).catch((err: any) => {
                 this.changeLoading(false);
                 if (!err.data) {
-                    this.$normalToast('收款方式获取失败');
+                    this.$normalToast(this.$t('common.collectionFailure'));
                 }
             });
             // this.$api.getUserBankList().then((res: any) => {
@@ -83,9 +83,9 @@ export default Vue.extend({
         addHandle() {
             if (this._userInfo.ver_lv < 1) {
                 this.$dialog.confirm({
-                    title: '温馨提示',
-                    message: '您还未进行LV1认证，请先认证',
-                    confirmButtonText: '去认证',
+                    title: `${this.$t('common.poptip')}`,
+                    message: `${this.$t('mine.notCertified', { num: 1 })}`,
+                    confirmButtonText: `${this.$t('mine.toAuthenticate')}`,
                 }).then(() => {
                     this.$router.push('/mine/safesetting');
                 });
@@ -117,7 +117,7 @@ export default Vue.extend({
             }).catch((err: any) => {
                 this.changeLoading(false);
                 if (!err.data) {
-                    this.$normalToast('禁用失败，请稍后重试');
+                    this.$normalToast(this.$t('mine.disableFailed'));
                 }
             });
         },
@@ -137,7 +137,7 @@ export default Vue.extend({
             }).catch((err: any) => {
                 this.changeLoading(false);
                 if (!err.data) {
-                    this.$normalToast('启用失败，请稍后重试');
+                    this.$normalToast(this.$t('mine.startFailed'));
                 }
             });
         },

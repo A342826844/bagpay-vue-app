@@ -182,7 +182,7 @@ export default Vue.extend({
                 }).then((res: any) => {
                     if (res.code === 0) {
                         this.$toast({
-                            message: '注册成功',
+                            message: `${this.$t('login.registSuccess')}`,
                             icon: assetsS,
                             onClose: () => {
                                 this.$router.replace(`/login?phone=${this.form.phone}`);

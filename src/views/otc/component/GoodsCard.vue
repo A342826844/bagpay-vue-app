@@ -10,18 +10,18 @@
                     <p class="otc-good-card-pay value">{{ renderData.pay_types | payType}}</p>
                 </div>
                 <div class="text-align-r">
-                    <p class="lable">单价</p>
+                    <p class="lable" v-t="'otc.unitPrice'"></p>
                     <h6 class="app-size-34 primary-color otc-good-card-price">${{ renderData.price }}</h6>
                 </div>
             </div>
             <div class="flex-between-c otc-good-card-num">
                 <div class="text-align-l value">
                     <div>
-                        <span class="lable">数量</span>
+                        <span class="lable" v-t="'otc.num'"></span>
                         {{ Number((renderData.total - renderData.filled - renderData.frozen).toFixed(4)) }}  {{renderData.coin.toUpperCase()}}
                     </div>
                     <div>
-                        <span class="lable">限额</span> ${{ renderData.min_value }}~{{ renderData.max_value }}
+                        <span class="lable" v-t="'otc.quota'"></span> ${{ renderData.min_value }}~{{ renderData.max_value }}
                     </div>
                 </div>
                 <div>

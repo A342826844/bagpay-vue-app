@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="values">
                                     <h5 class="value">{{item.amount}}</h5>
-                                    <p class="sub-value">手续费：<span class="price">{{item.fee || 0}}</span></p>
+                                    <p class="sub-value">{{$t('home.serviceCharge')}}：<span class="price">{{item.fee || 0}}</span></p>
                                 </div>
                             </li>
                         </ul>
@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="values">
                                     <h5 class="value">{{item.amount}}</h5>
-                                    <p class="sub-value">手续费：<span class="price">{{item.fee}}</span></p>
+                                    <p class="sub-value">{{$t('home.serviceCharge')}}：<span class="price">{{item.fee}}</span></p>
                                     <img class="cancel_img" @click="cancel(item.id)"
                                         v-if="item.status === 0" src="@/assets/img/mine/cancel.png" alt="">
                                 </div>

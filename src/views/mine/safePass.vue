@@ -1,8 +1,8 @@
 <template>
     <div class="realname">
         <TitleHeader :title="step === 1 ? $t('mine.setSafePass') : $t('mine.confirmSafePass')">
-            <p class="app-padding40 realname-tip" v-show="step === 1">设置6位数安全密码，安全码将用于交易， 以及验证修改登录密码</p>
-            <p class="app-padding40 realname-tip" v-show="step === 2">确认6位数安全密码，安全码将用于交易， 以及验证修改登录密码</p>
+            <p class="app-padding40 realname-tip" v-show="step === 1">{{$t('mine.payPwdTip1')}}</p>
+            <p class="app-padding40 realname-tip" v-show="step === 2">{{$t('mine.payPwdTip2')}}</p>
             <form class="realname-form app-padding40" action="" v-show="step === 1">
                <!-- 密码输入框 -->
                 <V-Pass-Input
@@ -34,7 +34,7 @@
                 @delete="onDelete2"
                 @blur="showKeyboard2 = false"
                 />
-                <div class="re_input" @click="clear">重新输入</div>
+                <div class="re_input" @click="clear">{{$t('mine.reInput')}}</div>
             </form>
         </TitleHeader>
         <!-- <div class="lxa-footer-btn">

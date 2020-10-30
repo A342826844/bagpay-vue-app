@@ -133,7 +133,7 @@ export default Vue.extend({
                     name: 'home',
                 });
             }).catch(() => {
-                this.$normalToast('登录失败');
+                this.$normalToast(this.$t('login.loginFailed'));
             }).finally(() => {
                 this.changeLoading(false);
             });

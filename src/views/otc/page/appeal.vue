@@ -1,13 +1,13 @@
 <template>
     <div class="otc-appeal">
-        <TitleHeader :title="'订单申诉'" />
+        <TitleHeader :title="$t('otc.orderAppeal')" />
         <form class="app-padding40 app-size-34" action="">
             <div class="form-item">
-                <div class="lable">申诉类型</div>
+                <div class="lable" v-t="'otc.appealType'"></div>
                 <Select @click="selectPopup = !selectPopup">{{ form.type | otcAppealType}}</Select>
             </div>
             <div class="form-item">
-                <div class="lable">申诉原因</div>
+                <div class="lable" v-t="'otc.appealReason2'"></div>
                 <V-Field
                     v-model="form.content"
                     rows="3"
@@ -15,18 +15,18 @@
                     :autofocus="true"
                     type="textarea"
                     maxlength="60"
-                    :placeholder="'请输入申诉原因'"
+                    :placeholder="$t('otc.appealReason')"
                     show-word-limit
                 >
                 </V-Field>
             </div>
             <div class="form-item">
-                <div class="lable">上传图片凭证</div>
+                <div class="lable" v-t="'otc.uploadPhoto2'"></div>
                 <V-Uploader :after-read="afterRead" :max-count="3" v-model="fileList" multiple></V-Uploader>
             </div>
         </form>
         <div class="app-size-34 lxa-footer-btn flex-around-c">
-            <Button :disabled="!form.content || !fileList.length" @click="submitHandle" >确定</Button>
+            <Button :disabled="!form.content || !fileList.length" @click="submitHandle">{{$t('common.ok')}}</Button>
         </div>
         <SelectPopup v-model="selectPopup">
             <SelectPopupItem
@@ -69,11 +69,11 @@ export default Vue.extend({
     methods: {
         submitHandle() {
             if (!this.form.content) {
-                this.$normalToast('请输入申诉原因');
+                this.$normalToast(this.$t('otc.appealReason'));
                 return;
             }
             if (!this.fileList.length) {
-                this.$normalToast('请上传照片凭证');
+                this.$normalToast(this.$t('otc.uploadPhoto'));
                 return;
             }
             this.otcAppealSubmit();
@@ -116,7 +116,7 @@ export default Vue.extend({
             this.changeLoading(true);
             this.$api.otcAppealSubmit(params).then(() => {
                 this.changeLoading(false);
-                this.$normalToast('申诉成功');
+                this.$normalToast(this.$t('otc.appealSuccess'));
                 setTimeout(() => {
                     this.$router.go(-1);
                 }, 1000);
