@@ -38,6 +38,8 @@ const isHttpUrl = (str: string) => {
     return false;
 };
 
+const genID = (length = 8) => Number(Math.random().toString().substr(3, length) + Date.now()).toString(36);
+
 export {
     DateForamt,
     Empty,
@@ -46,4 +48,5 @@ export {
     getQueryUrl,
     queryStringify,
     isHttpUrl,
+    genID,
 };

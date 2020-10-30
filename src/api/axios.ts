@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import Dialog from 'vant/lib/dialog';
 import i18n from '@/i18n/index';
 import { normalToast } from '@/commons/dom/index';
+import { genID } from '@/utils/tool';
 import store from '../store';
 
 axios.defaults.timeout = 30 * 1000;
@@ -13,8 +14,13 @@ axios.defaults.headers.get.Accept = 'application/json';
 /**
  * resetConfig
  */
-function resetConfig(config: AxiosRequestConfig, lang: string, Authorization?: string) {
-    const resConfig: AxiosRequestConfig = {
+
+interface AxiosConfig extends AxiosRequestConfig{
+    cancleId?: string;
+}
+
+function resetConfig(config: AxiosConfig, lang: string, Authorization?: string) {
+    const resConfig: AxiosConfig = {
         ...config,
     };
     if (!resConfig.data) {
@@ -36,7 +42,9 @@ function resetConfig(config: AxiosRequestConfig, lang: string, Authorization?: s
 }
 
 const axiosJavaPromiseArr: Array<any> = [];
-const axiosGoPromiseArr: Array<any> = [];
+const axiosGoPromiseArr: { value: Array<any> } = {
+    value: [],
+};
 
 const axiosOfJava = axios.create();
 axiosOfJava.interceptors.request.use(
@@ -73,12 +81,15 @@ axiosOfJava.interceptors.response.use(
 
 const axiosOfGoLang = axios.create();
 axiosOfGoLang.interceptors.request.use(
-    (config) => {
-        // XXX: 待优化， axiosGoPromiseArr会很多
+    (config: AxiosConfig) => {
+        const cancleId = genID();
         // eslint-disable-next-line no-param-reassign
         config.cancelToken = new axios.CancelToken((cancel) => {
-            axiosGoPromiseArr.push({ cancel });
+            axiosGoPromiseArr.value.push({ cancel, cancleId });
         });
+        // eslint-disable-next-line no-param-reassign
+        config.cancleId = cancleId;
+
         // 语言国际化
         const { lang } = store.state;
         const AUTH_TOKEN = store.state.sessionId;
@@ -89,6 +100,9 @@ axiosOfGoLang.interceptors.request.use(
 // Add a response interceptor
 axiosOfGoLang.interceptors.response.use(
     (response) => {
+        // 过滤请求完成的CancelToken
+        axiosGoPromiseArr.value = axiosGoPromiseArr.value.filter((item: any) => (response.config as AxiosConfig).cancleId !== item.cancleId);
+
         if (response.data.code !== 0) {
             if (response.data.message && /^ERR/.test(response.data.message)) {
                 normalToast(i18n.t(`error.${response.data.message}`));
@@ -98,6 +112,10 @@ axiosOfGoLang.interceptors.response.use(
         return response.data;
     },
     (error) => {
+        // 过滤请求完成的CancelToken
+        const cancleId = error.message.cancleId || (error.response.config as AxiosConfig).cancleId;
+        axiosGoPromiseArr.value = axiosGoPromiseArr.value.filter((item: any) => cancleId !== item.cancleId);
+
         if (error.response && error.response.status === 403) {
             Dialog.alert({
                 title: '温馨提示',

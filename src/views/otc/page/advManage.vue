@@ -150,10 +150,9 @@ export default Vue.extend({
                 this.changeLoading(true);
             }
             // 取消请求
-            if (axiosGoPromiseArr) {
-                axiosGoPromiseArr.forEach((ele, index) => {
-                    ele.cancel('001');
-                    delete axiosGoPromiseArr[index];
+            if (axiosGoPromiseArr.value) {
+                axiosGoPromiseArr.value.forEach((ele) => {
+                    ele.cancel(ele);
                 });
             }
             this.$api.otcOrderList(params).then((res: any) => {
