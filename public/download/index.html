@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" class="html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1, minimum-scale=1, user-scalable=no,viewport-fit=cover">
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+    <script src="./js/swiper.min.js"></script>
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/swiper.min.css">
+    <title>BagPay 下载</title>
+</head>
+<body class="body_container">
+    <div id="app">
+        <div class="logo_box">
+            <img src="./img/logo.png" alt="" class="logo_img">
+        </div>
+    
+        <div class="white_bg">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="./img/swi1.jpg" alt="" class="swi_img">
+                        <div class="blue_title">多币种钱包</div>
+                        <p>支持多种主流币种 跨链交易 方便高效</p>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="./img/swi2.jpg" alt="" class="swi_img">
+                        <div class="blue_title">多重保障 更加安全</div>
+                        <p>私钥多重保护 账户安全无需担心</p>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="./img/swi3.jpg" alt="" class="swi_img">
+                        <div class="blue_title">欢迎来到Bag Pay</div>
+                        <p>安全放心 方便快捷</p>
+                    </div>
+                </div>
+                <!-- 分页器 -->
+                <div class="swiper-pagination"></div>
+            </div>
+
+            <div class="btn_box">
+                <div id="android_download" class = "android_btn android_img" @click.stop="androidDown">
+                    <span >Android 下载</span>
+                    <img v-show="loading1" class="loading" src="./img/loading.gif">
+                </div>
+                <div id="ios_download" class = "ios_btn ios_img" @click.stop="iosDown">
+                    <span  style="color:white">IOS 下载</span>
+                    <img v-show="loading2" class="loading" src="./img/loading.gif">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script src="https://lib.baomitu.com/vue/2.6.11/vue.js"></script>
+    <script src="https://lib.baomitu.com/axios/0.21.0/axios.min.js"></script>
+    <script>
+        var browser = {
+            versions: function () {
+                var u = navigator.userAgent, app = navigator.appVersion;
+                return {//移动终端浏览器版本信息
+                trident: u.indexOf('Trident') > -1, //IE内核
+                presto: u.indexOf('Presto') > -1, //opera内核
+                webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                mobile: !!u.match(/AppleWebKit.*Mobile/i) || !!u.match(/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/), //是否为移动终端
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                iPad: u.indexOf('iPad') > -1, //是否iPad
+                webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+                };
+            } (),
+            // language: (navigator.browserLanguage || navigator.language).toLowerCase()
+        }
+
+        console.log(window.axios, '==');
+
+        function getUrl() {
+            /* txt
+            channel: [string] 渠道 ios,android
+            version: [string] 版本
+            build: [string] 构建号 */
+            return axios.get('https://api.bagpay.io/app/version/check?channel='+'ios').then(function(res) {
+                return res;
+            })
+        }
+
+        getUrl();
+
+        new Vue({
+            el:"#app",
+            data: {
+                title: 'Bag Pay 下载',
+                loading1: false,
+                loading2: false,
+                type: 'Android IOS'
+            },
+            mounted() {
+                this.$nextTick(() => {
+                    var mySwiper = new Swiper ('.swiper-container', {
+                        autoplay: true,
+                        pagination: {
+                            el: '.swiper-pagination',
+                        },
+
+                    }) 
+                })
+            },
+            methods: {
+                androidDown() {
+                    if (this.loading1) return;
+                    this.loading1 = true;
+                    this.getUrl('android').then(res => {
+                        this.loading1 = false;
+                        this.downloadHandle(res.url + (new Date().getTime()));
+                    }).catch(() => {
+                        this.loading1 = false;
+                        this.downloadHandle('http://x100.oss-ap-southeast-1.aliyuncs.com/app/bagpay.apk');
+                    })
+                },
+                getUrl(channel) {
+                            /* txt
+                    channel: [string] 渠道 ios,android
+                    version: [string] 版本
+                    build: [string] 构建号 */
+                    return axios.get('https://api.bagpay.io/app/version/check?channel='+channel).then(function(res) {
+                        return res.data.data;
+                    });
+                },
+                iosDown() {
+                    // console.log(browser.versions);
+                    if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
+                        if (this.loading2) return;
+                        this.loading2 = true;
+                        this.getUrl('ios').then(res => {
+                            this.loading2 = false;
+                            window.open(res.url);
+                        }).catch(() => {
+                            this.loading2 = false;
+                        })
+                    } else {
+                    }
+                },
+                downloadHandle(url) {
+                    let a = document.createElement('a');
+                    a.style.display = 'none';
+                    document.body.appendChild(a);
+                    a.download;
+                    a.href = url;
+                    a.click();
+                    document.body.removeChild(a);
+                }
+            }
+        })
+    </script>
+</body>
+</html>
