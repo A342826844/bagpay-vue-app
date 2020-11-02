@@ -50,7 +50,6 @@ export const defaultLang = (_lang: string): string => {
     } else if (thinkLanguage.indexOf('zh') !== -1 && langs.indexOf('zh-CN') !== -1) {
         lang = 'zh-CN';
     }
-    console.log(langs, _lang, lang, langs[0]);
     if (langs.indexOf(_lang) !== -1) {
         return lang || _lang || langs[0];
     }

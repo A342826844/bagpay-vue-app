@@ -118,8 +118,8 @@ axiosOfGoLang.interceptors.response.use(
 
         if (error.response && error.response.status === 403) {
             Dialog.alert({
-                title: '温馨提示',
-                message: '您登陆已过期， 请重新登录',
+                title: i18n.t('common.poptip'),
+                message: i18n.t('common.loginExpired'),
             }).then(() => {
                 store.commit('setLoginState', 0);
                 window.location.href = '/';

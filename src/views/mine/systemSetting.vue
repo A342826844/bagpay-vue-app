@@ -78,8 +78,6 @@ export default Vue.extend({
             this.lang = item.value;
             this.$store.commit('setLang', item.value);
             i18n.locale = item.value;
-            console.log(this.$store.state);
-            console.log(i18n);
         },
         logout() {
             this.$dialog.confirm({
