@@ -1,6 +1,13 @@
 import { RouteConfig } from 'vue-router';
 
-const Home = () => import('@/views/home/index.vue'); // 首页
+import Home from '@/views/home/index.vue'; // 首页
+import Entry from '@/views/entry/index.vue'; // 入口页
+import Login from '@/views/login/index.vue'; // 登录
+import Register from '@/views/login/register.vue'; // 注册
+
+const LoginSearch = () => import('@/views/login/search.vue');
+const Findaccount = () => import('@/views/login/findaccount.vue');
+
 const AddSymbol = () => import('@/views/home/addSymbol.vue'); // 添加币种
 const TransferHistory = () => import('@/views/home/transferHistory.vue'); // 转入转出记录
 const Payment = () => import('@/views/home/payment.vue'); // 收款地址二维码
@@ -43,12 +50,6 @@ const AdvBusiness = () => import('@/views/otc/page/business/advBusiness.vue');
 const VfyBus = () => import('@/views/otc/page/business/vfyBus.vue');
 const AdvStatus = () => import('@/views/otc/page/business/advStatus.vue');
 const OtcProtocol = () => import('@/views/otc/page/protocol.vue');
-
-const Entry = () => import('@/views/entry/index.vue');
-const Login = () => import('@/views/login/index.vue');
-const LoginSearch = () => import('@/views/login/search.vue');
-const Findaccount = () => import('@/views/login/findaccount.vue');
-const Register = () => import('@/views/login/register.vue');
 
 const ScanQRCode = () => import('@/views/scanQRCode/index.vue'); // 扫描二维码
 const ScanValue = () => import('@/views/scanQRCode/value.vue'); // 扫描结果
