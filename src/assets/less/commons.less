@@ -68,8 +68,15 @@
     -ms-user-select:none; /*IE10*/
     user-select:none;
 }
+input,textarea, .copy-a-ele{
+    -webkit-touch-callout:text; /*系统默认菜单被禁用*/
+    -webkit-user-select:text; /*webkit浏览器*/
+    -khtml-user-select:text; /*早期浏览器*/
+    -moz-user-select:text;/*火狐*/
+    -ms-user-select:text; /*IE10*/
+    user-select:text;
+}
 input,textarea {
-    -webkit-user-select:auto; /*webkit浏览器*/
     margin: 0px;
     padding: 0px;
     outline: none;

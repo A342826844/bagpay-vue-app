@@ -47,7 +47,9 @@ export const normalToast = (text: string|TranslateResult, time = 2000, config?: 
 
 export const copyText = (value: string) => {
     if (clientEnv.ios) {
+        console.log('121');
         const a = document.createElement('a');
+        a.className = 'copy-a-ele';
         a.style.position = 'absolute';
         a.style.top = '-9999px';
         a.style.left = '-9999px';
@@ -61,7 +63,6 @@ export const copyText = (value: string) => {
         normalToast(msg, 1000);
         document.body.removeChild(a);
         if (document.execCommand('copy')) {
-            normalToast(i18n.t('common.copySuccessful'));
             return true;
         }
         return false;
