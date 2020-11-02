@@ -112,7 +112,6 @@ export default Vue.extend({
         fileChange(e: any, name: string) {
             const file = e.target.files[0];
             this.$compress(file).then((res: any) => {
-                console.log(res);
                 this.uploadList = this.uploadList.map((item) => {
                     const newItem = { ...item };
                     if (item.name === name) {

@@ -185,7 +185,6 @@ export default Vue.extend({
             // }).then(() => {
             //     this.otcDealSubmit();
             // });
-            console.log(this.orderDetail);
             if (this.orderDetail.type === 1) {
                 (this.$refs.UserAuth as any).open();
             } else {

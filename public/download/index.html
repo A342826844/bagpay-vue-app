@@ -97,7 +97,6 @@
                     return res;
                 };
                 var query = getQueryUrl(location.search.slice(1));
-                console.log(query.lang && Object.keys(langMessage).indexOf(query.lang) !== -1)
                 if (query.lang && Object.keys(langMessage).indexOf(query.lang) !== -1) {
                     this.lang = query.lang;
                 } else if (language.indexOf('zh') !== -1) {

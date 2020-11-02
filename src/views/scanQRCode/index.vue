@@ -86,7 +86,6 @@ export default {
                     position: 'static',
                     frameColor: '#1DA7FF',
                 });
-            console.log(this.scan);
             this.scan.onmarked = this.onmarked;
             this.ws.append(this.scan);
             this.createSubview();
@@ -147,7 +146,7 @@ export default {
             }
         },
         createSubview() {
-            const baise_go = 'baise_go.png';
+            const baise_go = window.location.origin === 'file://' ? 'baise_go.png' : `${window.location.origin}/baise_go.png`;
             this.view = new window.plus.nativeObj.View('nbutton', {
                 bottom: '0px',
                 left: '0px',

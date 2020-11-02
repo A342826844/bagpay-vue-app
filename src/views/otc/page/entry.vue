@@ -371,7 +371,6 @@ export default Vue.extend({
                 //     "ga": "1", //处理过的google验证码,不为空代表已设置
                 //     "status": 1, //状态,1.正常 0.禁用
                 //     "created_at": "", //创建时间
-                console.log(this._userInfo, 1221);
                 if (this._userInfo.ver_lv === 0 || this._userInfo.ver_lv === 1 || this._userInfo.ver_lv === 2) {
                     this.$dialog.confirm({
                         title: `${this.$t('common.poptip')}`,

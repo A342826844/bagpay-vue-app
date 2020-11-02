@@ -7,7 +7,6 @@
         </Headers>
         <div class="otc-advertising-box">
             <TabList
-                swipeable
                 size="big"
                 sticky
                 sticky-top="sub"

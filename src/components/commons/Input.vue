@@ -118,7 +118,8 @@ export default Vue.extend({
     methods: {
         focusHandle(event: FocusEvent) {
             this.$emit('focus');
-            if (event.target) {
+            const { userAgent } = window.navigator;
+            if ((userAgent.indexOf('Android') > -1 || userAgent.indexOf('Adr') > -1) && event.target) {
                 (event.target as HTMLElement).scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
             }
             clearTimeout(this.timer);
