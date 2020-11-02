@@ -433,7 +433,6 @@ export default Vue.extend({
 <style lang="less" scoped>
 .otc-advertising{
     height: 100%;
-    overflow: scroll;
     &-box{
         padding-top: 50px;
     }
