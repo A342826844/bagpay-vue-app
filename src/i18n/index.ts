@@ -50,7 +50,11 @@ export const defaultLang = (_lang: string): string => {
     } else if (thinkLanguage.indexOf('zh') !== -1 && langs.indexOf('zh-CN') !== -1) {
         lang = 'zh-CN';
     }
-    return lang || _lang || thinkLanguage[0];
+    console.log(langs, _lang, lang, langs[0]);
+    if (langs.indexOf(_lang) !== -1) {
+        return lang || _lang || langs[0];
+    }
+    return lang || langs[0];
 };
 
 const locale = defaultLang((process.env.VUE_APP_I18N_LOCALE as string));
