@@ -13,7 +13,7 @@
                 </div>
                 <div class="payment-card-btn">
                     <img @click="$copyText(address)" src="../../assets/img/common/copy.png" alt="">
-                    <img @click="shareDataHandle" src="../../assets/img/common/share.png" alt="">
+                    <img @click="html2CanvasHnadle" src="../../assets/img/common/share.png" alt="">
                 </div>
             </div>
             <Poptip class="payment-poptip">
@@ -33,6 +33,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import html2canvas from 'html2canvas';
 import QrcodeVue from 'qrcode.vue';
 import Loading from '@/components/loading/index.vue'; // @ is an alias to /src
 import {
@@ -73,11 +74,17 @@ export default Vue.extend({
         this.getDeposit();
     },
     methods: {
-        shareDataHandle() {
+        html2CanvasHnadle() {
+            html2canvas(document.getElementById('app') as HTMLElement).then((canvas: HTMLCanvasElement) => {
+                const shareImg = canvas.toDataURL('image/png');
+                this.shareDataHandle(shareImg);
+            });
+        },
+        shareDataHandle(base64: string) {
             try {
-                const qrcodeDom = ((this.$refs.qrcode as any).$el as HTMLElement);
-                const canvas = (qrcodeDom.querySelector('canvas') as HTMLCanvasElement);
-                const base64 = canvas.toDataURL('image/png');
+                // const qrcodeDom = ((this.$refs.qrcode as any).$el as HTMLElement);
+                // const canvas = (qrcodeDom.querySelector('canvas') as HTMLCanvasElement);
+                // const base64 = canvas.toDataURL('image/png');
                 this.$saveImg(base64, (url: string) => {
                     this.$shareDataHandle({
                         type: 'image',
