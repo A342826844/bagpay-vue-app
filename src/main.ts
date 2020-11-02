@@ -45,6 +45,7 @@ declare module 'vue/types/vue' {
         initUserInfo: Function;
         getCoinList: Function;
         getUserBankList: Function;
+        otcGetMerchant: Function;
     }
 }
 
@@ -107,6 +108,13 @@ Vue.mixin({
             return this.$api.getUserBankList().then((res: any) => {
                 if (res.data) {
                     this.$store.commit('setBankList', res.data);
+                }
+            });
+        },
+        otcGetMerchant() {
+            return this.$api.otcGetMerchant().then((res: any) => {
+                if (res.data) {
+                    this.$store.commit('setMerchant', res.data);
                 }
             });
         },

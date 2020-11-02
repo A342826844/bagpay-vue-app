@@ -80,7 +80,7 @@
                     class="more-item"
                     @click="clickShowMore(item)"
                     v-for="item in moreShade"
-                    v-show="!(item.needOtc && (otcSattus !== 1))"
+                    v-show="!(item.needOtc && (merchant.status !== 1))"
                     :key="item.name"
                 >
                     <img :src="item.img" alt=""/>
@@ -122,7 +122,6 @@ type data = {
     noDataShow: boolean;
     activeSymbol: string;
     side: 1|2;
-    otcSattus: number;
     // 获取渲染的数据
     renderData: {
         // 购买数据
@@ -173,7 +172,6 @@ export default Vue.extend({
             noDataShow: false,
             activeSymbol: 'usdt',
             side: 2,
-            otcSattus: 0,
             renderData: {
                 1: {},
                 2: {},
@@ -237,6 +235,45 @@ export default Vue.extend({
             });
         }
     },
+    computed: {
+        coins(): Array<any> {
+            let coins = this.$store.state.symbolList.filter((item: CoinInfo) => item.enable_otc);
+            coins = coins.map((item: CoinInfo) => ({
+                ...item,
+                title: item.symbol.toUpperCase(),
+            }));
+            if (!coins.length) return [];
+            return menuHandle(coins);
+        },
+        userBank(): Array<any> {
+            return this.$store.getters.getBankEnableList;
+        },
+        merchant(): any {
+            return this.$store.state.merchant;
+        },
+        showDataStatus(): number {
+            try {
+                const total = this.paramsData[this.side][this.activeSymbol];
+                if (typeof total === 'undefined') return 3; // 第一次请求被取消的时候，没有初始化total
+                const len = this.renderData[this.side][this.activeSymbol].length;
+                if (total === len && len === 0) return 0; // 暂无数据
+                return total <= len ? 1 : 2; // 1: 暂无更多  2: 还有数据不显示
+            } catch (e) {
+                return 3; // 第一次加载数据
+            }
+        },
+        bodyTabList(): Array<any> {
+            return [{
+                title: this.$t('common.sideBuyT'),
+                value: 'sideBuyT',
+                side: 2,
+            }, {
+                title: this.$t('common.sideSellT'),
+                value: 'sideSellT',
+                side: 1,
+            }];
+        },
+    },
     methods: {
         initData() {
             this.renderData = {
@@ -247,13 +284,6 @@ export default Vue.extend({
                 1: {},
                 2: {},
             };
-        },
-        otcGetMerchant() {
-            return this.$api.otcGetMerchant().then((res: any) => {
-                if (res.data) {
-                    this.otcSattus = res.data.status;
-                }
-            });
         },
         showMoreHandle(showMore: boolean) {
             this.showMore = showMore;
@@ -381,7 +411,7 @@ export default Vue.extend({
                     });
                     return;
                 }
-                if (this.otcSattus !== 1) {
+                if (this.merchant.status !== 1) {
                     this.$dialog.confirm({
                         title: `${this.$t('common.poptip')}`,
                         message: `${this.$t('otc.noBusiness')}`,
@@ -410,42 +440,6 @@ export default Vue.extend({
             this.$router.push({
                 name: item.name,
             });
-        },
-    },
-    computed: {
-        coins(): Array<any> {
-            let coins = this.$store.state.symbolList.filter((item: CoinInfo) => item.enable_otc);
-            coins = coins.map((item: CoinInfo) => ({
-                ...item,
-                title: item.symbol.toUpperCase(),
-            }));
-            if (!coins.length) return [];
-            return menuHandle(coins);
-        },
-        userBank(): Array<any> {
-            return this.$store.getters.getBankEnableList;
-        },
-        showDataStatus(): number {
-            try {
-                const total = this.paramsData[this.side][this.activeSymbol];
-                if (typeof total === 'undefined') return 3; // 第一次请求被取消的时候，没有初始化total
-                const len = this.renderData[this.side][this.activeSymbol].length;
-                if (total === len && len === 0) return 0; // 暂无数据
-                return total <= len ? 1 : 2; // 1: 暂无更多  2: 还有数据不显示
-            } catch (e) {
-                return 3; // 第一次加载数据
-            }
-        },
-        bodyTabList(): Array<any> {
-            return [{
-                title: this.$t('common.sideBuyT'),
-                value: 'sideBuyT',
-                side: 2,
-            }, {
-                title: this.$t('common.sideSellT'),
-                value: 'sideSellT',
-                side: 1,
-            }];
         },
     },
 });

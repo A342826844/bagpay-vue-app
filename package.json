@@ -38,6 +38,7 @@
     "postcss-px2rem": "^0.3.0",
     "postcss-px2rem-exclude": "^0.0.6",
     "typescript": "~3.9.3",
+    "vconsole-webpack-plugin": "^1.5.2",
     "vue-template-compiler": "^2.6.11"
   },
   "gitHooks": {

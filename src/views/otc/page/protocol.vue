@@ -19,7 +19,7 @@
                 <li></li>
                 <li class="text-bold">
                     1. {{$t('otcProtoWord.protoWord7')}}
-                    <span @click="goUserProtocol" class="color-main">{{$t('login.userProtocol')}}</span>
+                    <span @click="goUserProtocol" class="primary-color">{{$t('login.userProtocol')}}</span>
                     {{$t('otcProtoWord.protoWord7_1')}}
                 </li>
                 <li></li>
@@ -143,7 +143,7 @@
                 <li class="font-bold">{{$t('otcProtoWord.protoWord75')}}</li>
                 <li>
                     {{$t('otcProtoWord.protoWord76')}}
-                    <span @click="goUserProtocol" class="color-main">{{$t('login.userProtocol')}}</span>
+                    <span @click="goUserProtocol" class="primary-color">{{$t('login.userProtocol')}}</span>
                     {{$t('otcProtoWord.protoWord76_1')}}
                 </li>
                 <li></li>
@@ -173,7 +173,7 @@ export default {
     name: 'otcProtocol',
     methods: {
         goUserProtocol() {
-            this.$router.push('/protocol');
+            this.$router.push('/mine/protocol');
         },
         contact() {
             // TODO:联系客服

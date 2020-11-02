@@ -72,7 +72,7 @@ export default Vue.extend({
             this.isLoading = true;
             this.changeLoading(true);
             this.$api.version({
-                channel: (window as any).plus.runtime.channel,
+                channel: ((window as any).plus.os.name || '').toLowerCase(),
                 build: (window as any).plus.runtime.versionCode,
                 version: (window as any).plus.runtime.version,
             }).then((res: any) => {
@@ -84,14 +84,14 @@ export default Vue.extend({
                     if (res.data.force_update) {
                         this.show = true;
                         this.force_update = true;
-                        this.downlaodApp(res.data.url);
+                        this.uploadApp(res.data.url);
                     } else {
                         this.$dialog.confirm({
                             title: `${this.$t('mine.updateV')}`,
                             message: `${this.$t('mine.updateTip')}`,
                         }).then(() => {
                             this.show = true;
-                            this.downlaodApp(res.data.url);
+                            this.uploadApp(res.data.url);
                         });
                     }
                 }
@@ -99,6 +99,15 @@ export default Vue.extend({
                 this.isLoading = false;
                 this.changeLoading(false);
             });
+        },
+        uploadApp(downlaodUrl: string) {
+            if ((window as any).plus.os.name === 'Android') {
+                this.downlaodApp(downlaodUrl);
+            } else {
+                (window as any).plus.runtime.openURL(downlaodUrl, () => {
+                    this.$normalToast('更新失败,请开启浏览器权限');
+                });
+            }
         },
         downlaodApp(downlaodUrl: string) {
             if (this.isLoading) return;

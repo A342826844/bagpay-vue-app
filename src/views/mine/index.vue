@@ -13,7 +13,7 @@
                 <li @click="goLink(item)" class="flex-between-c" v-for="item in list" :key="item.name">
                     <div class="item-left">
                         <img class="app-img-50" :src="item.img" :alt="item.title">
-                        <p class="title">{{item.title}}</p>
+                        <p class="title" v-t="item.title"></p>
                     </div>
                     <div class="item-right">
                         <img class="app-img-50" src="../../assets/img/common/arrow_right.png" alt="">
@@ -31,7 +31,7 @@ const manage = require('../../assets/img/mine/manage.png');
 const pay = require('../../assets/img/mine/pay.png');
 const safe = require('../../assets/img/mine/safe.png');
 const setting = require('../../assets/img/mine/setting.png');
-// const feedback = require('../../assets/img/mine/feedback.png');
+const feedback = require('../../assets/img/mine/feedback.png');
 const aboutus = require('../../assets/img/mine/aboutus.png');
 
 type listItem = {
@@ -53,35 +53,34 @@ export default Vue.extend({
                 {
                     name: 'manage',
                     img: manage,
-                    title: `${this.$t('payment.setPaymentTitle')}`,
+                    title: 'payment.setPaymentTitle',
                     path: '/setpayment',
                 }, {
                     name: 'payway',
                     img: pay,
-                    title: `${this.$t('mine.collectionSet')}`,
+                    title: 'mine.collectionSet',
                     path: '/payway',
                 }, {
                     name: 'safe',
                     img: safe,
-                    title: `${this.$t('mine.safeSetting')}`,
+                    title: 'mine.safeSetting',
                     path: '/mine/safesetting',
                 }, {
                     name: 'setting',
                     img: setting,
-                    title: `${this.$t('mine.systemSetting')}`,
+                    title: 'mine.systemSetting',
                     path: '/mine/systemsetting',
+                }, {
+                    name: 'feedback',
+                    img: feedback,
+                    title: 'mine.protocol',
+                    path: '/mine/protocol',
                 }, {
                     name: 'aboutus',
                     img: aboutus,
-                    title: `${this.$t('mine.aboutus')}`,
+                    title: 'mine.aboutus',
                     path: '/mine/aboutus',
                 },
-                // {
-                //     name: 'feedback',
-                //     img: feedback,
-                //     title: '意见反馈',
-                //     path: '/mine/feedback',
-                // },
             ],
         };
     },

@@ -53,7 +53,7 @@
                         </div>
                         <div class="form-item">
                             <Inputs readonly :value="total || $t('otc.total')">
-                                <span class="form-item-start" slot="start">{{$t('otc.total')}}}</span>
+                                <span class="form-item-start" slot="start">{{$t('otc.total')}}</span>
                                 {{_unitIcon}}
                             </Inputs>
                         </div>

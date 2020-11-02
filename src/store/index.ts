@@ -54,6 +54,7 @@ export default new Vuex.Store({
             phone: '',
             status: '',
         },
+        merchant: {}, // otc 商户信息
         qrcodeResult: '',
         country: defaultCountry(),
         loginStatus: Number(localStorage.getItem('loginStatus')),
@@ -83,6 +84,9 @@ export default new Vuex.Store({
         },
         setUserInfo(state, userInfo) {
             state.userInfo = userInfo;
+        },
+        setMerchant(state, merchant) {
+            state.merchant = merchant;
         },
         setLoginState(state, status) {
             localStorage.setItem('loginStatus', JSON.stringify(status));

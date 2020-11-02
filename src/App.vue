@@ -73,6 +73,7 @@ export default Vue.extend({
             }
         },
         init() {
+            this.otcGetMerchant();
             Promise.all([
                 this.getCoinList(),
                 this.initUserInfo(),
