@@ -90,6 +90,7 @@ export default Vue.extend({
                 // const base64 = canvas.toDataURL('image/png');
                 this.$saveImg(base64, (url: string) => {
                     this.loading = false;
+                    if (this.$route.name === 'payment') return;
                     this.$shareDataHandle({
                         type: 'image',
                         pictures: [url],

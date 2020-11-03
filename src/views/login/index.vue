@@ -122,6 +122,7 @@ export default Vue.extend({
             }
         },
         getAllData() {
+            this.changeLoading(true);
             Promise.all([
                 this.getCoinList(),
                 this.initUserInfo(),

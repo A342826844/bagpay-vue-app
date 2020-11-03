@@ -160,6 +160,7 @@ type data = {
     id: number;
     download: number;
     timer: any;
+    detailTimer: any;
     orderDetail: any;
     payDetail: any;
     appealData: any;
@@ -172,6 +173,7 @@ export default Vue.extend({
             show: false,
             isLoading: true,
             timer: 0,
+            detailTimer: 0,
             id: 0,
             payDetail: {},
             appealData: {},
@@ -273,6 +275,18 @@ export default Vue.extend({
         onRefresh() {
             this.getOrderData(true);
         },
+        refreshOrderDetail() {
+            clearInterval(this.detailTimer);
+            console.log(this.orderDetail.state);
+            if (this.orderDetail.state === 0 || this.orderDetail.state === 1) {
+                Promise.all([this.otcAppealByOrderId(), this.getOrderDetail()]).finally(() => {
+                    this.changeLoading(false);
+                    this.detailTimer = setTimeout(() => {
+                        this.refreshOrderDetail();
+                    }, 5000);
+                });
+            }
+        },
         getOrderData(refresh?: boolean) {
             if (!refresh) {
                 this.changeLoading(true);
@@ -281,6 +295,7 @@ export default Vue.extend({
             Promise.all([this.otcAppealByOrderId(), this.getOrderDetail()]).finally(() => {
                 this.changeLoading(false);
                 this.isLoading = false;
+                this.refreshOrderDetail();
             });
         },
         showAppealing() {

@@ -28,6 +28,10 @@
             </div>
             <div class="otc-list" v-for="(item) in bodyTabList" :key="item.value" :slot="item.value">
                 <div class="otc-tabbar" @scroll.capture="scrollLoad($event, loadData)">
+                    <PullRefresh
+                        v-model="isLoading"
+                        @refresh="onRefresh"
+                    >
                     <V-Tabs
                         v-model="activeSymbol"
                         swipeable
@@ -61,7 +65,7 @@
                                             <div v-if="false" class="loadMore-loading">
                                                 <Loading type='component' :loading='loadMore'></Loading>
                                             </div>
-                                            <p class="gray-color" v-show="!_loading && (showDataStatus === 1)">
+                                            <p class="content-list-nodata gray-color" v-show="!_loading && (showDataStatus === 1)">
                                                 {{$t('common.noMore')}}
                                             </p>
                                             <NoData v-if="!_loading && (showDataStatus === 0)"/>
@@ -71,6 +75,7 @@
                             </transition>
                         </V-Tab>
                     </V-Tabs>
+                </PullRefresh>
                 </div>
             </div>
         </TabList>
@@ -120,6 +125,7 @@ type data = {
     showMore: boolean;
     // loadMore: boolean;
     noDataShow: boolean;
+    isLoading: boolean;
     activeSymbol: string;
     side: 1|2;
     // 获取渲染的数据
@@ -170,6 +176,7 @@ export default Vue.extend({
             screen: false,
             showMore: false,
             noDataShow: false,
+            isLoading: false,
             activeSymbol: 'usdt',
             side: 2,
             renderData: {
@@ -285,6 +292,10 @@ export default Vue.extend({
                 2: {},
             };
         },
+        onRefresh() {
+            this.loadData(true);
+            this.otcGetMerchant();
+        },
         showMoreHandle(showMore: boolean) {
             this.showMore = showMore;
             if (showMore) {
@@ -309,6 +320,7 @@ export default Vue.extend({
                     title: `${this.$t('common.poptip')}`,
                     message: `${this.$t('otc.payPwd')}`,
                     confirmButtonText: `${this.$t('otc.bind')}`,
+                    cancelButtonText: `${this.$t('common.cancle2')}`,
                 }).then(() => {
                     this.$router.push('/mine/safepass');
                 });
@@ -347,26 +359,35 @@ export default Vue.extend({
             return [];
             // return this.renderData[index][this.activeSymbol];
         },
-        loadData() {
-            this.changeLoading(true);
+        loadData(refresh?: boolean) {
+            if (!refresh) {
+                this.changeLoading(true);
+            }
             if (!this.renderData[this.side][this.activeSymbol]) {
                 this.$set(this.renderData[this.side], this.activeSymbol, []);
             }
             const params = {
                 coin: this.activeSymbol,
                 side: this.side,
-                offset: this.renderData[this.side][this.activeSymbol].length,
+                offset: refresh ? 0 : this.renderData[this.side][this.activeSymbol].length,
                 limit: 10,
             };
             this.$api.getOtcOrderList(params).then((res: any) => {
                 this.changeLoading(false);
+                this.isLoading = false;
                 if (res.data.list) {
-                    this.renderData[this.side][this.activeSymbol] = this.renderData[this.side][this.activeSymbol].concat(res.data.list);
+                    if (refresh) {
+                        this.renderData[this.side][this.activeSymbol] = res.data.list;
+                    } else {
+                        this.renderData[this.side][this.activeSymbol] = this.renderData[this.side][this.activeSymbol].concat(res.data.list);
+                    }
+                    console.log(refresh);
                 }
                 if (typeof this.paramsData[this.side][this.activeSymbol] === 'undefined') {
                     this.$set(this.paramsData[this.side], this.activeSymbol, res.data.total);
                 }
             }).catch((err: any) => {
+                this.isLoading = false;
                 if (err.message.cancleId) return;
                 this.changeLoading(false);
             });
@@ -503,6 +524,9 @@ export default Vue.extend({
     }
     .content-list{
         padding-bottom: 150px;
+        &-nodata{
+            margin: 28px 0;
+        }
     }
     &-tabbar-page{
         height: calc(100vh - 315px);
