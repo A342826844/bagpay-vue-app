@@ -3,8 +3,6 @@ import { axiosOfJava, axiosOfGoLang } from './axios';
 // const baseURL = 'http://127.0.0.1:3000';
 const baseURL = process.env.VUE_APP_GOLANG_DEVURL;
 
-console.log(process.env.VUE_APP_SERVE_DEV);
-
 interface Config {
     formdata?: boolean;
 }

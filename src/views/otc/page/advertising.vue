@@ -404,7 +404,6 @@ export default Vue.extend({
         },
     },
     created() {
-        console.log(this.$data);
         this.formTemp.form1.coin = (this.$route.query.symbol as string) || '';
         this.formTemp.form2.coin = (this.$route.query.symbol as string) || '';
         this.getExchangeRate();
@@ -425,7 +424,6 @@ export default Vue.extend({
     methods: {
         tabChangeHandle(item: any) {
             this.type = item.type;
-            console.log(this.$data);
         },
         setCoin(coin: string) {
             const key: 'form1'|'form2' = (`form${this.type}` as 'form1'|'form2');
