@@ -1,10 +1,10 @@
 <template>
     <div class="payment primary-bg">
-        <TitleHeader theme="primary" ref="titleHeader" :title="$t('payment.paymentTitle')">
+        <TitleHeader class="payment-body" theme="primary" ref="titleHeader" :title="$t('payment.paymentTitle')">
             <div class="payment-card">
                 <h5 class="payment-card-title">{{$t('payment.paymentTip') + symbol.toUpperCase()}}</h5>
                 <div class="payment-card-qrcode" :style="{width: `${size + 15}px`, height: `${size + 15}px`}">
-                    <Loading v-show="!address"/>
+                    <Loading v-show="loading"/>
                     <QrcodeVue ref="qrcode" v-show="qrValue" foreground="#5894EE" :size="size" :value="qrValue"></QrcodeVue>
                 </div>
                 <div>
@@ -45,6 +45,7 @@ import {
 
 type data = {
     address: string;
+    loading: boolean;
     symbol: string;
     qrValue: string;
     memo: string;
@@ -62,6 +63,7 @@ export default Vue.extend({
         return {
             address: '',
             symbol: '',
+            loading: true,
             qrValue: '',
             value: '',
             memo: '',
@@ -75,6 +77,7 @@ export default Vue.extend({
     },
     methods: {
         html2CanvasHnadle() {
+            this.loading = true;
             html2canvas((this.$refs.titleHeader as any).$el).then((canvas: HTMLCanvasElement) => {
                 const shareImg = canvas.toDataURL('image/png');
                 this.shareDataHandle(shareImg);
@@ -86,6 +89,7 @@ export default Vue.extend({
                 // const canvas = (qrcodeDom.querySelector('canvas') as HTMLCanvasElement);
                 // const base64 = canvas.toDataURL('image/png');
                 this.$saveImg(base64, (url: string) => {
+                    this.loading = false;
                     this.$shareDataHandle({
                         type: 'image',
                         pictures: [url],
@@ -115,6 +119,7 @@ export default Vue.extend({
                         value: '',
                         memo: this.memo,
                     });
+                    this.loading = false;
                 }
             });
         },
@@ -127,6 +132,9 @@ export default Vue.extend({
 .payment{
     height: 100%;
     overflow: scroll;
+    &-body{
+        padding-bottom: 55px;
+    }
     &-card{
         position: relative;
         margin: auto;
