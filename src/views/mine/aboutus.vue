@@ -9,7 +9,7 @@
         />
         <p class="aboutus-box-version">v {{version}}</p>
         <div class="aboutus-box-upload app-padding40">
-          <Inputs readonly :value="$t('mine.updateV')" @click.native="saveHandle">
+          <Inputs readonly :value="$t('mine.updateV')" @click.native="checkVersion">
             <img
               class="app-img-50"
               src="../../assets/img/common/arrow_right.png"
@@ -20,13 +20,14 @@
       </div>
     </TitleHeader>
     <van-dialog v-model="show" :title="force_update ? $t('mine.forceUpdate') : $t('mine.update')" :show-confirm-button="!force_update">
-        <van-circle v-model="rate" :rate="progress" :speed="100" :text="toastOperateTitle" />
+        <van-circle v-model="rate" :rate="progress" :text="toastOperateTitle" />
     </van-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import clientEnv from '@/commons/clientEnv/idnex';
 
 type data = {
   isLoading: boolean;
@@ -55,8 +56,8 @@ export default Vue.extend({
                 idCard: '',
             },
             version: '',
-            progress: 1,
-            rate: 1,
+            progress: 0,
+            rate: 0,
         };
     },
     created() {
@@ -67,10 +68,39 @@ export default Vue.extend({
         }
     },
     methods: {
-        saveHandle() {
-            // TODO 打包时在调试
-            this.isLoading = true;
+        checkVersion() {
+            if (this._loading) return;
+            this.progress = 0;
+            this.rate = 0;
             this.changeLoading(true);
+            if ((window as any).plus) {
+                this.saveHandle();
+            } else {
+                this.browerDownload();
+            }
+        },
+        browerDownload() {
+            this.$api.version({
+                channel: clientEnv.ios ? 'ios' : 'android',
+                // version: this.version,
+                build: 100,
+            }).then((res: any) => {
+                if (res.code === 0) {
+                    if (!res.data) {
+                        this.$normalToast(this.$t('mine.newestV'));
+                        return;
+                    }
+                    if (clientEnv.ios) {
+                        this.iosDown(res.data.url);
+                        return;
+                    }
+                    this.downloadHandle(res.data.url);
+                }
+            }).finally(() => {
+                this.changeLoading(false);
+            });
+        },
+        saveHandle() {
             this.$api.version({
                 channel: ((window as any).plus.os.name || '').toLowerCase(),
                 build: (window as any).plus.runtime.versionCode,
@@ -96,9 +126,20 @@ export default Vue.extend({
                     }
                 }
             }).finally(() => {
-                this.isLoading = false;
                 this.changeLoading(false);
             });
+        },
+        iosDown(url: string) {
+            window.open(url);
+        },
+        downloadHandle(url: string, name?: string) {
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.download = name || `${this.$app_mark}.apk`;
+            a.href = url;
+            a.click();
+            document.body.removeChild(a);
         },
         uploadApp(downlaodUrl: string) {
             if ((window as any).plus.os.name === 'Android') {
@@ -110,9 +151,7 @@ export default Vue.extend({
             }
         },
         downlaodApp(downlaodUrl: string) {
-            if (this.isLoading) return;
             const dtask = (window as any).plus.downloader.createDownload(downlaodUrl, {}, (d: { filename: any }, status: number) => {
-                this.isLoading = false;
                 if (status === 200) {
                     (window as any).plus.runtime.install(d.filename, null, () => {
                     // window.plus.runtime.quit();

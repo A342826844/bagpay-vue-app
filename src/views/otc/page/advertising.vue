@@ -1,18 +1,19 @@
 <template>
     <div class="otc-advertising">
-        <Headers>
+        <Headers position="fixed">
             <span>
-                {{$t('otc.referencePrice')}} <span @click="changePrice" class="primary-color">{{exchangeRate[form.coin] || '--'}} {{_unitIcon}}</span>
+                {{$t('otc.referencePrice')}}
+                <span @click="changePrice" class="primary-color">
+                    {{exchangeRate[formTemp[typeKey].coin] || '--'}} {{_unitIcon}}
+                </span>
             </span>
         </Headers>
-        <div class="otc-advertising-box">
+        <div v-if="false" class="otc-advertising-box">
             <TabList
                 size="big"
-                sticky
-                sticky-top="sub"
-                :defaultVal="active"
+                :defaultVal="type"
+                class="otc-advertising-box-tabbar"
                 @change="tabChangeHandle"
-                class="transfer-tab"
                 :tabList="bodyTabList"
             >
                 <div v-for="item in bodyTabList" :key="item.type" :slot="item.value" class="app-padding40">
@@ -131,6 +132,128 @@
                 </div>
             </TabList>
         </div>
+        <TabList
+            size="big"
+            :defaultVal="type"
+            class="otc-advertising-box-tabbar"
+            @change="tabChangeHandle"
+            :tabList="bodyTabList"
+        >
+            <div v-for="item in bodyTabList" :key="item.type" :slot="item.value" class="app-padding40">
+                <form @submit.prevent="" class="otc-advertising-form app-size-34" action="">
+                    <div class="form-item">
+                        <Select @click="$router.push(`/choisesymbol?symbol=${formTemp['form'+item.type].coin}&type=1`)">
+                            <IconImg class="app-img-50 form-item-start" :symbol="formTemp['form'+item.type].coin"/>
+                            <span class="form-item-select-coin vertical-m">
+                                {{formTemp['form'+item.type].coin && formTemp['form'+item.type].coin.toUpperCase()}}
+                            </span>
+                        </Select>
+                    </div>
+                    <!-- <div @click="selectPopup = !selectPopup" class="form-item">
+                        <Select>
+                            <span class="vertical-m">{{isfloatRate ? $t('otc.floatingPrice') : $t('otc.fixedPrice') }}</span>
+                        </Select>
+                    </div>
+                    <div class="form-item" :class="isfloatRate ? 'form-item-show' : 'form-item-hide'">
+                        <Inputs v-model="form.floating_rate" placeholder="溢价率(30~50)">%</Inputs>
+                    </div> -->
+                    <div class="form-item">
+                        <Inputs
+                            decimal
+                            type="number"
+                            :autofocus="item.type === 1"
+                            v-model="formTemp[`form${item.type}`].price"
+                            :placeholder="`${item.title}${$t('common.price')}`"
+                        >
+                            <span class="form-item-start" slot="start">{{$t('common.price')}}</span>
+                            {{_unitIcon}}
+                        </Inputs>
+                    </div>
+                    <div class="form-item">
+                        <Inputs :decimal="2" v-model="formTemp[`form${item.type}`].amount" :placeholder="`${item.title}${$t('otc.num')}`">
+                            <span class="form-item-start" slot="start" v-t="'otc.num'"></span>
+                            {{coinSHow}}
+                        </Inputs>
+                    </div>
+                    <div class="form-item">
+                        <Inputs readonly :value="total || $t('otc.total')">
+                            <span class="form-item-start" slot="start">{{$t('otc.total')}}</span>
+                            {{_unitIcon}}
+                        </Inputs>
+                    </div>
+                    <div class="form-item">
+                        <Inputs decimal v-model="formTemp[`form${item.type}`].min_value" :placeholder="$t('otc.minLimit')">
+                            <span class="form-item-start" slot="start">{{$t('otc.min')}}</span>
+                            {{_unitIcon}}
+                        </Inputs>
+                    </div>
+                    <div class="form-item">
+                        <Inputs decimal v-model="formTemp[`form${item.type}`].max_value" :placeholder="$t('otc.maxLimit')">
+                            <span class="form-item-start" slot="start">{{$t('otc.max')}}</span>
+                            {{_unitIcon}}
+                        </Inputs>
+                    </div>
+                    <div @click="selectPayHandle" class="form-item">
+                        <Select>
+                            <!-- <span v-if="form.type === 1">
+                                <span v-show="pay_types.length">{{pay_types[0] | payType}}</span>
+                                <span v-show="!pay_types.length">支付方式</span>
+                            </span>
+                            <span v-if="form.type !== 1">
+                                <span v-show="bankInfo.type">{{bankInfo.type | payType}}</span>
+                                <span v-show="!bankInfo.type">收款方式</span>
+                            </span> -->
+                            <span v-if="formTemp[`form${item.type}`].pay_types.length" class="vertical-m">
+                                {{formTemp[`form${item.type}`].pay_types[0] | payType}}
+                            </span>
+                            <span v-if="!formTemp[`form${item.type}`].pay_types.length" class="vertical-m">
+                                {{item.type === 1 ? $t('common.payway') : $t('otc.payment')}}
+                            </span>
+                        </Select>
+                    </div>
+                    <!-- TODO 备注 -->
+                    <div class="form-item text-align-l">{{$t('payment.remark')}}</div>
+                    <div class="form-item">
+                        <V-Field
+                            v-model="formTemp[`form${item.type}`].remark"
+                            rows="3"
+                            autosize
+                            type="textarea"
+                            maxlength="60"
+                            :placeholder="$t('payment.remarkTip')"
+                            show-word-limit
+                        >
+                        </V-Field>
+                    </div>
+                </form>
+                <Poptip>
+                    <!-- <PoptipItem>
+                        单个发布广告买入/卖出数量限制 0.01~1000 {{coinSHow}}
+                    </PoptipItem> -->
+                    <PoptipItem>
+                        {{$t('otc.advTip1')}}
+                    </PoptipItem>
+                    <PoptipItem>
+                        {{$t('otc.advTip2')}}
+                    </PoptipItem>
+                    <PoptipItem>
+
+                        {{$t('otc.advTip3')}}
+                    </PoptipItem>
+                </Poptip>
+                <div class="app-size-34 lxa-footer-btn">
+                    <Button
+                        @click="submitHandle"
+                        :disabled="!formTemp[`form${item.type}`].price
+                        ||
+                        !formTemp[`form${item.type}`].amount
+                        ||
+                        !formTemp[`form${item.type}`].min_value
+                        ||
+                        !formTemp[`form${item.type}`].max_value">{{$t('common.release')}}</Button>
+                </div>
+            </div>
+        </TabList>
         <!-- <SelectPopup v-model="selectPopup">
             <SelectPopupItem @click="changeRateType(1)">{{$t('otc.floatingPrice')}}</SelectPopupItem>
             <SelectPopupItem @click="isfloatRate = false">{{$t('otc.fixedPrice')}}</SelectPopupItem>
@@ -148,7 +271,6 @@ import { PayType } from '@/commons/config/index';
 
 type data = {
     PayType: PayType;
-    active: string;
     isfloatRate: boolean;
     pay_types: Array<number>;
     selectPopup: boolean;
@@ -202,7 +324,6 @@ export default Vue.extend({
     data(): data {
         return {
             PayType,
-            active: 'buy',
             isfloatRate: true,
             selectPopup: false,
             payPopup: false,
@@ -283,6 +404,7 @@ export default Vue.extend({
         },
     },
     created() {
+        console.log(this.$data);
         this.formTemp.form1.coin = (this.$route.query.symbol as string) || '';
         this.formTemp.form2.coin = (this.$route.query.symbol as string) || '';
         this.getExchangeRate();
@@ -302,8 +424,8 @@ export default Vue.extend({
     },
     methods: {
         tabChangeHandle(item: any) {
-            this.form.type = item.type;
             this.type = item.type;
+            console.log(this.$data);
         },
         setCoin(coin: string) {
             const key: 'form1'|'form2' = (`form${this.type}` as 'form1'|'form2');
@@ -433,8 +555,11 @@ export default Vue.extend({
 <style lang="less" scoped>
 .otc-advertising{
     height: 100%;
+    width: 100%;
+    padding-top: 138px;
     &-box{
         padding-top: 50px;
+        height: calc(100% - 88px);
     }
     .app-poptip{
         margin-bottom: 30px;
@@ -459,6 +584,16 @@ export default Vue.extend({
             &-select-coin{
                 margin-left: 25px;
             }
+        }
+    }
+}
+</style>
+<style lang="less">
+.otc-advertising-box{
+    & &-tabbar{
+        .tabbar{
+            // position: absolute;
+            left: 0;
         }
     }
 }

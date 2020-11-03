@@ -35,6 +35,7 @@ declare module 'vue/types/vue' {
         $api: any;
         $md5: any;
         $verification: any;
+        $app_mark: string;
         _userInfo: any;
         _configCommon: any;
         _loading: boolean;

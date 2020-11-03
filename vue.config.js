@@ -19,7 +19,7 @@ module.exports = {
     // },
     configureWebpack: (config) => {
         // 需要显示vconsole
-        if (process.env.VUE_APP_SHOW_VCONSOLE) {
+        if (process.env.VUE_APP_SHOW_VCONSOLE || process.env.NODE_ENV === 'development') {
             // eslint-disable-next-line no-param-reassign,new-cap
             config.plugins = [...config.plugins, new vConsolePlugin({
                 filter: [], // 需要过滤的入口文件

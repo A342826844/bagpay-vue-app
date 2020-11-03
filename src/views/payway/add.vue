@@ -186,8 +186,8 @@ export default Vue.extend({
             const list = {
                 type: this.form.type, // type: [int] 类型：1.银行卡 2.支付宝 3.微信 4.汇旺
                 real_name: this.form.real_name, // real_name: [string] 持卡人姓名
-                bank: this.bankInfo.title, // bank: [string] 银行名称
-                sub_bank: this.form.sub_bank, // sub_bank: [string] 支行名称
+                bank: this.bankInfo.title || '', // bank: [string] 银行名称
+                sub_bank: this.form.sub_bank || '', // sub_bank: [string] 支行名称
                 account: this.form.account, // account: [string] 账号
                 qrc: this.form.type === 1 ? null : this.form.qrc, // qrc: [file] 二维码
                 ...data,

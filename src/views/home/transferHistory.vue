@@ -21,7 +21,6 @@
                     sticky
                     sticky-top="sub"
                     :defaultVal="active"
-                    class="transfer-tab"
                     :tabList="bodyTabList"
                 >
                     <div class="transfer-list" slot="transferIn">
