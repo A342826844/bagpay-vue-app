@@ -5,6 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "serve:dev": "cross-env VUE_APP_SERVE_DEV=DEV vue-cli-service serve",
+    "build:dev": "cross-env VUE_APP_SHOW_VCONSOLE=DEV vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -30,6 +32,7 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/eslint-config-airbnb": "^5.0.2",
     "@vue/eslint-config-typescript": "^5.0.2",
+    "cross-env": "^7.0.2",
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^6.2.2",

@@ -1,5 +1,5 @@
 <template>
-    <div class="app-headers app-padding40" :class="[theme]">
+    <div class="app-headers app-padding40" :class="[theme, {[`header-position-${position}`]: position}]">
         <img
             v-if="isBack"
             @click="goback"
@@ -36,6 +36,9 @@ export default Vue.extend({
             type: String,
         },
         value: {
+            type: String,
+        },
+        position: {
             type: String,
         },
     },
@@ -79,6 +82,9 @@ export default Vue.extend({
     &.primary{
         background: @primary;
         color: #fff;
+    }
+    &.header-position-fixed{
+        position: fixed;
     }
     .rightTitle, .right{
         font-size: 28px;

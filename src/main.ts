@@ -35,6 +35,7 @@ declare module 'vue/types/vue' {
         $api: any;
         $md5: any;
         $verification: any;
+        $app_mark: string;
         _userInfo: any;
         _configCommon: any;
         _loading: boolean;
@@ -47,6 +48,11 @@ declare module 'vue/types/vue' {
         getUserBankList: Function;
         otcGetMerchant: Function;
     }
+}
+
+// 跳转下载页
+if ((!(window as any).plus) && (process.env.NODE_ENV === 'production')) {
+    window.location.href = `${window.location.origin}/download/`;
 }
 
 Vue.config.productionTip = false;

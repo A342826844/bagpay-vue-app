@@ -1,7 +1,7 @@
 import { axiosOfJava, axiosOfGoLang } from './axios';
 
 // const baseURL = 'http://127.0.0.1:3000';
-const baseURL = process.env.VUE_APP_GOLANG_apiUrl;
+const baseURL = process.env.VUE_APP_GOLANG_DEVURL;
 
 interface Config {
     formdata?: boolean;
@@ -19,7 +19,7 @@ export const getJava = (url: string, params?: object) => axiosOfJava({
     url,
     params,
     method: 'get',
-    baseURL: process.env.NODE_ENV === 'development' ? baseURL : process.env.VUE_APP_JAVA_apiUrl,
+    baseURL: process.env.VUE_APP_SERVE_DEV === 'DEV' ? baseURL : process.env.VUE_APP_JAVA_apiUrl,
 });
 
 export const postJava = (url: string, data?: { [x: string]: any } | undefined, config: Config = {}) => {
@@ -31,7 +31,7 @@ export const postJava = (url: string, data?: { [x: string]: any } | undefined, c
         url,
         data: formdata || data,
         method: 'post',
-        baseURL: process.env.NODE_ENV === 'development' ? baseURL : process.env.VUE_APP_JAVA_apiUrl,
+        baseURL: process.env.VUE_APP_SERVE_DEV === 'DEV' ? baseURL : process.env.VUE_APP_JAVA_apiUrl,
         ...config,
     });
 };
@@ -41,14 +41,14 @@ export const getGolang = (url: string, params?: object) => axiosOfGoLang({
     params,
     method: 'get',
     withCredentials: false,
-    baseURL: process.env.NODE_ENV === 'development' ? baseURL : process.env.VUE_APP_GOLANG_apiUrl,
+    baseURL: process.env.VUE_APP_SERVE_DEV === 'DEV' ? baseURL : process.env.VUE_APP_GOLANG_apiUrl,
 });
 export const postGolang = (url: string, data?: object) => axiosOfGoLang({
     url,
     data,
     method: 'post',
     withCredentials: false,
-    baseURL: process.env.NODE_ENV === 'development' ? baseURL : process.env.VUE_APP_GOLANG_apiUrl,
+    baseURL: process.env.VUE_APP_SERVE_DEV === 'DEV' ? baseURL : process.env.VUE_APP_GOLANG_apiUrl,
 });
 
-export const URL = process.env.NODE_ENV === 'development' ? baseURL : process.env.VUE_APP_GOLANG_apiUrl;
+export const URL = process.env.NODE_ENV === 'DEV' ? baseURL : process.env.VUE_APP_GOLANG_apiUrl;
