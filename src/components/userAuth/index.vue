@@ -256,6 +256,7 @@ export default Vue.extend({
     padding-bottom: 28px;
     width: 100%;
     background-color: #fff;
+    font-size: 34px;
     .auth_label{
         margin-right: 30px;
     }
