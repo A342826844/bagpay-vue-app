@@ -1,13 +1,14 @@
 <template>
-    <div class="entry">
+    <div
+        @touchmove="moveHandle"
+        @touchstart="startHandle"
+        @touchend="endHandle"
+        class="entry">
         <Headers :isBack="false">
             <span v-show="activeTab !== 2" class="primary-color" @click="activeTab = 2">{{$t('entry.skip')}}</span>
         </Headers>
         <div class="entry-banner">
             <ul
-                @touchmove="moveHandle"
-                @touchstart="startHandle"
-                @touchend="endHandle"
                 :class="`active${activeTab}`"
                 :style="{
                     transform: moveIng ? bodyLeft : '',
