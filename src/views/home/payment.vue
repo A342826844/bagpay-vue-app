@@ -1,6 +1,6 @@
 <template>
     <div class="payment primary-bg">
-        <TitleHeader theme="primary" :title="$t('payment.paymentTitle')">
+        <TitleHeader theme="primary" ref="titleHeader" :title="$t('payment.paymentTitle')">
             <div class="payment-card">
                 <h5 class="payment-card-title">{{$t('payment.paymentTip') + symbol.toUpperCase()}}</h5>
                 <div class="payment-card-qrcode" :style="{width: `${size + 15}px`, height: `${size + 15}px`}">
@@ -75,8 +75,9 @@ export default Vue.extend({
     },
     methods: {
         html2CanvasHnadle() {
-            html2canvas(document.getElementById('app') as HTMLElement).then((canvas: HTMLCanvasElement) => {
+            html2canvas((this.$refs.titleHeader as any).$el).then((canvas: HTMLCanvasElement) => {
                 const shareImg = canvas.toDataURL('image/png');
+                console.log(shareImg);
                 this.shareDataHandle(shareImg);
             });
         },
