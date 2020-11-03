@@ -50,6 +50,11 @@ declare module 'vue/types/vue' {
     }
 }
 
+// 跳转下载页
+if ((!(window as any).plus) && (process.env.NODE_ENV === 'production')) {
+    window.location.href = `${window.location.origin}/download/`;
+}
+
 Vue.config.productionTip = false;
 
 Vue.component('Headers', Headers);
