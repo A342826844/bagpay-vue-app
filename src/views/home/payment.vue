@@ -77,7 +77,6 @@ export default Vue.extend({
         html2CanvasHnadle() {
             html2canvas((this.$refs.titleHeader as any).$el).then((canvas: HTMLCanvasElement) => {
                 const shareImg = canvas.toDataURL('image/png');
-                console.log(shareImg);
                 this.shareDataHandle(shareImg);
             });
         },
