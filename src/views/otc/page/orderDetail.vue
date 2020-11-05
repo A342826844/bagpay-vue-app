@@ -223,6 +223,7 @@ export default Vue.extend({
     },
     destroyed() {
         clearInterval(this.timer);
+        clearInterval(this.detailTimer);
     },
     methods: {
         // 订单方向 OrderSide
@@ -277,7 +278,6 @@ export default Vue.extend({
         },
         refreshOrderDetail() {
             clearInterval(this.detailTimer);
-            console.log(this.orderDetail.state);
             if (this.orderDetail.state === 0 || this.orderDetail.state === 1) {
                 Promise.all([this.otcAppealByOrderId(), this.getOrderDetail()]).finally(() => {
                     this.changeLoading(false);

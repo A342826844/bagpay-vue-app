@@ -6,7 +6,7 @@
             class="goBack"
             :src="theme === 'light' ? previous_page : baise_go" alt=""
         >
-        <span class="title" :class="[{'bold-title': bold}]">{{title}}</span>
+        <span class="title" :style="{opacity: opacityTtitle}" :class="[{'bold-title': bold}]">{{title}}</span>
         <span class="rightTitle" @click="$emit('right-click')">{{value}}</span>
         <span class="right"><slot></slot></span>
     </div>
@@ -34,6 +34,10 @@ export default Vue.extend({
         },
         title: {
             type: String,
+        },
+        opacityTtitle: {
+            type: Number,
+            default: 1,
         },
         value: {
             type: String,
@@ -107,6 +111,7 @@ export default Vue.extend({
         font-weight: normal;
         position: absolute;
         left:50%;
+        transition: opacity 0.5s;
         &.bold-title{
             font-size: 45px;
             font-weight: bold;

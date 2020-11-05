@@ -1,6 +1,6 @@
 <template>
     <div class="app-title-headers" :class="[theme, {fill}]">
-        <Headers v-bind="$attrs" :theme="theme" @back="goback">
+        <Headers ref="headers" v-bind="$attrs" :opacityTtitle="opacity" :title="title" :theme="theme" @back="goback">
             <slot name="header"></slot>
         </Headers>
         <div
@@ -39,12 +39,27 @@ export default Vue.extend({
             default: 'light', // light dark
         },
     },
-    // mounted() {
-    //     window.addEventListener('scroll', this.scrollHandle, true);
-    // },
-    // beforeDestroy() {
-    //     window.removeEventListener('scroll', this.scrollHandle, true);
-    // },
+    data() {
+        return {
+            opacity: 0,
+        };
+    },
+    mounted() {
+        if (!this.$route.meta.keepAlive) {
+            window.addEventListener('scroll', this.scrollHandle, true);
+        }
+    },
+    beforeDestroy() {
+        window.removeEventListener('scroll', this.scrollHandle, true);
+    },
+    activated() {
+        window.addEventListener('scroll', this.scrollHandle, true);
+    },
+    deactivated() {
+        window.removeEventListener('scroll', this.scrollHandle, true);
+        this.opacity = 0;
+    },
+    // activated,deactivated
     methods: {
         goback() {
             if (typeof this.$listeners.back === 'function') {
@@ -53,12 +68,19 @@ export default Vue.extend({
             }
             this.$router.go(-1);
         },
-        // scrollHandle(event: Event) {
-        //     if (event.target) {
-        //         console.log(event.target.scrollX);
-        //     }
-        //     console.log((this.$refs.title as HTMLElement).offsetTop);
-        // },
+        scrollHandle(event: Event) {
+            if (event.target) {
+                const { scrollTop } = (event.target as HTMLElement);
+                const { offsetTop, offsetHeight } = (this.$refs.title as HTMLElement);
+                const { clientHeight } = ((this.$refs.headers as any).$el);
+                // 滚动条高度 - title距离顶部高度 + header高度 - title高度
+                if (scrollTop - offsetTop + clientHeight - offsetHeight >= 0) {
+                    this.opacity = 1;
+                } else {
+                    this.opacity = 0;
+                }
+            }
+        },
     },
 });
 </script>
