@@ -54,7 +54,7 @@
                             </template>
                         </NCardItem>
                         <div class="loadMore-loading"><Loading type='component' :loading='loadMore'></Loading></div>
-                        <p v-if="isEnd && list.length" class="color-gray">{{$t('common.noMore')}}</p>
+                        <p v-if="isEnd && list.length" class="content-list-nodata color-gray">{{$t('common.noMore')}}</p>
                         <noData v-if="!_loading && (!list.length)"/>
                     </PullRefresh>
                 </div>
@@ -198,8 +198,8 @@ export default Vue.extend({
   background: #fff;
   overflow: scroll;
 }
-
-</style>
-<style lang="less">
+.content-list-nodata {
+    margin: 28px 0;
+}
 
 </style>
