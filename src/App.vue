@@ -80,7 +80,9 @@ export default Vue.extend({
                 this.getUserBankList(),
             ]).then(() => {
                 this.plusInitHandle();
-                this.$router.push('/home');
+                if (process.env.NODE_ENV === 'production') {
+                    this.$router.push('/home');
+                }
             }).catch((error) => {
                 if (error.response && error.response.status === 401) {
                     this.plusInitHandle();

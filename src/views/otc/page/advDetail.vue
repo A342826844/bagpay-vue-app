@@ -1,7 +1,7 @@
 <template>
     <div @scroll.capture="scrollLoad" class="otc-advdetail">
         <Headers>
-            <span v-show="orderDetail.status === 0" @click="cancelHandle" class="primary-color">下架</span>
+            <span v-show="orderDetail.status === 0" @click="cancelHandle" class="primary-color" v-t="'otc.adoff'"></span>
         </Headers>
         <PullRefresh v-model="isLoading" @refresh="onRefresh">
             <Titles>
@@ -77,8 +77,8 @@
                     </div>
                 </div>
                 <ul class="otc-advdetail-card order-list">
-                    <li>
-                        <NCardItem :showArrow="true" @click="goAdvState(item)" v-for="(item, index) in list" :key="index">
+                    <li v-for="(item, index) in list" :key="index">
+                        <NCardItem :showArrow="true" @click="goAdvState(item)">
                             <template slot="title">
                                 <span>{{item.coin && item.coin.toUpperCase()}}</span>
                                 <span :class="item.taker_side | orderSideUserColor">{{item.taker_side | orderSideType}}</span>
@@ -97,6 +97,7 @@
                                 <span>{{item.updated_at}}</span>
                             </template>
                         </NCardItem>
+                        <div class="app-border-margin16 border-b"></div>
                     </li>
                 </ul>
             </div>

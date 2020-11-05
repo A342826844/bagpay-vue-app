@@ -32,25 +32,28 @@
                         v-model="isLoading"
                         @refresh="onRefresh"
                     >
-                        <NCardItem :showArrow="true" @click="goAdvState(item)" v-for="(item, index) in list" :key="index">
-                            <template slot="title">
-                                <span>{{item.coin && item.coin.toUpperCase()}}</span>
-                                <span :class="item.type|orderSideColor">{{item.type | orderSideTypeUser}}</span>
-                            </template>
-                            <template slot="right">
-                                <span :class="item.status | otcOrderStateColor">{{item.status | otcOrderState}}</span>
-                            </template>
-                            <template slot="lable">
-                                <span>{{$t('common.price')}} ({{_unitIcon}})</span>
-                                <span>{{$t('otc.num')}} ({{item.coin && item.coin.toUpperCase()}})</span>
-                                <span>{{$t('otc.turnover')}} ({{_unitIcon}})</span>
-                            </template>
-                            <template slot="value">
-                                <span>{{item.price}}</span>
-                                <span>{{item.total}}</span>
-                                <span>{{(item.price * item.total)}}</span>
-                            </template>
-                        </NCardItem>
+                        <div v-for="(item, index) in list" :key="index">
+                            <NCardItem :showArrow="true" @click="goAdvState(item)">
+                                <template slot="title">
+                                    <span>{{item.coin && item.coin.toUpperCase()}}</span>
+                                    <span :class="item.type|orderSideColor">{{item.type | orderSideTypeUser}}</span>
+                                </template>
+                                <template slot="right">
+                                    <span :class="item.status | otcOrderStateColor">{{item.status | otcOrderState}}</span>
+                                </template>
+                                <template slot="lable">
+                                    <span>{{$t('common.price')}} ({{_unitIcon}})</span>
+                                    <span>{{$t('otc.num')}} ({{item.coin && item.coin.toUpperCase()}})</span>
+                                    <span>{{$t('otc.turnover')}} ({{_unitIcon}})</span>
+                                </template>
+                                <template slot="value">
+                                    <span>{{item.price}}</span>
+                                    <span>{{item.total}}</span>
+                                    <span>{{(item.price * item.total)}}</span>
+                                </template>
+                            </NCardItem>
+                            <div class="app-border-margin16 border-b"></div>
+                        </div>
                         <div class="loadMore-loading"><Loading type='component' :loading='loadMore'></Loading></div>
                         <p v-if="isEnd && list.length" class="color-gray">{{$t('common.noMore')}}</p>
                         <noData v-if="!_loading && (!list.length)"/>

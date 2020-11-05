@@ -1,11 +1,11 @@
 <template>
-    <div class="otc-good-card app-padding40 border-b">
+    <div class="otc-good-card app-padding40">
         <div>
             <div class="flex-between-c">
                 <div class="text-align-l">
-                    <div class="flex-start-c">
+                    <div @click="$emit('arrow-click', renderData)" class="flex-start-c">
                         <h5 class="name">{{ renderData.nickname }}</h5>
-                        <!-- <img class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt=""> -->
+                        <img v-if="arrow" class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt="">
                     </div>
                     <p class="otc-good-card-pay value">{{ renderData.pay_types | payType}}</p>
                 </div>
@@ -31,9 +31,9 @@
                         :disabled="
                             renderData.uid == _userInfo.id|| Number((renderData.total - renderData.filled - renderData.frozen).toFixed(4)) === 0
                         "
-                        :type="side === 2 ? 'up' : 'down'"
+                        :type="renderData.type === 2 ? 'up' : 'down'"
                     >
-                        {{ side | orderSideType}}
+                        {{ renderData.type | orderSideType}}
                     </Button>
                 </div>
             </div>
@@ -51,9 +51,9 @@ export default Vue.extend({
             type: Boolean,
             default: false,
         },
-        side: {
-            type: Number,
-            required: true,
+        arrow: {
+            type: Boolean,
+            default: false,
         },
         renderData: {
             type: Object,

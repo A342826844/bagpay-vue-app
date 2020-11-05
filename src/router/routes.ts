@@ -50,6 +50,7 @@ const AdvBusiness = () => import('@/views/otc/page/business/advBusiness.vue');
 const VfyBus = () => import('@/views/otc/page/business/vfyBus.vue');
 const AdvStatus = () => import('@/views/otc/page/business/advStatus.vue');
 const OtcProtocol = () => import('@/views/otc/page/protocol.vue');
+const BusinessDetail = () => import('@/views/otc/page/businessDetail.vue');
 
 const ScanQRCode = () => import('@/views/scanQRCode/index.vue'); // 扫描二维码
 const ScanValue = () => import('@/views/scanQRCode/value.vue'); // 扫描结果
@@ -195,6 +196,13 @@ const routes: Array<RouteConfig> = [
             path: 'protocol',
             name: 'OtcProtocol',
             component: OtcProtocol,
+        }, {
+            path: 'business/detail',
+            name: 'businessDetail',
+            component: BusinessDetail,
+            meta: {
+                keepAlive: true,
+            },
         }, {
             path: 'advBusiness',
             name: 'otcAdvBusiness',

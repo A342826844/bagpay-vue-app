@@ -2,7 +2,6 @@
     <div :class="{scroll: contentScroll}"  ref="tabBox" class="tab-list">
         <div
             :class="[
-                {'border-b': border},
                 {[`tab-list-size-${size}`] : size},
                 {sticky},
             ]"
@@ -21,6 +20,7 @@
                 {{item.title}}
             </p>
         </div>
+        <div v-show="border" class="app-border-margin16 border-b"></div>
         <div
             @touchmove.stop="moveHandle"
             @touchstart.stop="startHandle"

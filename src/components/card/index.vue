@@ -45,7 +45,6 @@ export default {
 
 <style lang="less">
 .n_card_item{
-    border-bottom: 1px solid #DBDBDB;
     padding-top: 30px;
     padding-bottom: 30px;
     .card_title{

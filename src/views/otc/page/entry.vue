@@ -55,13 +55,18 @@
                                 <div class="otc-tabbar-page" v-show="subItem.symbol === activeSymbol">
                                     <div class="otc-tabbar-content bg-white">
                                         <div class="content-list">
-                                            <GoodsCard
+                                            <div
                                                 v-for="renderData in renderData[item.side][activeSymbol]"
-                                                :renderData='renderData'
                                                 :key="renderData.id"
-                                                :side="item.side"
-                                                @click="goTradeHandle(renderData)"
-                                            ></GoodsCard>
+                                            >
+                                                <GoodsCard
+                                                    arrow
+                                                    :renderData='renderData'
+                                                    @arrow-click="goBusinessDetail(renderData)"
+                                                    @click="goTradeHandle(renderData)"
+                                                ></GoodsCard>
+                                                <div class="app-border-margin16 border-b"></div>
+                                            </div>
                                             <div v-if="false" class="loadMore-loading">
                                                 <Loading type='component' :loading='loadMore'></Loading>
                                             </div>
@@ -304,17 +309,11 @@ export default Vue.extend({
                 this.$overflowScrolling(true);
             }
         },
+        goBusinessDetail(item: any) {
+            console.log(item);
+            this.$router.push(`/otc/business/detail?uid=${item.id}`);
+        },
         goTradeHandle(item: any) {
-            //    "phone": "86-13100000000",//[string] 手机号
-            //     "email": "test@xx.com", //[string] 邮箱
-            //     "password": "1", //[string] 处理过的密码,不为空代表已设置
-            //     "pay_password": "1", //[string] 处理过的支付密码,不为空代表已设置
-            //     "nickname": "昵称",
-            //     "photo": "头像",
-            //     "ver_lv": 0, //实名认证级别 0.未认证 1.基础认证 2.身份认证 3.视频认证
-            //     "ga": "1", //处理过的google验证码,不为空代表已设置
-            //     "status": 1, //状态,1.正常 0.禁用
-            //     "created_at": "", //创建时间
             if (!this._userInfo.pay_password) {
                 this.$dialog.confirm({
                     title: `${this.$t('common.poptip')}`,
