@@ -35,7 +35,7 @@
                                 <div class="value">{{ orderDetail.amount }} {{orderDetail.coin | toUpperCase}}</div>
                             </div>
                         </li>
-                        <li v-if="false" class="app-padding40">
+                        <li class="app-padding40">
                             <div class="flex-between-c">
                                 <div class="lable" v-t="'otc.bus'"></div>
                                 <div class="lable">
@@ -45,8 +45,8 @@
                             </div>
                             <div class="flex-between-c list-item-2">
                                 <!-- TODO: 商家昵称、手机号-->
-                                <div class="value">料子 TODO</div>
-                                <div class="value">1355516111521</div>
+                                <div class="value">{{orderDetail.target_nickname}}</div>
+                                <div class="value">{{orderDetail.target_phone | sliceMoblepre | formatName}}</div>
                             </div>
                         </li>
                         <li class="app-padding40">

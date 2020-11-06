@@ -162,7 +162,8 @@ export default Vue.extend({
             }
             const params = {
                 side: this.side,
-                coin: 'usdt',
+                coin: '',
+                uid: 2,
                 offset: refresh ? 0 : this.renderData[this.side].length,
                 limit: 10,
             };

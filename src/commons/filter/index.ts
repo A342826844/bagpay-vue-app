@@ -355,5 +355,13 @@ Vue.filter('langType', (state: 'zh-CN'|'en-us') => {
 
 // 手机号加密处理
 Vue.filter('formatName', (str: string) => { 
-    return str.slice(0,5)+'***'+str.slice(-3, str .length);
+    return str.slice(0,3)+'***'+str.slice(-4, str .length);
+});
+// 手机号加密处理
+Vue.filter('sliceMoblepre', (phone: string) => {
+    const index = phone.indexOf('-');
+    if (phone.indexOf('-') !== -1) {
+        return phone.slice(index + 1);
+    }
+    return phone;
 });
