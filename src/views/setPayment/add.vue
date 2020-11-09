@@ -99,8 +99,13 @@ export default Vue.extend({
     },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
-            vm.initPramis();
-            if (!(from.name === 'choisesymbol' || from.name === 'scanQRCode')) {
+            if (from.name === 'choisesymbol') {
+                vm.initPramis();
+            }
+            if (from.name === 'scanQRCode') {
+                this.form.address = this.$store.state.qrcodeResult || '';
+            }
+            if (!(from.name === 'choisesymbol' || from.name === 'scanQRCode' || from.name === 'minesafepass')) {
                 vm.clear();
             }
         });
@@ -117,7 +122,6 @@ export default Vue.extend({
         initPramis() {
             this.symbol = this.$store.state.addAddr.symbol || '';
             this.needMede = this.$store.state.addAddr.needMede || '';
-            this.form.address = this.$store.state.qrcodeResult || '';
         },
         init() {
             this.$api.getCoinProtocols({

@@ -10,6 +10,7 @@
                     </div>
                 </li>
             </ul>
+            <noData v-if="!_loading && (!addrList.length)"/>
         </div>
     </TitleHeader>
 </template>
@@ -37,14 +38,18 @@ export default Vue.extend({
     },
     methods: {
         getAddrList() {
+            this.changeLoading(true);
             this.symbol = this.$route.query.symbol as string;
             this.needMemo = this.$route.query.needMemo as string;
             this.$api.getAddrList({
                 coin: this.symbol,
             }).then((res: any) => {
+                this.changeLoading(false);
                 if (res.data) {
                     this.addrList = res.data;
                 }
+            }).catch(() => {
+                this.changeLoading(false);
             });
         },
         add() {

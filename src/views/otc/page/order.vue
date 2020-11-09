@@ -27,7 +27,7 @@
         <TitleHeader :title="$t('otc.order')">
             <img slot="header" @click="isShow=!isShow" class="app-img-50" src="@/assets/img/common/screen.png" alt="">
             <div class="app-margin-t40">
-                <div class="body-content-slot" slot="history">
+                <div class="body-content-slot">
                     <PullRefresh
                         v-model="isLoading"
                         @refresh="onRefresh"

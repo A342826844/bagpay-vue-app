@@ -2,10 +2,10 @@
     <div class="realname">
         <TitleHeader :title="`${$t('mine.realName')}`">
             <p class="realname-tip app-padding40">{{$t('mine.currentLv', {num: '2'})}}</p>
-            <form class="realname-form app-padding40" action="">
+            <form @submit.prevent="" class="realname-form app-padding40" action="">
                 <ul>
                     <li v-for="item in uploadList" :key="item.name">
-                        <input type="file" @change="fileChange($event, item.name)" accept="image/*" name="" />
+                        <input type="file" @change="fileChange($event, item.name)" accept="image/*" :name="item.name" />
                         <div class="add-bg">
                             <img :src="item.img" alt="">
                             <p class="primary-color" v-show="!item.val">{{$t(item.title)}}</p>
