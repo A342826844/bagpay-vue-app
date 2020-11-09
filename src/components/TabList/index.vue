@@ -29,12 +29,24 @@
             :style="{
                 left: bodyLeft,
                 'transition-duration': moveIng ? '' : '0.3s'
-            }" class="tab-list-body">
-            <div v-show="index === activeIndex || (moveIng && position === 'HORIZONTAL') || isMoveIng" :style="{
-                left: `${index * 100}%`,
-            }" v-for="(item, index) in tabList" :key="item.id" class="tab-list-content">
+            }" class="tab-list-body"
+        >
+            <div
+                v-show="index === activeIndex || (moveIng && position === 'HORIZONTAL') || isMoveIng"
+                :style="{ left: `${index * 100}%`}"
+                v-for="(item, index) in tabList"
+                :key="item.id"
+                :ref="`content${index}`"
+                class="tab-list-content"
+            >
                 <slot :name="item.value"></slot>
             </div>
+            <div
+                class="tab-list-scroll"
+                :style="{
+                    height: `${contentHeight}px`,
+                }"
+            ></div>
         </div>
         <div class="tab-list-right">
             <slot name="right"></slot>
@@ -45,6 +57,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { deepCopy } from '@/utils/assist';
+import clientEnv from '@/commons/clientEnv/idnex';
 
 type HORIZONTAL = 'HORIZONTAL';
 type VERTICAL = 'VERTICAL';
@@ -59,6 +72,8 @@ type data = {
     titleOpacity: Array<any>;
     isMoveIng: boolean; // tab正在切换状态，不去隐藏其他tab
     isMoveIngTimer: any;
+
+    contentHeight: number;
 
     activeTitleFontSize: number;
     defaultTitleFontSize: number;
@@ -79,6 +94,7 @@ const defaultTitleOpacity = 0.8;
 
 const HORIZONTAL = 'HORIZONTAL';
 const VERTICAL = 'VERTICAL';
+let setHeaderTimer: any;
 
 export default Vue.extend({
     name: 'Tablist',
@@ -121,6 +137,7 @@ export default Vue.extend({
             activeIndex: 0,
             activeValue: '',
             moveTo: 0,
+            contentHeight: 0,
             moveIng: false,
             titleFontSize: [],
             titleOpacity: [],
@@ -158,8 +175,9 @@ export default Vue.extend({
         },
     },
     mounted() {
+        this.getContentHeight();
         // 计算字体初始值
-        if (!this.swipeable) return;
+        if (!this.swipeable || clientEnv.ios) return;
         const computedStyle = window.getComputedStyle((this.$refs.tabbarTitle as Element[])[0]);
         if ((this.$refs.tabbarTitle as Element[])[0].className.includes('active')) {
             const { fontSize } = computedStyle;
@@ -178,6 +196,21 @@ export default Vue.extend({
         });
     },
     methods: {
+        getContentHeight() {
+            this.$nextTick(() => {
+                const refName = `content${(this as any).activeIndex}`;
+                if (this.$refs[refName] && (this.$refs[refName] as any).length) {
+                    const activeDom = (this.$refs[refName] as Array<HTMLElement>)[0];
+                    if (activeDom) {
+                        clearTimeout(setHeaderTimer);
+                        setHeaderTimer = setTimeout(() => {
+                            this.contentHeight = activeDom.scrollHeight;
+                            console.log(this.contentHeight);
+                        }, 300);
+                    }
+                }
+            });
+        },
         toggle(item: { [x: string]: any; noChange: any }, index: any, isMove: any) {
             if (index === this.activeIndex) return;
             this.$emit('on-click', item);
@@ -201,6 +234,7 @@ export default Vue.extend({
                 this.titleFontSize[subIndex] = this.computedFontSize(subIndex, 0);
                 this.titleOpacity[subIndex] = this.computedOpacity(subIndex, 0);
             });
+            this.getContentHeight();
         },
         // 滑动时js控制title的字体大小显示
         computedFontSize(index: number, moveRate: number) {
@@ -226,7 +260,7 @@ export default Vue.extend({
         },
 
         moveHandle(e: TouchEvent) {
-            if (!this.swipeable) return;
+            if (!this.swipeable || clientEnv.ios) return;
             if (!this.moveIng) {
                 this.moveIng = true;
             }
@@ -264,7 +298,7 @@ export default Vue.extend({
             this.nextIndex = this.moveTo > 0 ? -1 : 1;
         },
         endHandle(e: TouchEvent) {
-            if (!this.swipeable) return;
+            if (!this.swipeable || clientEnv.ios) return;
 
             // 阻止移动端的滑动默认事件
             if (!this.scroll) {
@@ -307,7 +341,7 @@ export default Vue.extend({
             this.moveTo = 0;
         },
         startHandle(e: TouchEvent) {
-            if (!this.swipeable) return;
+            if (!this.swipeable || clientEnv.ios) return;
 
             // 阻止移动端的滑动默认事件
             if (!this.scroll) {
@@ -388,11 +422,15 @@ export default Vue.extend({
         min-height: calc(100% - 93px);
         transition-property: left;
         .tab-list-content {
-            min-height: 100%;
+            // min-height: 100%;
             position: absolute;
             width: 100%;
             overflow: scroll;
+            z-index: 2;
         }
+        // .tab-list-scroll{
+        //     height: 1200px;
+        // }
     }
     &-right{
         position: absolute;
