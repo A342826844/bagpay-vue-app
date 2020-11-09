@@ -159,6 +159,12 @@
     "home": {
         "assets": "資產",
         "paymentTip": "掃描二維碼，轉入",
+        "withdraw_frozen": "轉出凍結",
+        "withdraw_frozen_tip": "提現轉出凍結資金",
+        "sys_frozen": "系統凍結",
+        "sys_frozen_tip": "OTC申請商家保證金",
+        "otc_frozen": "場外凍結",
+        "otc_frozen_tip": "OTC場外訂單",
         "addSymbol": "添加幣種",
         "serviceCharge": "手續費",
         "paymentTip1": "最小轉入金額：0.001{symbol}，小於最小金額的充值將不會上賬",

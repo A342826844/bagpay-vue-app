@@ -160,6 +160,12 @@
     "home": {
         "assets": "Assets",
         "paymentTip": "Scan the QR code and transfer to",
+        "withdraw_frozen": "Transfer to Frozen",
+         "withdraw_frozen_tip": "Withdraw and transfer out frozen funds",
+         "sys_frozen": "System Frozen",
+         "sys_frozen_tip": "OTC application for merchant deposit",
+         "otc_frozen": "Freeze off-site",
+         "otc_frozen_tip": "OTC off-market order",
         "addSymbol": "Add currency",
         "paymentTip1": "Minimum transfer amount: 0.001{symbol}, deposits less than the minimum amount will not be posted",
         "paymentTip2": "Please do not deposit any assets other than {symbol} to the above address, otherwise the assets will not be retrieved.",

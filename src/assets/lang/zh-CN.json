@@ -159,6 +159,12 @@
     },
     "home": {
         "assets": "资产",
+        "withdraw_frozen": "转出冻结",
+        "withdraw_frozen_tip": "提现转出冻结资金",
+        "sys_frozen": "系统冻结",
+        "sys_frozen_tip": "OTC申请商家保证金",
+        "otc_frozen": "场外冻结",
+        "otc_frozen_tip": "OTC场外订单",
         "paymentTip": "扫描二维码，转入",
         "addSymbol": "添加币种",
         "serviceCharge": "手续费",

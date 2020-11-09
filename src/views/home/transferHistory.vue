@@ -7,8 +7,8 @@
                     <p class="sub-value">{{$t('common.available')}}</p>
                     <h3 class="value">{{activeSymbol.available}}</h3>
                 </div>
-                <div class="transfer-history-top txt_right">
-                    <p class="sub-value">{{$t('common.frozen')}}</p>
+                <div @click="goFrozen" class="transfer-history-top txt_right">
+                    <p class="sub-value transfer-history-triangle">{{$t('common.frozen')}}</p>
                     <h3 class="value">
                         {{(activeSymbol.otc_frozen || 0) + (activeSymbol.sys_frozen || 0) + (activeSymbol.withdraw_frozen || 0)}}
                     </h3>
@@ -186,6 +186,15 @@ export default Vue.extend({
                 }
             });
         },
+        goFrozen() {
+            this.$router.push({
+                query: {
+                    coin: this.symbol,
+                    ...this.activeSymbol,
+                },
+                path: '/transferFrozen',
+            });
+        },
         goLink(path: string) {
             if (path === 'transferOut' && this._userInfo.ver_lv === 0) {
                 this.$dialog.confirm({
@@ -219,6 +228,20 @@ export default Vue.extend({
         display: flex;
         justify-content: space-between;
     }
+    &-triangle{
+        &::after{
+            content: '';
+            display: inline-block;
+            height: 0;
+            width: 0;
+            border: 8px solid;
+            vertical-align: middle;
+            margin: 0 -8px 0 8px;
+            border-top-color: transparent;
+            border-right-color: transparent;
+            border-bottom-color: transparent;
+        }
+    }
     &-top{
         margin: 50px 0;
         &.txt_left{
@@ -245,7 +268,9 @@ export default Vue.extend({
             padding-bottom: 180px;
             &>ul{
                 &>li{
-                    height: 142px;
+                    // height: 142px;
+                    padding-top: 28px;
+                    padding-bottom: 28px;
                     align-items: flex-start;
                     .values{
                         &:first-child{
