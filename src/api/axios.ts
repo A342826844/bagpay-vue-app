@@ -115,7 +115,6 @@ axiosOfGoLang.interceptors.response.use(
         // 过滤请求完成的CancelToken
         const cancleId = error.message.cancleId || (error.response.config as AxiosConfig).cancleId;
         axiosGoPromiseArr.value = axiosGoPromiseArr.value.filter((item: any) => cancleId !== item.cancleId);
-
         if (error.response && error.response.status === 403) {
             Dialog.alert({
                 title: i18n.t('common.poptip'),
@@ -125,7 +124,7 @@ axiosOfGoLang.interceptors.response.use(
                 window.location.href = '/';
             });
         }
-        Promise.reject(error);
+        return Promise.reject(error);
     },
 );
 

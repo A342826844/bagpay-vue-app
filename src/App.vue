@@ -84,7 +84,7 @@ export default Vue.extend({
                     this.$router.push('/home');
                 }
             }).catch((error) => {
-                if (error.response && error.response.status === 401) {
+                if (error.response && error.response.status === 403) {
                     this.plusInitHandle();
                     // this.$router.push('/');
                 } else {
