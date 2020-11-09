@@ -38,7 +38,7 @@
                         <li class="app-padding40">
                             <div class="flex-between-c">
                                 <div class="lable" v-t="'otc.bus'"></div>
-                                <div class="lable">
+                                <div @click="goBusinessDetail" class="lable">
                                     <span class="vertical-m" v-t="'otc.seeDetails'"></span>
                                     <img class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt="">
                                 </div>
@@ -263,6 +263,13 @@ export default Vue.extend({
             return true; // 买入
             // 买入 卖出
             // return taker_side === 1; // false => 卖出  true => 购买
+        },
+        // TODO: 商家和买家不一样
+        goBusinessDetail() {
+            // taker_id: 4
+            // maker_id: 2
+            const uid = this._userInfo.id === this.orderDetail.taker_id ? this.orderDetail.maker_id : this.orderDetail.taker_id;
+            this.$router.push(`/otc/business/detail?uid=${uid}`);
         },
         appealingStatus(uid: number, type: number) {
             if (uid === Number(this._userInfo.id) && type === 1) {
