@@ -73,9 +73,7 @@ const downloadImg = (url: string, option = {}, completedCB: any) => {
  * @return {void}
  */
 const shareDataHandle = (data: any, successCB: any, errorCB: any) => {
-    if ((window as any).plus.share) {
-        (window as any).plus.share.sendWithSystem(data, successCB, errorCB);
-    }
+    (window as any).plus.share.sendWithSystem(data, successCB, errorCB);
 };
 
 export {
