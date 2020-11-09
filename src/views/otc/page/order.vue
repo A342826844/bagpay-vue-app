@@ -1,5 +1,5 @@
 <template>
-    <div @scroll.capture="scrollLoad($event, scrollLoadHandle)" class="adv-manage">
+    <div @scroll.capture="scrollLoad" class="adv-manage">
         <Drawer position="right" v-model="isShow">
             <OrderFilter :title="$t('common.screen')">
                 <SubOrderFilter :title="$t('common.status')">
@@ -114,10 +114,6 @@ export default Vue.extend({
     methods: {
         onRefresh() {
             this.initParams(true);
-        },
-        // 滚动懒加载
-        scrollLoadHandle() {
-            this.loadData();
         },
         scrollLoad(event: Event) {
             const scroll = (event.target as HTMLElement);

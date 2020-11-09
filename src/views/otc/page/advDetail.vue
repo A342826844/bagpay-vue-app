@@ -80,8 +80,8 @@
                     <li v-for="(item, index) in list" :key="index">
                         <NCardItem :showArrow="true" @click="goAdvState(item)">
                             <template slot="title">
-                                <span>{{item.coin && item.coin.toUpperCase()}}</span>
-                                <span :class="item.taker_side | orderSideUserColor">{{item.taker_side | orderSideType}}</span>
+                                <span>{{target_users[item.taker_id].nickname}}</span>
+                                <!-- <span>{{target_users[item.taker_id].phone}}</span> -->
                             </template>
                             <template slot="right">
                                 <span :class="item.state | otcDealStateColor">{{item.state | otcDealState}}</span>
@@ -123,6 +123,7 @@ type data = {
         amount: string;
         value: string;
     };
+    target_users: any;
     list: Array<any>;
 }
 
@@ -161,6 +162,7 @@ export default Vue.extend({
                 // close_why: '', // 平台强制关闭的原因
                 // created_at: '', // 创建时间
             },
+            target_users: {},
             form: {
                 amount: '',
                 value: '',
@@ -224,8 +226,10 @@ export default Vue.extend({
                 if (res.data.list) {
                     if (refresh) {
                         this.list = res.data.list;
+                        this.target_users = res.data.target_users;
                     } else {
                         this.list = this.list.concat(res.data.list);
+                        this.target_users = { ...this.target_users, ...res.data.target_users };
                     }
                 }
                 if (this.list.length >= res.data.total) {

@@ -354,11 +354,11 @@ Vue.filter('langType', (state: 'zh-CN'|'en-us') => {
 });
 
 // 手机号加密处理
-Vue.filter('formatName', (str: string) => { 
+Vue.filter('formatName', (str='') => { 
     return str.slice(0,3)+'***'+str.slice(-4, str .length);
 });
 // 手机号加密处理
-Vue.filter('sliceMoblepre', (phone: string) => {
+Vue.filter('sliceMoblepre', (phone='') => {
     const index = phone.indexOf('-');
     if (phone.indexOf('-') !== -1) {
         return phone.slice(index + 1);
