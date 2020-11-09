@@ -36,7 +36,7 @@
                         color = '#5894EE'
                         ref="tabs"
                         title-active-color='#5894EE'
-                        :swipe-threshold='6'
+                        :swipe-threshold='5'
                         :border='false'
                         @change='changeCoinHandle(item.side)'
                         >
@@ -176,7 +176,7 @@ export default Vue.extend({
             loadMore: false,
             activeSymbol: 'usdt',
             side: 2,
-            limit: 5,
+            limit: 10,
             renderData: {
                 1: {},
                 2: {},
@@ -312,7 +312,7 @@ export default Vue.extend({
             }
         },
         goBusinessDetail(item: any) {
-            this.$router.push(`/otc/business/detail?uid=${item.id}`);
+            this.$router.push(`/otc/business/detail?uid=${item.uid}`);
         },
         goTradeHandle(item: any) {
             if (!this._userInfo.pay_password) {

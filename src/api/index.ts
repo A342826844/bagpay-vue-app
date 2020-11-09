@@ -25,6 +25,8 @@ export const otcOrderDealList = (data: params) => postGolang('/otc/deal/list', d
 export const otcOrderList = (data: params) => postGolang('/otc/order/list', data);
 // 获取广告信息
 export const otcOrderGetById = (id: number) => postGolang(`/otc/order/get/${id}`, { id });
+// 获取商户状态
+export const otcMerchantStat = (uid: number) => getGolang(`/otc/merchant/stat/${uid}`, { uid });
 // 获取订单信息
 export const otcDealGetById = (id: number) => postGolang(`/otc/deal/get/${id}`, { id });
 // 广告下架
