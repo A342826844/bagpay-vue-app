@@ -57,9 +57,13 @@ import Vue from 'vue';
 
 export default Vue.extend({
     beforeRouteEnter(to, from, next) {
+        console.log('beforeRouteEnter');
         next((vm: any) => {
             vm.getInfo();
         });
+    },
+    created() {
+        console.log('created');
     },
     data() {
         return {

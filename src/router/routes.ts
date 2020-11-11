@@ -154,86 +154,84 @@ const routes: Array<RouteConfig> = [
         name: 'transferFrozen',
         component: transferFrozen,
     },
+    // {
+    //     path: '/otc',
+    //     name: 'otc',
+    //     component: Otc,
+    //     meta: {
+    //         showFooter: true,
+    //         needLogin: true,
+    //         name: 'otc',
+    //     },
+    //     children: [],
+    // },
     {
-        path: '/otc',
-        name: 'otc',
-        component: Otc,
+        path: '/otc/entry',
+        name: 'otcentry',
+        component: OtcEntry,
         meta: {
             showFooter: true,
             needLogin: true,
-            name: 'otc',
-        },
-        children: [{
-            path: 'entry',
+            keepAlive: true,
             name: 'otcentry',
-            component: OtcEntry,
-            meta: {
-                showFooter: true,
-                needLogin: true,
-                keepAlive: true,
-                name: 'otcentry',
-            },
-        }, {
-            path: 'order',
-            name: 'otcOrder',
-            component: OtcOrder,
-        }, {
-            path: 'submit',
-            name: 'otcsubmit',
-            component: OtcSubmit,
-        }, {
-            path: 'order/appeal',
-            name: 'otcappeal',
-            component: OtcAppeal,
-        }, {
-            path: 'order/detail',
-            name: 'orderdetail',
-            component: OtcOrderDetail,
-        }, {
-            path: 'adv',
-            name: 'otcAdv',
-            component: Adv,
-            meta: {
-                keepAlive: true,
-            },
-        }, {
-            path: 'adv/detail',
-            name: 'otcAdvDetail',
-            component: OtcAdvDetail,
-        }, {
-            path: 'protocol',
-            name: 'OtcProtocol',
-            component: OtcProtocol,
-        }, {
-            path: 'business/detail',
-            name: 'businessDetail',
-            component: BusinessDetail,
-            meta: {
-                keepAlive: true,
-            },
-        }, {
-            path: 'advBusiness',
-            name: 'otcAdvBusiness',
-            component: AdvBusiness,
-            meta: {
-                keepAlive: true,
-            },
-        }, {
-            path: 'vfyBus',
-            name: 'otcVfyBus',
-            component: VfyBus,
-            meta: {
-                keepAlive: true,
-            },
-        }, {
-            path: 'advStatus',
-            name: 'otcAdvStatus',
-            component: AdvStatus,
-        }, {
-            path: 'advManage',
-            name: 'otcAdvManage',
-            component: AdvManage,
-        }],
+        },
+    }, {
+        path: '/otc/order',
+        name: 'otcOrder',
+        component: OtcOrder,
+    }, {
+        path: '/otc/submit',
+        name: 'otcsubmit',
+        component: OtcSubmit,
+    }, {
+        path: '/otc/order/appeal',
+        name: 'otcappeal',
+        component: OtcAppeal,
+    }, {
+        path: '/otc/order/detail',
+        name: 'orderdetail',
+        component: OtcOrderDetail,
+    }, {
+        path: '/otc/adv',
+        name: 'otcAdv',
+        component: Adv,
+        meta: {
+            keepAlive: true,
+        },
+    }, {
+        path: '/otc/adv/detail',
+        name: 'otcAdvDetail',
+        component: OtcAdvDetail,
+    }, {
+        path: '/otc/protocol',
+        name: 'OtcProtocol',
+        component: OtcProtocol,
+    }, {
+        path: '/otc/business/detail',
+        name: 'businessDetail',
+        component: BusinessDetail,
+        meta: {
+            keepAlive: true,
+        },
+    }, {
+        path: '/otc/advBusiness',
+        name: 'otcAdvBusiness',
+        component: AdvBusiness,
+    }, {
+        path: '/otc/vfyBus',
+        name: 'otcVfyBus',
+        component: VfyBus,
+        meta: {
+            keepAlive: true,
+        },
+    }, {
+        path: '/otc/advStatus',
+        name: 'otcAdvStatus',
+        component: AdvStatus,
+    }, {
+        path: '/otc/advManage',
+        name: 'otcAdvManage',
+        component: AdvManage,
     },
     {
         path: '/mine',

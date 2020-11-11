@@ -239,6 +239,7 @@ export default Vue.extend({
                 this.loadData();
             });
         }
+        this.getConfigData();
     },
     computed: {
         coins(): Array<any> {
@@ -461,6 +462,17 @@ export default Vue.extend({
             }
             this.$router.push({
                 name: item.name,
+            });
+        },
+        getConfigData() {
+            this.$api.getConfigCommon().then((res: any) => {
+                if (res.data) {
+                    this.$store.commit('setConfigCommon', res.data);
+                }
+            }).catch(() => {
+                setTimeout(() => {
+                    this.getConfigData();
+                }, 10 * 1000);
             });
         },
     },
