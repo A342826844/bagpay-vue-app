@@ -65,6 +65,7 @@ export default new Vuex.Store({
         symbolList,
         configCommon,
         bankList: [],
+        keepAlive: [],
     },
     mutations: {
         changeLoading(state, loading) {
@@ -94,6 +95,9 @@ export default new Vuex.Store({
         },
         setBankList(state, list) {
             state.bankList = list;
+        },
+        setKeepAlive(state, keepAlive) {
+            state.keepAlive = keepAlive;
         },
         changgeQrcodeResult(state, value) {
             state.qrcodeResult = value;

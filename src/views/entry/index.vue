@@ -71,7 +71,7 @@ const HORIZONTAL = 'HORIZONTAL';
 const VERTICAL = 'VERTICAL';
 
 export default Vue.extend({
-    name: 'Home',
+    name: 'Entry',
     data(): data {
         return {
             activeTab: 0,

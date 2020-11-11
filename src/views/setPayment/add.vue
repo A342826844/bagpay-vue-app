@@ -118,7 +118,6 @@ export default Vue.extend({
                 memoAddr: '',
                 remark: '',
             };
-            this.$store.commit('setQrcodeResult', '');
         },
         initPramis() {
             this.symbol = this.$store.state.addAddr.symbol || '';

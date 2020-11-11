@@ -72,7 +72,7 @@ type data = {
 };
 
 export default Vue.extend({
-    name: 'SetPaymentAdd',
+    name: 'PaywayAdd',
     data(): data {
         return {
             PayType,

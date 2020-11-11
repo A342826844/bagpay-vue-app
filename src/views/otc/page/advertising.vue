@@ -196,7 +196,7 @@ type data = {
 }
 
 export default Vue.extend({
-    name: 'TransferHistory',
+    name: 'OtcAdv',
     data(): data {
         return {
             PayType,

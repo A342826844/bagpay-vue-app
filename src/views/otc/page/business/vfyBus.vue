@@ -103,6 +103,7 @@ import { SocialType, Relationship } from '@/commons/config/index';
 // import { Checkbox } from 'vant';
 
 export default Vue.extend({
+    name: 'VfyBus',
     data() {
         return {
             SocialType,

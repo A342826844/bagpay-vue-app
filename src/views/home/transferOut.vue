@@ -86,7 +86,7 @@ type data = {
 }
 
 export default Vue.extend({
-    name: 'AddSymbol',
+    name: 'TransferOut',
     data(): data {
         return {
             symbol: this.$route.query.symbol as string,
@@ -122,8 +122,10 @@ export default Vue.extend({
     methods: {
         initAddress() {
             this.symbol = this.$route.query.symbol as string;
-            this.form.address = this.address.address || '';
-            this.form.memo = this.address.memo || '';
+            if (this.address.address) {
+                this.form.address = this.address.address || '';
+                this.form.memo = this.address.memo || '';
+            }
         },
         initParams() {
             this.form.value = '';

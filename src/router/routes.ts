@@ -1,9 +1,16 @@
 import { RouteConfig } from 'vue-router';
+import store from '@/store/index';
 
 import Home from '@/views/home/index.vue'; // 首页
-import Entry from '@/views/entry/index.vue'; // 入口页
-import Login from '@/views/login/index.vue'; // 登录
-import Register from '@/views/login/register.vue'; // 注册
+// import Entry from '@/views/entry/index.vue'; // 入口页
+
+// import Login from '@/views/login/index.vue'; // 登录
+// import Register from '@/views/login/register.vue'; // 注册
+
+// 使用这种引入无法读到 component 的name
+const Login = () => import('@/views/login/index.vue'); // 登录
+const Register = () => import('@/views/login/register.vue'); // 注册
+const Entry = () => import('@/views/entry/index.vue'); // 入口页
 
 const LoginSearch = () => import('@/views/login/search.vue');
 const Findaccount = () => import('@/views/login/findaccount.vue');
@@ -43,7 +50,7 @@ const ChoiseSymbol = () => import('@/views/setPayment/choiseSymbol.vue');
 const Otc = () => import('@/views/otc/index.vue');
 const OtcEntry = () => import('@/views/otc/page/entry.vue');
 const OtcOrder = () => import('@/views/otc/page/order.vue');
-const Adv = () => import('@/views/otc/page/advertising.vue');
+const OtcAdv = () => import('@/views/otc/page/advertising.vue');
 const AdvManage = () => import('@/views/otc/page/advManage.vue');
 const OtcOrderDetail = () => import('@/views/otc/page/orderDetail.vue');
 const OtcSubmit = () => import('@/views/otc/page/submit.vue');
@@ -154,25 +161,14 @@ const routes: Array<RouteConfig> = [
         name: 'transferFrozen',
         component: transferFrozen,
     },
-    // {
-    //     path: '/otc',
-    //     name: 'otc',
-    //     component: Otc,
-    //     meta: {
-    //         showFooter: true,
-    //         needLogin: true,
-    //         name: 'otc',
-    //     },
-    //     children: [],
-    // },
     {
         path: '/otc/entry',
         name: 'otcentry',
         component: OtcEntry,
         meta: {
             showFooter: true,
-            needLogin: true,
             keepAlive: true,
+            needLogin: true,
             name: 'otcentry',
         },
     }, {
@@ -194,7 +190,7 @@ const routes: Array<RouteConfig> = [
     }, {
         path: '/otc/adv',
         name: 'otcAdv',
-        component: Adv,
+        component: OtcAdv,
         meta: {
             keepAlive: true,
         },
@@ -365,5 +361,15 @@ const routes: Array<RouteConfig> = [
         component: ScanValue,
     },
 ];
+
+// 获取需要keepAlive的页面  保存到 vuex里
+const keepAlive: any = [];
+routes.forEach((item: any) => {
+    if (item.meta && item.meta.keepAlive) {
+        keepAlive.push(item.component.name);
+        console.log(item);
+    }
+});
+store.commit('setKeepAlive', keepAlive);
 
 export default routes;

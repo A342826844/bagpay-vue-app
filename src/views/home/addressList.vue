@@ -34,6 +34,7 @@ export default Vue.extend({
         };
     },
     mounted() {
+        this.$store.commit('setAddress', {});
         this.getAddrList();
     },
     methods: {

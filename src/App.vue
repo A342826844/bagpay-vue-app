@@ -1,10 +1,10 @@
 <template>
     <div id="app" :class="[lang]">
         <div id="main">
-            <keep-alive>
-                <router-view v-if="$route.meta.keepAlive"></router-view>
+            <keep-alive :include="keepAlive">
+                <router-view></router-view>
             </keep-alive>
-            <router-view v-if="!$route.meta.keepAlive"></router-view>
+            <!-- <router-view v-if="!$route.meta.keepAlive"></router-view> -->
         </div>
         <van-dialog v-model="show" :title="force_update ? $t('mine.forceUpdate') : $t('mine.update')" :show-confirm-button="!force_update">
             <van-circle v-model="rate" :rate="progress" :text="toastOperateTitle" />
@@ -45,6 +45,9 @@ export default Vue.extend({
     computed: {
         lang(): string {
             return this.$store.state.lang;
+        },
+        keepAlive(): Array<string> {
+            return this.$store.state.keepAlive;
         },
     },
     methods: {

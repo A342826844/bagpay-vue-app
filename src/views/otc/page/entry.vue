@@ -159,6 +159,7 @@ const menuHandle = (data: Array<any>): Array<any> => {
 };
 
 export default Vue.extend({
+    name: 'OtcEntry',
     components: {
         GoodsCard,
         Drawer,
