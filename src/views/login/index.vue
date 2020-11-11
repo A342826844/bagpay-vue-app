@@ -117,7 +117,7 @@ export default Vue.extend({
                         this.getAllData();
                     }
                 }).finally(() => {
-                    this.changeLoading(false);
+                    // this.changeLoading(false);
                 });
             }
         },
