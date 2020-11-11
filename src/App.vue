@@ -2,12 +2,15 @@
     <div id="app" :class="[lang]">
         <div id="main">
             <keep-alive :include="keepAlive">
-                <router-view></router-view>
+                <transition :name="transitionName">
+                    <router-view class="app-view"></router-view>
+                </transition>
             </keep-alive>
             <!-- <router-view v-if="!$route.meta.keepAlive"></router-view> -->
         </div>
         <van-dialog v-model="show" :title="force_update ? $t('mine.forceUpdate') : $t('mine.update')" :show-confirm-button="!force_update">
-            <van-circle v-model="rate" :rate="progress" :text="toastOperateTitle" />
+            <van-circle class="van-circle" v-model="rate" :rate="progress" :text="file ? $t('mine.downloaded') : toastOperateTitle" />
+            <Button v-show="file" @click="installHandle(file)" size="fill">{{$t('mine.clickInstall')}}</Button>
         </van-dialog>
         <Loading/>
         <Footer v-show="$route.meta.showFooter"/>
@@ -33,6 +36,8 @@ export default Vue.extend({
             show: false,
             force_update: false,
             toastOperateTitle: '',
+            transitionName: '',
+            file: null,
         };
     },
     created() {
@@ -41,6 +46,18 @@ export default Vue.extend({
         } else {
             this.plusInitHandle();
         }
+    },
+    watch: { // 使用watch 监听$router的变化
+        $route(to, from) {
+            // 如果to索引大于from索引,判断为前进状态,反之则为后退状态
+            if (to.meta.index || from.meta.index) {
+                // if (!to.meta.index || to.meta.index < from.meta.index) {
+                //     this.transitionName = 'slide-right';
+                // } else {
+                //     this.transitionName = 'slide-left';
+                // }
+            }
+        },
     },
     computed: {
         lang(): string {
@@ -119,9 +136,14 @@ export default Vue.extend({
                 if (res.code === 0) {
                     if (!res.data) return;
                     if (res.data.force_update) {
-                        this.show = true;
                         this.force_update = true;
-                        this.uploadApp(res.data.url);
+                        this.$dialog.alert({
+                            title: `${this.$t('mine.updateV')}`,
+                            message: `${this.$t('mine.updateTip1')}`,
+                        }).then(() => {
+                            this.show = true;
+                            this.uploadApp(res.data.url);
+                        });
                     } else {
                         this.$dialog.confirm({
                             title: `${this.$t('mine.updateV')}`,
@@ -157,16 +179,20 @@ export default Vue.extend({
                 });
             }
         },
+        installHandle(file: any) {
+            (window as any).plus.runtime.install(file, null, () => {
+            // window.plus.runtime.quit();
+                // this.show = false;
+            }, () => {
+                this.$normalToast(this.$t('mine.installFailed'));
+                this.show = false;
+            });
+        },
         downlaodApp(downlaodUrl: string) {
             const dtask = (window as any).plus.downloader.createDownload(downlaodUrl, {}, (d: { filename: any }, status: number) => {
                 if (status === 200) {
-                    (window as any).plus.runtime.install(d.filename, null, () => {
-                    // window.plus.runtime.quit();
-                        this.show = false;
-                    }, () => {
-                        this.$normalToast(this.$t('mine.installFailed'));
-                        this.show = false;
-                    });
+                    this.file = d.filename;
+                    this.installHandle(this.file);
                 }
             });
             dtask.start();
@@ -180,3 +206,37 @@ export default Vue.extend({
     },
 });
 </script>
+
+<style lang="less" scoped>
+.app-view{
+    width: 100%;
+    position: absolute;
+}
+.slide-right-enter-active,
+.slide-right-leave-active,
+.slide-left-enter-active,
+.slide-left-leave-active {
+    will-change: transform;
+    transition: all 250ms;
+    position: absolute;
+}
+.slide-right-enter {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+}
+.slide-right-leave-active {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+}
+.slide-left-enter {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+}
+.slide-left-leave-active {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+}
+.van-circle{
+    margin: 18px 0 18px;
+}
+</style>

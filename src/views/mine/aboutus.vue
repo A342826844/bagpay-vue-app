@@ -20,7 +20,8 @@
       </div>
     </TitleHeader>
     <van-dialog v-model="show" :title="force_update ? $t('mine.forceUpdate') : $t('mine.update')" :show-confirm-button="!force_update">
-        <van-circle v-model="rate" :rate="progress" :text="toastOperateTitle" />
+        <van-circle class="van-circle" v-model="rate" :rate="progress" :text="file ? $t('mine.downloaded') : toastOperateTitle" />
+        <Button v-show="file" @click="installHandle(file)" size="fill">{{$t('mine.clickInstall')}}</Button>
     </van-dialog>
   </div>
 </template>
@@ -41,6 +42,7 @@ type data = {
     userName: string;
     idCard: string;
   };
+  file: any;
 };
 
 export default Vue.extend({
@@ -57,6 +59,7 @@ export default Vue.extend({
             },
             version: '',
             progress: 0,
+            file: null,
             rate: 0,
         };
     },
@@ -112,9 +115,14 @@ export default Vue.extend({
                         return;
                     }
                     if (res.data.force_update) {
-                        this.show = true;
                         this.force_update = true;
-                        this.uploadApp(res.data.url);
+                        this.$dialog.alert({
+                            title: `${this.$t('mine.updateV')}`,
+                            message: `${this.$t('mine.updateTip1')}`,
+                        }).then(() => {
+                            this.show = true;
+                            this.uploadApp(res.data.url);
+                        });
                     } else {
                         this.$dialog.confirm({
                             title: `${this.$t('mine.updateV')}`,
@@ -150,16 +158,20 @@ export default Vue.extend({
                 });
             }
         },
+        installHandle(file: any) {
+            (window as any).plus.runtime.install(file, null, () => {
+            // window.plus.runtime.quit();
+                // this.show = false;
+            }, () => {
+                this.$normalToast(this.$t('mine.installFailed'));
+                this.show = false;
+            });
+        },
         downlaodApp(downlaodUrl: string) {
             const dtask = (window as any).plus.downloader.createDownload(downlaodUrl, {}, (d: { filename: any }, status: number) => {
                 if (status === 200) {
-                    (window as any).plus.runtime.install(d.filename, null, () => {
-                    // window.plus.runtime.quit();
-                        this.show = false;
-                    }, () => {
-                        this.$normalToast(this.$t('mine.installFailed'));
-                        this.show = false;
-                    });
+                    this.file = d.filename;
+                    this.installHandle(this.file);
                 }
             });
             dtask.start();
@@ -190,5 +202,8 @@ export default Vue.extend({
       margin-top: 112px;
     }
   }
+}
+.van-circle{
+    margin: 18px 0 18px;
 }
 </style>

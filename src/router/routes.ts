@@ -367,7 +367,6 @@ const keepAlive: any = [];
 routes.forEach((item: any) => {
     if (item.meta && item.meta.keepAlive) {
         keepAlive.push(item.component.name);
-        console.log(item);
     }
 });
 store.commit('setKeepAlive', keepAlive);
