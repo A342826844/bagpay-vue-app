@@ -2,6 +2,7 @@
     <V-Pull-Refresh
         v-model="isLoading"
         class="app-pull-refresh"
+        :class="{fill}"
         @refresh="onRefresh"
         :pulling-text="$t('refresh.pulling')"
         :loosing-text="$t('refresh.loosing')"
@@ -26,6 +27,7 @@ export default Vue.extend({
     props: {
         msg: String,
         value: Boolean,
+        fill: Boolean,
     },
     data() {
         return {
@@ -55,12 +57,18 @@ export default Vue.extend({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
 .app-pull-refresh{
-    min-height: calc(100vh - 300px);
+    min-height: calc(100vh - 235px);
     .com-refresh-loading{
         height: 50px;
     }
     .van-pull-refresh__track{
-        min-height: calc(100vh - 300px);
+        min-height: calc(100vh - 235px);
+    }
+    &.fill{
+        min-height: calc(100vh - 88px); // 头部返回组件高为88
+        .van-pull-refresh__track{
+            min-height: calc(100vh - 88px);
+        }
     }
 }
 </style>

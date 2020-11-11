@@ -100,7 +100,8 @@ export default Vue.extend({
 
 <style lang='less' scoped>
 .adv_business {
-  min-height: 100%;
+  height: 100%;
+  overflow: scroll;
   background-color: #f8f8f8;
 //   padding-bottom: 100px;
 }

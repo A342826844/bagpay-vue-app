@@ -3,7 +3,7 @@
         <Headers>
             <span v-show="orderDetail.status === 0" @click="cancelHandle" class="primary-color" v-t="'otc.adoff'"></span>
         </Headers>
-        <PullRefresh v-model="isLoading" @refresh="onRefresh">
+        <PullRefresh fill v-model="isLoading" @refresh="onRefresh">
             <Titles>
                 <span :class="orderDetail.status | otcOrderStateColor">{{orderDetail.status | otcOrderState }}</span>
             </Titles>

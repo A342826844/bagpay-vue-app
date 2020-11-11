@@ -1,7 +1,7 @@
 <template>
     <div class="otc-order-detail">
         <Headers />
-        <PullRefresh v-model="isLoading" @refresh="onRefresh">
+        <PullRefresh fill v-model="isLoading" @refresh="onRefresh">
             <Titles border>
                 <span :class="orderDetail.state | otcOrderStateColor">{{orderDetail.state | otcDealState}}</span>
                 <span v-if="orderDetail.state === 0" class="red-color order-detail-download" slot="right">{{download | timeDown('mm:ss')}}</span>
