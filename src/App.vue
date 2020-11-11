@@ -1,11 +1,11 @@
 <template>
     <div id="app" :class="[lang]">
         <div id="main">
-            <keep-alive :include="keepAlive">
-                <transition :name="transitionName">
+            <transition :name="transitionName">
+                <keep-alive :include="keepAlive">
                     <router-view class="app-view"></router-view>
-                </transition>
-            </keep-alive>
+                </keep-alive>
+            </transition>
             <!-- <router-view v-if="!$route.meta.keepAlive"></router-view> -->
         </div>
         <van-dialog v-model="show" :title="force_update ? $t('mine.forceUpdate') : $t('mine.update')" :show-confirm-button="!force_update">
