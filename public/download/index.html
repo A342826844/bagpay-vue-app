@@ -143,8 +143,7 @@
                         if (this.loading2) return;
                         this.loading2 = true;
                         this.getUrl('ios').then(res => {
-                            this.loading2 = false;
-                            window.open(res.url);
+                            window.location.href = res.url;
                         }).catch(() => {
                             this.loading2 = false;
                         })
