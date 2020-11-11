@@ -33,6 +33,7 @@ const safe = require('../../assets/img/mine/safe.png');
 const setting = require('../../assets/img/mine/setting.png');
 const feedback = require('../../assets/img/mine/feedback.png');
 const aboutus = require('../../assets/img/mine/aboutus.png');
+const help = require('../../assets/img/mine/help.png');
 
 type listItem = {
     name: string;
@@ -80,6 +81,11 @@ export default Vue.extend({
                     img: aboutus,
                     title: 'mine.aboutus',
                     path: '/mine/aboutus',
+                }, {
+                    name: 'help',
+                    img: help,
+                    title: 'mine.help',
+                    path: '/mine/help',
                 },
             ],
         };

@@ -32,6 +32,8 @@ const PaywayAdd = () => import('@/views/payway/add.vue');
 const PaywayBanks = () => import('@/views/payway/banks.vue');
 const PaywaySelect = () => import('@/views/payway/select.vue');
 const MineProtocol = () => import('@/views/mine/protocol.vue');
+const MineHelp = () => import('@/views/mine/help.vue');
+const MinHelpDetail = () => import('@/views/mine/helpDetail.vue');
 
 const SetPayment = () => import('@/views/setPayment/index.vue');
 const SetPaymentAdd = () => import('@/views/setPayment/add.vue');
@@ -213,6 +215,9 @@ const routes: Array<RouteConfig> = [
             path: 'advBusiness',
             name: 'otcAdvBusiness',
             component: AdvBusiness,
+            meta: {
+                keepAlive: true,
+            },
         }, {
             path: 'vfyBus',
             name: 'otcVfyBus',
@@ -249,6 +254,16 @@ const routes: Array<RouteConfig> = [
         path: '/mine/verLv1',
         name: 'verLv1',
         component: VerLv1,
+    },
+    {
+        path: '/mine/help',
+        name: 'minehelp',
+        component: MineHelp,
+    },
+    {
+        path: '/mine/helpdetail',
+        name: 'MinHelpDetail',
+        component: MinHelpDetail,
     },
     {
         path: '/mine/verLv2',
