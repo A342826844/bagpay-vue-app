@@ -205,7 +205,6 @@ export default Vue.extend({
                         clearTimeout(setHeaderTimer);
                         setHeaderTimer = setTimeout(() => {
                             this.contentHeight = activeDom.scrollHeight;
-                            console.log(this.contentHeight);
                         }, 300);
                     }
                 }

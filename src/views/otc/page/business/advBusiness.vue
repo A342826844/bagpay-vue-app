@@ -35,7 +35,9 @@
             {{$t('business.busTip1')}}
           </PoptipItem>
           <PoptipItem>
-            {{$t('business.busTip2')}}
+            {{$t('business.busTip2')
+            .replace('_amount', _configCommon.OtcMerchantBailAmount)
+            .replace('_coin', `${_configCommon.OtcMerchantBailCoin}`.toUpperCase())}}
           </PoptipItem>
           <PoptipItem>
             {{$t('business.busTip3')}}
@@ -54,8 +56,10 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-    created() {
-        this.getInfo();
+    beforeRouteEnter(to, from, next) {
+        next((vm: any) => {
+            vm.getInfo();
+        });
     },
     data() {
         return {

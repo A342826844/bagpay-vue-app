@@ -200,6 +200,23 @@ Vue.filter('orderSideUser', (state: 1|2, taker_id: number, user_id: number) => {
     }
     return i18n.t(states2[state]);
 });
+// 订单方向 OrderSide
+Vue.filter('orderSideUserLable', (state: 1|2, taker_id: number, user_id: number) => {
+	// OrderSideBuy   = 1 // 买入
+	// OrderSideSell  = 2 // 卖出
+    const states1 = {
+        1: 'common.typeSeller',
+        2: 'common.typeBuyer',
+    };
+    const states2 = {
+        1: 'common.typeBuyer',
+        2: 'common.typeSeller',
+    };
+    if (taker_id === user_id) {
+        return i18n.t(states1[state]);
+    }
+    return i18n.t(states2[state]);
+});
 
 // 订单方向渲染颜色 OrderSide
 Vue.filter('orderSideColor', (state: 1|2) => {

@@ -79,6 +79,7 @@ export default Vue.extend({
         };
     },
     mounted() {
+        this.initUserInfo();
         this.init();
     },
     methods: {

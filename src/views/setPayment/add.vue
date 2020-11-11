@@ -103,7 +103,8 @@ export default Vue.extend({
                 vm.initPramis();
             }
             if (from.name === 'scanQRCode') {
-                this.form.address = this.$store.state.qrcodeResult || '';
+                // eslint-disable-next-line no-param-reassign
+                vm.form.address = vm.$store.state.qrcodeResult || '';
             }
             if (!(from.name === 'choisesymbol' || from.name === 'scanQRCode' || from.name === 'minesafepass')) {
                 vm.clear();

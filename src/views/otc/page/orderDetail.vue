@@ -37,10 +37,10 @@
                         </li>
                         <li class="app-padding40">
                             <div class="flex-between-c">
-                                <div class="lable" v-t="'otc.bus'"></div>
-                                <div @click="goBusinessDetail" class="lable">
-                                    <span class="vertical-m" v-t="'otc.seeDetails'"></span>
-                                    <img class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt="">
+                                <div class="lable">{{ orderDetail.taker_side | orderSideUserLable(orderDetail.taker_id, _userInfo.id)}}</div>
+                                <div>
+                                    <!-- <span class="vertical-m" v-t="'otc.seeDetails'"></span>
+                                    <img class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt=""> -->
                                 </div>
                             </div>
                             <div class="flex-between-c list-item-2">
@@ -55,7 +55,7 @@
                                 <div class="value">#{{ orderDetail.id }}#</div>
                             </div>
                             <div class="flex-between-c list-item-2">
-                                <div class="value" v-t="'otc.orderTime'"></div>
+                                <div class="lable" v-t="'otc.orderTime'"></div>
                                 <div class="value">{{ orderDetail.created_at | date('yyyy-MM-dd hh:mm:ss')}}</div>
                             </div>
                         </li>
