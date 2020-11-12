@@ -1,3 +1,22 @@
+/**
+ *
+ * APP路由
+ * meta: 路由配置信息
+ *  @showFooter 是否显示底部导航栏，true为显示， 默认不显示
+ *  @activeName 显示底部导航栏激活激活状态，当name和footer中name相等时处于激活状态
+ *  @keepAlive 是否使用keepAlive保留状态， true为使用，默认不使用 XXX: 如果使用import引入， 就不能读取组件名
+ *  使用@keepAlive 注意事项:
+ *      1.需要使用keepAlive,必需设置name属性值
+ *      2.如果使用import引入 就不能读取组件名
+ *
+ *  @index 路由切换动画
+ *      如果to索引大于from索引,判断为前进状态
+ *      如果to索引小于from索引,判断为后退状态
+ *      如果to索引等于from索引,判断为同级,没有切换动画
+ *      如果to没有索引,from有索引,判断为后退状态
+ *      如果to和from都没有索引,判断为同级,没有切换动画
+ *
+ */
 import { RouteConfig } from 'vue-router';
 import store from '@/store/index';
 
@@ -81,6 +100,7 @@ const routes: Array<RouteConfig> = [
         meta: {
             keepAlive: true,
             noLogin: true,
+            index: 10,
         },
     },
     {
@@ -90,6 +110,7 @@ const routes: Array<RouteConfig> = [
         meta: {
             keepAlive: true,
             noLogin: true,
+            index: 100,
         },
     },
     {
@@ -98,6 +119,7 @@ const routes: Array<RouteConfig> = [
         component: MineProtocol,
         meta: {
             noLogin: true,
+            index: 1100,
         },
     },
     {
@@ -107,6 +129,7 @@ const routes: Array<RouteConfig> = [
         meta: {
             keepAlive: true,
             noLogin: true,
+            index: 10,
         },
     },
     {
@@ -114,6 +137,7 @@ const routes: Array<RouteConfig> = [
         name: 'loginsearch',
         component: LoginSearch,
         meta: {
+            index: 1000,
             noLogin: true,
         },
     },
@@ -123,8 +147,7 @@ const routes: Array<RouteConfig> = [
         component: Home,
         meta: {
             showFooter: true,
-            needLogin: true,
-            name: 'home',
+            activeName: 'home',
         },
     },
     {
@@ -136,12 +159,16 @@ const routes: Array<RouteConfig> = [
         path: '/payment',
         name: 'payment',
         component: Payment,
+        meta: {
+            index: 100,
+        },
     },
     {
         path: '/transferOut',
         name: 'transferOut',
         component: TransferOut,
         meta: {
+            index: 100,
             keepAlive: true,
         },
     },
@@ -149,16 +176,25 @@ const routes: Array<RouteConfig> = [
         path: '/addrList',
         name: 'addrList',
         component: AddrList,
+        meta: {
+            index: 110,
+        },
     },
     {
         path: '/transferhistory',
         name: 'transferhistory',
         component: TransferHistory,
+        meta: {
+            index: 10,
+        },
     },
     {
         path: '/transferFrozen',
         name: 'transferFrozen',
         component: transferFrozen,
+        meta: {
+            index: 100,
+        },
     },
     {
         path: '/otc/entry',
@@ -167,66 +203,95 @@ const routes: Array<RouteConfig> = [
         meta: {
             showFooter: true,
             keepAlive: true,
-            needLogin: true,
-            name: 'otcentry',
+            activeName: 'otcentry',
         },
     }, {
         path: '/otc/order',
         name: 'otcOrder',
         component: OtcOrder,
+        meta: {
+            index: 100,
+        },
     }, {
         path: '/otc/submit',
         name: 'otcsubmit',
         component: OtcSubmit,
+        meta: {
+            index: 20,
+        },
     }, {
         path: '/otc/order/appeal',
         name: 'otcappeal',
         component: OtcAppeal,
+        meta: {
+            index: 1000,
+        },
     }, {
         path: '/otc/order/detail',
         name: 'orderdetail',
         component: OtcOrderDetail,
+        meta: {
+            index: 150,
+        },
     }, {
         path: '/otc/adv',
         name: 'otcAdv',
         component: OtcAdv,
         meta: {
+            index: 10,
             keepAlive: true,
         },
     }, {
         path: '/otc/adv/detail',
         name: 'otcAdvDetail',
         component: OtcAdvDetail,
+        meta: {
+            index: 100,
+        },
     }, {
         path: '/otc/protocol',
         name: 'OtcProtocol',
         component: OtcProtocol,
+        meta: {
+            index: 1000,
+        },
     }, {
         path: '/otc/business/detail',
         name: 'businessDetail',
         component: BusinessDetail,
         meta: {
+            index: 10,
             keepAlive: true,
         },
     }, {
         path: '/otc/advBusiness',
         name: 'otcAdvBusiness',
         component: AdvBusiness,
+        meta: {
+            index: 30,
+        },
     }, {
         path: '/otc/vfyBus',
         name: 'otcVfyBus',
         component: VfyBus,
         meta: {
+            index: 100,
             keepAlive: true,
         },
     }, {
         path: '/otc/advStatus',
         name: 'otcAdvStatus',
         component: AdvStatus,
+        meta: {
+            index: 200,
+        },
     }, {
         path: '/otc/advManage',
         name: 'otcAdvManage',
         component: AdvManage,
+        meta: {
+            index: 10,
+        },
     },
     {
         path: '/mine',
@@ -234,85 +299,127 @@ const routes: Array<RouteConfig> = [
         component: Mine,
         meta: {
             showFooter: true,
-            needLogin: true,
-            name: 'mine',
+            activeName: 'mine',
         },
     },
     {
         path: '/mine/changePwd',
         name: 'changePwd',
         component: ChangePwd,
+        meta: {
+            index: 100,
+        },
     },
     {
         path: '/mine/verLv1',
         name: 'verLv1',
         component: VerLv1,
+        meta: {
+            index: 110,
+        },
     },
     {
         path: '/mine/help',
         name: 'minehelp',
         component: MineHelp,
+        meta: {
+            index: 200,
+        },
     },
     {
         path: '/mine/helpdetail',
         name: 'MinHelpDetail',
         component: MinHelpDetail,
+        meta: {
+            index: 300,
+        },
     },
     {
         path: '/mine/verLv2',
         name: 'verLv2',
         component: VerLv2,
+        meta: {
+            index: 120,
+        },
     },
     {
         path: '/mine/verLv3',
         name: 'verLv3',
         component: VerLv3,
+        meta: {
+            index: 130,
+        },
     },
     {
         path: '/mine/verLvStatus',
         name: 'verLvStatus',
         component: VerLvStatus,
+        meta: {
+            index: 140,
+        },
     },
     {
         path: '/mine/safesetting',
         name: 'minesafesetting',
         component: SafeSetting,
+        meta: {
+            index: 50,
+        },
     },
     {
         path: '/mine/safepass',
         name: 'minesafepass',
         component: SafePass,
+        meta: {
+            index: 500,
+        },
     },
     {
         path: '/mine/forgetSafepass',
         name: 'mineforgetSafepass',
         component: ForgetSafePass,
+        meta: {
+            index: 500,
+        },
     },
     {
         path: '/mine/systemsetting',
         name: 'systemsetting',
         component: SystemSetting,
+        meta: {
+            index: 100,
+        },
     },
     {
         path: '/mine/feedback',
         name: 'feedback',
         component: Feedback,
+        meta: {
+            index: 120,
+        },
     },
     {
         path: '/mine/aboutus',
         name: 'aboutus',
         component: Aboutus,
+        meta: {
+            index: 100,
+        },
     },
     {
         path: '/payway',
         name: 'payway',
         component: Payway,
+        meta: {
+            index: 50,
+        },
     },
     {
         path: '/payway/add',
         name: 'paywayadd',
         component: PaywayAdd,
         meta: {
+            index: 100,
             keepAlive: true,
         },
     },
@@ -320,16 +427,25 @@ const routes: Array<RouteConfig> = [
         path: '/payway/banks',
         name: 'PaywayBanks',
         component: PaywayBanks,
+        meta: {
+            index: 200,
+        },
     },
     {
         path: '/payway/select',
         name: 'PaywaySelect',
         component: PaywaySelect,
+        meta: {
+            index: 60,
+        },
     },
     {
         path: '/setpayment',
         name: 'setpayment',
         component: SetPayment,
+        meta: {
+            index: 50,
+        },
     },
     {
         path: '/setpayment/add',
@@ -337,17 +453,24 @@ const routes: Array<RouteConfig> = [
         component: SetPaymentAdd,
         meta: {
             keepAlive: true,
+            index: 150,
         },
     },
     {
         path: '/setpayment/edit',
         name: 'setpaymentedit',
         component: SetPaymentEdit,
+        meta: {
+            index: 100,
+        },
     },
     {
         path: '/choisesymbol',
         name: 'choisesymbol',
         component: ChoiseSymbol,
+        meta: {
+            index: 200,
+        },
     },
     {
         path: '/scanQRCode',
@@ -358,16 +481,33 @@ const routes: Array<RouteConfig> = [
         path: '/scanvalue',
         name: 'scanvalue',
         component: ScanValue,
+        meta: {
+            index: 10,
+        },
     },
 ];
 
 // 获取需要keepAlive的页面  保存到 vuex里
-const keepAlive: any = [];
-routes.forEach((item: any) => {
-    if (item.meta && item.meta.keepAlive) {
-        keepAlive.push(item.component.name);
-    }
-});
-store.commit('setKeepAlive', keepAlive);
+// let keepAlive: Array<string> = [];
+// routes.forEach((item: any) => {
+//     if (item.meta && item.meta.keepAlive) {
+//         keepAlive.push(item.component.name);
+//     }
+// });
+const getKeepAlices = (list: Array<any>): Array<string> => {
+    let res: Array<string> = [];
+    list.forEach((item: any) => {
+        if (item.children && item.children.length) {
+            res = res.concat(getKeepAlices(item.children));
+        }
+        if (item.meta && item.meta.keepAlive) {
+            res.push(item.component.name);
+        }
+    });
+    return res;
+};
+// 获取需要keepAlive的组件名
+const keepAlive: Array<string> = getKeepAlices(routes);
+store.commit('setKeepAlive', keepAlive); // 设置vuex中的keepAlive
 
 export default routes;

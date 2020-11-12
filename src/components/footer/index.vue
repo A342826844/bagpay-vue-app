@@ -10,7 +10,7 @@
             >
                 <img
                     class="tar-icon"
-                    :src="item.name !== $route.meta.name ? item.defaultIcon : item.activeIcon "
+                    :src="item.name !== $route.meta.activeName ? item.defaultIcon : item.activeIcon "
                     :alt="item.title"
                 >
                 <!-- <p class="nav-label" :style="{color: item.name !== $route.meta.name ? '' : '#333333'}">{{item.title}}</p> -->

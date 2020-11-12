@@ -49,13 +49,25 @@ export default Vue.extend({
     },
     watch: { // 使用watch 监听$router的变化
         $route(to, from) {
-            // 如果to索引大于from索引,判断为前进状态,反之则为后退状态
+            /**
+             * 路由切换动画
+             *
+             * 如果to索引大于from索引,判断为前进状态
+             * 如果to索引小于from索引,判断为后退状态
+             * 如果to索引等于from索引,判断为同级,没有切换动画
+             * 如果to没有索引,from有索引,判断为后退状态
+             * 如果to和from都没有索引,判断为同级,没有切换动画
+             */
             if (to.meta.index || from.meta.index) {
-                // if (!to.meta.index || to.meta.index < from.meta.index) {
-                //     this.transitionName = 'slide-right';
-                // } else {
-                //     this.transitionName = 'slide-left';
-                // }
+                if (!to.meta.index || to.meta.index < from.meta.index) {
+                    this.transitionName = 'slide-right';
+                } else if (to.meta.index === from.meta.index) {
+                    this.transitionName = '';
+                } else {
+                    this.transitionName = 'slide-left';
+                }
+            } else {
+                this.transitionName = '';
             }
         },
     },
@@ -210,14 +222,15 @@ export default Vue.extend({
 <style lang="less" scoped>
 .app-view{
     width: 100%;
-    position: absolute;
+    position: absolute !important;
+    top: 0;
 }
 .slide-right-enter-active,
 .slide-right-leave-active,
 .slide-left-enter-active,
 .slide-left-leave-active {
     will-change: transform;
-    transition: all 250ms;
+    transition: all .3s;
     position: absolute;
 }
 .slide-right-enter {

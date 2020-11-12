@@ -39,7 +39,7 @@
             </div>
             <ul>
                 <li
-                    @click="$router.push(`/transferHistory?symbol=${item.coin}`)"
+                    @click="$router.push(`/transferhistory?symbol=${item.coin}`)"
                     class="flex-between-c"
                     v-for="item in symbolList"
                     :key="item.coin"

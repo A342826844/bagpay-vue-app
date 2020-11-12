@@ -46,7 +46,7 @@ type data = {
 }
 
 export default Vue.extend({
-    name: 'TransferHistory',
+    name: 'transferFrozen',
     data(): data {
         return {
             symbol: '',

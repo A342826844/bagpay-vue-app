@@ -176,6 +176,7 @@
         "paymentTip6": "请务必确认电脑及浏览器安全，防止信息被篡改或泄露。"
     },
     "mine": {
+        "contact": "联系客服",
         "safeSetting": "安全设置",
         "collectionSet": "收款设置",
         "opinionQuest": "意见问题",
@@ -222,7 +223,7 @@
         "transferAssets": "资产转入转出",
         "otc": "OTC场外交易",
         "otcTrading": "场外交易流程",
-        "help": "帮助中心",
+        "help": "新手教程",
         "resetReal": "重新认证",
         "systemSetting": "系统设置",
         "hideAmount": "隐藏余额",

@@ -69,7 +69,7 @@ type data = {
 };
 
 export default Vue.extend({
-    name: 'SetPaymentAdd',
+    name: 'MineSafeSetting',
     data(): data {
         return {
             isLoading: false,

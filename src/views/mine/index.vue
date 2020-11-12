@@ -31,7 +31,7 @@ const manage = require('../../assets/img/mine/manage.png');
 const pay = require('../../assets/img/mine/pay.png');
 const safe = require('../../assets/img/mine/safe.png');
 const setting = require('../../assets/img/mine/setting.png');
-const feedback = require('../../assets/img/mine/feedback.png');
+// const feedback = require('../../assets/img/mine/feedback.png');
 const aboutus = require('../../assets/img/mine/aboutus.png');
 const help = require('../../assets/img/mine/help.png');
 
@@ -71,11 +71,6 @@ export default Vue.extend({
                     img: setting,
                     title: 'mine.systemSetting',
                     path: '/mine/systemsetting',
-                }, {
-                    name: 'feedback',
-                    img: feedback,
-                    title: 'mine.protocol',
-                    path: '/mine/protocol',
                 }, {
                     name: 'aboutus',
                     img: aboutus,
