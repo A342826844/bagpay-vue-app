@@ -47,7 +47,6 @@ const SetPaymentAdd = () => import('@/views/setPayment/add.vue');
 const SetPaymentEdit = () => import('@/views/setPayment/edit.vue');
 const ChoiseSymbol = () => import('@/views/setPayment/choiseSymbol.vue');
 
-const Otc = () => import('@/views/otc/index.vue');
 const OtcEntry = () => import('@/views/otc/page/entry.vue');
 const OtcOrder = () => import('@/views/otc/page/order.vue');
 const OtcAdv = () => import('@/views/otc/page/advertising.vue');

@@ -19,6 +19,7 @@
                 @click="changeRadiou($event,item)"
                 ref="radiou"
             >
+                <span class="moblepre">+{{item.tel}} </span>
                 <span class="title">{{item.name}}</span>
                 <span class="value">({{item.en}})</span>
                 <img ref="active" src="../../assets/img/common/ok.png" v-if="index==item.tel" class="is-active app-img-50" />
@@ -75,10 +76,13 @@ export default {
 
 <style lang="less">
 .search-country {
+    font-size: 28px;
     .positionF {
-        position: relative;
+        position: sticky;
         // width: 608px;
         margin: auto 36px;
+        top: 88px;
+        background: #fff;
         // margin: auto;
         .search-img {
             width: 36px;
@@ -119,6 +123,11 @@ export default {
             }
             .value {
                 color: #878787
+            }
+            .moblepre{
+                display: inline-block;
+                width: 88px;
+                font-weight: bold;
             }
         }
     }
