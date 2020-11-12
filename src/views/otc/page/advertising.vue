@@ -71,14 +71,6 @@
                     </div>
                     <div @click="selectPayHandle" class="form-item">
                         <Select>
-                            <!-- <span v-if="form.type === 1">
-                                <span v-show="pay_types.length">{{pay_types[0] | payType}}</span>
-                                <span v-show="!pay_types.length">支付方式</span>
-                            </span>
-                            <span v-if="form.type !== 1">
-                                <span v-show="bankInfo.type">{{bankInfo.type | payType}}</span>
-                                <span v-show="!bankInfo.type">收款方式</span>
-                            </span> -->
                             <span v-if="formTemp[`form${item.type}`].pay_types.length" class="vertical-m">
                                 {{formTemp[`form${item.type}`].pay_types[0] | payType}}
                             </span>
@@ -153,18 +145,6 @@ type data = {
     payPopup: boolean;
     exchangeRate: any;
     type: 1|2;
-    form: {
-        price: string|number;
-        amount: string|number;
-        type: string|number;
-        coin: string|number;
-        country: number;
-        currency: number;
-        floating_rate: string|number;
-        remark: string|number;
-        min_value: string|number;
-        max_value: string|number;
-    };
     formTemp: {
         form1: {
             price: string|number;
@@ -206,18 +186,6 @@ export default Vue.extend({
             pay_types: [], // TODO: 出售和购买的支付方式不一样
             exchangeRate: {},
             type: 1,
-            form: {
-                coin: '',
-                type: 1,
-                price: '',
-                amount: '',
-                min_value: '',
-                max_value: '',
-                floating_rate: 0,
-                remark: '',
-                country: 1,
-                currency: 1,
-            },
             formTemp: {
                 form1: {
                     coin: '',
