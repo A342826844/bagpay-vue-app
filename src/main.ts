@@ -20,6 +20,7 @@ import UserAuth from '@/components/userAuth/index.vue';
 import IconImg from '@/components/iconUrl/iconImg.vue';
 import { Poptip, PoptipItem } from '@/components/Poptip/index';
 import { SelectPopup, SelectPopupItem } from '@/components/SelectPopup/index';
+import { MoblepreForCountryType } from '@/commons/config/index';
 
 import i18n from './i18n';
 import App from './App.vue';
@@ -78,13 +79,13 @@ Vue.mixin({
             return (this.$store as Store<any>).state.loading;
         },
         _unit() {
-            return (this.$store as Store<any>).state.unit;
+            return (this.$store as Store<any>).getters.getCurrencyTypeInfo.coin;
         },
         _getPhone() {
             return (this.$store as Store<any>).getters.getPhone || '';
         },
         _unitIcon() {
-            return (this.$store as Store<any>).state.unitIcon;
+            return (this.$store as Store<any>).getters.getCurrencyTypeInfo.unit;
         },
         _configCommon() {
             return (this.$store as Store<any>).state.configCommon;
@@ -102,6 +103,9 @@ Vue.mixin({
             return this.$api.getUserInfo().then((res: any) => {
                 if (res.code === 0) {
                     this.$store.commit('setUserInfo', res.data);
+                    const moblepre = res.data.phone.split('-')[0];
+                    const type = (MoblepreForCountryType as any)[moblepre] || 1;
+                    this.$store.commit('changeCountryType', type);
                 }
             });
         },

@@ -199,7 +199,7 @@ export default Vue.extend({
             if (value === 'amount') {
                 const amount = Number(this.form.amount) || 0;
                 // this.form.value = this.$dividedBy(amount, this.orderDetail.price);
-                this.form.value = `${Number((amount * this.orderDetail.price).toFixed(this.$store.state.unitDecimal)) || ''}`;
+                this.form.value = `${Number((amount * this.orderDetail.price).toFixed(this.$store.getters.getCurrencyTypeInfo.decaimal)) || ''}`;
             } else if (value === 'value') {
                 const amount = Number(this.form.value) || 0;
                 // this.form.amount = this.$multipliedBy(amount, this.orderDetail.price);

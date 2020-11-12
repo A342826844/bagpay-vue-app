@@ -102,7 +102,7 @@ export default Vue.extend({
             if (this.decimal) {
                 let { decimal } = this;
                 if (typeof this.decimal === 'boolean') {
-                    decimal = this.$store.state.unitDecimal;
+                    decimal = this.$store.getters.getCurrencyTypeInfo.decaimal;
                 }
                 setTimeout(() => {
                     this.decimalHandle(Number(decimal));

@@ -381,6 +381,8 @@ export default Vue.extend({
                 type: this.type,
                 pay_types: this.formTemp[this.typeKey].pay_types.join(','),
                 ...data,
+                country: this.$store.state.countryType,
+                currency: this.$store.state.currencyType,
             };
             this.changeLoading(true);
             this.$api.otcOrderPlace(params).then((res: any) => {

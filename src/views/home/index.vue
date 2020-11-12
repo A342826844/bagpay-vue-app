@@ -12,7 +12,7 @@
         </div>
         <div class="home-assets flex-around-s flex-column">
             <h4 class="home-assets-account" @click="_change">
-                $<span class="home-assets-value">{{
+                {{_unitIcon}}<span class="home-assets-value">{{
                     hide === '1' ? '****' :
                     changeRate(
                         (activeCoin.available || 0) + (activeCoin.otc_frozen || 0) + (activeCoin.sys_frozen || 0) + (activeCoin.withdraw_frozen || 0)
@@ -53,7 +53,7 @@
                     </div>
                     <div class="list-values">
                         <h5 class="num_lable">{{hide === '1' ? '****' : item.available}}</h5>
-                        <p class="num_value">$ {{hide === '1' ? '****' : changeRate(item.available, item.coin)}}</p>
+                        <p class="num_value">{{_unitIcon}} {{hide === '1' ? '****' : changeRate(item.available, item.coin)}}</p>
                     </div>
                 </li>
             </ul>
@@ -90,7 +90,7 @@ export default Vue.extend({
             hide: this.$store.state.hideBalance,
             activeSymbol: {},
             rate: {},
-            unitDecimal: this.$store.state.unitDecimal,
+            unitDecimal: this.$store.getters.getCurrencyTypeInfo.decaimal,
             symbolList: [],
         };
     },
