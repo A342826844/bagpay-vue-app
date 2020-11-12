@@ -40,7 +40,7 @@
         <li @click="checkVersion" class="flex-between-c sys_item">
           <div v-t="'mine.updateV'"></div>
           <div>
-            <span class="vertical-m">{{version}}</span>
+            <span class="vertical-m">v{{version}}</span>
             <img
               class="app-img-50"
               src="../../assets/img/common/arrow_right.png"
@@ -53,7 +53,7 @@
           <div>
             <img
               class="app-img-50"
-              src="../../assets/img/common/arrow_right.png"
+              src="../../assets/img/common/logout.png"
               alt=""
             />
           </div>

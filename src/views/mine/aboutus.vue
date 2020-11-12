@@ -49,7 +49,7 @@ export default Vue.extend({
   &-box {
     margin-top: 58px;
     &-logo {
-      width: 420px;
+      width: 350px;
     }
     &-version {
       margin-top: 35px;
