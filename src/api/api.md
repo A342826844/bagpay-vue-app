@@ -199,9 +199,10 @@
 #### 实名状态 VerificationState
 
 ```txt
-	VerificationStateWait    = 0 //等待审核
-	VerificationStatePass    = 1 //通过
-	VerificationStateReject  = 2 //拒绝
+    VerificationStateNone    = 0 //未提交
+	VerificationStateWait    = 1 //等待审核
+	VerificationStatePass    = 2 //通过
+	VerificationStateReject  = 3 //拒绝
 ```
 
 #### 通用状态 CommonStatus
@@ -878,7 +879,7 @@ limit: [int64] 最大返回条数
 deal_id: [string] 订单id
 type: [OtcAppealType] 问题类型
 content: [string] 总是描述
-images: [string] 申诉图片,逗号分隔
+images: [file] 申诉图片
 ```
 
 返回数据:
@@ -952,7 +953,7 @@ id: [string] 订单id
 order_id: [int64] 广告id
 pay_type: [PayType] 支付类型
 price: [float64] 价格
-amount: [float64] 数量
+amount: [float64] 数量,如果是卖出的话需要保证账户中还有足够可以扣除的手续费，即账户中至少可用余额应该存在amount + fee
 ```
 
 返回数据: DealInfo
@@ -977,6 +978,29 @@ amount: [float64] 数量
 	"created_at": "" //创建时间 
 }
 ```
+
+#### 获取订单详情
+
+`[get] /otc/deal/get/:id`
+
+请求参数：
+
+```txt
+id: [int64] 订单id
+```
+
+返回数据:
+
+```txt
+{
+	DealInfo
+	target_nickname: [string] 对方昵称
+	target_email: [string] 对方邮箱
+	target_phone: [string] 对方手机号
+	target_photo: [string] 对方头像
+}
+```
+
 
 #### 取消订单
 
@@ -1046,7 +1070,15 @@ limit: [int64] 最大返回条数
 	"total": 10,
 	"list": [
 		DealInfo
-	]
+	],
+	"target_users": { //对方用户信息 uid: Info
+		"10": {
+			"nickname":"xx",
+			"photo":"xxx",
+			"email": "",
+			"phone": ""
+		}
+	}
 }
 ```
 
@@ -1055,6 +1087,30 @@ limit: [int64] 最大返回条数
 #### 申请商户
 
 `[post] /otc/merchant/submit`
+
+请求参数:
+
+```txt
+phone: [string] 手机号 86-13011111111
+email: [string] 邮箱
+social_type: [string] 社交媒体类型 wechat,telegram
+social: [string] 社交媒体账号
+ice_name: [string] 紧急联系人姓名
+ice_phone: [string] 紧急联系人电话
+ice_relation: [string] 紧急联系人与本人的关系
+address: [string] 常住地址
+```
+
+返回数据:
+
+`ok`
+
+
+#### 更新商户申请信息
+
+`[post] /otc/merchant/update`
+
+仅等待审核和已拒绝的状态的才能更新
 
 请求参数:
 
@@ -1097,6 +1153,28 @@ address: [string] 常住地址
 	"status": 1, //OtcMerchantStatus
 	"lst_id": 1, //最新一条状态变更记录id(otc_merchant_status_log)
 	"created_at": "" //申请时间
+}
+```
+
+#### 获取商户状态
+
+`[get] /otc/merchant/stat/:uid`
+
+返回数据：
+
+```json
+{
+	"id": 1,
+	"uid": 11,
+	"nickname": "Allen", //昵称
+	"phone": "86-13011111111", //电话
+	"email": "tm@xx.com", //邮箱
+	"photo": "", //头像
+	"order_count": 0, //发布的广告数
+	"finished_count": 0, //完成的订单数
+	"finished_rate": 0.0, //订单的完成率
+	"status": 1, //OtcMerchantStatus
+	"verification_at": "" //认证时间
 }
 ```
 
@@ -1217,6 +1295,7 @@ id: [int64] 提币地址id
 ```txt
 coin: [string] 所属币种 
 protocol: [string] 所属协议,erc20,trc20,eos
+amount: [float64] 数量
 remark: [string] 备注
 address: [string] 地址
 memo: [string] 地址附加信息
@@ -1313,7 +1392,7 @@ coin: [string] 币种
 coin: [string] 币种标识
 type: [OrderSide] 交易方向
 price: [float64] 价格
-total: [float64] 总数量
+total: [float64] 总数量,包含了手续续，实际可交易数量要减掉手续费
 min_value: [float64] 最小下单交易额
 max_value: [float64] 最大下单交易额,0为不限
 pay_types: [string] 支持的支付方式类型[PayType],逗号分隔
@@ -1348,9 +1427,11 @@ id: [int64] 广告id
 	"coin": "usdt", //币种
 	"type": 1, //OrderSide 交易方向
 	"price": 1, //价格
-	"total": 100, //总数量
+	"total": 100, //总可交易挂单数量,实际冻结数量为total+fee
+	"fee": 0.1, //总应收取的手续费
 	"filled": 10, //已成交
 	"filled_value": 10, //已成交金额
+	"filled_fee": 0, //已成交扣除的手续费
 	"frozen": 0, //下单被冻结数量
 	"min_value": 10, //最小下单金额
 	"max_value": 100, //最大下单金额
@@ -1389,6 +1470,7 @@ id: [int64] 广告id
 ```txt
 coin: [string] 可选,币种
 side: [OrderSide] 可选,广告方向
+uid: [int64] 可选，用户id
 offset: [int] 可选,跳过条数
 limit: [int] 可选,最大返回条数
 ```
@@ -1413,6 +1495,7 @@ limit: [int] 可选,最大返回条数
 
 ```txt
 coin: [string] 可选,币种
+status: [int] 可选,状态 -1代表全部
 begin: [string] 可选,开始时间
 end: [string] 可选,结束时间
 offset: [int] 跳过条数
@@ -1489,6 +1572,7 @@ id: [string] 文件id
 	"status_lv_1": 1, // lv1状态 0.等待审核 1.通过 2.拒绝
 	"status_lv_2": 1, // lv2状态 0.等待审核 1.通过 2.拒绝
 	"status_lv_3": 1, // lv3状态 0.等待审核 1.通过 2.拒绝
+	"reject_reason": "", //拒绝理由
 	"created_at": "", // 创建时间
 }
 ```
@@ -1610,6 +1694,34 @@ type: [int] 类型：1.银行卡 2.支付宝 3.微信 4.汇旺
 
 `[UserBankInfo]`
 
+#### 启用指定的支付方式
+
+`[post] /bank/user/enable/:id`
+
+请求参数:
+
+```txt
+id: [int] 支付方式id
+```
+
+返回数据：
+
+`ok`
+
+#### 禁用指定的支付方式
+
+`[post] /bank/user/disable/:id`
+
+请求参数:
+
+```txt
+id: [int] 支付方式id
+```
+
+返回数据：
+
+`ok`
+
 #### 添加支付方式
 
 `[post] /bank/user/add`
@@ -1623,4 +1735,61 @@ bank: [string] 银行名称
 sub_bank: [string] 支行名称
 account: [string] 账号
 qrc: [file] 二维码
+```
+
+### 应用
+
+#### 检测更新
+
+`[get] /app/version/check`
+
+请求参数:
+
+```txt
+channel: [string] 渠道 apple,google
+version: [string] 版本
+build: [string] 构建号
+```
+
+返回数据:
+
+```json
+{
+	"channel": "apple", //渠道
+	"version": "1.0.0", //版本
+	"build": "10", //构建号
+	"content": "xxx", //更新内容
+	"force_update": 0, //是否强制更新
+	"url": "", //下载地址
+	"created_at": ""
+}
+```
+
+### 广告
+
+#### 取广告列表
+
+`[get] /advert/list`
+
+请求参数：
+
+```txt
+lang: [string] 语言,en/zh-CN
+type: [int] 可选, 广告类型 1.开屏广告 2.首页banner
+```
+
+返回数据：
+
+```json
+[
+	{
+		"id": 1,
+		"type": 1,
+		"sort": 1, //排序,越大越靠前
+		"title": "xx", //标题
+		"url": "", //跳转地址
+		"image": "", //图片id
+		"lang": "", //语言
+	}
+]
 ```
