@@ -518,7 +518,6 @@ const getKeepAlices = (list: Array<any>): Array<string> => {
 };
 // 获取需要keepAlive的组件名
 const keepAlive: Array<string> = getKeepAlices(routes);
-console.log(keepAlive);
 store.commit('setKeepAlive', keepAlive); // 设置vuex中的keepAlive
 // "Entry", "Login", "Findaccount", "Register", "TransferOut", "OtcEntry", "OtcAdv", "BusinessDetail", "VfyBus", "PaywayAdd", "SetPaymentAdd"
 export default routes;
