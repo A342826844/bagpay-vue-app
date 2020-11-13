@@ -80,7 +80,7 @@ import i18n, { langType } from '@/i18n/index';
 import clientEnv from '@/commons/clientEnv/idnex';
 
 export default Vue.extend({
-    name: 'MineSystemSetting',
+    name: 'SystemSetting',
     data() {
         return {
             langType,

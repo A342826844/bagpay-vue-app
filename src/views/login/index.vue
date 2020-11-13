@@ -135,8 +135,8 @@ export default Vue.extend({
                         this.$store.commit('setsessionId', res.data);
                         this.getAllData();
                     }
-                }).finally(() => {
-                    // this.changeLoading(false);
+                }).catch(() => {
+                    this.changeLoading(false);
                 });
             }
         },
