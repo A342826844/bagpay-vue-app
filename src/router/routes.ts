@@ -6,8 +6,7 @@
  *  @activeName 显示底部导航栏激活激活状态，当name和footer中name相等时处于激活状态
  *  @keepAlive 是否使用keepAlive保留状态， true为使用，默认不使用 XXX: 如果使用import引入， 就不能读取组件名
  *  使用@keepAlive 注意事项:
- *      1.需要使用keepAlive,必需设置name属性值
- *      2.如果使用import引入 就不能读取组件名
+ *      需要使用keepAlive,必需设置componentName属性值
  *
  *  @index 路由切换动画
  *      如果to索引大于from索引,判断为前进状态
@@ -21,15 +20,15 @@ import { RouteConfig } from 'vue-router';
 import store from '@/store/index';
 
 import Home from '@/views/home/index.vue'; // 首页
-// import Entry from '@/views/entry/index.vue'; // 入口页
+import Entry from '@/views/entry/index.vue'; // 入口页
 
-// import Login from '@/views/login/index.vue'; // 登录
-// import Register from '@/views/login/register.vue'; // 注册
+import Login from '@/views/login/index.vue'; // 登录
+import Register from '@/views/login/register.vue'; // 注册
 
 // 使用这种引入无法读到 component 的name
-const Login = () => import('@/views/login/index.vue'); // 登录
-const Register = () => import('@/views/login/register.vue'); // 注册
-const Entry = () => import('@/views/entry/index.vue'); // 入口页
+// const Login = () => import('@/views/login/index.vue'); // 登录
+// const Register = () => import('@/views/login/register.vue'); // 注册
+// const Entry = () => import('@/views/entry/index.vue'); // 入口页
 
 const LoginSearch = () => import('@/views/login/search.vue');
 const Findaccount = () => import('@/views/login/findaccount.vue');
@@ -90,6 +89,7 @@ const routes: Array<RouteConfig> = [
         component: Entry,
         meta: {
             keepAlive: true,
+            componentName: 'Entry',
             noLogin: true,
         },
     },
@@ -99,6 +99,7 @@ const routes: Array<RouteConfig> = [
         component: Login,
         meta: {
             keepAlive: true,
+            componentName: 'Login',
             noLogin: true,
             index: 10,
         },
@@ -110,6 +111,7 @@ const routes: Array<RouteConfig> = [
         meta: {
             keepAlive: true,
             noLogin: true,
+            componentName: 'Findaccount',
             index: 100,
         },
     },
@@ -129,6 +131,7 @@ const routes: Array<RouteConfig> = [
         meta: {
             keepAlive: true,
             noLogin: true,
+            componentName: 'Register',
             index: 10,
         },
     },
@@ -169,6 +172,7 @@ const routes: Array<RouteConfig> = [
         component: TransferOut,
         meta: {
             index: 100,
+            componentName: 'TransferOut',
             keepAlive: true,
         },
     },
@@ -204,6 +208,7 @@ const routes: Array<RouteConfig> = [
             showFooter: true,
             keepAlive: true,
             activeName: 'otcentry',
+            componentName: 'OtcEntry',
         },
     }, {
         path: '/otc/order',
@@ -240,6 +245,7 @@ const routes: Array<RouteConfig> = [
         meta: {
             index: 10,
             keepAlive: true,
+            componentName: 'OtcAdv',
         },
     }, {
         path: '/otc/adv/detail',
@@ -262,6 +268,7 @@ const routes: Array<RouteConfig> = [
         meta: {
             index: 10,
             keepAlive: true,
+            componentName: 'BusinessDetail',
         },
     }, {
         path: '/otc/advBusiness',
@@ -277,6 +284,7 @@ const routes: Array<RouteConfig> = [
         meta: {
             index: 100,
             keepAlive: true,
+            componentName: 'VfyBus',
         },
     }, {
         path: '/otc/advStatus',
@@ -421,6 +429,7 @@ const routes: Array<RouteConfig> = [
         meta: {
             index: 100,
             keepAlive: true,
+            componentName: 'PaywayAdd',
         },
     },
     {
@@ -454,6 +463,7 @@ const routes: Array<RouteConfig> = [
         meta: {
             keepAlive: true,
             index: 150,
+            componentName: 'SetPaymentAdd',
         },
     },
     {
@@ -501,7 +511,7 @@ const getKeepAlices = (list: Array<any>): Array<string> => {
             res = res.concat(getKeepAlices(item.children));
         }
         if (item.meta && item.meta.keepAlive) {
-            res.push(item.component.name);
+            res.push(item.meta.componentName);
         }
     });
     return res;
@@ -509,5 +519,5 @@ const getKeepAlices = (list: Array<any>): Array<string> => {
 // 获取需要keepAlive的组件名
 const keepAlive: Array<string> = getKeepAlices(routes);
 store.commit('setKeepAlive', keepAlive); // 设置vuex中的keepAlive
-
+// "Entry", "Login", "Findaccount", "Register", "TransferOut", "OtcEntry", "OtcAdv", "BusinessDetail", "VfyBus", "PaywayAdd", "SetPaymentAdd"
 export default routes;
