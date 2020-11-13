@@ -27,7 +27,7 @@ type data = {
 };
 
 export default Vue.extend({
-    name: 'SetPaymentAdd',
+    name: 'MineHelp',
     data(): data {
         return {
             list: [{

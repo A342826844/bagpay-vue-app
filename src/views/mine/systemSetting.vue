@@ -61,7 +61,7 @@ import Vue from 'vue';
 import i18n, { langType } from '@/i18n/index';
 
 export default Vue.extend({
-    name: 'SetPaymentAdd',
+    name: 'SystemSetting',
     data() {
         return {
             langType,

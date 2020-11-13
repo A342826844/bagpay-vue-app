@@ -41,7 +41,7 @@ const tranfer = require('../../assets/img/mine/help-tranfer.jpg');
 const otc = require('../../assets/img/mine/help-otc.jpg');
 
 export default Vue.extend({
-    name: 'SetPaymentAdd',
+    name: 'HelpDetail',
     data(): data {
         return {
             id: '1',

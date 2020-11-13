@@ -13,7 +13,7 @@ type data = {
 }
 
 export default Vue.extend({
-    name: 'Login',
+    name: 'scanQRCodeValue',
     data(): data {
         return {
             value: '',
