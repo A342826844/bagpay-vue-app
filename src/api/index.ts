@@ -72,7 +72,9 @@ export const bankUserDisable = (id: number) => getGolang(`/bank/user/disable/${i
 // 启用指定的支付方式
 export const bankUserEnable = (id: number) => postGolang(`/bank/user/enable/${id}`, { id });
 // 注册验证码
-export const registerCode = (data: params) => postGolang('/verification-code/phone/VerifyCodeTypeRegister', data);
+export const registerCode = (data: params) => postGolang(`/verification-code/phone/${data.type}`, data);
+// 注册验证码
+export const registerCodeEmail = (data: params) => postGolang(`/verification-code/email/${data.type}`, data);
 // 获取图片验证
 export const getImages = (data: params) => postGolang('/verification-code/captcha', data);
 // 注册

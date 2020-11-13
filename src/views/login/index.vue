@@ -1,23 +1,35 @@
 <template>
     <div class="login">
-        <TitleHeader :title="$t('login.loginTitle')" />
+        <TitleHeader :title="$t('login.loginTitle')">
+            <span slot="header" @click="type = (1 - type/1)" class="primary-color app-size-34">{{type?'手机登录':'邮箱登录'}}</span>
+        </TitleHeader>
         <div class="login-box app-padding40">
             <p class="login-tip">{{$t('login.loginTip')}}(USDT、USDC、TUSD......)</p>
             <form @submit.prevent="" class="login-form" action="">
                 <Inputs
                     class="login-form-item"
+                    v-show="!type"
                     :placeholder="$t('login.phone')"
                     clearable
                     v-model="form.phone"
                     :autofocus="true"
-                    autocomplete="username" type="text"
+                    autocomplete="username" type="tel"
                 >
                     <span @click="$router.push('/login/search')" class="primary-color login-form-item-country">+ {{country.tel}} </span>
                 </Inputs>
                 <Inputs
                     class="login-form-item"
-                    :placeholder="$t('login.password')"
+                    v-show="type"
+                    :placeholder="$t('login.email')"
                     clearable
+                    v-model="form.email"
+                    :autofocus="true"
+                    autocomplete="username" type="email"
+                />
+                <Inputs
+                    class="login-form-item"
+                    :placeholder="$t('login.password')"
+                    password
                     v-model="form.password"
                     autocomplete="current-password"
                     type="password"
@@ -25,12 +37,11 @@
             </form>
             <p class="login-box-link">
                 <span @click="goFindAccount" class="primary-color"
-                    :disabled="!form.phone || !form.password"
                     href="javascript:void(0)" v-t="'login.findAccount'"></span>
             </p>
         </div>
         <div class="lxa-footer-btn">
-            <Button @click="loginHandle" v-t="'login.login'"></Button>
+            <Button :disabled="disabled" @click="loginHandle" v-t="'login.login'"></Button>
         </div>
     </div>
 </template>
@@ -41,10 +52,12 @@ import Vue from 'vue';
 type form = {
     phone: string;
     password: string;
+    email: string;
 }
 
 type data = {
     islogin: boolean;
+    type: 0|1;
     form: form;
 }
 
@@ -53,9 +66,11 @@ export default Vue.extend({
     data(): data {
         return {
             islogin: false,
+            type: 0,
             form: {
                 phone: '',
                 password: '',
+                email: '',
             },
         };
     },
@@ -77,8 +92,12 @@ export default Vue.extend({
     //     next();
     // },
     computed: {
-        country() {
+        country(): any {
             return this.$store.state.country;
+        },
+        disabled(): boolean {
+            if (this.type) return !(this.form.email && this.form.password);
+            return !(this.form.phone && this.form.password);
         },
     },
     methods: {
@@ -86,6 +105,7 @@ export default Vue.extend({
             this.form = {
                 phone: '',
                 password: '',
+                email: '',
             };
         },
         setPhone() {
@@ -95,9 +115,8 @@ export default Vue.extend({
             if (this._loading) return;
             const vfi: boolean = this.$verification.fromVfi([
                 {
-                    type: 'empty',
-                    msg: this.$t('login.phone'),
-                    value: this.form.phone,
+                    type: this.type ? 'email' : 'phone',
+                    value: this.type ? this.form.email : this.form.phone,
                 },
                 {
                     type: 'empty',
@@ -108,7 +127,7 @@ export default Vue.extend({
             if (vfi) {
                 this.changeLoading(true);
                 this.$api.login({
-                    passport: `${this.country.tel}-${this.form.phone}`,
+                    passport: this.type ? this.form.email : `${this.country.tel}-${this.form.phone}`,
                     password: this.$md5(`${this.form.password}bagpaysol`),
                 }).then((res: any) => {
                     if (res.code === 0) {

@@ -9,7 +9,7 @@
             @blur="blurHandle"
             @input="inputHandle"
             v-model="inputV"
-            :type="type"
+            :type="showPassword ? 'text' : type"
             :autofocus="autofocus"
             :maxlength="maxlength"
         >
@@ -20,6 +20,13 @@
             class="app-input-clear app-input-right"
             src="@/assets/img/common/clear.png" alt=""
         >
+        <img
+            @click="changePassword"
+            :class="{focus}"
+            v-show="password && type === 'password'"
+            class="app-input-password app-input-right"
+            :src="showPassword ? eyeOpen : eyeClose" alt=""
+        >
         <span class="app-input-length app-input-right" v-show="isShowLength">{{inputV.length}}/{{maxlength}}</span>
         <slot></slot>
     </div>
@@ -28,10 +35,16 @@
 <script lang="ts">
 import Vue from 'vue';
 
+const eyeClose = require('@/assets/img/common/eye-close.png');
+const eyeOpen = require('@/assets/img/common/eye-open.png');
+
 type data = {
     focus: boolean;
     inputV: string;
     timer: any;
+    showPassword: boolean;
+    eyeClose: any;
+    eyeOpen: any;
 }
 
 const equal = (value1: unknown, value2: unknown) => String(value1) === String(value2);
@@ -70,6 +83,10 @@ export default Vue.extend({
             type: Boolean,
             default: false,
         },
+        password: {
+            type: Boolean,
+            default: false,
+        },
         value: {
             type: [Number, String],
             required: true,
@@ -77,9 +94,12 @@ export default Vue.extend({
     },
     data(): data {
         return {
+            eyeClose,
+            eyeOpen,
             focus: false,
             inputV: '',
             timer: 0,
+            showPassword: false,
         };
     },
     created() {
@@ -116,6 +136,14 @@ export default Vue.extend({
         },
     },
     methods: {
+        // 改变显示隐藏状态
+        changePassword() {
+            clearTimeout(this.timer);
+            setTimeout(() => {
+                this.showPassword = !this.showPassword;
+            }, 0);
+            this.setCaretPosition(this.$refs.input as HTMLInputElement, this.inputV.length);
+        },
         focusHandle(event: FocusEvent) {
             this.$emit('focus');
             const { userAgent } = window.navigator;
@@ -141,6 +169,13 @@ export default Vue.extend({
             this.timer = setTimeout(() => {
                 this.focus = false;
             }, 50);
+        },
+        // 控制光标位置
+        setCaretPosition(ctrl: HTMLInputElement, pos: number) {
+            if (ctrl.setSelectionRange && this.focus) {
+                ctrl.focus();
+                ctrl.setSelectionRange(pos, pos);
+            }
         },
         clearHandle() {
             clearTimeout(this.timer);
@@ -194,6 +229,10 @@ export default Vue.extend({
         &.focus{
             opacity: 1;
         }
+    }
+    &-password{
+        height: auto;
+        width: 50px;
     }
     &-length{
         font-size: 28px;

@@ -1,6 +1,7 @@
 <template>
   <div class="login">
     <TitleHeader :title="$t('login.registerTitle')">
+      <span slot="header" @click="type = (1 - type/1)" class="primary-color app-size-34">{{type?'手机注册':'邮箱注册'}}</span>
       <div class="login-box app-padding40">
         <p class="login-tip">
           {{ $t("login.loginTip") }}(USDT、USDC、TUSD......)
@@ -18,6 +19,7 @@
           <Inputs
             class="login-form-item"
             :placeholder="$t('login.phone')"
+            v-show="!type"
             clearable
             v-model="form.phone"
             autocomplete="username"
@@ -25,6 +27,15 @@
           >
             <span @click="$router.push('/login/search')" class="primary-color login-form-item-country">+ {{country.tel}} </span>
           </Inputs>
+          <Inputs
+            class="login-form-item"
+            v-show="type"
+            :placeholder="$t('login.email')"
+            clearable
+            v-model="form.email"
+            :autofocus="true"
+            autocomplete="username" type="email"
+          />
           <Inputs
             class="login-form-item img_code_input"
             :placeholder="$t('login.imgCode')"
@@ -46,28 +57,19 @@
           <Inputs
             class="login-form-item"
             :placeholder="$t('login.password')"
-            clearable
+            password
             v-model="form.password"
             autocomplete="current-password"
             type="password"
           />
-          <Inputs
-            class="login-form-item"
-            :placeholder="$t('login.againEnter')"
-            clearable
-            v-model="form.confirmPassword"
-            autocomplete="current-password"
-            type="password"
-          />
-          <V-Checkbox class="login-form-item login-form-check" v-model="checked" shape="square">
-           {{ $t("login.registTip") }}
-           《<span class="primary-color" @click.stop="$router.push('/mine/protocol')">{{$app_mark}}{{ $t("login.userProtocol") }}</span>》
-          </V-Checkbox>
         </form>
       </div>
 
     </TitleHeader>
     <div class="lxa-footer-btn">
+      <p class="login-protocol">
+        注册及同意 《<span class="primary-color" @click.stop="$router.push('/mine/protocol')">{{$app_mark}}{{ $t("login.userProtocol") }}</span>》
+      </p>
       <Button @click="loginHandle" v-t="'login.register'"
         :disabled="!form.nickname || !form.phone || !form.imgCode || !form.code || !form.password || !form.confirmPassword || !checked"></Button>
     </div>
@@ -84,14 +86,15 @@ type form = {
   code: string;
   nickname: string;
   phone: string;
+  email: string;
   password: string;
-  confirmPassword: string;
   imgCode: string;
 };
 
 type data = {
   imgUrl: string;
   imgCode: string;
+  type: 0|1;
   form: form;
   checked: boolean;
 };
@@ -106,12 +109,13 @@ export default Vue.extend({
             imgUrl: '',
             imgCode: '',
             checked: true,
+            type: 0,
             form: {
                 code: '',
                 nickname: '',
                 phone: '',
+                email: '',
                 password: '',
-                confirmPassword: '',
                 imgCode: '',
             },
         };
@@ -138,8 +142,8 @@ export default Vue.extend({
                 code: '',
                 nickname: '',
                 phone: '',
+                email: '',
                 password: '',
-                confirmPassword: '',
                 imgCode: '',
             };
         },
@@ -151,8 +155,8 @@ export default Vue.extend({
                     value: this.form.nickname,
                 },
                 {
-                    type: 'phone',
-                    value: this.form.phone,
+                    type: this.type ? 'email' : 'phone',
+                    value: this.type ? this.form.email : this.form.phone,
                 },
                 {
                     type: 'empty',
@@ -166,17 +170,12 @@ export default Vue.extend({
                     type: 'pwd',
                     value: this.form.password,
                 },
-                {
-                    type: 'pwd2',
-                    value1: this.form.password,
-                    value2: this.form.confirmPassword,
-                },
             ]);
             if (vfi) {
                 this.changeLoading(true);
                 this.$api.register({
                     nickname: this.form.nickname,
-                    passport: `${this.country.tel}-${this.form.phone}`,
+                    passport: this.type ? this.form.email : `${this.country.tel}-${this.form.phone}`,
                     password: this.$md5(`${this.form.password}bagpaysol`),
                     verification_code: this.form.code,
                 }).then((res: any) => {
@@ -185,7 +184,7 @@ export default Vue.extend({
                             message: `${this.$t('login.registSuccess')}`,
                             icon: assetsS,
                             onClose: () => {
-                                this.$router.replace(`/login?phone=${this.form.phone}`);
+                                this.$router.replace(`/login?phone=${this.form.phone}&email=${this.form.email}&type=${this.type}`);
                             },
                         });
                     }
