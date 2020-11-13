@@ -41,7 +41,13 @@
                     autocomplete="username"
                     type="text"
                 >
-                    <Code :phone="form.phone" :imgCode="form.imgCode" :imgCodeId="imgCode" :type="1"></Code>
+                    <Code
+                        :vType="type ? 'email' : 'phone'"
+                        :phone="type ? form.email : form.phone"
+                        :imgCode="form.imgCode"
+                        :imgCodeId="imgCode"
+                        :type="1"
+                    ></Code>
                 </Inputs>
                 <Inputs
                     class="login-form-item"
@@ -110,7 +116,6 @@ export default Vue.extend({
             return this.$store.state.country;
         },
         disabled(): boolean {
-            console.log(this.type);
             if (this.type) return !(this.form.email && this.form.imgCode && this.form.code && this.form.password);
             return !(this.form.phone && this.form.imgCode && this.form.code && this.form.password);
         },
@@ -160,6 +165,7 @@ export default Vue.extend({
                         passport: this.type ? this.form.email : `${this.country.tel}-${this.form.phone}`,
                         new_password: this.$md5(`${this.form.password}bagpaysol`),
                         sms_code: this.form.code,
+                        email_code: this.form.code,
                     })
                     .then((res: any) => {
                         if (res.code === 0) {

@@ -2,10 +2,18 @@
   <div class="set-payment-add">
     <TitleHeader :title="$t('mine.safeSetting')">
       <ul class="app-padding40 payment_cont">
-        <li class="flex-between-c payment_item">
+        <li v-if="$hasBindValue(_getPhone)" class="flex-between-c payment_item">
           <div v-t="'mine.phone'"></div>
           <div>
-            {{_getPhone | formatName}}<span style="display: inline-block" class="app-img-50"></span>
+            {{_getPhone | formatName}}
+            <span style="display: inline-block" class="app-img-50"></span>
+          </div>
+        </li>
+        <li v-if="$hasBindValue(_userInfo.email)" class="flex-between-c payment_item">
+          <div v-t="'mine.email'"></div>
+          <div>
+            {{_userInfo.email | formatName}}
+            <span style="display: inline-block" class="app-img-50"></span>
           </div>
         </li>
         <li @click="$router.push('/mine/forgetSafePass')" v-if="_userInfo.pay_password === '1'" class="flex-between-c payment_item">

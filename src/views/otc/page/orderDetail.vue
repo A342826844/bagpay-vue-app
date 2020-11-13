@@ -44,9 +44,13 @@
                                 </div>
                             </div>
                             <div class="flex-between-c list-item-2">
-                                <!-- TODO: 商家昵称、手机号-->
                                 <div class="value">{{orderDetail.target_nickname}}</div>
-                                <div class="value">{{orderDetail.target_phone | sliceMoblepre | formatName}}</div>
+                                <div v-if="$hasBindValue(orderDetail.target_phone)" class="value">
+                                    {{orderDetail.target_phone | sliceMoblepre | formatName}}
+                                </div>
+                                <div v-else class="value">
+                                    {{orderDetail.target_email | formatName}}
+                                </div>
                             </div>
                         </li>
                         <li class="app-padding40">

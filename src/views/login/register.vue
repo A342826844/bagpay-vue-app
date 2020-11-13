@@ -52,7 +52,13 @@
             autocomplete="username"
             type="text"
           >
-            <Code :phone="form.phone" :imgCode="form.imgCode" :imgCodeId="imgCode" :type="1"></Code>
+            <Code
+              :phone="type ? form.email : form.phone"
+              :imgCode="form.imgCode"
+              :vType="type ? 'email' : 'phone'"
+              :imgCodeId="imgCode"
+              :type="1"
+            ></Code>
           </Inputs>
           <Inputs
             class="login-form-item"
@@ -71,7 +77,7 @@
         注册及同意 《<span class="primary-color" @click.stop="$router.push('/mine/protocol')">{{$app_mark}}{{ $t("login.userProtocol") }}</span>》
       </p>
       <Button @click="loginHandle" v-t="'login.register'"
-        :disabled="!form.nickname || !form.phone || !form.imgCode || !form.code || !form.password || !form.confirmPassword || !checked"></Button>
+        :disabled="disabled"></Button>
     </div>
   </div>
 </template>
@@ -134,6 +140,10 @@ export default Vue.extend({
     computed: {
         country() {
             return this.$store.state.country;
+        },
+        disabled(): boolean {
+            if (this.type) return !(this.form.nickname && this.form.email && this.form.imgCode && this.form.code && this.form.password);
+            return !(this.form.nickname && this.form.phone && this.form.imgCode && this.form.code && this.form.password);
         },
     },
     methods: {

@@ -150,8 +150,8 @@ export default Vue.extend({
             this.form.icePhone = '';
             this.form.iceRelation = '0';
             this.form.address = '';
-            this.form.phone = this._getPhone;
-            this.form.email = '';
+            this.form.phone = this.$hasBindValue(this._getPhone) ? this._getPhone : '';
+            this.form.email = this.$hasBindValue(this._userInfo.email) ? this._userInfo.email : '';
         },
         deposit() {
             const val: boolean = this.$verification.fromVfi([

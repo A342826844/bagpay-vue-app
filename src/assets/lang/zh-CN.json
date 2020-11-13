@@ -245,6 +245,7 @@
         "confirmSafePass": "确认安全密码",
         "forgetSafePass": "忘记安全密码",
         "phone": "手机号",
+        "email": "邮箱",
         "changePwd": "修改登录密码",
         "changePwdTip": "修改登录密码",
         "refusal": "拒绝理由",

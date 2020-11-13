@@ -23,7 +23,7 @@
                 v-model="emailCode"
                 type="number">
                 <span slot="start" class="auth_label" v-text="formatName(email || _userInfo.email)"></span>
-                <Code :phone="email || _userInfo.email" :type="verifyType"></Code>
+                <Code :phone="email || _userInfo.email" vType="email" :type="verifyType"></Code>
             </Inputs>
             <Inputs
                 v-if="sendType.indexOf(5) !== -1"

@@ -5,7 +5,7 @@ import { Store } from 'vuex';
 import 'lib-flexible';
 
 import * as Api from '@/api/index.ts';
-import verification from '@/utils/verification.ts';
+import verification, { hasBindValue } from '@/utils/verification.ts';
 import Headers from '@/components/headers/index.vue';
 import TitleHeader from '@/components/headers/TitleHeader.vue';
 import Titles from '@/components/headers/Titles.vue';
@@ -36,6 +36,7 @@ declare module 'vue/types/vue' {
         $api: any;
         $md5: any;
         $verification: any;
+        $hasBindValue: Function;
         $app_mark: string;
         _userInfo: any;
         _configCommon: any;
@@ -136,6 +137,7 @@ Vue.mixin({
 Vue.prototype.$api = Api;
 Vue.prototype.$md5 = md5;
 Vue.prototype.$verification = verification;
+Vue.prototype.$hasBindValue = hasBindValue;
 Vue.prototype.$app_mark = process.env.VUE_APP_MARK;
 
 new Vue({

@@ -21,6 +21,10 @@ export default Vue.extend({
             type: Number,
             required: true,
         },
+        vType: {
+            type: String,
+            default: 'phone',
+        },
     },
     data() {
         return {
@@ -46,19 +50,24 @@ export default Vue.extend({
     methods: {
         sendHandle() {
             if (this.isLoading) return;
+            if (this.timeNum > 0) return;
             if (this.type === 1 && !this.$verification.notEmpty(this.imgCode, this.$t('login.imgCode'))) return;
-            if (this.$verification.phoneVfi(this.phone)) {
+            if (this.verification()) {
                 const data: any = {
-                    phone: `${this.country.tel}-${this.phone}`,
                     type: this.type,
                 };
+                if (this.vType === 'phone') {
+                    data.phone = `${this.country.tel}-${this.phone}`;
+                } else if (this.vType === 'email') {
+                    data.email = this.phone;
+                }
                 if (this.type === 1) {
                     data.captcha = this.imgCode;
                     data.captcha_id = this.imgCodeId;
                 }
                 this.isLoading = true;
                 this.changeLoading(true);
-                this.$api.registerCode(data).then((res: any) => {
+                this.apiHandle(data).then((res: any) => {
                     if (res.code === 0) {
                         this.timeNum = 60;
                         this.timer = setInterval(() => {
@@ -81,6 +90,15 @@ export default Vue.extend({
                     this.changeLoading(false);
                 });
             }
+        },
+        verification() {
+            if (this.vType === 'phone' && this.$verification.phoneVfi(this.phone)) return true;
+            if (this.vType === 'email' && this.$verification.emailVfi(this.phone)) return true;
+            return false;
+        },
+        apiHandle(data: any) {
+            if (this.vType === 'email') return this.$api.registerCodeEmail(data);
+            return this.$api.registerCode(data);
         },
     },
     destroyed() {

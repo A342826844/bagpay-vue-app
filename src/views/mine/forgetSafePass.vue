@@ -53,7 +53,6 @@ type data = {
     showKeyboard: boolean;
     showKeyboard2: boolean;
     form: {
-        phone: string;
         password: string;
         confirmPassword: string;
     };
@@ -68,16 +67,10 @@ export default Vue.extend({
             showKeyboard: true,
             showKeyboard2: false,
             form: {
-                phone: '',
                 password: '',
                 confirmPassword: '',
             },
         };
-    },
-    mounted() {
-        this.$nextTick(() => {
-            this.form.phone = this._getPhone;
-        });
     },
     computed: {
         country() {
@@ -114,10 +107,6 @@ export default Vue.extend({
             if (this.isLoading) return;
             const vfi: boolean = this.$verification.fromVfi([
                 {
-                    type: 'phone',
-                    value: this.form.phone,
-                },
-                {
                     type: 'pay',
                     value: this.form.password,
                 },
@@ -136,7 +125,6 @@ export default Vue.extend({
             this.isLoading = true;
             this.changeLoading(true);
             this.$api.forgetPayPwd({
-                passport: `${this.country.tel}-${this.form.phone}`,
                 new_password: this.$md5(`${this.form.password}bagpaysol`),
                 ...auth,
             }).then((res: any) => {

@@ -109,7 +109,13 @@ export default Vue.extend({
             };
         },
         setPhone() {
-            this.form.phone = this.$route.query.phone as string;
+            if (Number(this.$route.query.type) === 0) {
+                this.form.phone = this.$route.query.phone as string;
+                this.type = 0;
+            } else if (Number(this.$route.query.type) === 1) {
+                this.form.email = this.$route.query.email as string;
+                this.type = 1;
+            }
         },
         loginHandle() {
             if (this._loading) return;

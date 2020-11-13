@@ -1,5 +1,5 @@
 <template>
-    <div class="app-input app-padding40">
+    <div class="app-input app-padding40" :class="{[`show-${errorType}`]: error}">
         <slot name="start"></slot>
         <input
             ref="input"
@@ -27,6 +27,7 @@
             class="app-input-password app-input-right"
             :src="showPassword ? eyeOpen : eyeClose" alt=""
         >
+        <span v-show="error" class="app-input-error">{{errorMsg}}</span>
         <span class="app-input-length app-input-right" v-show="isShowLength">{{inputV.length}}/{{maxlength}}</span>
         <slot></slot>
     </div>
@@ -86,6 +87,18 @@ export default Vue.extend({
         password: {
             type: Boolean,
             default: false,
+        },
+        error: {
+            type: Boolean,
+            default: false,
+        },
+        errorType: {
+            type: String,
+            default: 'error',
+        },
+        errorMsg: {
+            type: String,
+            default: '',
         },
         value: {
             type: [Number, String],
@@ -190,6 +203,8 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="less">
+@warning: #f90;
+@error: #ed4014;
 .app-input{
     width: 100%;
     height: 99px;
@@ -237,6 +252,27 @@ export default Vue.extend({
     &-length{
         font-size: 28px;
         color: #b3b3b3;
+    }
+    &-error{
+        position: absolute;
+        bottom: -12px;
+        font-size: 24px;
+        line-height: 24px;
+        left: 30px;
+        padding: 0 10px;
+        background: #fff;
+    }
+    &.show-error{
+        border: @error 1PX solid;
+        .app-input-error{
+            color: @error;
+        }
+    }
+    &.show-warning{
+        border: @warning 1PX solid;
+        .app-input-error{
+            color: @warning;
+        }
     }
 }
 </style>

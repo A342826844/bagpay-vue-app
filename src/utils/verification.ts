@@ -112,6 +112,14 @@ function fromVfi(arr: any) {
     return true;
 }
 
+// 判断用户是否绑定值
+export const hasBindValue = (value = '') => {
+    const reg = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
+    const vfi: boolean = reg.test(value);
+    if (value.indexOf('EMPTY.') > -1 && !vfi) return false;
+    return true;
+};
+
 export default {
     phoneVfi,
     emailVfi,

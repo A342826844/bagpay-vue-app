@@ -4,14 +4,6 @@
       <div class="login-box app-padding40">
         <p class="login-tip">{{ $t("mine.changePwdTip") }}</p>
         <form @submit.prevent="" class="login-form" action="">
-          <!-- <Inputs
-            class="login-form-item"
-            :placeholder="$t('login.phone')"
-            clearable
-            v-model="form.phone"
-            autocomplete="username"
-            type="text"
-          /> -->
           <Inputs
             class="login-form-item"
             :placeholder="$t('login.newPwd')"
@@ -43,7 +35,6 @@
 import Vue from 'vue';
 
 type form = {
-  phone: string;
   password: string;
   confirmPassword: string;
 };
@@ -59,16 +50,10 @@ export default Vue.extend({
         return {
             isLoading: false,
             form: {
-                phone: '',
                 password: '',
                 confirmPassword: '',
             },
         };
-    },
-    mounted() {
-        this.$nextTick(() => {
-            this.form.phone = this._getPhone;
-        });
     },
     computed: {
         country() {
@@ -79,10 +64,6 @@ export default Vue.extend({
         auth() {
             if (this.isLoading) return;
             const vfi: boolean = this.$verification.fromVfi([
-                {
-                    type: 'phone',
-                    value: this.form.phone,
-                },
                 {
                     type: 'pay',
                     value: this.form.password,
@@ -102,7 +83,6 @@ export default Vue.extend({
             this.isLoading = true;
             this.changeLoading(true);
             this.$api.changePwd({
-                passport: `${this.country.tel}-${this.form.phone}`,
                 new_password: this.$md5(`${this.form.password}bagpaysol`),
                 ...auth,
             })
