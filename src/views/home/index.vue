@@ -30,6 +30,25 @@
                 })" src="../../assets/img/common/qrcode.png" alt="">
             </div>
         </div>
+        <div class="home-notice flex-between-c">
+            <div>
+                <img class=" app-img-50" src="../../assets/img/common/notice.png" alt="">
+                <span>公告：BagPay预计12月12日开放BTC、ETH...</span>
+            </div>
+            <span></span>
+        </div>
+        <div class="home-application">
+            <ul class="home-application-ul flex-warp-s">
+                <li class="li" v-for="item in 5" :key="item">
+                    <img class="li-img" src="../../assets/img/home/cost.png" alt="">
+                    <p class="li-p">生活缴费</p>
+                </li>
+                <li class="li">
+                    <img class="li-img" src="../../assets/img/common/copy1.png" alt="">
+                    <p class="li-p">全部</p>
+                </li>
+            </ul>
+        </div>
         <div class="assets-symbol-list">
             <div class="list-assets flex-between-c">
                 <h4 v-t="'home.assets'"></h4>
@@ -171,6 +190,21 @@ export default Vue.extend({
         &-coin{
             vertical-align: middle;
             display: inline-block;
+        }
+    }
+    &-notice{
+        margin: 32px 0;
+    }
+    &-application{
+        .li{
+            width: 25%;
+            margin-top: 22px;
+            &-img{
+                width: 88px;
+            }
+            &-p{
+                margin: 20px 0;
+            }
         }
     }
     &-assets{
