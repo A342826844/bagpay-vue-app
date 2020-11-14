@@ -6,6 +6,9 @@
             class="goBack"
             :src="theme === 'light' ? previous_page : baise_go" alt=""
         >
+        <div class="app-headers-left">
+            <slot name="left"></slot>
+        </div>
         <span class="title" :style="{opacity: opacityTtitle}" :class="[{'bold-title': bold}]">{{title}}</span>
         <span class="rightTitle" @click="$emit('right-click')">{{value}}</span>
         <span class="right"><slot></slot></span>
@@ -116,6 +119,11 @@ export default Vue.extend({
             font-size: 45px;
             font-weight: bold;
         }
+    }
+    &-left{
+        display: inline-block;
+        margin-left: 52px;
+        vertical-align: middle;
     }
     .right {
         float: right;

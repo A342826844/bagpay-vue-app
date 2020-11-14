@@ -17,13 +17,13 @@
  *
  */
 import { RouteConfig } from 'vue-router';
-import store from '@/store/index';
 
 import Home from '@/views/home/index.vue'; // 首页
 import Entry from '@/views/entry/index.vue'; // 入口页
 
 import Login from '@/views/login/index.vue'; // 登录
 import Register from '@/views/login/register.vue'; // 注册
+import invitation from './invitation';
 
 // 使用这种引入无法读到 component 的name
 // const Login = () => import('@/views/login/index.vue'); // 登录
@@ -497,27 +497,6 @@ const routes: Array<RouteConfig> = [
     },
 ];
 
-// 获取需要keepAlive的页面  保存到 vuex里
-// let keepAlive: Array<string> = [];
-// routes.forEach((item: any) => {
-//     if (item.meta && item.meta.keepAlive) {
-//         keepAlive.push(item.component.name);
-//     }
-// });
-const getKeepAlices = (list: Array<any>): Array<string> => {
-    let res: Array<string> = [];
-    list.forEach((item: any) => {
-        if (item.children && item.children.length) {
-            res = res.concat(getKeepAlices(item.children));
-        }
-        if (item.meta && item.meta.keepAlive) {
-            res.push(item.meta.componentName);
-        }
-    });
-    return res;
-};
-// 获取需要keepAlive的组件名
-const keepAlive: Array<string> = getKeepAlices(routes);
-store.commit('setKeepAlive', keepAlive); // 设置vuex中的keepAlive
-// "Entry", "Login", "Findaccount", "Register", "TransferOut", "OtcEntry", "OtcAdv", "BusinessDetail", "VfyBus", "PaywayAdd", "SetPaymentAdd"
-export default routes;
+// routes.push(...invitation);
+
+export default routes.concat(invitation);

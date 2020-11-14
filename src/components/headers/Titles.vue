@@ -1,9 +1,9 @@
 <template>
     <div
         class="app-title-box app-padding40 flex-between-end"
-        :class="[{'border-b': border}, {'border-padding': border}]"
+        :class="[{'border-b': border}, {'border-padding': border}, theme]"
     >
-        <h3>
+        <h3 class="t-h3">
             <template v-if="title">{{title}}</template>
             <slot></slot>
         </h3>
@@ -26,7 +26,7 @@ export default Vue.extend({
         },
         theme: {
             type: String,
-            default: 'light', // light dark
+            default: 'light', // light dark grey
         },
     },
 });
@@ -39,7 +39,7 @@ export default Vue.extend({
     text-align: left;
     padding-top: 62px;
     // font-weight: bold;
-    h3{
+    .t-h3{
         color: #282828;
         line-height: 45px;
         font-size: 45px;
@@ -49,8 +49,13 @@ export default Vue.extend({
     }
     &.dark{
         background: transparent;
-        h3{
+        .t-h3{
             color: #ffffff;
+        }
+    }
+    &.grey{
+        .t-h3{
+            color: #575757;
         }
     }
 }

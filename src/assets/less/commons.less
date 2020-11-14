@@ -131,3 +131,51 @@ input,textarea {
 .ios-auto{
     -webkit-overflow-scrolling : auto;
 }
+
+@triangle-w: 10px;
+.triangle{
+    &::after{
+        content: '';
+        border: @triangle-w solid;
+        height: 0;
+        width: 0;
+        display: inline-block;
+        position: relative;
+    }
+}
+.triangle-t{
+    .triangle;
+    &::after{
+        border-top-color: transparent;
+        border-left-color: transparent;
+        border-right-color: transparent;
+        top: @triangle-w/2;
+    }
+}
+.triangle-l{
+    .triangle;
+    &::after{
+        border-top-color: transparent;
+        border-left-color: transparent;
+        border-bottom-color: transparent;
+        left: @triangle-w/2;
+    }
+}
+.triangle-r{
+    .triangle;
+    &::after{
+        border-top-color: transparent;
+        border-bottom-color: transparent;
+        border-right-color: transparent;
+        right: @triangle-w/2;
+    }
+}
+.triangle-b{
+    .triangle;
+    &::after{
+        border-bottom-color: transparent;
+        border-left-color: transparent;
+        border-right-color: transparent;
+        bottom: @triangle-w/2;
+    }
+}
