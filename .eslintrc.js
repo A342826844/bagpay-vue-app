@@ -26,6 +26,7 @@ module.exports = {
         'import/no-dynamic-require': ['off'], // 允许试用require引入
         'global-require': ['off'], // 允许试用require引入
         'no-plusplus': ['off'], // 允许试用i++
+        'no-restricted-globals': ["off"], // 禁止使用特定的全局变量
         // '@typescript-eslint/camelcase': ['off'], // 应许ts中使用any类型
     },
 };

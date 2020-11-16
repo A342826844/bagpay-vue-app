@@ -41,9 +41,13 @@ export default Vue.extend({
         };
     },
     created() {
-        if (this.$store.state.loginStatus) {
+        if (localStorage.getItem('isinit') && this._isLogin) {
+            // if (process.env.NODE_ENV === 'production') {
+            //     this.$router.push('/home');
+            // }
             this.init();
         } else {
+            this.$router.push('/home');
             this.plusInitHandle();
         }
     },
@@ -121,17 +125,13 @@ export default Vue.extend({
                 this.getUserBankList(),
             ]).then(() => {
                 this.plusInitHandle();
-                if (process.env.NODE_ENV === 'production') {
-                    this.$router.push('/home');
-                }
             }).catch((error) => {
                 if (error.response && error.response.status === 403) {
                     this.plusInitHandle();
-                    // this.$router.push('/');
+                    this.$router.push('/home');
                 } else {
                     this.total += 1;
                     if (this.total >= 5) {
-                        this.$router.push('/');
                         this.plusInitHandle();
                         return;
                     }

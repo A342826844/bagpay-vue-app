@@ -76,7 +76,7 @@ export default Vue.extend({
     },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
-            if (from.name === 'entry') {
+            if (from.name === 'entrylogin') {
                 vm.clear();
             }
             if (from.name === 'register') {
@@ -155,6 +155,21 @@ export default Vue.extend({
             ]).then(() => {
                 this.$store.commit('setLoginState', 1);
                 // this.$store.commit('setsessionId', data);
+                const loginPath = sessionStorage.getItem('loginPath');
+                if (loginPath) {
+                    if (isNaN(Number(loginPath))) {
+                        // 先返回引导页，再替换路由，这样用户点返回键就是返回到进入引导页前的那个页面
+                        this.$router.go(-1);
+                        setTimeout(() => {
+                            // 不使用setTimeout 就会报错或者不跳转
+                            this.$router.replace(loginPath);
+                        }, 100);
+                    } else {
+                        this.$router.go(Number(loginPath));
+                    }
+                    sessionStorage.removeItem('loginPath');
+                    return;
+                }
                 this.$router.push({
                     name: 'home',
                 });

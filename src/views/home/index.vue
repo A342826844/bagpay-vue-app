@@ -10,7 +10,7 @@
                 <img v-show="_isplus" @click="$router.push(`/scanQRCode?type=${1}`)" src="../../assets/img/common/qrcode1.png" alt="">
             </div>
         </div>
-        <div class="home-assets flex-around-s flex-column">
+        <div v-if="_isLogin" class="home-assets flex-around-s flex-column">
             <h4 class="home-assets-account" @click="_change">
                 {{_unitIcon}}<span class="home-assets-value">{{
                     hide === '1' ? '****' :
@@ -30,6 +30,12 @@
                 })" src="../../assets/img/common/qrcode.png" alt="">
             </div>
         </div>
+        <div @click="$router.push('/entrylogin')" v-if="!_isLogin" class="home-assets flex-around-s flex-column">
+            <h4 class="home-assets-account" @click="_change">
+                <span class="home-assets-title">点击登录</span>
+            </h4>
+            <p class="home-assets-tip">登录后查看资金余额</p>
+        </div>
         <div class="home-notice flex-between-c">
             <div>
                 <img class=" app-img-50" src="../../assets/img/common/notice.png" alt="">
@@ -37,14 +43,7 @@
             </div>
             <span></span>
         </div>
-        <div class="home-application">
-            <ul class="home-application-ul flex-warp-s">
-                <li @click="applicationHandle(item)" class="li" v-for="item in applicationList" :key="item.value">
-                    <img class="li-img" :src="item.img" alt="">
-                    <p class="li-p">{{item.title}}</p>
-                </li>
-            </ul>
-        </div>
+        <AllApp></AllApp>
         <div class="assets-symbol-list">
             <div class="list-assets flex-between-c">
                 <h4 v-t="'home.assets'"></h4>
@@ -79,13 +78,14 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import AllApp from './component/AllApp.vue';
 
 const cost = require('@/assets/img/home/cost.png');
 const financial = require('@/assets/img/home/financial.png');
 const news = require('@/assets/img/home/news.png');
 const invita = require('@/assets/img/home/invita.png');
 const tranfer = require('@/assets/img/home/tranfer.png');
-const copy1 = require('@/assets/img/common/copy1.png');
+const allApp = require('@/assets/img/common/all-app.png');
 
 type appItem = {
     link: string;
@@ -115,6 +115,9 @@ type data = {
 
 export default Vue.extend({
     name: 'Home',
+    components: {
+        AllApp,
+    },
     data(): data {
         return {
             isLoading: false,
@@ -167,8 +170,8 @@ export default Vue.extend({
                 {
                     link: '',
                     isDev: true,
-                    img: copy1,
-                    value: 'copy1',
+                    img: allApp,
+                    value: 'allApp',
                     needLogin: true,
                     title: '全部',
                 },
@@ -184,7 +187,9 @@ export default Vue.extend({
         },
     },
     created() {
-        this.init();
+        if (this._isLogin) {
+            this.init();
+        }
     },
     methods: {
         _change() {
@@ -193,23 +198,15 @@ export default Vue.extend({
         },
         init() {
             this.isLoading = true;
-            this.getUserBankList();
             this.changeLoading(true);
-            this.initUserInfo();
-            Promise.all([this.getDeposit(), this.initBalances(), this.getExchangeRate()]).finally(() => {
-                this.isLoading = false;
-                this.changeLoading(false);
-            });
-        },
-        applicationHandle(item: appItem) {
-            if (item.isDev) {
-                this.$dialog.alert({
-                    title: `${this.$t('common.poptip')}`,
-                    message: `${this.$t('common.isdev')}`,
+            if (this._isLogin) {
+                this.getUserBankList();
+                this.initUserInfo();
+                Promise.all([this.getDeposit(), this.initBalances(), this.getExchangeRate()]).finally(() => {
+                    this.isLoading = false;
+                    this.changeLoading(false);
                 });
-                return;
             }
-            this.$router.push(item.link);
         },
         getExchangeRate() {
             return this.$api.getExchangeRate().then((res: any) => {
@@ -267,18 +264,6 @@ export default Vue.extend({
     &-notice{
         margin: 32px 0;
     }
-    &-application{
-        .li{
-            width: 25%;
-            margin-top: 22px;
-            &-img{
-                width: 88px;
-            }
-            &-p{
-                margin: 20px 0;
-            }
-        }
-    }
     &-assets{
         color: #fff;
         margin-top: 20px;
@@ -297,8 +282,14 @@ export default Vue.extend({
         &-value{
             font-size: 60px;
         }
+        &-title{
+            font-size: 45px;
+        }
         &-address{
             width: 100%;
+        }
+        &-tip{
+            height: 68px;
         }
     }
 }

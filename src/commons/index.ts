@@ -37,9 +37,9 @@ Vue.prototype.$shareDataHandle = shareDataHandle; // 分享
 Vue.prototype.$saveImg = saveImg; // 保存本地图片
 
 // eslint-disable-next-line func-names
-Vue.prototype.$loginRoute = function (path: string, loginPth?: string) {
-    sessionStorage.setItem('loginPath', path);
-    this.$router.push(loginPth || '/login');
+Vue.prototype.$loginRoute = function (path?: string, loginPth?: string) {
+    sessionStorage.setItem('loginPath', path || '-2'); // 如果没指定登录后跳转页面， 则默认返回进入登录前的页面
+    this.$router.push(loginPth || '/entrylogin');
 };
 // eslint-disable-next-line func-names
 Vue.prototype.$goback = function () {
@@ -48,6 +48,5 @@ Vue.prototype.$goback = function () {
 // eslint-disable-next-line func-names
 Vue.prototype.$logoutHandle = function () {
     sessionStorage.clear();
-    this.$store.commit('setLoginState', 0);
-    this.$store.commit('setHideBalance', '');
+    this.$store.commit('reSetUserState');
 };

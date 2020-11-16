@@ -40,6 +40,7 @@ const transferFrozen = () => import('@/views/home/transferFrozen.vue'); // 转�
 const Payment = () => import('@/views/home/payment.vue'); // 收款地址二维码
 const TransferOut = () => import('@/views/home/transferOut.vue'); // 转出
 const AddrList = () => import('@/views/home/addressList.vue'); // 选择转出地址
+const Allapplist = () => import('@/views/home/allAppList.vue'); // 选择转出地址
 
 const Mine = () => import('@/views/mine/index.vue');
 const SafeSetting = () => import('@/views/mine/safeSetting.vue');
@@ -87,6 +88,16 @@ const routes: Array<RouteConfig> = [
     {
         path: '/',
         name: 'entry',
+        component: Entry,
+        meta: {
+            keepAlive: true,
+            componentName: 'Entry',
+            noLogin: true,
+        },
+    },
+    {
+        path: '/entrylogin',
+        name: 'entrylogin',
         component: Entry,
         meta: {
             keepAlive: true,
@@ -183,6 +194,14 @@ const routes: Array<RouteConfig> = [
         component: AddrList,
         meta: {
             index: 110,
+        },
+    },
+    {
+        path: '/allapplist',
+        name: 'allapplist',
+        component: Allapplist,
+        meta: {
+            index: 5,
         },
     },
     {

@@ -4,8 +4,8 @@
         @touchstart="startHandle"
         @touchend="endHandle"
         class="entry">
-        <Headers :isBack="false">
-            <span v-show="activeTab !== 2" class="primary-color" @click="activeTab = 2">{{$t('entry.skip')}}</span>
+        <Headers :isBack="$route.name === 'entrylogin'">
+            <span v-show="activeTab !== 2" class="primary-color" @click="$router.push('/home')">{{$t('entry.skip')}}</span>
         </Headers>
         <div class="entry-banner">
             <ul
@@ -22,7 +22,10 @@
                 </li>
             </ul>
         </div>
-        <div v-show="activeTab === 2" class="entry-btn app-size-34">
+        <div v-show="activeTab === 2 && $route.name !== 'entrylogin'" class="entry-btn app-size-34">
+            <Button @click="$router.push('/home')" class="entry-btn-item">立即体验</Button>
+        </div>
+        <div v-if="$route.name === 'entrylogin'" class="entry-btn app-size-34">
             <Button @click="$router.push('/login')" class="entry-btn-item">{{$t('login.loginTitle')}}</Button>
             <Button @click="$router.push('/register')" class="entry-btn-item" border type="info">{{$t('login.registerTitle')}}</Button>
         </div>
@@ -112,7 +115,7 @@ export default Vue.extend({
         },
     },
     created() {
-        if (localStorage.getItem('isinit')) {
+        if (this.$route.name === 'entrylogin' || localStorage.getItem('isinit')) {
             this.activeTab = 2;
         }
         localStorage.setItem('isinit', `${new Date().getTime()}`);
@@ -122,6 +125,7 @@ export default Vue.extend({
             this.activeTab += 1;
         },
         moveHandle(e: TouchEvent) {
+            if (this.$route.name === 'entrylogin') return;
             if (!this.moveIng) {
                 this.moveIng = true;
             }

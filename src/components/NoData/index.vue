@@ -1,5 +1,5 @@
 <template>
-    <div v-show="show" class="app-no-data" :class="{'padding-b': paddingB}">
+    <div @click="clickHandle" v-show="show" class="app-no-data" :class="{'padding-b': paddingB}">
         <img src="../../assets/img/common/noData.png" alt/>
         <p v-text="text ? text : $t(textTitle[renderType])"></p>
     </div>
@@ -31,13 +31,23 @@ export default Vue.extend({
             textTitle: {
                 1: 'common.webErQua', // 网络问题
                 2: 'common.noData', // 暂无数据
+                3: 'common.loginToSee', // 登录后查看
             },
         };
     },
     computed: {
         renderType() {
+            if (!this._isLogin) return 3;
             if (this.noWebAns) return 1;
             return 2;
+        },
+    },
+    methods: {
+        clickHandle() {
+            this.$emit('click');
+            if (!this._isLogin) {
+                this.$loginRoute();
+            }
         },
     },
 });

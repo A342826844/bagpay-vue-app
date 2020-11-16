@@ -41,6 +41,7 @@ declare module 'vue/types/vue' {
         _userInfo: any;
         _configCommon: any;
         _loading: boolean;
+        _isLogin: boolean;
         _unit: string;
         _unitIcon: string;
         _getPhone: string;
@@ -93,6 +94,9 @@ Vue.mixin({
         },
         _isplus() {
             return !!(window as any).plus;
+        },
+        _isLogin() {
+            return !!(this.$store as Store<any>).state.loginStatus;
         },
     },
     methods: {

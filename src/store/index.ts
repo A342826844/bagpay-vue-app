@@ -63,7 +63,7 @@ export default new Vuex.Store({
         loginStatus: Number(localStorage.getItem('loginStatus')),
         addAddr: {}, // 添加提币地址
         address: {}, // 转出使用
-        hideBalance, // 显示隐藏余额
+        hideBalance, // 是否显示隐藏余额 '0'表示显示 '1'表示隐藏 , 值是字符串类型
         bankInfo: {}, // 发布广告所选择的收款信息
         symbolList, // 可用币种列表
         configCommon, // OTC配置信息
@@ -222,6 +222,32 @@ export default new Vuex.Store({
          */
         selectBank(state, bankInfo) {
             state.bankInfo = bankInfo;
+        },
+        /**
+         * 重置用户信息
+         * @param state
+         */
+        reSetUserState(state) {
+            state.sessionId = '';
+            state.userInfo = {
+                id: '',
+                nickname: '',
+                password: '',
+                pay_password: '',
+                phone: '',
+                status: '',
+            };
+            state.merchant = {};
+            state.country = defaultCountry(); // 国家/地区 区号
+            [state.countryType] = CountryType; // 国家/地区类型
+            localStorage.setItem('loginStatus', JSON.stringify(0));
+            state.loginStatus = 0;
+            state.addAddr = {}; // 添加提币地址
+            state.address = {}; // 转出使用
+            state.bankInfo = {}; // 发布广告所选择的收款信息
+            state.bankList = []; // 用户绑定的收付款方式
+            state.hideBalance = '0';
+            localStorage.setItem('hideBalance', '0');
         },
     },
     getters: {

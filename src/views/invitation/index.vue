@@ -56,17 +56,21 @@
                 size="small"
                 v-t="item.title"></Button>
         </div>
-        <van-dialog closeOnClickOverlay class="invitation-ercode-dialog" v-model="erCodeShow" :title="'邀请二维码'" :show-confirm-button="false">
-            <div class="ercode"></div>
-            <div>
-                <Button
-                    v-for="item in buttons"
-                    :key="item.value"
-                    @click="clickHandle(item.value)"
-                    :type="item.type"
-                    class="ercode-btn"
-                    size="small"
-                    v-t="item.title"></Button>
+        <van-dialog closeOnClickOverlay class="invitation-ercode-dialog" v-model="erCodeShow" :show-confirm-button="false">
+            <div class="ercode-box">
+                <div class="ercode">
+                    <img src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2850686694,651598194&fm=26&gp=0.jpg" alt="">
+                </div>
+                <div>
+                    <Button
+                        v-for="item in buttons"
+                        :key="item.value"
+                        @click="clickHandle(item.value)"
+                        :type="item.type"
+                        class="ercode-btn"
+                        size="small"
+                        v-t="item.title"></Button>
+                </div>
             </div>
         </van-dialog>
     </div>
@@ -115,6 +119,7 @@ export default Vue.extend({
 
 <style lang="less" scoped>
 .invitation{
+    min-height: 100%;
     &-header-left{
         font-size: 45px;
         .level{
@@ -164,11 +169,18 @@ export default Vue.extend({
         }
     }
     &-ercode-dialog{
+        background: #fff0;
         .ercode{
-            width: 393px;
-            height: 393px;
-            background: pink;
+            max-width: 625px;
+            max-height: 1147px;
             margin: 45px auto 62px;
+            padding: 20px 15px;
+            background: #fff;
+            box-shadow: 0px 9px 21px 0px rgba(112, 145, 255, 0.2);
+            border-radius: 20px;
+            img{
+                width: 100%;
+            }
         }
         .ercode-btn{
             margin: 0 10px 52px;

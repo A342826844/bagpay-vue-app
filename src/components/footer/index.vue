@@ -72,6 +72,10 @@ export default Vue.extend({
     methods: {
         linkTo(item: LinkItem) {
             if (this.$route.name === item.name) return;
+            if (item.needLogin && !this._isLogin) {
+                this.$loginRoute(item.path);
+                return;
+            }
             this.$router.push(item.path);
         },
     },

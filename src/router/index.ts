@@ -26,13 +26,13 @@ const keepAlive: Array<string> = getKeepAlices(routes);
 // "Entry", "Login", "Findaccount", "Register", "TransferOut", "OtcEntry", "OtcAdv", "BusinessDetail", "VfyBus", "PaywayAdd", "SetPaymentAdd"
 store.commit('setKeepAlive', keepAlive); // 设置vuex中的keepAlive
 
-router.beforeEach((to, from, next) => {
-    store.commit('changeLoading', false);
-    if (!store.state.loginStatus && (!to.meta.noLogin)) {
-        next('/');
-        return;
-    }
-    next();
-});
+// router.beforeEach((to, from, next) => {
+//     store.commit('changeLoading', false);
+//     if (!store.state.loginStatus && (!to.meta.noLogin)) {
+//         next('/');
+//         return;
+//     }
+//     next();
+// });
 
 export default router;

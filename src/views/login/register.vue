@@ -137,7 +137,7 @@ export default Vue.extend({
     },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
-            if (from.name === 'entry') {
+            if (from.name === 'entrylogin') {
                 vm.clear();
             }
         });

@@ -227,7 +227,9 @@ export default Vue.extend({
                 vm.initData();
             }
             vm.loadData();
-            vm.otcGetMerchant();
+            if (vm._isLogin) {
+                vm.otcGetMerchant();
+            }
         });
     },
     created() {

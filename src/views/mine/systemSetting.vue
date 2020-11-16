@@ -123,7 +123,7 @@ export default Vue.extend({
                         // this.$store.commit('setHideBalance', '');
                         this.$logoutHandle();
                         this.$router.push({
-                            name: 'entry',
+                            name: 'home',
                         });
                     }
                 });
