@@ -1,5 +1,5 @@
 <template>
-    <li class="com-li app-padding40 light-grey">
+    <li class="com-li app-padding40 light-grey-bg">
         <div class=" flex-between-c com-li-title">
             <span>
                 <slot name="title"></slot>

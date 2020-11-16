@@ -68,6 +68,13 @@
             autocomplete="current-password"
             type="password"
           />
+          <Inputs
+            class="login-form-item"
+            :placeholder="`${$t('login.invite_code')} (${$t('common.optional')})`"
+            clearable
+            v-model="form.invite_code"
+            autocomplete="username" type="text"
+          />
         </form>
       </div>
 
@@ -95,6 +102,7 @@ type form = {
   email: string;
   password: string;
   imgCode: string;
+  invite_code: string;
 };
 
 type data = {
@@ -123,6 +131,7 @@ export default Vue.extend({
                 email: '',
                 password: '',
                 imgCode: '',
+                invite_code: '',
             },
         };
     },
@@ -155,6 +164,7 @@ export default Vue.extend({
                 email: '',
                 password: '',
                 imgCode: '',
+                invite_code: '',
             };
         },
         loginHandle() {
@@ -188,6 +198,7 @@ export default Vue.extend({
                     passport: this.type ? this.form.email : `${this.country.tel}-${this.form.phone}`,
                     password: this.$md5(`${this.form.password}bagpaysol`),
                     verification_code: this.form.code,
+                    invite_code: this.form.invite_code,
                 }).then((res: any) => {
                     if (res.code === 0) {
                         this.$toast({

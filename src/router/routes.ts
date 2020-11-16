@@ -24,6 +24,7 @@ import Entry from '@/views/entry/index.vue'; // 入口页
 import Login from '@/views/login/index.vue'; // 登录
 import Register from '@/views/login/register.vue'; // 注册
 import invitation from './invitation';
+import news from './news';
 
 // 使用这种引入无法读到 component 的name
 // const Login = () => import('@/views/login/index.vue'); // 登录
@@ -499,4 +500,4 @@ const routes: Array<RouteConfig> = [
 
 // routes.push(...invitation);
 
-export default routes.concat(invitation);
+export default routes.concat(invitation).concat(news);

@@ -39,13 +39,9 @@
         </div>
         <div class="home-application">
             <ul class="home-application-ul flex-warp-s">
-                <li class="li" v-for="item in 5" :key="item">
-                    <img class="li-img" src="../../assets/img/home/cost.png" alt="">
-                    <p class="li-p">生活缴费</p>
-                </li>
-                <li class="li">
-                    <img class="li-img" src="../../assets/img/common/copy1.png" alt="">
-                    <p class="li-p">全部</p>
+                <li @click="applicationHandle(item)" class="li" v-for="item in applicationList" :key="item.value">
+                    <img class="li-img" :src="item.img" alt="">
+                    <p class="li-p">{{item.title}}</p>
                 </li>
             </ul>
         </div>
@@ -84,6 +80,22 @@
 <script lang="ts">
 import Vue from 'vue';
 
+const cost = require('@/assets/img/home/cost.png');
+const financial = require('@/assets/img/home/financial.png');
+const news = require('@/assets/img/home/news.png');
+const invita = require('@/assets/img/home/invita.png');
+const tranfer = require('@/assets/img/home/tranfer.png');
+const copy1 = require('@/assets/img/common/copy1.png');
+
+type appItem = {
+    link: string;
+    isDev?: boolean;
+    img: unknown;
+    needLogin?: boolean;
+    title: string;
+    value: string;
+}
+
 type data = {
     symbol: string;
     hide: string;
@@ -97,6 +109,7 @@ type data = {
         available: number;
         transfer: number;
     }>;
+    applicationList: Array<appItem>;
 
 }
 
@@ -111,6 +124,55 @@ export default Vue.extend({
             rate: {},
             unitDecimal: this.$store.getters.getCurrencyTypeInfo.decaimal,
             symbolList: [],
+            applicationList: [
+                {
+                    link: '',
+                    isDev: true,
+                    img: tranfer,
+                    value: 'tranfer',
+                    needLogin: true,
+                    title: '转账',
+                },
+                {
+                    link: '',
+                    isDev: true,
+                    img: financial,
+                    value: 'financial',
+                    needLogin: true,
+                    title: '理财',
+                },
+                {
+                    link: '',
+                    isDev: true,
+                    img: news,
+                    value: 'news',
+                    needLogin: true,
+                    title: '资讯',
+                },
+                {
+                    link: '/invitation',
+                    img: invita,
+                    value: 'invita',
+                    needLogin: true,
+                    title: '邀请',
+                },
+                {
+                    link: '',
+                    isDev: true,
+                    img: cost,
+                    value: 'cost',
+                    needLogin: true,
+                    title: '生活缴费',
+                },
+                {
+                    link: '',
+                    isDev: true,
+                    img: copy1,
+                    value: 'copy1',
+                    needLogin: true,
+                    title: '全部',
+                },
+            ],
         };
     },
     computed: {
@@ -138,6 +200,16 @@ export default Vue.extend({
                 this.isLoading = false;
                 this.changeLoading(false);
             });
+        },
+        applicationHandle(item: appItem) {
+            if (item.isDev) {
+                this.$dialog.alert({
+                    title: `${this.$t('common.poptip')}`,
+                    message: `${this.$t('common.isdev')}`,
+                });
+                return;
+            }
+            this.$router.push(item.link);
         },
         getExchangeRate() {
             return this.$api.getExchangeRate().then((res: any) => {

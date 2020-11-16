@@ -23,7 +23,7 @@
                 直推 > 2级(料子) > 3级(小艾)
             </div>
             <ul class=" app-padding40 invitation-body-ul">
-                <!-- <li v-for="item in 15" :key="item" class=" app-padding40 li light-grey">
+                <!-- <li v-for="item in 15" :key="item" class=" app-padding40 li light-grey-bg">
                     <div class=" flex-between-c title">
                         <span></span>
                         <div>
@@ -56,7 +56,7 @@
                 size="small"
                 v-t="item.title"></Button>
         </div>
-        <van-dialog class="invitation-ercode-dialog" v-model="erCodeShow" :title="'邀请二维码'" :show-confirm-button="false">
+        <van-dialog closeOnClickOverlay class="invitation-ercode-dialog" v-model="erCodeShow" :title="'邀请二维码'" :show-confirm-button="false">
             <div class="ercode"></div>
             <div>
                 <Button
