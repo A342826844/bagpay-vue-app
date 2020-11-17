@@ -56,23 +56,28 @@ axiosOfJava.interceptors.request.use(
         // 语言国际化
         const { lang } = store.state;
         // 新增权限验证
-        // const AUTH_TOKEN = store.state.userInfo.token;
-        return resetConfig(config, lang);
+        const AUTH_TOKEN = store.state.sessionId;
+        return resetConfig(config, lang, AUTH_TOKEN);
     },
     (error) => Promise.reject(error),
 );
 // Add a response interceptor
 axiosOfJava.interceptors.response.use(
     (response) => {
-        if (response.data.code !== 200) {
+        if (response.data.code !== 0) {
             return Promise.reject(response.data);
         }
-        return response;
+        return response.data;
     },
     (error) => {
         if (error.response && error.response.status === 401) {
-            // TODO:
-            // loginOut();
+            Dialog.alert({
+                title: i18n.t('common.poptip'),
+                message: i18n.t('common.loginExpired'),
+            }).then(() => {
+                store.commit('setLoginState', 0);
+                window.location.href = '/';
+            });
         }
         // Do something with response error
         return Promise.reject(error);

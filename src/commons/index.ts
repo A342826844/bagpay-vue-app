@@ -22,7 +22,7 @@ declare module 'vue/types/vue' {
         $overflowScrolling: Function;
         $compress: Function;
         $logoutHandle: Function;
-        $loginRoute: (path: string, loginPth?: string) => void;
+        $loginRoute: (path?: string, loginPth?: string) => void;
     }
 }
 

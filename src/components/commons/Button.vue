@@ -33,7 +33,7 @@ export default Vue.extend({
         },
         size: {
             type: String,
-            default: 'default', // small, default, large, fill
+            default: 'default', // small, default, large, fill, medium
         },
     },
 });
@@ -80,6 +80,9 @@ export default Vue.extend({
     &:disabled{
         background: #e8e8e8;
         color: #575757;
+    }
+    &.medium {
+        width: 305px;
     }
     &.small{
         width: 235px;

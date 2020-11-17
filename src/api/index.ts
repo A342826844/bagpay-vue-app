@@ -137,3 +137,16 @@ export const withdrawCcancel = (data: params) => getGolang(`/withdraw/cancel/${d
 export const getCoinOne = (data: params) => getGolang(`/coin/one/${data.coin}`, data);
 // 获取指定币种已转出数量
 export const getDayAmount = (data: params) => getGolang(`/withdraw/day-amount/${data.coin}`, data);
+
+/**
+ * JAVA 接口
+ */
+// 邀请
+// 获取用户邀请信息
+export const getExtUser = () => getJava('/ext_user/getLoginUser');
+// 获取邀请规则
+export const getGradeComm = () => getJava('/grade_comm');
+// 获取邀请人员列表
+export const getExtChildren = (data: params) => getJava('/ext_user/getChildren', data);
+// 获取邀请返佣明细
+export const getCommDetail = (data: params) => getJava('/comm_detail', data);

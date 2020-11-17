@@ -416,6 +416,16 @@
         "addTitle": "添加地址",
         "selectSymbol": "选择币种"
     },
+    "invitation": {
+        "commonInvit": "普通邀请",
+        "partnerInvit": "合伙人邀请",
+        "link": "邀请链接",
+        "poster": "邀请海报",
+        "commTypeTeam": "团队返佣",
+        "commTypeFirst": "一级返佣",
+        "commTypeSecond": "二级返佣",
+        "commTypeThress": "三级返佣"
+    },
     "error": {
         "ERR_SERVER_ERROR": "服务器内部错误",
         "ERR_PARAMS_ERROR": "参数错误",

@@ -296,7 +296,16 @@ export default Vue.extend({
         },
         onRefresh() {
             this.loadData(true);
-            this.otcGetMerchant();
+            if (this._isLogin) {
+                this.otcGetMerchant();
+            }
+        },
+        isLoginRouter(path?: string) {
+            if (!this._isLogin) {
+                this.$loginRoute(path);
+                return true;
+            }
+            return false;
         },
         scrollLoad(event: Event) {
             const scroll = (event.target as HTMLElement);
@@ -308,6 +317,7 @@ export default Vue.extend({
             }
         },
         showMoreHandle(showMore: boolean) {
+            if (this.isLoginRouter()) return;
             this.showMore = showMore;
             if (showMore) {
                 this.$overflowScrolling(false);
@@ -316,9 +326,11 @@ export default Vue.extend({
             }
         },
         goBusinessDetail(item: any) {
+            if (this.isLoginRouter()) return;
             this.$router.push(`/otc/business/detail?uid=${item.uid}`);
         },
         goTradeHandle(item: any) {
+            if (this.isLoginRouter()) return;
             if (!this._userInfo.pay_password) {
                 this.$dialog.confirm({
                     title: `${this.$t('common.poptip')}`,

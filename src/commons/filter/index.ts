@@ -359,6 +359,21 @@ Vue.filter('otcAppealType', (state: 1|2|3|4) => {
     return i18n.t(states[state]);
 });
 
+// 返佣类型 CommType
+Vue.filter('invitaCommTypeTeam', (state: 0|1|2|3) => {
+	// CommTypeTeam    = 0  //团队
+	// CommTypeFirst   = 1  //一级返佣 直推
+	// CommTypeSecond  = 2  //二级返佣 间推
+	// CommTypeThress  = 3  //三级返佣 间推
+    const states = {
+        0: 'invitation.commTypeTeam',
+        1: 'invitation.commTypeFirst',
+        2: 'invitation.commTypeSecond',
+        3: 'invitation.commTypeThress',
+    };
+    return i18n.t(states[state]);
+});
+
 // 语言类型
 Vue.filter('langType', (state: 'zh-CN'|'en-us') => {
     //"简体中文",             = 1 // 简体中文
