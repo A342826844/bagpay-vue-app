@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1, minimum-scale=1, user-scalable=no,viewport-fit=cover">
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
     <script src="./js/swiper.min.js"></script>
+    <script src="./js/country.js"></script>
     <link rel="stylesheet" href="./css/index.css">
     <link rel="stylesheet" href="./css/swiper.min.css">
     <title>Bag Pay 注册</title>
@@ -12,74 +13,94 @@
     <script src="https://lib.baomitu.com/vue/2.6.11/vue.js"></script>
     <script src="https://lib.baomitu.com/axios/0.21.0/axios.min.js"></script>
     <script src="./js/lang.js"></script>
+    <script src="./js/md5.min.js"></script>
+    <script src="./js/tool.js"></script>
 </head>
 <body class="body_container">
     <div id="app">
-        <div class="logo_box">
-            <img src="./img/logo.png" alt="" class="logo_img">
-        </div>
-    
-        <div class="white_bg_reg">
-            <div class="register-flex">
-                <h4 class="register-head">创建账号</h4>
-                <span class="primary-color">邮箱注册</span>
+        <div v-show="!showCountry" id="register">
+            <div class="logo_box">
+                <img src="./img/logo.png" alt="" class="logo_img">
             </div>
-            <form class="form">
-                <div class="register-flex input-item">
-                    <input class="register-input" value="" placeholder="昵称" />
-                    <span></span>
+
+            <div class="white_bg_reg">
+                <div class="register-flex">
+                    <h4 class="register-head">创建账号</h4>
+                    <span @click="type = (1 - type/1)" class="primary-color">{{type?'手机注册':'邮箱注册'}}</span>
                 </div>
-                <div class="register-flex input-item">
-                    <input class="register-input" value="" placeholder="手机号" />
-                    <span class="primary-color">+ 86</span>
-                </div>
-                <div class="register-flex input-item">
-                    <input class="register-input" value="" placeholder="图形码" />
-                    <img class="form-imgcode" src="" />
-                </div>
-                <div class="register-flex input-item">
-                    <input class="register-input" value="" placeholder="验证码" />
-                    <span class="primary-color">发送</span>
-                </div>
-                <div class="register-flex input-item">
-                    <input class="register-input" value="" placeholder="登录密码" />
-                    <span></span>
-                </div>
-                <div class="register-arg">注册及同意《<a class="primary-color" href="/register/protocol.index">BagPay用户协议</a>》</div>
-                <input class="form-submit primary-bg" type="submit" value="创建" />
-            </form>
+                <form @submit.prevent="loginHandle" class="form">
+                    <div class="register-flex input-item">
+                        <input type="text" class="register-input" v-model="form.nickname" autocomplete="username" placeholder="昵称" />
+                        <span></span>
+                    </div>
+                    <div v-show="!type" class="register-flex input-item">
+                        <input type="text" class="register-input" v-model="form.phone" autocomplete="username" placeholder="手机号" />
+                        <span @click="showCountryHandle" class="primary-color">+ {{activeCountry.tel}}</span>
+                    </div>
+                    <div v-show="type" class="register-flex input-item">
+                        <input type="email" class="register-input" v-model="form.email" autocomplete="username" placeholder="邮箱" />
+                    </div>
+                    <div class="register-flex input-item">
+                        <input type="text" class="register-input" v-model="form.imgCode" placeholder="图形码" />
+                        <img class="form-imgcode" :src="imgUrl" alt="" @click="getImg" />
+                    </div>
+                    <div class="register-flex input-item">
+                        <input type="text" class="register-input" v-model="form.code" placeholder="验证码" />
+                        <span class="primary-color" @click="sendHandle">{{codeTxt}}</span>
+                    </div>
+                    <div class="register-flex input-item">
+                        <input type="password" class="register-input" v-model="form.password" autocomplete="current-password" placeholder="登录密码" />
+                        <span></span>
+                    </div>
+                    <div class="register-arg">注册及同意《<a class="primary-color" href="/#/mine/protocol">BagPay用户协议</a>》</div>
+                    <input class="form-submit primary-bg" type="submit" value="创建" />
+                </form>
+            </div>
+        </div>
+        <div v-show="showCountry" id="country">
+            <div @click="selectCountry(item)" v-for="(item, index) in country" :key="index" class="row 0">
+                <span class="moblepre">+{{item.tel}}</span>
+                <span class="title">{{item.name}}</span>
+                <span class="value">({{item.en}})</span>
+                <img ref="active" v-if="activeCountry.tel === item.tel" src="./img/ok.png" class="is-active"></div>
         </div>
     </div>
     
     <script>
-        var browser = {
-            versions: function () {
-                var u = navigator.userAgent, app = navigator.appVersion;
-                return {//移动终端浏览器版本信息
-                trident: u.indexOf('Trident') > -1, //IE内核
-                presto: u.indexOf('Presto') > -1, //opera内核
-                webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
-                mobile: !!u.match(/AppleWebKit.*Mobile/i) || !!u.match(/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/), //是否为移动终端
-                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
-                iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
-                iPad: u.indexOf('iPad') > -1, //是否iPad
-                webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
-                };
-            } (),
-            // language: (navigator.browserLanguage || navigator.language).toLowerCase()
-        }
 
         new Vue({
             el:"#app",
             data: {
-                title: 'Bag Pay 下载',
-                loading1: false,
-                loading2: false,
-                type: 'Android IOS',
+                country,
+                activeCountry: {
+                    en: 'Kampuchea(Cambodia)',
+                    name: '柬埔寨',
+                    short: 'KH',
+                    tel: '855',
+                },
+                showCountry: false,
                 langMessage: langMessage,
-                lang: 'en-us'
+                lang: 'en-us',
+
+                loading: false,
+                imgUrl: '',
+                imgCode: '',
+                checked: true,
+                type: 0,
+                form: {
+                    code: '',
+                    nickname: '',
+                    phone: '',
+                    email: '',
+                    password: '',
+                    imgCode: '',
+                    invite_code: '',
+                },
+
+                isLoading: false,
+                codeTxt: '发送',
+                timer: null,
+                timeNum: 0,
             },
             created() {
                 var language = navigator.language.toLowerCase();
@@ -100,61 +121,155 @@
                 } else {
                     this.lang = 'en-us';
                 }
-            },
-            mounted() {
-                this.$nextTick(() => {
-                    var mySwiper = new Swiper ('.swiper-container', {
-                        autoplay: true,
-                        pagination: {
-                            el: '.swiper-pagination',
-                        },
-
-                    }) 
-                })
+                this.getImg();
+                this.form.invite_code = query.invite;
             },
             methods: {
-                androidDown() {
-                    if (this.loading1) return;
-                    this.loading1 = true;
-                    this.getUrl('android').then(res => {
-                        this.loading1 = false;
-                        this.downloadHandle(res.url);
-                    }).catch(() => {
-                        this.loading1 = false;
-                        this.downloadHandle('http://x100.oss-ap-southeast-1.aliyuncs.com/app/bagpay.apk');
-                    })
+                selectCountry(item) {
+                    this.activeCountry = item;
+                    this.showCountry = false;
                 },
-                getUrl(channel) {
-                            /* txt
-                    channel: [string] 渠道 ios,android
-                    version: [string] 版本
-                    build: [string] 构建号 */
-                    return axios.get('https://api.bagpay.io/app/version/check?channel='+channel).then(function(res) {
-                        return res.data.data;
-                    });
-                },
-                iosDown() {
-                    // console.log(browser.versions);
-                    if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
-                        if (this.loading2) return;
-                        this.loading2 = true;
-                        this.getUrl('ios').then(res => {
-                            window.location.href = res.url;
-                        }).catch(() => {
-                            this.loading2 = false;
-                        })
-                    } else {
+                loginHandle() {
+                    console.log(this);
+                    if (this.loading) return;
+                    const vfi = fromVfi([
+                        {
+                            type: 'empty',
+                            value: this.form.nickname,
+                            msg: '昵称',
+                        },
+                        {
+                            type: this.type ? 'email' : 'phone',
+                            value: this.type ? this.form.email : this.form.phone,
+                        },
+                        {
+                            type: 'empty',
+                            value: this.form.imgCode,
+                            msg: '图形验证码',
+                        },
+                        {
+                            type: 'code',
+                            value: this.form.code,
+                        },
+                        {
+                            type: 'pwd',
+                            value: this.form.password,
+                        },
+                    ]);
+                    console.log(vfi);
+                    if (vfi) {
+                        this.loading = true;
+                        this.postRegister({
+                            nickname: this.form.nickname,
+                            passport: this.type ? this.form.email : `${this.activeCountry.tel}-${this.form.phone}`,
+                            password: MD5(`${this.form.password}bagpaysol`),
+                            verification_code: this.form.code,
+                            invite_code: this.form.invite_code,
+                        }).then((res) => {
+                            if (res.code === 0) {
+                                normalToast('注册成功');
+                            } else if (res.code === 1) {
+                                normalToast(err.data);
+                            } else {
+                                normalToast('注册失败');
+                            }
+                        }).finally(() => {
+                            normalToast('注册失败');
+                            this.loading = false;
+                        });
                     }
                 },
-                downloadHandle(url) {
-                    let a = document.createElement('a');
-                    a.style.display = 'none';
-                    document.body.appendChild(a);
-                    a.download;
-                    a.href = url;
-                    a.click();
-                    document.body.removeChild(a);
-                }
+
+                sendHandle() {
+                    if (this.isLoading) return;
+                    if (this.timeNum > 0) return;
+                    if (!notEmpty(this.form.imgCode, '图形验证码')) return;
+                    if (this.verification()) {
+                        const data = {
+                            type: 1,
+                        };
+                        if (this.type === 0) {
+                            data.phone = `${this.activeCountry.tel}-${this.form.phone}`;
+                        } else if (this.type === 1) {
+                            data.email = this.form.email;
+                        }
+                        data.captcha = this.form.imgCode;
+                        data.captcha_id = this.imgCode;
+                        this.isLoading = true;
+                        this.apiHandle(data).then((res) => {
+                            if (res.code === 0) {
+                                this.timeNum = 60;
+                                this.timer = setInterval(() => {
+                                    this.timeNum -= 1;
+                                    if (this.timeNum === 0) {
+                                        this.codeTxt = `重发`;
+                                        clearInterval(this.timer);
+                                    } else {
+                                        this.codeTxt = `重发(${this.timeNum})`;
+                                    }
+                                }, 1000);
+                                this.$normalToast('发送成功');
+                                if (res.data && res.data.code) {
+                                    this.$dialog.alert({
+                                        title: '验证码',
+                                        message: res.data.code,
+                                    });
+                                }
+                            }
+                        }).finally(() => {
+                            this.isLoading = false;
+                        });
+                    }
+                },
+                verification() {
+                    console.log()
+                    if (this.type === 0 && phoneVfi(this.form.phone) ) return true;
+                    if (this.type === 1 && emailVfi(this.form.email)) return true;
+                    return false;
+                },
+                apiHandle(data) {
+                    if (this.type === 1) return this.registerCodeEmail(data);
+                    return this.registerCode(data);
+                },
+                showCountryHandle() {
+                    var that = this;
+                    this.showCountry = true;
+                    this.$nextTick(function(res) {
+                        if (that.$refs.active[0]) {
+                            that.$refs.active[0].scrollIntoView({ behavior: 'auto', block: 'center', inline: 'nearest' });
+                        }
+                    });
+                },
+                // 获取图片
+                getImg() {
+                    var that = this;
+                    this.getImages().then(function(res) {
+                            console.log(res, 'resd');
+                            that.form.imgCode = '';
+                            that.imgUrl = res.data.data;
+                            that.imgCode = res.data.id;
+                        });
+                },
+                getImages() {
+                    return axios.get('https://api.bagpay.io/verification-code/captcha').then(function(res) {
+                        return res.data;
+                    });
+                },
+                postRegister(data) {
+                    return axios.post('https://api.bagpay.io/user/sign-up', data).then(function(res) {
+                        return res.data;
+                    });
+                },
+                registerCodeEmail(data) {
+                    return axios.post('https://api.bagpay.io/verification-code/email/1', data).then(function(res) {
+                        return res.data;
+                    });
+                },
+                registerCode(data) {
+                    return axios.post('https://api.bagpay.io/verification-code/phone/1', data).then(function(res) {
+                        return res.data;
+                    });
+                },
             }
         })
     </script>

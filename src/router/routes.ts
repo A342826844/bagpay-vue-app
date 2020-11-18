@@ -134,6 +134,7 @@ const routes: Array<RouteConfig> = [
         meta: {
             noLogin: true,
             index: 1100,
+            hasWeb: true,
         },
     },
     {
