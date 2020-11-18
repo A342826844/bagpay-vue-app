@@ -313,6 +313,7 @@ export default Vue.extend({
             this.$dialog.alert({
                 title: `${this.$t('common.poptip')}`,
                 message: `${this.$t('otc.contactAppealing')}`,
+                confirmButtonText: `${this.$t('common.ok')}`,
             });
         },
         otcAppealByOrderId() {
@@ -389,6 +390,8 @@ export default Vue.extend({
             this.$dialog.confirm({
                 title: `${this.$t('otc.cancelPay')}`,
                 messageAlign: 'left',
+                confirmButtonText: `${this.$t('common.ok')}`,
+                cancelButtonText: `${this.$t('common.cancle2')}`,
                 message: `<div class="app-reset-diolog-message">
                     <span class="red-color">${this.$t('otc.noCancelPay')}</span>
                     <span>${this.$t('otc.cancelRule', { num: this.configCommon.OtcGlobalMaxCancel })}</span>
@@ -410,6 +413,8 @@ export default Vue.extend({
         releaseHandle() {
             this.$dialog.confirm({
                 title: `${this.$t('otc.releasePay')}`,
+                confirmButtonText: `${this.$t('common.ok')}`,
+                cancelButtonText: `${this.$t('common.cancle2')}`,
                 message: `<div class="app-reset-diolog-message">
                     <span class="red-color">${this.$t('otc.noReleasePay')}</span>
                 </div>`,
@@ -431,6 +436,8 @@ export default Vue.extend({
             this.$dialog.confirm({
                 title: `${this.$t('otc.payConfirm')}`,
                 messageAlign: 'left',
+                confirmButtonText: `${this.$t('common.ok')}`,
+                cancelButtonText: `${this.$t('common.cancle2')}`,
                 message: `<div class="app-reset-diolog-message">
                     <span>${this.$t('otc.confirmPay')}</span>
                     <span class="red-color">${this.$t('otc.maliciousClick')}</span>
@@ -452,6 +459,8 @@ export default Vue.extend({
         cancleAppealHandle() {
             this.$dialog.confirm({
                 title: `${this.$t('otc.confirmAppeal')}`,
+                confirmButtonText: `${this.$t('common.ok')}`,
+                cancelButtonText: `${this.$t('common.cancle2')}`,
                 message: `${this.$t('otc.noConfirmAppeal')}`,
             }).then(() => {
                 this.changeLoading(true);
@@ -471,6 +480,7 @@ export default Vue.extend({
             this.$dialog.alert({
                 title: `${this.$t('otc.opinions')}`,
                 message: suggest,
+                confirmButtonText: `${this.$t('common.ok')}`,
             });
         },
         showPayHandle() {
