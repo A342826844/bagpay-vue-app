@@ -1,0 +1,98 @@
+.html{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.body_container{
+    margin: 0;
+    padding: 0;
+    background: url(../img/bg.png) no-repeat;
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+}
+
+#app{
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    font-size: 16px;
+}
+
+.logo_box{
+    text-align: center;
+    width: 100%;
+    /* height: 32vw; */
+    padding-top: 30px;
+    padding-bottom: 20px;
+}
+
+.logo_img{
+    width: 24vw;
+    height: 36.48vw;
+    margin: 0 auto;
+}
+
+.primary-color{
+    color: #5894EE;
+}
+.primary-bg{
+    background-color: #5894EE;
+    color: #fff;
+}
+
+.white_bg_reg{
+    margin-left: 2vw;
+    margin-right: 2vw;
+    margin-bottom: 10vw;
+    background-color: white;
+    height: calc(100vh - 20% - 60px - 5vw - 20px);
+    min-height: 150vw;
+    border-radius: 10px;
+    padding: 6vw;
+}
+
+.register-flex{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.register-head{
+    color: #282828;
+    font-size: 22px;
+}
+.input-item{
+    box-sizing: border-box;
+    padding: 0 22px;
+    background-color: #F4F6F9;
+    margin-top: 15px;
+    border-radius: 5px;
+}
+.register-input{
+    border: none;
+    outline: none;
+    height: 50px;
+    flex: 1;
+    min-width: 125px;
+    background: transparent;
+}
+.register-arg{
+    margin-top: 34px;
+    margin-bottom: 14px;
+    font-size: 14px;
+    text-align: center;
+}
+.form-submit{
+    width: 100%;
+    height: 50px;
+    border: none;
+    outline: none;
+    margin-bottom: 28px;
+    font-size: 16px;
+}
+.form-imgcode{
+    width: auto;
+    height: 50PX;
+}

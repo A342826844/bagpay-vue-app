@@ -2,7 +2,6 @@ import { axiosOfJava, axiosOfGoLang } from './axios';
 
 // const baseURL = 'http://127.0.0.1:3000';
 const baseURL = process.env.VUE_APP_GOLANG_DEVURL;
-const javaBaseURL = 'http://192.168.10.157:8081';
 
 interface Config {
     formdata?: boolean;
@@ -20,7 +19,7 @@ export const getJava = (url: string, params?: object) => axiosOfJava({
     url,
     params,
     method: 'get',
-    baseURL: process.env.VUE_APP_SERVE_DEV === 'DEV' ? javaBaseURL : process.env.VUE_APP_JAVA_apiUrl,
+    baseURL: `${process.env.VUE_APP_SERVE_DEV === 'DEV' ? baseURL : process.env.VUE_APP_GOLANG_DEVURL}promotion`,
 });
 
 export const postJava = (url: string, data?: { [x: string]: any } | undefined, config: Config = {}) => {
@@ -32,7 +31,7 @@ export const postJava = (url: string, data?: { [x: string]: any } | undefined, c
         url,
         data: formdata || data,
         method: 'post',
-        baseURL: process.env.VUE_APP_SERVE_DEV === 'DEV' ? javaBaseURL : process.env.VUE_APP_JAVA_apiUrl,
+        baseURL: `${process.env.VUE_APP_SERVE_DEV === 'DEV' ? baseURL : process.env.VUE_APP_GOLANG_DEVURL}promotion`,
         ...config,
     });
 };
