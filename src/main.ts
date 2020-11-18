@@ -4,6 +4,8 @@ import md5 from 'md5';
 import { Store } from 'vuex';
 import 'lib-flexible';
 
+import 'swiper/swiper-bundle.css';
+
 import * as Api from '@/api/index.ts';
 import verification, { hasBindValue } from '@/utils/verification.ts';
 import Headers from '@/components/headers/index.vue';
@@ -38,6 +40,7 @@ declare module 'vue/types/vue' {
         $verification: any;
         $hasBindValue: Function;
         $app_mark: string;
+        $invitationUrl: string;
         _userInfo: any;
         _configCommon: any;
         _loading: boolean;
@@ -143,6 +146,7 @@ Vue.prototype.$md5 = md5;
 Vue.prototype.$verification = verification;
 Vue.prototype.$hasBindValue = hasBindValue;
 Vue.prototype.$app_mark = process.env.VUE_APP_MARK;
+Vue.prototype.$invitationUrl = `${process.env.VUE_APP_ORIGIN_URL}/register`; // 邀请链接
 
 new Vue({
     router,

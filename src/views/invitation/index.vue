@@ -53,6 +53,7 @@
                 <NoData v-if="!_loading && !list.length"/>
             </ul>
         </div>
+        <!-- 底部两个按钮 -->
         <div class="lxa-footer-bottom app-size-34 flex-around-c app-padding40">
             <!-- <Button size="auto">
                 <img class="app-img-50" src="../../assets/img/common/ercode1.png" alt="">
@@ -62,7 +63,7 @@
                     v-for="item in buttons1"
                     :key="item.value"
                     size="medium"
-                    @click="clickHandle(item.value)"
+                    @click="btnsClickHandle(item.value)"
                     :type="item.type"
                     v-t="item.title"
                 ></Button>
@@ -78,6 +79,7 @@
                 ></Button>
             </template>
         </div>
+        <!-- 一级合伙人选择按钮 -->
         <V-Popup
             position="bottom"
             :overlay-style="{ background: 'rgba(62, 62, 62, 0.3)' }"
@@ -89,35 +91,38 @@
                     v-for="item in buttons1"
                     :key="item.value"
                     size="medium"
-                    @click="clickHandle(item.value)"
+                    @click="btnsClickHandle(item.value)"
                     :type="item.type"
                     v-t="item.title"
                 ></Button>
             </div>
         </V-Popup>
+        <!-- 海报弹框 -->
         <van-dialog closeOnClickOverlay class="invitation-ercode-dialog" v-model="erCodeShow" :show-confirm-button="false">
             <div class="ercode-box">
-                <div class="ercode">
-                    <img
-                        class="ercode-bg"
-                        src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2850686694,651598194&fm=26&gp=0.jpg" alt="">
-                    <div class="ercode-bottom flex-between-c">
-                        <div class=" text-align-l">
-                            <p class="ercode-lable">邀请码</p>
-                            <h4 class="ercode-code">{{extUserData.invitCode}}</h4>
+                <swiper v-if="posterList.length" :options="swiperOption">
+                    <swiper-slide v-for="item in posterList" :key="item.id">
+                        <div ref="ercode" class="ercode">
+                            <img class="ercode-bg" :src="item.img" alt="">
+                            <div class="ercode-bottom flex-between-c">
+                                <div class=" text-align-l">
+                                    <p class="ercode-lable">邀请码</p>
+                                    <h4 class="ercode-code">{{invitCode}}</h4>
+                                </div>
+                                <QrcodeVue :size="68" :value="`${$invitationUrl}/invit=${invitCode}`"></QrcodeVue>
+                            </div>
                         </div>
-                        <QrcodeVue :size="68" :value="extUserData.invitCode"></QrcodeVue>
-                    </div>
-                </div>
+                    </swiper-slide>
+                </swiper>
             </div>
-            <div class="flex-around-c">
+            <div class=" flex-around-c">
                 <Button
                     v-for="item in buttons"
                     :key="item.value"
                     @click="clickHandle(item.value)"
                     :type="item.type"
                     class="ercode-btn"
-                    size="medium"
+                    size="small"
                     v-t="item.title"></Button>
             </div>
         </van-dialog>
@@ -127,11 +132,14 @@
 <script lang="ts">
 import Vue from 'vue';
 import QrcodeVue from 'qrcode.vue';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+import html2canvas from 'html2canvas';
 import LiItem from './components/Li-item.vue';
 
 const v1 = require('../../assets/img/invitation/v1.png');
 const v2 = require('../../assets/img/invitation/v2.png');
 const v3 = require('../../assets/img/invitation/v3.png');
+const p1 = require('../../assets/img/invitation/p1.jpg');
 
 type data = {
     erCodeShow: boolean;
@@ -139,11 +147,13 @@ type data = {
     buttons: Array<any>;
     buttons1: Array<any>;
     buttons2: Array<any>;
+    posterList: Array<any>;
     list: Array<any>;
     extUserData: any;
+    swiperOption: any;
     secondInfo: any;
     thressInfo: any;
-    partnerType: any;
+    invitCode: any;
     breadLeave: 0 | 1 | 2;
 }
 
@@ -152,17 +162,23 @@ export default Vue.extend({
     components: {
         LiItem,
         QrcodeVue,
+        Swiper,
+        SwiperSlide,
     },
     data(): data {
         return {
             erCodeShow: false,
             showSelect: false,
             extUserData: {},
+            posterList: [{ img: p1 }, { img: p1 }],
             list: [],
-            partnerType: '',
+            invitCode: '',
             breadLeave: 0, // 显示 团队等级邀请数据 0: 显示直推 2: 显示二级推广用户 3: 显示三级推广用户
             secondInfo: {},
             thressInfo: {},
+            swiperOption: {
+                spaceBetween: 30,
+            },
             buttons: [
                 {
                     title: 'common.save',
@@ -191,12 +207,12 @@ export default Vue.extend({
                 {
                     title: 'invitation.commonInvit',
                     type: 'up',
-                    value: 'link',
+                    value: 'common',
                 },
                 {
                     title: 'invitation.partnerInvit',
                     type: 'down',
-                    value: 'poster',
+                    value: 'partner',
                 },
             ],
         };
@@ -232,11 +248,30 @@ export default Vue.extend({
     },
     methods: {
         clickHandle(value: string) {
-            console.log(value);
             this.erCodeShow = !this.erCodeShow;
+            if (value === 'save') {
+                this.saveHandle();
+                return;
+            }
+            this.shareHandle();
         },
-        partnerSelect(item: any) {
-            this.partnerType = item.value;
+        // 复制链接和显示海报
+        btnsClickHandle(value: any) {
+            if (!this.extUserData.invitCode) return;
+            this.showSelect = false;
+            if (value === 'link') {
+                this.$copyText(`${this.$invitationUrl}/invit=${this.invitCode}`);
+                return;
+            }
+            this.erCodeShow = true;
+        },
+        partnerSelect(value: string) {
+            if (!this.extUserData.invitCode) return;
+            if (value === 'common') {
+                this.invitCode = this.extUserData.invitCode;
+            } else {
+                this.invitCode = this.extUserData.partnerInviteCode;
+            }
             this.showSelect = true;
         },
         loadData() {
@@ -247,9 +282,52 @@ export default Vue.extend({
         },
         getExtUser() {
             return this.$api.getExtUser().then((res: any) => {
-                console.log(res);
                 this.extUserData = res.data;
+                this.invitCode = this.extUserData.invitCode;
             });
+        },
+        html2CanvasHnadle() {
+            this.changeLoading(true);
+            const erCodeDom = (this.$refs.ercode as any)[0];
+            return html2canvas((erCodeDom as HTMLElement)).then((canvas: HTMLCanvasElement) => canvas.toDataURL('image/png'));
+        },
+        saveHandle() {
+            this.html2CanvasHnadle().then((res: any) => {
+                this.$saveImg(res, () => {
+                    this.$normalToast(`${this.$t('common.saveSuccess')}`, 1000);
+                }, () => {
+                    this.$normalToast(this.$t('common.saveFail'), 1000);
+                });
+            });
+        },
+        shareHandle() {
+            this.html2CanvasHnadle().then((res: any) => {
+                this.shareDataHandle(res);
+            });
+        },
+        shareDataHandle(base64: string) {
+            try {
+                this.$saveImg(base64, (url: string) => {
+                    this.changeLoading(false);
+                    if (this.$route.name !== 'invitation') return;
+                    this.$shareDataHandle({
+                        type: 'image',
+                        pictures: [url],
+                        title: '',
+                    }, () => {
+                        console.log(url, 'url');
+                        // that.$normalToast(that.$t('invitauser.invitationSuccess'), 1000);
+                    }, () => {
+                        this.$normalToast(this.$t('common.invitationFail'), 1000);
+                    });
+                }, () => {
+                    this.$normalToast(this.$t('common.invitationFail'), 1000);
+                    this.changeLoading(false);
+                });
+            } catch (e) {
+                this.changeLoading(false);
+                this.$normalToast(this.$t('common.invitationFail'), 1000);
+            }
         },
         getExtChildren(userId?: number) {
             const params = {
@@ -354,18 +432,21 @@ export default Vue.extend({
         background: #fff0;
         // padding: 20px 15px;
         .ercode-box{
-            max-width: 625px;
-            max-height: 1147px;
-            margin: 45px auto 62px;
+            width: 555px;
+            // max-height: 800px;
+            margin: 130px auto 62px;
             padding: 20px 15px;
             background: #fff;
             box-shadow: 0px 9px 21px 0px rgba(112, 145, 255, 0.2);
             border-radius: 20px;
             .ercode{
                 position: relative;
+                width: 525px;
+                margin: auto;
             }
             .ercode-bg{
-                width: 100%;
+                width: 525px;
+                // height: 1200px;
             }
             .ercode-bottom{
                 position: absolute;
