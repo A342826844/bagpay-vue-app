@@ -291,7 +291,10 @@
         "deposit": "Deposit",
         "floatingPrice": "Floating price",
         "fixedPrice": "Fixed price",
-
+        "remark": "Remark",
+        "maxTrade": "Max Trade ",
+        "minAmount": "Single item minimum ",
+        "payAmount": "Payment Amount",
         "totalTurnover": "total turnover",
         "total": "Total",
         "min": "Min",

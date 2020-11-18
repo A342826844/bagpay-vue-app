@@ -15,19 +15,19 @@
                         <p class="otc-submit-pay">{{ orderDetail.pay_types | payType}}</p>
                     </div>
                     <div class="text-align-r">
-                        <p class="lable">单价</p>
+                        <p class="lable">{{$t('otc.unitPrice')}}</p>
                         <h6 class="app-size-34 primary-color otc-submit-price">{{ orderDetail.price }}</h6>
                     </div>
                 </div>
                 <div class="flex-between-c app-padding40 app-margin-t40">
                     <div class="text-align-l">
-                        <p class="lable">数量({{orderDetail.coin && orderDetail.coin.toUpperCase()}})</p>
+                        <p class="lable">{{$t('otc.num')}}({{orderDetail.coin && orderDetail.coin.toUpperCase()}})</p>
                         <h6 class="app-size-34 otc-submit-price">
                             {{ Number((orderDetail.total - orderDetail.filled - orderDetail.frozen).toFixed(4)) }}
                         </h6>
                     </div>
                     <div class="text-align-r">
-                        <p class="lable">限额</p>
+                        <p class="lable">{{$t('otc.quota')}}</p>
                         <h6 class="app-size-34 otc-submit-price">{{_unitIcon}}{{orderDetail.min_value}}~{{orderDetail.max_value}}</h6>
                     </div>
                 </div>
@@ -35,26 +35,26 @@
                     <div class="border-b "></div>
                 </div>
                 <div class="text-align-l otc-submit-mark app-padding40">
-                    <p class="lable">备注</p>
+                    <p class="lable">{{$t('otc.remark')}}</p>
                     <div class="otc-submit-num">
                         {{ orderDetail.remark }}
                     </div>
                 </div>
             </div>
             <form class="otc-submit-form app-padding40 text-align-l app-size-34">
-                <div class="form-lable">{{ orderDetail.type | orderSideType}}数量</div>
+                <div class="form-lable">{{ orderDetail.type | orderSideType}}{{$t('otc.num')}}</div>
                 <input
                     class="form-input app-padding40"
                     :decimal="2"
-                    :placeholder="`最大交易${maxTip} ${orderDetail.coin && orderDetail.coin.toUpperCase()}`"
+                    :placeholder="`${$t('otc.maxTrade')}${maxTip} ${orderDetail.coin && orderDetail.coin.toUpperCase()}`"
                     v-model="form.amount"
                     @input="inputAmount('amount')"
                 />
-                <div class="form-lable">支付金额</div>
+                <div class="form-lable">{{$t('otc.payAmount')}}</div>
                 <input
                     class="form-input app-padding40"
                     decimal
-                    :placeholder="`单笔最低${minTip} ${_unitIcon}`"
+                    :placeholder="`${$t('otc.minAmount')}${minTip} ${_unitIcon}`"
                     v-model="form.value"
                     @input="inputAmount('value')"
                 />
@@ -62,18 +62,18 @@
             <div>
                 <Poptip>
                     <PoptipItem>
-                        为保障资金安全，当您账户安全策略变更、密码修改、我们会对提币进行人工审核，请耐心等待工作人员电话或邮件联系。
+                        {{$t('business.vfiBusTip1')}}
                     </PoptipItem>
                     <PoptipItem>
-                        请务必确认电脑及浏览器安全，防止信息被篡改或泄露。
+                        {{$t('business.vfiBusTip2')}}
                     </PoptipItem>
                 </Poptip>
             </div>
         </TitleHeader>
         <user-auth ref="UserAuth" :type="10" @save="saveHandle"></user-auth>
         <div class="otc-submit-btn custom-footer app-size-34 flex-around-c">
-            <Button :radius="false" @click="$router.go(-1)" type="cancel">取消（{{download}} s）</Button>
-            <Button :radius="false" @click="submitHandle" :disabled="!form.amount || !form.value" type="up">确定</Button>
+            <Button :radius="false" @click="$router.go(-1)" type="cancel">{{$t('common.cancle2')}}（{{download}} s）</Button>
+            <Button :radius="false" @click="submitHandle" :disabled="!form.amount || !form.value" type="up">{{$t('common.ok')}}</Button>
         </div>
     </div>
 </template>

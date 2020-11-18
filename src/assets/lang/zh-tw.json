@@ -358,6 +358,10 @@
         "icePhone": "緊急聯繫人電話",
         "deposit": "繳納保證金",
         "floatingPrice": "浮動價格",
+        "remark": "備註",
+        "maxTrade": "最大交易",
+        "minAmount": "單筆最低",
+        "payAmount": "支付金額",
         "fixedPrice": "固定價格"
     },
     "business": {
