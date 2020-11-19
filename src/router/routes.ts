@@ -190,6 +190,14 @@ const routes: Array<RouteConfig> = [
         },
     },
     {
+        path: '/transfer/payment',
+        name: 'transferpayment',
+        component: TransferOut,
+        meta: {
+            index: 100,
+        },
+    },
+    {
         path: '/addrList',
         name: 'addrList',
         component: AddrList,

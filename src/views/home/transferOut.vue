@@ -1,7 +1,12 @@
 <template>
     <div class="transfer-out">
-        <TitleHeader :title="`${symbol.toUpperCase()} ${$t('payment.transferOut')}`">
-            <!-- <img class="transfer-out-qrcode" slot="header" src="../../assets/img/common/qrcode1.png" alt=""> -->
+        <TitleHeader :title="title">
+            <img
+                class="transfer-out-qrcode"
+                @click="$router.push(`/scanQRCode`)"
+                slot="header"
+                src="../../assets/img/common/qrcode1.png" alt=""
+            >
             <form class="transfer-out-form app-padding40">
                 <div class="form-item">
                     <div class="lable" v-t="'payment.chequesAddr'"></div>
@@ -19,7 +24,7 @@
                         <img class="app-img-50"
                             src="@/assets/img/home/assets.png"
                             @click="$router.push({
-                                path: 'addrList',
+                                path: '/addrList',
                                 query: {
                                     symbol: symbol,
                                     needMemo: charge.need_memo
@@ -60,6 +65,10 @@
             </Poptip>
         </TitleHeader>
         <div class="lxa-footer-btn">
+            <p class="app-padding40 flex-between-c">
+                <span>实际到账</span>
+                <span class=" primary-color">{{`${actualValue}  ${symbol.toUpperCase()}`}}</span>
+            </p>
             <Button @click="auth" v-t="'common.ok'" :disabled="!form.address || (charge.need_memo === 1 && !form.memo) || !form.value"></Button>
         </div>
         <user-auth ref="UserAuth" :type="8" @save="saveHandle"></user-auth>
@@ -110,13 +119,31 @@ export default Vue.extend({
         address() {
             return this.$store.state.address;
         },
+        // 实际到账
+        actualValue(): string {
+            const value = Number(this.form.value) - this.charge.out_fee;
+            if (value && value > 0) return value.toFixed(this.charge.decimal);
+            return (0).toFixed(this.charge.decimal);
+        },
+        title(): any {
+            if (this.$route.name === 'transferpayment') {
+                return `${this.symbol && this.symbol.toUpperCase()} 付款`;
+            }
+            return '收款';
+        },
     },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
-            vm.initAddress();
-            if (from.name !== 'addrList') {
-                vm.initParams();
+            if (from.name === 'addrList') {
+                vm.initAddress();
+                return;
             }
+            if (from.name === 'scanQRCode') {
+                // eslint-disable-next-line no-param-reassign
+                vm.form.address = vm.$store.state.qrcodeResult || '';
+                return;
+            }
+            vm.initParams();
         });
     },
     methods: {
