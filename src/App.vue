@@ -41,8 +41,6 @@ export default Vue.extend({
         };
     },
     created() {
-        console.log(this.$route);
-        console.log(location);
         if (location.href.indexOf('/mine/protocol') !== -1) return;
         if (localStorage.getItem('isinit') && this._isLogin) {
             // if (process.env.NODE_ENV === 'production') {

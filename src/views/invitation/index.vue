@@ -109,7 +109,7 @@
                                     <p class="ercode-lable">邀请码</p>
                                     <h4 class="ercode-code">{{invitCode}}</h4>
                                 </div>
-                                <QrcodeVue :size="68" :value="`${$invitationUrl}/invit=${invitCode}`"></QrcodeVue>
+                                <QrcodeVue :size="68" :value="`${$invitationUrl}/?invit=${invitCode}`"></QrcodeVue>
                             </div>
                         </div>
                     </swiper-slide>
@@ -260,7 +260,7 @@ export default Vue.extend({
             if (!this.extUserData.invitCode) return;
             this.showSelect = false;
             if (value === 'link') {
-                this.$copyText(`${this.$invitationUrl}/invit=${this.invitCode}`);
+                this.$copyText(`${this.$invitationUrl}/?invit=${this.invitCode}`);
                 return;
             }
             this.erCodeShow = true;
@@ -315,7 +315,6 @@ export default Vue.extend({
                         pictures: [url],
                         title: '',
                     }, () => {
-                        console.log(url, 'url');
                         // that.$normalToast(that.$t('invitauser.invitationSuccess'), 1000);
                     }, () => {
                         this.$normalToast(this.$t('common.invitationFail'), 1000);

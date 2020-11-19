@@ -19,7 +19,7 @@ export const getJava = (url: string, params?: object) => axiosOfJava({
     url,
     params,
     method: 'get',
-    baseURL: `${process.env.VUE_APP_SERVE_DEV === 'DEV' ? baseURL : process.env.VUE_APP_GOLANG_DEVURL}promotion`,
+    baseURL: `${process.env.VUE_APP_SERVE_DEV === 'DEV' ? baseURL : process.env.VUE_APP_GOLANG_DEVURL}/promotion`,
 });
 
 export const postJava = (url: string, data?: { [x: string]: any } | undefined, config: Config = {}) => {
@@ -31,7 +31,7 @@ export const postJava = (url: string, data?: { [x: string]: any } | undefined, c
         url,
         data: formdata || data,
         method: 'post',
-        baseURL: `${process.env.VUE_APP_SERVE_DEV === 'DEV' ? baseURL : process.env.VUE_APP_GOLANG_DEVURL}promotion`,
+        baseURL: `${process.env.VUE_APP_SERVE_DEV === 'DEV' ? baseURL : process.env.VUE_APP_GOLANG_DEVURL}/promotion`,
         ...config,
     });
 };

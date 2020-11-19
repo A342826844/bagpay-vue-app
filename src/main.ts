@@ -146,7 +146,7 @@ Vue.prototype.$md5 = md5;
 Vue.prototype.$verification = verification;
 Vue.prototype.$hasBindValue = hasBindValue;
 Vue.prototype.$app_mark = process.env.VUE_APP_MARK;
-Vue.prototype.$invitationUrl = `${process.env.VUE_APP_ORIGIN_URL}/register`; // 邀请链接
+Vue.prototype.$invitationUrl = `${process.env.NODE_ENV === 'production' ? process.env.VUE_APP_ORIGIN_URL : location.origin}/register`; // 邀请链接
 
 new Vue({
     router,

@@ -130,7 +130,6 @@
                     this.showCountry = false;
                 },
                 loginHandle() {
-                    console.log(this);
                     if (this.loading) return;
                     const vfi = fromVfi([
                         {
@@ -156,7 +155,6 @@
                             value: this.form.password,
                         },
                     ]);
-                    console.log(vfi);
                     if (vfi) {
                         this.loading = true;
                         this.postRegister({
@@ -168,6 +166,7 @@
                         }).then((res) => {
                             if (res.code === 0) {
                                 normalToast('注册成功');
+                                location.replace('/download/');
                             } else if (res.code === 1) {
                                 normalToast(err.data);
                             } else {
@@ -222,7 +221,6 @@
                     }
                 },
                 verification() {
-                    console.log()
                     if (this.type === 0 && phoneVfi(this.form.phone) ) return true;
                     if (this.type === 1 && emailVfi(this.form.email)) return true;
                     return false;
@@ -244,7 +242,6 @@
                 getImg() {
                     var that = this;
                     this.getImages().then(function(res) {
-                            console.log(res, 'resd');
                             that.form.imgCode = '';
                             that.imgUrl = res.data.data;
                             that.imgCode = res.data.id;

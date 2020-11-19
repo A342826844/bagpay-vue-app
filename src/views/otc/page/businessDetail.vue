@@ -271,7 +271,6 @@ export default Vue.extend({
         },
         otcMerchantStat() {
             return this.$api.otcMerchantStat(this.uid).then((res: any) => {
-                console.log(res);
                 this.merchantInfo = res.data;
             });
         },

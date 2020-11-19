@@ -54,7 +54,6 @@ export default Vue.extend({
     },
     methods: {
         init(userId: number, userName: string) {
-            console.log('init');
             this.userName = userName;
             this.userId = userId;
             this.list = [];

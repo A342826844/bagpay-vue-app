@@ -68,7 +68,6 @@ export default Vue.extend({
     },
     created() {
         this.activeSymbol = this.$route.query;
-        console.log(this.activeSymbol);
         if (!this.activeSymbol.id) {
             this.getCoinBalances();
         }
