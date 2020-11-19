@@ -118,7 +118,7 @@ export default Vue.extend({
         scrollLoad(event: Event) {
             const scroll = (event.target as HTMLElement);
             const { scrollTop, scrollHeight, clientHeight } = scroll;
-            if ((clientHeight + scrollTop > scrollHeight - 50) && (clientHeight + scrollTop !== scrollHeight) && !this.loadMore && !this.isEnd) {
+            if ((clientHeight + scrollTop > scrollHeight - 100) && (clientHeight + scrollTop !== scrollHeight) && !this.loadMore && !this.isEnd) {
                 this.loadMore = true;
                 this.loadData();
             }

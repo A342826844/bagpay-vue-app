@@ -34,6 +34,13 @@
                                 <div class="lable" v-t="'otc.num'"></div>
                                 <div class="value">{{ orderDetail.amount }} {{orderDetail.coin | toUpperCase}}</div>
                             </div>
+                            <div class="flex-between-c list-item-2">
+                                <div class="lable" v-t="'common.fee'"></div>
+                                <div class="value">
+                                    {{ orderDetail.taker_id == _userInfo.id ? orderDetail.taker_fee : orderDetail.maker_fee }}
+                                    {{orderDetail.coin | toUpperCase}}
+                                </div>
+                            </div>
                         </li>
                         <li class="app-padding40">
                             <div class="flex-between-c">

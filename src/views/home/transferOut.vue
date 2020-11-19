@@ -129,7 +129,7 @@ export default Vue.extend({
             if (this.$route.name === 'transferpayment') {
                 return `${this.symbol && this.symbol.toUpperCase()} 付款`;
             }
-            return '收款';
+            return '转账';
         },
     },
     beforeRouteEnter(to, from, next) {

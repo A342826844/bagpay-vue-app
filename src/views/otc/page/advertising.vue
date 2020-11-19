@@ -19,9 +19,10 @@
                 <form @submit.prevent="" class="otc-advertising-form app-size-34" action="">
                     <div class="form-item">
                         <Select @click="$router.push(`/choisesymbol?symbol=${formTemp['form'+item.type].coin}&type=1`)">
-                            <IconImg class="app-img-50 form-item-start" :symbol="formTemp['form'+item.type].coin"/>
-                            <span class="form-item-select-coin vertical-m">
-                                {{formTemp['form'+item.type].coin && formTemp['form'+item.type].coin.toUpperCase()}}
+                            <span class=" form-item-start">
+                                <IconImg class="app-img-50" :symbol="formTemp['form'+item.type].coin"/>
+                            </span>
+                            <span class="vertical-m">{{formTemp['form'+item.type].coin && formTemp['form'+item.type].coin.toUpperCase()}}
                             </span>
                         </Select>
                     </div>
@@ -46,7 +47,11 @@
                         </Inputs>
                     </div>
                     <div class="form-item">
-                        <Inputs :decimal="2" v-model="formTemp[`form${item.type}`].amount" :placeholder="`${item.title}${$t('otc.num')}`">
+                        <Inputs
+                            :decimal="coinInfo.decimal"
+                            v-model="formTemp[`form${item.type}`].amount"
+                            :placeholder="`${item.title}${$t('otc.num')}`"
+                        >
                             <span class="form-item-start" slot="start" v-t="'otc.num'"></span>
                             {{coinSHow}}
                         </Inputs>
@@ -54,6 +59,12 @@
                     <div class="form-item">
                         <Inputs readonly :value="total || $t('otc.total')">
                             <span class="form-item-start" slot="start">{{$t('otc.total')}}</span>
+                            {{_unitIcon}}
+                        </Inputs>
+                    </div>
+                    <div class="form-item">
+                        <Inputs readonly :value="feeValue || $t('otc.total')">
+                            <span class="form-item-start" slot="start">手续费</span>
                             {{_unitIcon}}
                         </Inputs>
                     </div>
@@ -95,9 +106,9 @@
                     </div>
                 </form>
                 <Poptip>
-                    <!-- <PoptipItem>
-                        单个发布广告买入/卖出数量限制 0.01~1000 {{coinSHow}}
-                    </PoptipItem> -->
+                    <PoptipItem>
+                        发布广告手续: {{coinInfo.otc_fee * 100}} %
+                    </PoptipItem>
                     <PoptipItem>
                         {{$t('otc.advTip1')}}
                     </PoptipItem>
@@ -230,6 +241,13 @@ export default Vue.extend({
         bankInfo(): any {
             return this.$store.state.bankInfo;
         },
+        feeValue(): string {
+            const { otc_fee } = this.coinInfo;
+            if (Number(this.total)) {
+                return (Number(this.total) * otc_fee).toFixed(this.coinInfo.decimal);
+            }
+            return (0).toFixed(this.coinInfo.decimal);
+        },
         typeKey(): 'form1'| 'form2' {
             return (`form${this.type}` as 'form1'| 'form2');
         },
@@ -289,7 +307,6 @@ export default Vue.extend({
             if (this.type === 1) {
                 this.payPopup = !this.payPopup;
             } else {
-                //  TODO: 跳收款方式
                 this.$router.push(`/payway/select?id=${this.bankInfo.id}`);
             }
         },
@@ -313,6 +330,7 @@ export default Vue.extend({
             this.formTemp.form2.remark = '';
         },
         submitHandle() {
+            console.log(this.coinInfo);
             if (!Number(this.formTemp[this.typeKey].price)) {
                 this.$normalToast(this.$t('otc.enterPrice'));
                 return;
@@ -417,6 +435,9 @@ export default Vue.extend({
             }
             &-start{
                 margin-right: 60px;
+                display: inline-block;
+                min-width: 100px;
+                text-align: left;
             }
             &-show{
                 height: 100px;

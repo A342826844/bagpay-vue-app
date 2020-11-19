@@ -253,7 +253,7 @@ export default Vue.extend({
             const scroll = (event.target as HTMLElement);
             const { scrollTop, scrollHeight, clientHeight } = scroll;
             const isEnd = this.renderData[this.side][this.activeSymbol].length >= this.paramsData[this.side][this.activeSymbol];
-            if ((clientHeight + scrollTop > scrollHeight - 50) && (clientHeight + scrollTop !== scrollHeight) && !this.loadMore && !isEnd) {
+            if ((clientHeight + scrollTop > scrollHeight - 100) && (clientHeight + scrollTop !== scrollHeight) && !this.loadMore && !isEnd) {
                 this.loadMore = true;
                 this.loadData();
             }

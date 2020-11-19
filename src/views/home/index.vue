@@ -118,7 +118,6 @@ type data = {
         available: number;
         transfer: number;
     }>;
-    applicationList: Array<appItem>;
 
 }
 
@@ -145,55 +144,6 @@ export default Vue.extend({
                     disableOnInteraction: false,
                 },
             },
-            applicationList: [
-                {
-                    link: '',
-                    isDev: true,
-                    img: tranfer,
-                    value: 'tranfer',
-                    needLogin: true,
-                    title: '转账',
-                },
-                {
-                    link: '',
-                    isDev: true,
-                    img: financial,
-                    value: 'financial',
-                    needLogin: true,
-                    title: '理财',
-                },
-                {
-                    link: '',
-                    isDev: true,
-                    img: news,
-                    value: 'news',
-                    needLogin: true,
-                    title: '资讯',
-                },
-                {
-                    link: '/invitation',
-                    img: invita,
-                    value: 'invita',
-                    needLogin: true,
-                    title: '邀请',
-                },
-                {
-                    link: '',
-                    isDev: true,
-                    img: cost,
-                    value: 'cost',
-                    needLogin: true,
-                    title: '生活缴费',
-                },
-                {
-                    link: '',
-                    isDev: true,
-                    img: allApp,
-                    value: 'allApp',
-                    needLogin: true,
-                    title: '全部',
-                },
-            ],
         };
     },
     computed: {

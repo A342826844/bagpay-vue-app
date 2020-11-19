@@ -43,8 +43,7 @@ export default Vue.extend({
         return {
             applicationList: [
                 {
-                    link: '',
-                    isDev: true,
+                    link: '/transferout?symbol=usdt',
                     img: tranfer,
                     value: 'tranfer',
                     needLogin: true,
@@ -105,6 +104,10 @@ export default Vue.extend({
                     title: `${this.$t('common.poptip')}`,
                     message: `${this.$t('common.isdev')}`,
                 });
+                return;
+            }
+            if (item.needLogin && !this._isLogin) {
+                this.$loginRoute(item.link);
                 return;
             }
             this.$router.push(item.link);

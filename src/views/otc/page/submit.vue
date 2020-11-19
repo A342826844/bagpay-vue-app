@@ -62,6 +62,9 @@
             <div>
                 <Poptip>
                     <PoptipItem>
+                        下单手续: {{coinInfo.otc_fee * 100}} %
+                    </PoptipItem>
+                    <PoptipItem>
                         {{$t('business.vfiBusTip1')}}
                     </PoptipItem>
                     <PoptipItem>
@@ -71,9 +74,15 @@
             </div>
         </TitleHeader>
         <user-auth ref="UserAuth" :type="10" @save="saveHandle"></user-auth>
-        <div class="otc-submit-btn custom-footer app-size-34 flex-around-c">
-            <Button :radius="false" @click="$router.go(-1)" type="cancel">{{$t('common.cancle2')}}（{{download}} s）</Button>
-            <Button :radius="false" @click="submitHandle" :disabled="!form.amount || !form.value" type="up">{{$t('common.ok')}}</Button>
+        <div class="otc-submit-btn custom-footer">
+            <p class="flex-between-c fee app-padding40">
+                <span>手续费: </span>
+                <span class=" primary-color">{{feeValue + (orderDetail.coin && orderDetail.coin.toUpperCase())}}</span>
+            </p>
+            <div class="flex-between-c app-size-34">
+                <Button :radius="false" @click="$router.go(-1)" type="cancel">{{$t('common.cancle2')}}（{{download}} s）</Button>
+                <Button :radius="false" @click="submitHandle" :disabled="!form.amount || !form.value" type="up">{{$t('common.ok')}}</Button>
+            </div>
         </div>
     </div>
 </template>
@@ -146,7 +155,14 @@ export default Vue.extend({
             return (this as any).orderDetail.min_value;
         },
         coinInfo(): CoinInfo {
-            return this.$store.getters.getCoinInfo('usdt');
+            return this.$store.getters.getCoinInfo(this.orderDetail.coin);
+        },
+        feeValue(): string {
+            const { otc_fee } = this.coinInfo;
+            if (Number(this.form.amount)) {
+                return (Number(this.form.amount) * otc_fee).toFixed(this.coinInfo.decimal);
+            }
+            return (0).toFixed(this.coinInfo.decimal);
         },
     },
     methods: {
@@ -308,6 +324,12 @@ export default Vue.extend({
         position: fixed;
         bottom: 0;
         width: 100%;
+        .fee{
+            background: #ffffff;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            font-size: 16px;
+        }
     }
 }
 </style>

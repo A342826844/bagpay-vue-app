@@ -13,6 +13,7 @@
         "currency": "币种",
         "price": "价格",
         "premium": "溢价率",
+        "fee": "手续费",
         "article": "文章",
         "notice": "公告",
         "exitProgram": "再按一次退出程序",
