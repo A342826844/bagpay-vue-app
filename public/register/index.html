@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1, minimum-scale=1, user-scalable=no,viewport-fit=cover">
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
-    <script src="./js/swiper.min.js"></script>
     <script src="./js/country.js"></script>
     <link rel="stylesheet" href="./css/index.css">
-    <link rel="stylesheet" href="./css/swiper.min.css">
     <title>Bag Pay 注册</title>
     
     <script src="https://lib.baomitu.com/vue/2.6.11/vue.js"></script>
@@ -25,35 +23,35 @@
 
             <div class="white_bg_reg">
                 <div class="register-flex">
-                    <h4 class="register-head">创建账号</h4>
-                    <span @click="type = (1 - type/1)" class="primary-color">{{type?'手机注册':'邮箱注册'}}</span>
+                    <h4 class="register-head">{{langMessage[lang].createAccount}}</h4>
+                    <span @click="type = (1 - type/1)" class="primary-color">{{type?langMessage[lang].phoneRegister:langMessage[lang].emailRegister}}</span>
                 </div>
                 <form @submit.prevent="loginHandle" class="form">
                     <div class="register-flex input-item">
-                        <input type="text" class="register-input" v-model="form.nickname" autocomplete="username" placeholder="昵称" />
+                        <input type="text" class="register-input" v-model="form.nickname" autocomplete="username" :placeholder="langMessage[lang].username" />
                         <span></span>
                     </div>
                     <div v-show="!type" class="register-flex input-item">
-                        <input type="text" class="register-input" v-model="form.phone" autocomplete="username" placeholder="手机号" />
+                        <input type="text" class="register-input" v-model="form.phone" autocomplete="username" :placeholder="langMessage[lang].phone" />
                         <span @click="showCountryHandle" class="primary-color">+ {{activeCountry.tel}}</span>
                     </div>
                     <div v-show="type" class="register-flex input-item">
-                        <input type="email" class="register-input" v-model="form.email" autocomplete="username" placeholder="邮箱" />
+                        <input type="email" class="register-input" v-model="form.email" autocomplete="username" :placeholder="langMessage[lang].email" />
                     </div>
                     <div class="register-flex input-item">
-                        <input type="text" class="register-input" v-model="form.imgCode" placeholder="图形码" />
+                        <input type="text" class="register-input" v-model="form.imgCode" :placeholder="langMessage[lang].imgcode" />
                         <img class="form-imgcode" :src="imgUrl" alt="" @click="getImg" />
                     </div>
                     <div class="register-flex input-item">
-                        <input type="text" class="register-input" v-model="form.code" placeholder="验证码" />
+                        <input type="text" class="register-input" v-model="form.code" :placeholder="langMessage[lang].rCode" />
                         <span class="primary-color" @click="sendHandle">{{codeTxt}}</span>
                     </div>
                     <div class="register-flex input-item">
-                        <input type="password" class="register-input" v-model="form.password" autocomplete="current-password" placeholder="登录密码" />
+                        <input type="password" class="register-input" v-model="form.password" autocomplete="current-password" :placeholder="langMessage[lang].password" />
                         <span></span>
                     </div>
-                    <div class="register-arg">注册及同意《<a class="primary-color" href="/#/mine/protocol">BagPay用户协议</a>》</div>
-                    <input class="form-submit primary-bg" type="submit" value="创建" />
+                    <div class="register-arg">{{langMessage[lang].agree}}《<a class="primary-color" href="/#/mine/protocol">{{langMessage[lang].protocol}}</a>》</div>
+                    <input class="form-submit primary-bg" type="submit" :value="langMessage[lang].create" />
                 </form>
             </div>
         </div>
@@ -67,7 +65,7 @@
     </div>
     
     <script>
-
+        var baseUrl = 'https://bp-api.qdu.io';
         new Vue({
             el:"#app",
             data: {
@@ -119,10 +117,11 @@
                 } else if (language.indexOf('zh') !== -1) {
                     this.lang = 'zh-CN';
                 } else {
-                    this.lang = 'en-us';
+                    this.lang = 'en';
                 }
+                this.codeTxt = langMessage[this.lang].send;
                 this.getImg();
-                this.form.invite_code = query.invite;
+                this.form.invite_code = query.invit;
             },
             methods: {
                 selectCountry(item) {
@@ -135,24 +134,27 @@
                         {
                             type: 'empty',
                             value: this.form.nickname,
-                            msg: '昵称',
+                            msg: langMessage[this.lang].username + langMessage[this.lang].emptyErr,
                         },
                         {
                             type: this.type ? 'email' : 'phone',
                             value: this.type ? this.form.email : this.form.phone,
+                            msg: langMessage[this.lang][this.type ? 'emailErr' : 'phoneErr'],
                         },
                         {
                             type: 'empty',
                             value: this.form.imgCode,
-                            msg: '图形验证码',
+                            msg: langMessage[this.lang].imgcode + langMessage[this.lang].emptyErr,
                         },
                         {
                             type: 'code',
                             value: this.form.code,
+                            msg: langMessage[this.lang].codeErr,
                         },
                         {
                             type: 'pwd',
                             value: this.form.password,
+                            msg: langMessage[this.lang].pwdErr,
                         },
                     ]);
                     if (vfi) {
@@ -165,15 +167,15 @@
                             invite_code: this.form.invite_code,
                         }).then((res) => {
                             if (res.code === 0) {
-                                normalToast('注册成功');
+                                normalToast(langMessage[this.lang].registerSuccess);
                                 location.replace('/download/');
                             } else if (res.code === 1) {
-                                normalToast(err.data);
+                                normalToast(langMessage[this.lang][res.message]);
                             } else {
-                                normalToast('注册失败');
+                                normalToast(langMessage[this.lang].registerFail);
                             }
                         }).finally(() => {
-                            normalToast('注册失败');
+                            normalToast(langMessage[this.lang].registerFail);
                             this.loading = false;
                         });
                     }
@@ -182,7 +184,7 @@
                 sendHandle() {
                     if (this.isLoading) return;
                     if (this.timeNum > 0) return;
-                    if (!notEmpty(this.form.imgCode, '图形验证码')) return;
+                    if (!notEmpty(this.form.imgCode, langMessage[this.lang].imgcode)) return;
                     if (this.verification()) {
                         const data = {
                             type: 1,
@@ -201,20 +203,18 @@
                                 this.timer = setInterval(() => {
                                     this.timeNum -= 1;
                                     if (this.timeNum === 0) {
-                                        this.codeTxt = `重发`;
+                                        this.codeTxt = langMessage[this.lang].reSend;
                                         clearInterval(this.timer);
                                     } else {
-                                        this.codeTxt = `重发(${this.timeNum})`;
+                                        this.codeTxt = `${langMessage[this.lang].reSend}(${this.timeNum})`;
                                     }
                                 }, 1000);
-                                this.$normalToast('发送成功');
-                                if (res.data && res.data.code) {
-                                    this.$dialog.alert({
-                                        title: '验证码',
-                                        message: res.data.code,
-                                    });
-                                }
+                                normalToast(langMessage[this.lang].sendSuccess);
+                            } else if (res.code === 1) {
+                                normalToast(langMessage[this.lang][res.message]);
                             }
+                            console.log(langMessage[this.lang])
+                            console.log(res);
                         }).finally(() => {
                             this.isLoading = false;
                         });
@@ -248,22 +248,22 @@
                         });
                 },
                 getImages() {
-                    return axios.get('https://api.bagpay.io/verification-code/captcha').then(function(res) {
+                    return axios.get(baseUrl + '/verification-code/captcha').then(function(res) {
                         return res.data;
                     });
                 },
                 postRegister(data) {
-                    return axios.post('https://api.bagpay.io/user/sign-up', data).then(function(res) {
+                    return axios.post(baseUrl + '/user/sign-up', data).then(function(res) {
                         return res.data;
                     });
                 },
                 registerCodeEmail(data) {
-                    return axios.post('https://api.bagpay.io/verification-code/email/1', data).then(function(res) {
+                    return axios.post(baseUrl + '/verification-code/email/1', data).then(function(res) {
                         return res.data;
                     });
                 },
                 registerCode(data) {
-                    return axios.post('https://api.bagpay.io/verification-code/phone/1', data).then(function(res) {
+                    return axios.post(baseUrl + '/verification-code/phone/1', data).then(function(res) {
                         return res.data;
                     });
                 },

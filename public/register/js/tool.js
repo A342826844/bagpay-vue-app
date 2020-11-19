@@ -31,42 +31,42 @@ function normalToast(text, time = 2000) {
 };
 
 // 手机号验证
-function phoneVfi(phone, tel) {
+function phoneVfi(phone, msg, tel) {
     const reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
     const reg1 = /^[0-9]{4,16}$/;
     const vfi = tel === '86' ? reg.test(phone) : reg1.test(phone);
-    if (vfi === false) normalToast('请输入正确的手机号');
+    if (vfi === false) normalToast(msg);
     return vfi;
 }
 
 // 邮箱验证
-function emailVfi(email) {
+function emailVfi(email, msg) {
     const reg = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
     const vfi = reg.test(email);
-    if (vfi === false) normalToast('请输入正确的邮箱');
+    if (vfi === false) normalToast(msg);
     return vfi;
 }
 
 // 密码验证
-function pwdVfi(pwd) {
+function pwdVfi(pwd, msg) {
     const reg = /^[0-9a-zA-Z]{6,16}$/;
     const vfi = reg.test(pwd);
-    if (vfi === false) normalToast('请输入大于6位小于16位字母或数字的密码');
+    if (vfi === false) normalToast(msg);
     return vfi;
 }
 
 // 手机短信验证码
-function codeVfi(code) {
+function codeVfi(code, msg) {
     const reg = /^[0-9]{4}$/;
     const vfi = reg.test(code);
-    if (vfi === false) normalToast('请输入4位数字验证码');
+    if (vfi === false) normalToast(msg);
     return vfi;
 }
 
 // 必填验证
 function notEmpty(value, msg) {
     const vfi = !!value;
-    if (vfi === false) normalToast(msg + '不能为空');
+    if (vfi === false) normalToast(msg);
     return vfi;
 }
 
@@ -75,16 +75,16 @@ function fromVfi(arr) {
         const item = arr[i];
         switch (item.type) {
         case 'phone':
-            if (!phoneVfi(item.value)) return false;
+            if (!phoneVfi(item.value, item.msg)) return false;
             break;
         case 'email':
-            if (!emailVfi(item.value)) return false;
+            if (!emailVfi(item.value, item.msg)) return false;
             break;
         case 'pwd':
-            if (!pwdVfi(item.value)) return false;
+            if (!pwdVfi(item.value, item.msg)) return false;
             break;
         case 'code':
-            if (!codeVfi(item.value)) return false;
+            if (!codeVfi(item.value, item.msg)) return false;
             break;
         case 'empty':
             if (!notEmpty(item.value, item.msg)) return false;
