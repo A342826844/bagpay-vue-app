@@ -13,6 +13,8 @@
         "currency": "币种",
         "price": "价格",
         "premium": "溢价率",
+        "article": "文章",
+        "notice": "公告",
         "exitProgram": "再按一次退出程序",
         "invitationSuccess": "分享成功",
         "invitationFail": "分享失败",

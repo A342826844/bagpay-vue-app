@@ -132,7 +132,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import QrcodeVue from 'qrcode.vue';
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+// import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import html2canvas from 'html2canvas';
 import LiItem from './components/Li-item.vue';
 
@@ -162,8 +162,8 @@ export default Vue.extend({
     components: {
         LiItem,
         QrcodeVue,
-        Swiper,
-        SwiperSlide,
+        // Swiper,
+        // SwiperSlide,
     },
     data(): data {
         return {

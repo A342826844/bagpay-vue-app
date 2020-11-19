@@ -37,11 +37,18 @@
             <p class="home-assets-tip">登录后查看资金余额</p>
         </div>
         <div class="home-notice flex-between-c">
-            <div>
+            <div class="flex-item-1 flex-start-c">
                 <img class=" app-img-50" src="../../assets/img/common/notice.png" alt="">
-                <span>公告：BagPay预计12月12日开放BTC、ETH...</span>
+                <swiper v-if="article.length" class="home-swiper-notice flex-item-1 text-align-l" :options="noticeSwiperOption">
+                    <swiper-slide v-for="sub_item in article" :key="sub_item.id">
+                        <span @click="$router.push(`/news/noticedetail?id=${sub_item.id}`)" class="notice-item vertical-m">
+                            {{sub_item.type | articleType}}: {{sub_item.title}}
+                        </span>
+                    </swiper-slide>
+                </swiper>
+                <span v-else>暂无公告</span>
             </div>
-            <span></span>
+            <span @click="$router.push('/news/notice')">查看更多</span>
         </div>
         <AllApp></AllApp>
         <div class="assets-symbol-list">
@@ -103,6 +110,8 @@ type data = {
     rate: any;
     isLoading: boolean;
     unitDecimal: number;
+    article: Array<any>;
+    noticeSwiperOption: {};
     symbolList: Array<{
         coin: string;
         title: string;
@@ -127,6 +136,15 @@ export default Vue.extend({
             rate: {},
             unitDecimal: this.$store.getters.getCurrencyTypeInfo.decaimal,
             symbolList: [],
+            article: [],
+            noticeSwiperOption: {
+                direction: 'vertical',
+                loop: true,
+                autoplay: {
+                    delay: 2500,
+                    disableOnInteraction: false,
+                },
+            },
             applicationList: [
                 {
                     link: '',
@@ -207,6 +225,7 @@ export default Vue.extend({
                     this.changeLoading(false);
                 });
             }
+            this.getArticleCategories();
         },
         getExchangeRate() {
             return this.$api.getExchangeRate().then((res: any) => {
@@ -227,6 +246,13 @@ export default Vue.extend({
             }).then((res: any) => {
                 if (res.code === 0) {
                     this.activeSymbol = res.data;
+                }
+            });
+        },
+        getArticleCategories() {
+            this.$api.getArticleCategories({ type: 1 }).then((res: any) => {
+                if (res.data) {
+                    this.article = res.data;
                 }
             });
         },
@@ -263,6 +289,15 @@ export default Vue.extend({
     }
     &-notice{
         margin: 32px 0;
+        height: 45px;
+    }
+    &-swiper-notice{
+        height: 45px;
+        .notice-item{
+            line-height: 45px;
+            display: inline-block;
+            width: 100%;
+        }
     }
     &-assets{
         color: #fff;

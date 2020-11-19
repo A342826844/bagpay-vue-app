@@ -4,6 +4,7 @@ import md5 from 'md5';
 import { Store } from 'vuex';
 import 'lib-flexible';
 
+import VueAwesomeSwiper from 'vue-awesome-swiper';
 import 'swiper/swiper-bundle.css';
 
 import * as Api from '@/api/index.ts';
@@ -58,6 +59,7 @@ declare module 'vue/types/vue' {
 
 Vue.config.productionTip = false;
 
+Vue.use(VueAwesomeSwiper);
 Vue.component('Headers', Headers);
 Vue.component('TitleHeader', TitleHeader);
 Vue.component('Titles', Titles);

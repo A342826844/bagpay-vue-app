@@ -4,18 +4,19 @@
             <div class="app-padding40">
                 <ul class="notice-ul">
                     <li
-                        @click="$router.push(`/news/noticedetail?id=${item}`)"
-                        v-for="item in 10"
+                        @click="$router.push(`/news/noticedetail?id=${item.id}`)"
+                        v-for="item in list"
                         :key="item"
                         class="li app-padding40 light-grey-bg"
                     >
                         <div class="flex-between-c">
-                            <span>BagPay预计12月12日开BTC、ETH... </span>
+                            <span class="ellipsis">{{item.title}}</span>
                             <img class=" app-img-50" src="../../assets/img/common/arrow_right.png" alt="">
                         </div>
-                        <div class="time text-align-l">17:22 10/18</div>
+                        <div class="time text-align-l">{{item.created_at | date('yyyy-MM-dd hh:mm:ss')}}</div>
                     </li>
                 </ul>
+                <NoData v-if="!_loading && !list.length"></NoData>
             </div>
         </TitleHeader>
     </div>
@@ -25,12 +26,31 @@
 import Vue from 'vue';
 
 type data = {
-
+    list: Array<any>;
 }
 
 export default Vue.extend({
     name: 'Notice',
-
+    data(): data {
+        return {
+            list: [],
+        };
+    },
+    created() {
+        this.getArticleCategories();
+    },
+    methods: {
+        getArticleCategories() {
+            this.changeLoading(true);
+            this.$api.getArticleCategories({ type: 1 }).then((res: any) => {
+                if (res.data) {
+                    this.list = res.data;
+                }
+            }).finally(() => {
+                this.changeLoading(false);
+            });
+        },
+    },
 });
 </script>
 

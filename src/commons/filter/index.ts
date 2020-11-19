@@ -374,6 +374,17 @@ Vue.filter('invitaCommTypeTeam', (state: 0|1|2|3) => {
     return i18n.t(states[state]);
 });
 
+// 返佣类型 CommType
+Vue.filter('articleType', (state: 0|1) => {
+	// ArticleTypeArt    = 0  //普通文章
+	// ArticleTypeNotice   = 1  //公告
+    const states = {
+        0: 'common.article',
+        1: 'common.notice',
+    };
+    return i18n.t(states[state]);
+});
+
 // 语言类型
 Vue.filter('langType', (state: 'zh-CN'|'en-us') => {
     //"简体中文",             = 1 // 简体中文

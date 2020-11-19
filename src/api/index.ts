@@ -138,6 +138,13 @@ export const getCoinOne = (data: params) => getGolang(`/coin/one/${data.coin}`, 
 // 获取指定币种已转出数量
 export const getDayAmount = (data: params) => getGolang(`/withdraw/day-amount/${data.coin}`, data);
 
+// 取文章分类列表
+export const getArticleCategories = (data: params) => getGolang(`/article/categories/${data.type}`, data);
+// 获取文章列表
+export const getArticleList = (data: params) => getGolang(`/article/list/${data.category}`, data);
+// 获取文章列表
+export const getArticleDetail = (id: number) => getGolang(`/article/get//${id}`, { id });
+
 /**
  * JAVA 接口
  */
