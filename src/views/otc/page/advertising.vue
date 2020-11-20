@@ -108,7 +108,7 @@
                 </form>
                 <Poptip>
                     <PoptipItem>
-                        发布广告手续: {{coinInfo.otc_fee * 100}} %
+                        {{$t('otc.otcAdvFee')}}: {{coinInfo.otc_fee * 100}} %
                     </PoptipItem>
                     <PoptipItem>
                         {{$t('otc.advTip1')}}

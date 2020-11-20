@@ -1,7 +1,9 @@
 <template>
   <div class="login">
     <TitleHeader :title="$t('login.registerTitle')">
-      <span slot="header" @click="type = (1 - type/1)" class="primary-color app-size-34">{{type?'手机注册':'邮箱注册'}}</span>
+      <span slot="header" @click="type = (1 - type/1)" class="primary-color app-size-34">
+        {{type?$t('login.registerPhone'):$t('login.registerEmail')}}
+      </span>
       <div class="login-box app-padding40">
         <p class="login-tip">
           {{ $t("login.loginTip") }}(USDT、USDC、TUSD......)
@@ -81,7 +83,9 @@
     </TitleHeader>
     <div class="lxa-footer-btn">
       <p class="login-protocol">
-        注册及同意 《<span class="primary-color" @click.stop="$router.push('/mine/protocol')">{{$app_mark}}{{ $t("login.userProtocol") }}</span>》
+        {{$t('login.registTip')}} 《<span class="primary-color" @click.stop="$router.push('/mine/protocol')">
+          {{$app_mark}}{{ $t("login.userProtocol") }}
+        </span>》
       </p>
       <Button @click="loginHandle" v-t="'login.register'"
         :disabled="disabled"></Button>

@@ -85,6 +85,14 @@
         "withdrawTypeInternal": "内部转出",
         "typeNoResponse": "一直不响应",
         "typePaidButNotRelease": "已付款不放币",
+        "payment": "付款",
+        "tranfer": "转账",
+        "financial": "理财",
+        "news": "资讯",
+        "invita": "邀请",
+        "cost": "生活缴费",
+        "allApp": "全部应用",
+        "actualReceipt": "实际到账",
         "typeMaliciousOrder": "恶意下单",
         "typeFalsePaid": "恶意点击已付款",
         "stateNoProcess": "未处理",
@@ -147,6 +155,12 @@
         "findAccount": "找回密码",
         "login": "登 录",
         "findAccountTitle": "找回账号",
+        "findPhone": "手机找回",
+        "findEmail": "邮箱找回",
+        "loginEmail": "手机登录",
+        "loginPhone": "邮箱登录",
+        "registerPhone": "手机注册",
+        "registerEmail": "邮箱注册",
         "findAccountTip": "找回账号登录密码",
         "vCode": "验证码",
         "imgCode": "图形码",
@@ -170,6 +184,7 @@
         "tip2": "私钥多重保护 账户安全无需担心",
         "title3": "欢迎来到Bag Pay",
         "tip3": "安全放心 方便快捷",
+        "letgo": "立即体验",
         "skip": "跳过"
     },
     "home": {
@@ -289,6 +304,7 @@
     },
     "otc": {
         "otcAdv": "发布广告",
+        "otcAdvFee": "发布广告手续费",
         "totalTurnover": "成交总额",
         "total": "总额",
         "min": "最低",
@@ -438,9 +454,12 @@
         "invitPeople": "邀请人数",
         "partnerInvit": "合伙人邀请",
         "dPush": "直推",
+        "levels": "等级",
         "level": "级",
+        "2level": "2级",
         "link": "邀请链接",
         "poster": "邀请海报",
+        "team": "团队",
         "teamDetail": "团队详细",
         "commDetail": "返佣明细",
         "commRuleInstru": "返佣规则说明",
@@ -451,6 +470,10 @@
         "tip1": "凡邀请好友完成下载并注册后，好友在平台交易过程 中产生的每笔真实交易手续费，将获得相应比例的手续 费返佣。",
         "tip2": "返佣的形式将按照用户实际交易币种所产生的对应手续费返佣到您的交易账户。",
         "tip3": "好友交易返佣实时统计，随时可申请提现；返佣额=  直推用户实际产生交易量 * 手续费比例*返佣比例+间推 用户实际产生。"
+    },
+    "news": {
+        "noticeList": "公告列表",
+        "noticeDetail": "公告详细"
     },
     "error": {
         "ERR_SERVER_ERROR": "服务器内部错误",

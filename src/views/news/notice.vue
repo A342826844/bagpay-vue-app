@@ -1,6 +1,6 @@
 <template>
     <div class="notice">
-        <TitleHeader title="公告列表">
+        <TitleHeader :title="$t('news.notice')">
             <div class="app-padding40">
                 <ul class="notice-ul">
                     <li

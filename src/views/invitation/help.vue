@@ -4,7 +4,7 @@
             <div class="app-padding40">
                 <ul class="invitation-profit-ul app-padding40">
                     <li class="li flex-between-c">
-                        <span class="li-span" v-for="subItem in lableList" :key="subItem.key">{{subItem.title}}</span>
+                        <span class="li-span" v-for="subItem in lableList" :key="subItem.key">{{$t(subItem.title)}}</span>
                     </li>
                     <li v-for="item in rule" :key="item.id" class="li flex-between-c">
                         <span class="li-span" v-for="subItem in lableList" :key="subItem.key">{{item[subItem.key]}}{{subItem.lable}}</span>
@@ -41,26 +41,26 @@ export default Vue.extend({
             rule: [],
             lableList: [
                 {
-                    title: '等级',
+                    title: 'invitation.levels',
                     key: 'name',
                 },
                 {
-                    title: '直推',
+                    title: 'invitation.dPush',
                     key: 'firstComm',
                     lable: '%',
                 },
                 {
-                    title: '2级',
+                    title: 'invitation.2level',
                     key: 'secondComm',
                     lable: '%',
                 },
                 {
-                    title: '3级',
+                    title: 'invitation.2level',
                     key: 'threeComm',
                     lable: '%',
                 },
                 {
-                    title: '团队',
+                    title: 'invitation.team',
                     key: 'teamComm',
                 },
             ],

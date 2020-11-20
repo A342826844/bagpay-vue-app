@@ -1,14 +1,9 @@
 <template>
     <div ref="qrcode" style="background-color:#000000;">
-        <!-- <Headers style="background: #fff8" @back="$goBack" title="扫一扫"></Headers> -->
         <div id="bcid">
             <div style="height:40%"></div>
             <p class="tip">...loading...</p>
         </div>
-        <!-- <div class="footer-btn">
-            <div>打开闪光灯</div>
-            <div>相册</div>
-        </div> -->
     </div>
 </template>
 

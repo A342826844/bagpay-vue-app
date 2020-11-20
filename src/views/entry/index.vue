@@ -23,7 +23,7 @@
             </ul>
         </div>
         <div v-show="activeTab === 2 && $route.name !== 'entrylogin'" class="entry-btn app-size-34">
-            <Button @click="$router.push('/home')" class="entry-btn-item">立即体验</Button>
+            <Button @click="$router.push('/home')" class="entry-btn-item">{{$t('entry.letgo')}}</Button>
         </div>
         <div v-if="$route.name === 'entrylogin'" class="entry-btn app-size-34">
             <Button @click="$router.push('/login')" class="entry-btn-item">{{$t('login.loginTitle')}}</Button>

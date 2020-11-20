@@ -66,7 +66,7 @@
         </TitleHeader>
         <div class="lxa-footer-btn">
             <p class="app-padding40 flex-between-c">
-                <span>实际到账</span>
+                <span>{{$t('common.actualReceipt')}}</span>
                 <span class=" primary-color">{{`${actualValue}  ${symbol.toUpperCase()}`}}</span>
             </p>
             <Button @click="auth" v-t="'common.ok'" :disabled="!form.address || (charge.need_memo === 1 && !form.memo) || !form.value"></Button>
@@ -127,9 +127,9 @@ export default Vue.extend({
         },
         title(): any {
             if (this.$route.name === 'transferpayment') {
-                return `${this.symbol && this.symbol.toUpperCase()} 付款`;
+                return `${this.symbol && this.symbol.toUpperCase()} ${this.$t('common.payment')}`;
             }
-            return '转账';
+            return this.$t('common.tranfer');
         },
     },
     beforeRouteEnter(to, from, next) {
@@ -138,10 +138,13 @@ export default Vue.extend({
                 vm.initAddress();
                 return;
             }
+            if (from.name === 'scanQRCode' && vm.$route.name === 'transferpayment') {
+                vm.initAddress();
+                return;
+            }
             if (from.name === 'scanQRCode') {
                 // eslint-disable-next-line no-param-reassign
                 vm.form.address = vm.$store.state.qrcodeResult || '';
-                console.log(vm.$store.state, 'scanQRCode');
                 return;
             }
             vm.initParams();

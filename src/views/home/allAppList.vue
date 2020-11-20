@@ -1,6 +1,6 @@
 <template>
     <div class="allapp-list">
-        <TitleHeader title="全部应用">
+        <TitleHeader :title="$t('common.allApp')">
             <AllApp all class="allapp-list-body"></AllApp>
         </TitleHeader>
     </div>

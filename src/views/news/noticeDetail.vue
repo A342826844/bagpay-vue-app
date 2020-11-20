@@ -1,6 +1,6 @@
 <template>
     <div class="notice-detail">
-        <TitleHeader title="公告详细">
+        <TitleHeader :title="$t('news.noticeDetail')">
             <div class="app-padding40">
                 <h6 class="notice-detail-title text-align-l app-size-34">{{noticeDetail.title}}</h6>
                 <div class="notice-detail-body" v-html="noticeDetail.content"></div>

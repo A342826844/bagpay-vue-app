@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <TitleHeader :title="$t('login.findAccountTitle')">
-        <span slot="header" @click="type = (1 - type/1)" class="primary-color app-size-34">{{type?'手机找回':'邮箱找回'}}</span>
+        <span slot="header" @click="type = (1 - type/1)" class="primary-color app-size-34">{{type?$t('login.findPhone'):$t('login.findEmail')}}</span>
         <div class="login-box app-padding40">
         <p class="login-tip">{{ $t("login.findAccountTip") }}</p>
             <form @submit.prevent="" class="login-form" action="">

@@ -38,19 +38,6 @@
                 </span>
             </div>
             <ul class=" app-padding40 invitation-body-ul">
-                <!-- <li v-for="item in 15" :key="item" class=" app-padding40 li light-grey-bg">
-                    <div class=" flex-between-c title">
-                        <span></span>
-                        <div>
-                            <span class="time">17:22 10/18</span>
-                            <img class="app-img-50" src="../../assets/img/common/arrow_right.png" alt="">
-                        </div>
-                    </div>
-                    <div class=" flex-between-c value">
-                        <span>料子</span>
-                        <h6 class=" app-size-34">0.781238432198</h6>
-                    </div>
-                </li> -->
                 <LiItem :arrow="!!item.childCount" @click="showChildenHandle(item)" v-for="item in list" :key="item.userId">
                     <template #title>{{parentNickname}}</template>
                     <template #time>{{item.createdAt | date('yyyy-MM-dd hh:mm:ss')}}</template>

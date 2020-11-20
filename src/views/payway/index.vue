@@ -65,15 +65,6 @@ export default Vue.extend({
                     this.$normalToast(this.$t('common.collectionFailure'));
                 }
             });
-            // this.$api.getUserBankList().then((res: any) => {
-            //     this.changeLoading(false);
-            //     this.list = res.data;
-            // }).catch((err: any) => {
-            //     this.changeLoading(false);
-            //     if (!err.data) {
-            //         this.$normalToast('收款方式获取失败');
-            //     }
-            // });
         },
         showImg(item: any) {
             ImagePreview({

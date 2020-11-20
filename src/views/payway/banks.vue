@@ -10,7 +10,6 @@
                         </div>
                         <img v-show="id === item.id" class="app-img-50" src="../../assets/img/setting/ok.png" alt="">
                     </div>
-                    <!-- <div class="payway-info">廖小艾     26595924325429d595252</div> -->
                 </li>
             </ul>
         </TitleHeader>

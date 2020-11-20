@@ -1,7 +1,9 @@
 <template>
     <div class="login">
         <TitleHeader :title="$t('login.loginTitle')">
-            <span slot="header" @click="type = (1 - type/1)" class="primary-color app-size-34">{{type?'手机登录':'邮箱登录'}}</span>
+            <span slot="header" @click="type = (1 - type/1)" class="primary-color app-size-34">
+                {{type?$t('login.loginPhone'):$t('login.loginEmail')}}
+            </span>
         </TitleHeader>
         <div class="login-box app-padding40">
             <p class="login-tip">{{$t('login.loginTip')}}(USDT、USDC、TUSD......)</p>

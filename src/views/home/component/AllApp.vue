@@ -3,7 +3,7 @@
         <ul class="home-application-ul flex-warp-s">
             <li @click="applicationHandle(item)" class="li" v-for="item in renderAppList" :key="item.value">
                 <img class="li-img" :src="item.img" alt="">
-                <p class="li-p">{{item.title}}</p>
+                <p class="li-p">{{$t(item.title)}}</p>
             </li>
         </ul>
     </div>
@@ -47,7 +47,7 @@ export default Vue.extend({
                     img: tranfer,
                     value: 'tranfer',
                     needLogin: true,
-                    title: '转账',
+                    title: 'common.tranfer',
                 },
                 {
                     link: '',
@@ -55,7 +55,7 @@ export default Vue.extend({
                     img: financial,
                     value: 'financial',
                     needLogin: true,
-                    title: '理财',
+                    title: 'common.financial',
                 },
                 {
                     link: '',
@@ -63,14 +63,14 @@ export default Vue.extend({
                     img: news,
                     value: 'news',
                     needLogin: true,
-                    title: '资讯',
+                    title: 'common.news',
                 },
                 {
                     link: '/invitation',
                     img: invita,
                     value: 'invita',
                     needLogin: true,
-                    title: '邀请',
+                    title: 'common.invita',
                 },
                 {
                     link: '',
@@ -78,14 +78,14 @@ export default Vue.extend({
                     img: cost,
                     value: 'cost',
                     needLogin: true,
-                    title: '生活缴费',
+                    title: 'common.cost',
                 },
             ],
             more: {
                 link: '/allapplist',
                 img: allApp,
                 value: 'allApp',
-                title: '全部',
+                title: 'common.all',
             },
         };
     },
