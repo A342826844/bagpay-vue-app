@@ -255,7 +255,13 @@ export default Vue.extend({
         },
         // 复制链接和显示海报
         btnsClickHandle(value: any) {
-            if (!this.extUserData.invitCode) return;
+            // if (!this.extUserData.invitCode) return;
+            if (!this.extUserData.invitCode) {
+                if (!this._loading) {
+                    this.loadData();
+                }
+                return;
+            }
             this.showSelect = false;
             if (value === 'link') {
                 this.$copyText(`${this.$invitationUrl}/?invit=${this.invitCode}`);
@@ -264,7 +270,12 @@ export default Vue.extend({
             this.erCodeShow = true;
         },
         partnerSelect(value: string) {
-            if (!this.extUserData.invitCode) return;
+            if (!this.extUserData.invitCode) {
+                if (!this._loading) {
+                    this.loadData();
+                }
+                return;
+            }
             if (value === 'common') {
                 this.invitCode = this.extUserData.invitCode;
             } else {

@@ -1,6 +1,6 @@
 <template>
     <div class="notice">
-        <TitleHeader :title="$t('news.notice')">
+        <TitleHeader :title="$t('news.noticeList')">
             <div class="app-padding40">
                 <ul class="notice-ul">
                     <li
