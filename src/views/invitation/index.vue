@@ -106,7 +106,7 @@
         </V-Popup>
         <!-- 海报弹框 -->
         <van-dialog closeOnClickOverlay class="invitation-ercode-dialog" v-model="erCodeShow" :show-confirm-button="false">
-            <div class="ercode-box">
+            <div ref="ercodeInvite" class="ercode-box">
                 <swiper ref="mySwiper" v-if="posterList.length" :options="swiperOption">
                     <swiper-slide v-for="item in posterList" :key="item.id">
                         <div ref="ercode" class="ercode">
@@ -299,7 +299,8 @@ export default Vue.extend({
         },
         html2CanvasHnadle() {
             this.changeLoading(true);
-            const erCodeDom = (this.$refs.ercode as any)[this.swiper.activeIndex];
+            // const erCodeDom = (this.$refs.ercode as any)[this.swiper.activeIndex];
+            const erCodeDom = (this.$refs.ercodeInvite as any);
             return html2canvas((erCodeDom as HTMLElement)).then((canvas: HTMLCanvasElement) => canvas.toDataURL('image/png'));
         },
         saveHandle() {
@@ -309,8 +310,10 @@ export default Vue.extend({
                 //     return;
                 // }
                 this.$saveImg(res, () => {
+                    this.changeLoading(false);
                     this.$normalToast(`${this.$t('common.saveSuccess')}`, 1000);
                 }, () => {
+                    this.changeLoading(false);
                     this.$normalToast(this.$t('common.saveFail'), 1000);
                 });
             });

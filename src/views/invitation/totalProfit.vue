@@ -8,7 +8,7 @@
                     <template #name>{{item.childNickname}}</template>
                     <template #value>{{item.amount | toNonExponential}} {{item.coin && item.coin.toUpperCase()}}</template>
                 </LiItem>
-                <p class="content-list-nodata gray-color" v-show="!_loading && isEnd">
+                <p class="content-list-nodata gray-color" v-show="!_loading && list.length && isEnd">
                     {{$t('common.noMore')}}
                 </p>
                 <NoData v-if="!_loading && !list.length"/>

@@ -124,7 +124,7 @@ export default {
                         address: data.address,
                         memo: data.memo,
                     });
-                    this.$router.replace(`/transferout?symbol=${data.symbol}`);
+                    this.$router.replace(`/transfer/payment?symbol=${data.symbol}`);
                     this.goBackHandle();
                 } else {
                     this.$store.commit('changgeQrcodeResult', data.address);

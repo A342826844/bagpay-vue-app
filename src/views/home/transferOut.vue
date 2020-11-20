@@ -141,6 +141,7 @@ export default Vue.extend({
             if (from.name === 'scanQRCode') {
                 // eslint-disable-next-line no-param-reassign
                 vm.form.address = vm.$store.state.qrcodeResult || '';
+                console.log(vm.$store.state, 'scanQRCode');
                 return;
             }
             vm.initParams();

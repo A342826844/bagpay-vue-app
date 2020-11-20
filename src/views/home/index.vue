@@ -30,7 +30,7 @@
             <h4 class="home-assets-account" @click="_change">
                 <span class="home-assets-title">{{$t('common.clickToLogin')}}</span>
             </h4>
-            <p class="home-assets-tip">{{$t('common.loginForAssets')}}</p>
+            <p class="home-assets-tip">{{$t('home.loginForAssets')}}</p>
         </div>
         <div class="home-notice flex-between-c">
             <div class="flex-item-1 flex-start-c">
