@@ -96,7 +96,7 @@ export default Vue.extend({
             vm.getVerStutas();
             if (from.name === 'PaywayBanks') {
                 vm.changeBankInfo();
-            } else {
+            } else if (from.name !== 'minesafepass') {
                 vm.init();
             }
         });

@@ -82,3 +82,13 @@ export const copyText = (value: string) => {
     }
     return false;
 };
+
+export const browserDownload = (data: any) => {
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.download = `bagpay${+new Date()}`;
+    a.href = data;
+    a.click();
+    document.body.removeChild(a);
+};

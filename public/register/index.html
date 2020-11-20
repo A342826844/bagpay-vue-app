@@ -51,7 +51,7 @@
                         <span></span>
                     </div>
                     <div class="register-arg">{{langMessage[lang].agree}}《<a class="primary-color" href="/#/mine/protocol">{{langMessage[lang].protocol}}</a>》</div>
-                    <input class="form-submit primary-bg" type="submit" :value="langMessage[lang].create" />
+                    <button class="form-submit primary-bg" type="submit">{{langMessage[lang].create}}</button>
                 </form>
             </div>
         </div>
@@ -66,6 +66,24 @@
     
     <script>
         var baseUrl = 'https://bp-api.qdu.io';
+        var browser = {
+            versions: function () {
+                var u = navigator.userAgent, app = navigator.appVersion;
+                return {//移动终端浏览器版本信息
+                trident: u.indexOf('Trident') > -1, //IE内核
+                presto: u.indexOf('Presto') > -1, //opera内核
+                webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                mobile: !!u.match(/AppleWebKit.*Mobile/i) || !!u.match(/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/), //是否为移动终端
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                iPad: u.indexOf('iPad') > -1, //是否iPad
+                webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+                };
+            } (),
+            // language: (navigator.browserLanguage || navigator.language).toLowerCase()
+        }
         new Vue({
             el:"#app",
             data: {
@@ -209,12 +227,13 @@
                                         this.codeTxt = `${langMessage[this.lang].reSend}(${this.timeNum})`;
                                     }
                                 }, 1000);
+                                if (res.data.code) {
+                                    normalToast(res.data.code, 2000);
+                                }
                                 normalToast(langMessage[this.lang].sendSuccess);
                             } else if (res.code === 1) {
                                 normalToast(langMessage[this.lang][res.message]);
                             }
-                            console.log(langMessage[this.lang])
-                            console.log(res);
                         }).finally(() => {
                             this.isLoading = false;
                         });
@@ -268,7 +287,16 @@
                     });
                 },
             }
-        })
+        });
+        document.body.addEventListener("focusout", () => {
+            //软键盘收起的事件处理
+            if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
+                setTimeout(() => {
+                    const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
+                    window.scrollTo(0, Math.max(scrollHeight - 1, 0));
+                }, 100);
+            }
+        });
     </script>
 </body>
 </html>

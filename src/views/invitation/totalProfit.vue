@@ -1,6 +1,6 @@
 <template>
     <div @scroll.capture="scrollLoad" class="invitation-profit">
-        <TitleHeader title="返佣明细">
+        <TitleHeader :title="$t('invitation.commDetail')">
             <ul class="invitation-profit-ul app-padding40">
                 <LiItem v-for="item in list" :key="item.id">
                     <template #title>{{item.commType | invitaCommTypeTeam}}</template>

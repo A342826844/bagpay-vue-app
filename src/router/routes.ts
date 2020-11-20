@@ -103,6 +103,7 @@ const routes: Array<RouteConfig> = [
             keepAlive: true,
             componentName: 'Entry',
             noLogin: true,
+            index: 8,
         },
     },
     {

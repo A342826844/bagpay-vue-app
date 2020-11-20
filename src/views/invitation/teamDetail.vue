@@ -1,6 +1,6 @@
 <template>
     <div class="invitation-profit">
-        <TitleHeader title="团队详细">
+        <TitleHeader :title="$t('invitation.teamDetail')">
             <ul class="invitation-profit-ul app-padding40">
                 <LiItem @click="showChildenHandle(item)" v-for="item in list" :key="item.userId">
                     <template #title>{{userName}}</template>

@@ -1,7 +1,7 @@
 <template>
     <div class="invitation">
         <Headers bold theme="primary">
-            <h4 class="invitation-header-left" slot="left">
+            <h4 class="invitation-header-left vertical-m" slot="left">
                 <span class=" vertical-m">{{_userInfo.nickname}}</span>
                 <img src="../../assets/img/invitation/v1.png" class="level app-img-50" alt="">
             </h4>
@@ -9,8 +9,11 @@
         </Headers>
         <div class="invitation-top primary-bg app-padding40">
             <div class="flex-between-c title">
-                <div @click="$router.push('/invitation/profit')">总收益(USDT)<span class="triangle-r invitation-top-triangle"></span></div>
-                <div>邀请总人数</div>
+                <div @click="$router.push('/invitation/profit')">
+                    {{$t('invitation.allProfit')}}(USDT)
+                    <span class="triangle-r invitation-top-triangle"></span>
+                </div>
+                <div>{{$t('invitation.invitToalP')}}</div>
             </div>
             <div class=" flex-between-c value">
                 <h5 @click="$router.push('/invitation/profit')">{{extUserData.allComm}}</h5>
@@ -18,16 +21,20 @@
             </div>
         </div>
         <div class="invitation-body">
-            <Titles theme="grey" class="invitation-body-title">邀请人数</Titles>
+            <Titles theme="grey" class="invitation-body-title">{{$t('invitation.invitPeople')}}</Titles>
             <div class="invitation-body-bread text-align-l app-padding40">
-                <span @click="getRenderData(0)" :class="breadLeave === 0 ? 'active-user' : 'primary-color'">直推</span>
+                <span @click="getRenderData(0)" :class="breadLeave === 0 ? 'active-user' : 'primary-color'">{{$t('invitation.dPush')}}</span>
                 <span v-show="breadLeave >= 1">
                     >
-                    <span @click="getRenderData(1)" :class="breadLeave === 1 ? 'active-user' : 'primary-color'">2级({{secondInfo.userName}})</span>
+                    <span @click="getRenderData(1)" :class="breadLeave === 1 ? 'active-user' : 'primary-color'">
+                        2{{$t('invitation.level')}}({{secondInfo.userName}})
+                    </span>
                 </span>
                 <span v-show="breadLeave >= 2">
                     >
-                    <span :class="breadLeave === 2 ? 'active-user' : 'primary-color'">3级({{thressInfo.userName}})</span>
+                    <span :class="breadLeave === 2 ? 'active-user' : 'primary-color'">
+                        3{{$t('invitation.level')}}({{thressInfo.userName}})
+                    </span>
                 </span>
             </div>
             <ul class=" app-padding40 invitation-body-ul">
@@ -44,10 +51,10 @@
                         <h6 class=" app-size-34">0.781238432198</h6>
                     </div>
                 </li> -->
-                <LiItem @click="showChildenHandle(item)" v-for="item in list" :key="item.userId">
+                <LiItem :arrow="!!item.childCount" @click="showChildenHandle(item)" v-for="item in list" :key="item.userId">
                     <template #title>{{parentNickname}}</template>
                     <template #time>{{item.createdAt | date('yyyy-MM-dd hh:mm:ss')}}</template>
-                    <template #name>{{item.userName}}</template>
+                    <template #name>{{item.userName}} ({{item.childCount}})</template>
                     <template #value>{{item.parentCommSum}}</template>
                 </LiItem>
                 <NoData v-if="!_loading && !list.length"/>
@@ -100,14 +107,14 @@
         <!-- 海报弹框 -->
         <van-dialog closeOnClickOverlay class="invitation-ercode-dialog" v-model="erCodeShow" :show-confirm-button="false">
             <div class="ercode-box">
-                <swiper v-if="posterList.length" :options="swiperOption">
+                <swiper ref="mySwiper" v-if="posterList.length" :options="swiperOption">
                     <swiper-slide v-for="item in posterList" :key="item.id">
                         <div ref="ercode" class="ercode">
-                            <img class="ercode-bg" :src="item.img" alt="">
+                            <img class="ercode-bg" :src="item.image" alt="">
                             <div class="ercode-bottom flex-between-c">
                                 <div class=" text-align-l">
-                                    <p class="ercode-lable">邀请码</p>
-                                    <h4 class="ercode-code">{{invitCode}}</h4>
+                                    <p class="ercode-lable">{{$t('login.invite_code')}}</p>
+                                    <h4 @click="$copyText(invitCode)" class="ercode-code">{{invitCode}}</h4>
                                 </div>
                                 <QrcodeVue :size="68" :value="`${$invitationUrl}/?invit=${invitCode}`"></QrcodeVue>
                             </div>
@@ -134,6 +141,7 @@ import Vue from 'vue';
 import QrcodeVue from 'qrcode.vue';
 // import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import html2canvas from 'html2canvas';
+// import { browserDownload } from '@/commons/dom/index';
 import LiItem from './components/Li-item.vue';
 
 const v1 = require('../../assets/img/invitation/v1.png');
@@ -170,7 +178,7 @@ export default Vue.extend({
             erCodeShow: false,
             showSelect: false,
             extUserData: {},
-            posterList: [{ img: p1 }, { img: p1 }],
+            posterList: [{ image: p1, id: 10 }],
             list: [],
             invitCode: '',
             breadLeave: 0, // 显示 团队等级邀请数据 0: 显示直推 2: 显示二级推广用户 3: 显示三级推广用户
@@ -242,6 +250,9 @@ export default Vue.extend({
             }
             return '';
         },
+        swiper(): any {
+            return (this.$refs.mySwiper as any).$swiper;
+        },
     },
     created() {
         this.loadData();
@@ -276,7 +287,7 @@ export default Vue.extend({
         },
         loadData() {
             this.changeLoading(true);
-            Promise.all([this.getExtUser(), this.getExtChildren()]).finally(() => {
+            Promise.all([this.getExtUser(), this.getExtChildren(), this.getCommPoster()]).finally(() => {
                 this.changeLoading(false);
             });
         },
@@ -288,11 +299,15 @@ export default Vue.extend({
         },
         html2CanvasHnadle() {
             this.changeLoading(true);
-            const erCodeDom = (this.$refs.ercode as any)[0];
+            const erCodeDom = (this.$refs.ercode as any)[this.swiper.activeIndex];
             return html2canvas((erCodeDom as HTMLElement)).then((canvas: HTMLCanvasElement) => canvas.toDataURL('image/png'));
         },
         saveHandle() {
             this.html2CanvasHnadle().then((res: any) => {
+                // if (!(window as any).plus) {
+                //     browserDownload(res);
+                //     return;
+                // }
                 this.$saveImg(res, () => {
                     this.$normalToast(`${this.$t('common.saveSuccess')}`, 1000);
                 }, () => {
@@ -328,6 +343,13 @@ export default Vue.extend({
                 this.$normalToast(this.$t('common.invitationFail'), 1000);
             }
         },
+        getCommPoster() {
+            return this.$api.getCommPoster().then((res: any) => {
+                if (res.data && res.data.length) {
+                    this.posterList = res.data;
+                }
+            });
+        },
         getExtChildren(userId?: number) {
             const params = {
                 userId,
@@ -338,6 +360,7 @@ export default Vue.extend({
             });
         },
         showChildenHandle(item: any) {
+            if (!item.childCount) return;
             if (this.breadLeave === 0) {
                 this.secondInfo = item;
             } else if (this.breadLeave === 1) {

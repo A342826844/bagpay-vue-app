@@ -157,3 +157,5 @@ export const getGradeComm = () => getJava('/grade_comm');
 export const getExtChildren = (data: params) => getJava('/ext_user/getChildren', data);
 // 获取邀请返佣明细
 export const getCommDetail = (data: params) => getJava('/comm_detail', data);
+// 获取海报列表
+export const getCommPoster = (data: params) => getJava('/comm_poster', data);

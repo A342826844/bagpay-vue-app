@@ -43,26 +43,35 @@
             </div>
             <form class="otc-submit-form app-padding40 text-align-l app-size-34">
                 <div class="form-lable">{{ orderDetail.type | orderSideType}}{{$t('otc.num')}}</div>
-                <input
-                    class="form-input app-padding40"
-                    :decimal="2"
-                    :placeholder="`${$t('otc.maxTrade')}${maxTip} ${orderDetail.coin && orderDetail.coin.toUpperCase()}`"
-                    v-model="form.amount"
-                    @input="inputAmount('amount')"
-                />
+                <div class="form-lable">
+                    <input
+                        class="form-input app-padding40"
+                        :decimal="2"
+                        :placeholder="`${$t('otc.maxTrade')}${maxTip} ${orderDetail.coin && orderDetail.coin.toUpperCase()}`"
+                        v-model="form.amount"
+                        @input="inputAmount('amount')"
+                    />
+                </div>
                 <div class="form-lable">{{$t('otc.payAmount')}}</div>
-                <input
-                    class="form-input app-padding40"
-                    decimal
-                    :placeholder="`${$t('otc.minAmount')}${minTip} ${_unitIcon}`"
-                    v-model="form.value"
-                    @input="inputAmount('value')"
-                />
+                <div class="form-lable">
+                    <input
+                        class="form-input app-padding40"
+                        decimal
+                        :placeholder="`${$t('otc.minAmount')}${minTip} ${_unitIcon}`"
+                        v-model="form.value"
+                        @input="inputAmount('value')"
+                    />
+                </div>
+                <p class="flex-between-c fee">
+                    <span>{{$t('common.fee')}}: </span>
+                    <span>{{feeValue + (orderDetail.coin && orderDetail.coin.toUpperCase())}}</span>
+                </p>
+                <p v-show="orderDetail.type === 1" class="red-color form-tip text-align-l">{{$t('common.placeolderFee')}}</p>
             </form>
             <div>
                 <Poptip>
                     <PoptipItem>
-                        下单手续: {{coinInfo.otc_fee * 100}} %
+                        {{$t('common.placeFee')}}: {{coinInfo.otc_fee * 100}} %
                     </PoptipItem>
                     <PoptipItem>
                         {{$t('business.vfiBusTip1')}}
@@ -74,15 +83,9 @@
             </div>
         </TitleHeader>
         <user-auth ref="UserAuth" :type="10" @save="saveHandle"></user-auth>
-        <div class="otc-submit-btn custom-footer">
-            <p class="flex-between-c fee app-padding40">
-                <span>手续费: </span>
-                <span class=" primary-color">{{feeValue + (orderDetail.coin && orderDetail.coin.toUpperCase())}}</span>
-            </p>
-            <div class="flex-between-c app-size-34">
-                <Button :radius="false" @click="$router.go(-1)" type="cancel">{{$t('common.cancle2')}}（{{download}} s）</Button>
-                <Button :radius="false" @click="submitHandle" :disabled="!form.amount || !form.value" type="up">{{$t('common.ok')}}</Button>
-            </div>
+        <div class="app-size-34 app-padding40 lxa-footer-btn flex-around-c">
+            <Button @click="$router.go(-1)" size="medium" type="cancel">{{$t('common.cancle2')}}（{{download}} s）</Button>
+            <Button @click="submitHandle" size="medium" :disabled="!form.amount || !form.value" type="up">{{$t('common.ok')}}</Button>
         </div>
     </div>
 </template>
@@ -266,7 +269,7 @@ export default Vue.extend({
 .otc-submit{
     background: #f8f8f8;
     height: 100%;
-    padding-bottom: 100px;
+    // padding-bottom: 100px;
     overflow: scroll;
     position: relative;
     .lable{
@@ -308,6 +311,9 @@ export default Vue.extend({
         padding-top: 53px;
         padding-bottom: 40px;
         background: #ffffff;
+        .form-tip{
+            font-size: 22px;
+        }
         .form-lable{
             margin-bottom: 43px;
         }
@@ -317,19 +323,18 @@ export default Vue.extend({
             width: 100%;
             background: #F5F7F9;
             border-radius: 10px;
-            margin-bottom: 43px;
+            // margin-bottom: 43px;
         }
     }
     &-btn{
         position: fixed;
         bottom: 0;
         width: 100%;
-        .fee{
-            background: #ffffff;
-            padding-top: 12px;
-            padding-bottom: 12px;
-            font-size: 16px;
-        }
+    }
+    .fee{
+        padding-top: 12px;
+        padding-bottom: 12px;
+        font-size: 32px;
     }
 }
 </style>

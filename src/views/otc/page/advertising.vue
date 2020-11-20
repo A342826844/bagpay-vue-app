@@ -55,6 +55,7 @@
                             <span class="form-item-start" slot="start" v-t="'otc.num'"></span>
                             {{coinSHow}}
                         </Inputs>
+                        <p v-show="item.type === 2" class="red-color form-tip text-align-l app-padding40">{{$t('common.placeolderFee')}}</p>
                     </div>
                     <div class="form-item">
                         <Inputs readonly :value="total || $t('otc.total')">
@@ -64,8 +65,8 @@
                     </div>
                     <div class="form-item">
                         <Inputs readonly :value="feeValue || $t('otc.total')">
-                            <span class="form-item-start" slot="start">手续费</span>
-                            {{_unitIcon}}
+                            <span class="form-item-start" slot="start">{{$t('common.fee')}}</span>
+                            {{coinSHow}}
                         </Inputs>
                     </div>
                     <div class="form-item">
@@ -244,7 +245,7 @@ export default Vue.extend({
         feeValue(): string {
             const { otc_fee } = this.coinInfo;
             if (Number(this.total)) {
-                return (Number(this.total) * otc_fee).toFixed(this.coinInfo.decimal);
+                return (Number(this.formTemp[this.typeKey].amount) * otc_fee).toFixed(this.coinInfo.decimal);
             }
             return (0).toFixed(this.coinInfo.decimal);
         },
@@ -395,7 +396,7 @@ export default Vue.extend({
             // remark: [string] 备注
             const params = {
                 ...this.formTemp[this.typeKey],
-                total: this.total,
+                total: this.formTemp[this.typeKey].amount,
                 type: this.type,
                 pay_types: this.formTemp[this.typeKey].pay_types.join(','),
                 ...data,
@@ -430,6 +431,10 @@ export default Vue.extend({
         .form-item{
             margin-bottom: 36px;
             transition: all 0.3s;
+            .form-tip{
+                padding-top: 12px;
+                font-size: 24px;
+            }
             &:last-child{
                 margin-bottom: 0;
             }

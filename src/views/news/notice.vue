@@ -6,7 +6,7 @@
                     <li
                         @click="$router.push(`/news/noticedetail?id=${item.id}`)"
                         v-for="item in list"
-                        :key="item"
+                        :key="item.id"
                         class="li app-padding40 light-grey-bg"
                     >
                         <div class="flex-between-c">

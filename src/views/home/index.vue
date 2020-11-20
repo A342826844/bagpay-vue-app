@@ -3,7 +3,7 @@
         <div class="home-header flex-between-c">
             <div>
                 <img src="../../assets/img/common/menu.png" alt=""
-                    @click="$router.push(`/choisesymbol?symbol=${symbol}&form=2`)">
+                    @click="toChoiceSymbol">
                 <h3 class="home-header-coin">{{symbol.toUpperCase()}}</h3>
             </div>
             <div>
@@ -12,13 +12,9 @@
         </div>
         <div v-if="_isLogin" class="home-assets flex-around-s flex-column">
             <h4 class="home-assets-account" @click="_change">
-                {{_unitIcon}}<span class="home-assets-value">{{
-                    hide === '1' ? '****' :
-                    changeRate(
-                        (activeCoin.available || 0) + (activeCoin.otc_frozen || 0) + (activeCoin.sys_frozen || 0) + (activeCoin.withdraw_frozen || 0)
-                        , symbol
-                    )
-                }}</span>
+                <span class="home-assets-value">{{
+                    hide === '1' ? '****' : amount
+                }} </span> <span class="font-w-n">{{symbol.toUpperCase()}}</span>
             </h4>
             <div class="home-assets-address flex-between-c">
                 <p class="ellipsis" @click="$copyText(activeSymbol.address)">{{hide === '1' ? '****' : activeSymbol.address}}</p>
@@ -32,9 +28,9 @@
         </div>
         <div @click="$router.push('/entrylogin')" v-if="!_isLogin" class="home-assets flex-around-s flex-column">
             <h4 class="home-assets-account" @click="_change">
-                <span class="home-assets-title">点击登录</span>
+                <span class="home-assets-title">{{$t('common.clickToLogin')}}</span>
             </h4>
-            <p class="home-assets-tip">登录后查看资金余额</p>
+            <p class="home-assets-tip">{{$t('common.loginForAssets')}}</p>
         </div>
         <div class="home-notice flex-between-c">
             <div class="flex-item-1 flex-start-c">
@@ -46,9 +42,9 @@
                         </span>
                     </swiper-slide>
                 </swiper>
-                <span v-else>暂无公告</span>
+                <span v-else>{{$t('common.noNotice')}}</span>
             </div>
-            <span @click="$router.push('/news/notice')">查看更多</span>
+            <span @click="$router.push('/news/notice')">{{$t('common.lookMore')}}</span>
         </div>
         <AllApp></AllApp>
         <div class="assets-symbol-list">
@@ -86,13 +82,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import AllApp from './component/AllApp.vue';
-
-const cost = require('@/assets/img/home/cost.png');
-const financial = require('@/assets/img/home/financial.png');
-const news = require('@/assets/img/home/news.png');
-const invita = require('@/assets/img/home/invita.png');
-const tranfer = require('@/assets/img/home/tranfer.png');
-const allApp = require('@/assets/img/common/all-app.png');
 
 type appItem = {
     link: string;
@@ -150,14 +139,25 @@ export default Vue.extend({
         activeCoin(): any {
             return this.symbolList.find((item: any) => item.coin === this.symbol) || {};
         },
+        coinInfo(): CoinInfo {
+            return this.$store.getters.getCoinInfo(this.symbol);
+        },
         coinMap(): any {
             return this.$store.getters.getCoinMap;
+        },
+        amount(): any {
+            const value = (this.activeCoin.available || 0)
+                + (this.activeCoin.otc_frozen || 0)
+                + (this.activeCoin.sys_frozen || 0)
+                + (this.activeCoin.withdraw_frozen || 0);
+            return value ? value.toFixed(this.coinInfo.decimal) : '0.00';
         },
     },
     created() {
         if (this._isLogin) {
             this.init();
         }
+        this.getArticleCategories();
     },
     methods: {
         _change() {
@@ -175,7 +175,6 @@ export default Vue.extend({
                     this.changeLoading(false);
                 });
             }
-            this.getArticleCategories();
         },
         getExchangeRate() {
             return this.$api.getExchangeRate().then((res: any) => {
@@ -213,6 +212,13 @@ export default Vue.extend({
                 }
             });
         },
+        toChoiceSymbol() {
+            if (!this._isLogin) {
+                this.$loginRoute(`/choisesymbol?symbol=${this.symbol}&form=2`);
+                return;
+            }
+            this.$router.push(`/choisesymbol?symbol=${this.symbol}&form=2`);
+        },
         addSymbol() {
             this.$router.push('/addsymbol');
         },
@@ -224,6 +230,9 @@ export default Vue.extend({
 @import './assets-symbol-list.less';
 .home{
     padding-bottom: 150px;
+    .font-w-n{
+        font-weight: normal;
+    }
     &-header{
         font-size: 45px;
         height: 100px;

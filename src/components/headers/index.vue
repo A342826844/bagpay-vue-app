@@ -104,8 +104,11 @@ export default Vue.extend({
         width: 19px;
         height: 33px;
         position: absolute;
-        top:25px;
-        left:41px
+        // top:25px;
+        left:44px;
+        top: 0;
+        bottom: 0;
+        margin: auto;
     }
     .title {
         display: inline-block;

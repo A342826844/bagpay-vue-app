@@ -1,6 +1,6 @@
 import { axiosOfJava, axiosOfGoLang } from './axios';
 
-// const baseURL = 'http://127.0.0.1:3000';
+// const baseURL = 'http://192.168.10.157:8081';
 const baseURL = process.env.VUE_APP_GOLANG_DEVURL;
 
 interface Config {
