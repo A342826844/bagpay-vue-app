@@ -126,6 +126,7 @@ export default Vue.extend({
             this.changeLoading(true);
             this.$api.forgetPayPwd({
                 new_password: this.$md5(`${this.form.password}bagpaysol`),
+                passport: this.$hasBindValue(this._userInfo.phone) ? this._userInfo.phone : this._userInfo.email,
                 ...auth,
             }).then((res: any) => {
                 if (res.code === 0) {

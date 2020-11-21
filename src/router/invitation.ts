@@ -24,11 +24,19 @@ const routers: Array<RouteConfig> = [
         },
     },
     {
-        path: '/invitation/Teamdetail',
+        path: '/invitation/teamdetail',
         name: 'invitationTeamDetail',
         component: TeamDetail,
         meta: {
             index: 100,
+        },
+    },
+    {
+        path: '/invitation/teamdetail/child',
+        name: 'invitationTeamDetailChild',
+        component: TeamDetail,
+        meta: {
+            index: 200,
         },
     },
     {

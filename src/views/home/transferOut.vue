@@ -5,6 +5,7 @@
                 class="transfer-out-qrcode"
                 @click="$router.push(`/scanQRCode`)"
                 slot="header"
+                v-if="$route.name !== 'transferpayment'"
                 src="../../assets/img/common/qrcode1.png" alt=""
             >
             <form class="transfer-out-form app-padding40">
@@ -23,6 +24,7 @@
                     <div slot="button" class="button_cont">
                         <img class="app-img-50"
                             src="@/assets/img/home/assets.png"
+                            v-if="$route.name !== 'transferpayment'"
                             @click="$router.push({
                                 path: '/addrList',
                                 query: {
@@ -65,7 +67,7 @@
             </Poptip>
         </TitleHeader>
         <div class="lxa-footer-btn">
-            <p class="app-padding40 flex-between-c">
+            <p class="app-padding40 flex-between-c actual-receipt">
                 <span>{{$t('common.actualReceipt')}}</span>
                 <span class=" primary-color">{{`${actualValue}  ${symbol.toUpperCase()}`}}</span>
             </p>
@@ -147,6 +149,9 @@ export default Vue.extend({
                 vm.form.address = vm.$store.state.qrcodeResult || '';
                 return;
             }
+            if (from.name === 'minesafepass') {
+                return;
+            }
             vm.initParams();
         });
     },
@@ -162,6 +167,9 @@ export default Vue.extend({
             this.form.value = '';
             this.form.password = '';
             this.form.remark = '';
+            this.symbol = this.$route.query.symbol as string;
+            this.form.address = '';
+            this.form.memo = '';
             this.isLoading = true;
             this.changeLoading(true);
             Promise.all([this.getDayAmount(), this.getCoinOne()]).finally(() => {
@@ -267,7 +275,7 @@ export default Vue.extend({
     &-form{
         margin-top: 76px;
         .fee_label{
-            margin-top: 20px;
+            margin-top: 30px;
         }
         .form-item{
             &+.form-item{
@@ -292,6 +300,9 @@ export default Vue.extend({
                 background: #F5F7F9;
             }
         }
+    }
+    .actual-receipt{
+        margin: 30px 0;
     }
 }
 </style>

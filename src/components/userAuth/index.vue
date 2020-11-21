@@ -7,31 +7,34 @@
                 <span v-text="$t('common.safeVeirfy')"></span>
                 <img @click="show=false" src="@/assets/img/common/close.png" alt/>
             </div>
+            <Inputs class="safe-verify-item" :value="phoneNum" readonly v-if="sendType.indexOf(4) !== -1" />
             <Inputs
                 v-if="sendType.indexOf(4) !== -1"
                 class="safe-verify-item"
                 :placeholder="$t('login.vCode')"
                 v-model="phoneCode"
                 type="number">
-                <span slot="start" class="auth_label" v-text="formatName(phoneNum)"></span>
+                <!-- <span slot="start" class="auth_label">{{phoneNum | sliceMoblepre | formatName}}</span> -->
                 <Code :phone="phoneNum" :type="verifyType"></Code>
             </Inputs>
+            <Inputs class="safe-verify-item" :value="(email || _userInfo.email)" readonly v-if="sendType.indexOf(3) !== -1" />
             <Inputs
                 v-if="sendType.indexOf(3) !== -1"
                 class="safe-verify-item"
                 :placeholder="$t('login.vCode')"
                 v-model="emailCode"
                 type="number">
-                <span slot="start" class="auth_label" v-text="formatName(email || _userInfo.email)"></span>
+                <!-- <span slot="start" class="auth_label">{{(email || _userInfo.email) | formatName}}</span> -->
                 <Code :phone="email || _userInfo.email" vType="email" :type="verifyType"></Code>
             </Inputs>
+            <Inputs class="safe-verify-item" :value="(google || _userInfo.ga)" readonly v-if="sendType.indexOf(5) !== -1" />
             <Inputs
                 v-if="sendType.indexOf(5) !== -1"
                 class="safe-verify-item"
                 :placeholder="$t('login.vCode')"
                 v-model="googleCode"
                 type="number">
-                <span slot="start" class="auth_label" v-text="formatName(google || _userInfo.ga)"></span>
+                <!-- <span slot="start" class="auth_label">{{(google || _userInfo.ga) | formatName}}</span> -->
                 <Code :phone="google || _userInfo.ga" :type="verifyType"></Code>
             </Inputs>
             <Inputs
@@ -39,6 +42,7 @@
                 class="safe-verify-item"
                 :placeholder="$t('common.enterPayCode')"
                 v-model="payPwd"
+                password
                 type="password">
                 <span slot="start" class="auth_label" v-text="$t('login.payPassword')"></span>
             </Inputs>
@@ -47,6 +51,7 @@
                 class="safe-verify-item"
                 :placeholder="$t('common.enterPwdCode')"
                 v-model="loginPwd"
+                password
                 type="password">
                 <span slot="start" class="auth_label" v-text="$t('login.password')"></span>
             </Inputs>
@@ -181,10 +186,10 @@ export default Vue.extend({
                 this.show = true;
             }
         },
-        formatName(str: string) {
-            const res = `${str.slice(0, 3)}***${str.slice(-3, str.length)}`;
-            return res;
-        },
+        // formatName(str: string) {
+        //     const res = `${str.slice(0, 3)}***${str.slice(-3, str.length)}`;
+        //     return res;
+        // },
         handleEnterOut() {
             // 短信验证码类型 0 =>不需要验证  1 => 密码  2 => 支付密码  3 => 邮件  4 => 手机  5 => google验证码
             const pwdObj: any = {};

@@ -3,7 +3,7 @@
         <Headers bold theme="primary">
             <h4 class="invitation-header-left vertical-m" slot="left">
                 <span class=" vertical-m">{{_userInfo.nickname}}</span>
-                <img src="../../assets/img/invitation/v1.png" class="level app-img-50" alt="">
+                <img :src="levelImg" class="level app-img-50" alt="">
             </h4>
             <img @click="$router.push('/invitation/help')" src="../../assets/img/common/help.png" class="app-img-50" alt="">
         </Headers>
@@ -218,10 +218,10 @@ export default Vue.extend({
                 return v1;
             }
             if (this.extUserData.role === 1) {
-                return v2;
+                return v3;
             }
             if (this.extUserData.role === 2) {
-                return v3;
+                return v2;
             }
             return v1;
         },
@@ -383,7 +383,7 @@ export default Vue.extend({
             if (this.breadLeave === 1) {
                 userId = this.secondInfo.userId;
             } else if (this.breadLeave === 2) {
-                userId = this.secondInfo.userId;
+                userId = this.thressInfo.userId;
             }
             this.changeLoading(true);
             this.list = [];

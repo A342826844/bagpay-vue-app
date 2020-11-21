@@ -397,8 +397,12 @@ Vue.filter('langType', (state: 'zh-CN'|'en-us') => {
 });
 
 // 手机号加密处理
-Vue.filter('formatName', (str='') => { 
-    return str.slice(0,3)+'***'+str.slice(-4, str .length);
+Vue.filter('formatName', (str='') => {
+    // return str.replace(str.slice(3, 7), "***");
+    const before = str.slice(0,3)+'***';
+    const temp = before.length - str.length;
+    const start = temp <= -4 ? -4 : Math.min(temp, -1);
+    return before + str.slice(start, str.length);
 });
 // 手机号加密处理
 Vue.filter('sliceMoblepre', (phone='') => {

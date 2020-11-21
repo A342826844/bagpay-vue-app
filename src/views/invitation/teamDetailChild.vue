@@ -2,15 +2,10 @@
     <div class="invitation-profit">
         <TitleHeader :title="$t('invitation.teamDetail')">
             <ul class="invitation-profit-ul app-padding40">
-                <LiItem
-                    :arrow="!!item.childCount && $route.name !== 'invitationTeamDetailChild'"
-                    @click="showChildenHandle(item)"
-                    v-for="item in list"
-                    :key="item.userId"
-                >
+                <LiItem @click="showChildenHandle(item)" v-for="item in list" :key="item.userId">
                     <template #title>{{userName}}</template>
                     <template #time>{{item.createdAt | date('yyyy-MM-dd hh:mm:ss')}}</template>
-                    <template #name>{{item.userName}} ({{item.childCount}})</template>
+                    <template #name>{{item.userName}}</template>
                     <template #value>{{item.parentCommSum}}</template>
                 </LiItem>
                 <NoData v-if="!_loading && !list.length"/>
@@ -30,7 +25,7 @@ type data = {
 }
 
 export default Vue.extend({
-    name: 'TeamDetail',
+    name: 'TeamDetailChild',
     components: {
         LiItem,
     },
@@ -50,6 +45,10 @@ export default Vue.extend({
     beforeRouteUpdate(to, from, next) {
         const userName = (to.query.userName as string) || '';
         const userId = Number(to.query.userId);
+        // eslint-disable-next-line no-param-reassign
+        to.meta.index = 1000 + userId;
+        // eslint-disable-next-line no-param-reassign
+        from.meta.index = 1000 + this.userId;
         this.init(userId, userName);
         next();
     },
@@ -66,16 +65,14 @@ export default Vue.extend({
         getExtChildren(userId?: number) {
             const params = {
                 userId,
-                cascade: this.$route.name === 'invitationTeamDetailChild',
+                cascade: false,
             };
             return this.$api.getExtChildren(params).then((res: any) => {
                 this.list = res.data;
             });
         },
         showChildenHandle(item: any) {
-            if (!item.childCount) return;
-            if (this.$route.name === 'invitationTeamDetailChild') return;
-            const path = `/invitation/teamdetail/child?userId=${item.userId}&userName=${item.userName}`;
+            const path = `/invitation/Teamdetail?userId=${item.userId}&userName=${item.userName}`;
             this.$router.push(`${path}`);
         },
     },

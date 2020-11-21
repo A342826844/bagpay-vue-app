@@ -3,9 +3,12 @@
         <TitleHeader :title="$t('invitation.commDetail')">
             <ul class="invitation-profit-ul app-padding40">
                 <LiItem v-for="item in list" :key="item.id">
-                    <template #title>{{item.commType | invitaCommTypeTeam}}</template>
+                    <template #title>
+                        {{item.commType | invitaCommTypeTeam}}
+                        <span class="">{{$t('invitation.upLevel')}}: {{item.childNickname}}</span>
+                    </template>
                     <template #time>{{item.createdAt | date('yyyy-MM-dd hh:mm:ss')}}</template>
-                    <template #name>{{item.childNickname}}</template>
+                    <template #name>{{$t('invitation.downLevel')}}:{{item.traderNickName}}</template>
                     <template #value>{{item.amount | toNonExponential}} {{item.coin && item.coin.toUpperCase()}}</template>
                 </LiItem>
                 <p class="content-list-nodata gray-color" v-show="!_loading && list.length && isEnd">
@@ -86,6 +89,9 @@ export default Vue.extend({
     overflow: scroll;
     &-ul{
         margin-top: 55px;
+        .name{
+            font-size: 22px;
+        }
     }
 }
 </style>

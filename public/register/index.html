@@ -56,7 +56,11 @@
             </div>
         </div>
         <div v-show="showCountry" id="country">
-            <div @click="selectCountry(item)" v-for="(item, index) in country" :key="index" class="row 0">
+            <div class="positionF">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA1lpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0iODQ4MTNBMTkyNDAyMTcwMDA2Q0YxRTFEMkI1QTM0QzkiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MUZBNEQxM0MwODI1MTFFOTgxRkJDQjYwOUE0MURCNUYiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MUZBNEQxM0IwODI1MTFFOTgxRkJDQjYwOUE0MURCNUYiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjUwYmNiYzJhLWM0OTYtMmM0Yi04ZWMwLTgyZTMyODI0MWEyOSIgc3RSZWY6ZG9jdW1lbnRJRD0iODQ4MTNBMTkyNDAyMTcwMDA2Q0YxRTFEMkI1QTM0QzkiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7+zQcNAAADuklEQVR42sSYe2hOYRzHz7tcc12Tu20kt9xGCMuliEwkUe+LiESZsSG08QejEJtL+cukdhFpKJeM5lbKzDSLbUzuarltawlz+T76nvXb03nPe87rrP3q03me57zve77n9zzP7/d7Xp/f7zfCsEFgNIgGnUEN+AAegSdufig3N7dJv5WL704FCWAKmGDzuVJwg1xy+6ZOBM0ESWCuw98cSZLBTXAYnPdKUDpItRhX01IFPoNvoB2IBDGcStOmkSyQyM+GJagjuAYmirEvasrBKVBk85vDwRLSj2MrwWROeZWdoAiLsfbgsSYmD8TyLYtCvGQZ2A4GgGNifDDvdXcr6A4fbtoyEAC1wnsdHCyHBrCeXjGnSk3tQzeC9oOxoj8JZIv+BlAHTrvYOJfBKPCb/T7gihNBaoq2iP5icE94Re2YTPEQN/YMzBD92VrfUtAB0T4HzrLdFlQyDuWAHuB4GMG0UNuxeXaCJhNln4BfW1O9wD6wFFQb4dte8JXtbiA+mKCFMpqDn2yvBeO4jrYZ3tiWIO1/5mMuUys/jmNDQAXoIt7GZ3hnXRnTTItEPvsqPdRfiCmjGHPbZjP2eGnq4U9Ff7weqeVAhWjXMwY1h6nEO5TtHvoaihb9mmYSMJZVgmmVot1Z91BH0f/RTIIegD9iE9WJe210D9UHu+mxvRbtTlqKaSLoXZAPemUDeX0hxmJEu1YXVGzxZS9tFq93xdh00f6kCyoXiyxOW+ReWBKvR0ReHCPuF1tF6utibI2HYtbxQKBK2I8cS5BpCUHxg5Wg/GYQtIgFmorKy8X4IS23GcE8VM52FDj6n2I2gjOi1DAX7grQm+3v4Kpd+ZEk2onawnNiKvKmMNpnMEWoAv++2DAnxedXhaqHClgHGcJroXadSjvvGfTUSeQg14xZg98SCbVQC5Q5TkpYlfrfinsVwSo7USOrSuAly9LdTNYBkYbUsagE9BU5cpzTmvoni6Z6cb+Ahz6rEuQ2izclYg7YSXGGOP6UaIcGlQ12uDl1vALDwBttZ7zkA/qFmMZe3GFqk5wQ4794bQ12ifrc0UHxNdfPRRFpo8UDSlnaPmekjaQX4oNMhzrLzQOrKcY8wag8ttmqYrSzBfRQbBjbXwW9NB6lTcukmEbvIzhuspsy3fK5RpSnLojzlZ2pdTefSTTLIkbJ4JgSCATS3XhIt55gBE8NUVwTDYw71SyD3zn4nQyKM20PPJXmC/MPK69MF5USYbSsJfP/o8Zo39KC1F96ykNbeRBN/SvAABGW0P5Nh9O+AAAAAElFTkSuQmCC" alt="" class="search-img">
+                <input v-model="text" @input="searchName" type="text" placeholder="搜索国家/地区" class="input">
+            </div>
+            <div @click="selectCountry(item)" v-for="(item, index) in searchArry" :key="index" class="row 0">
                 <span class="moblepre">+{{item.tel}}</span>
                 <span class="title">{{item.name}}</span>
                 <span class="value">({{item.en}})</span>
@@ -87,7 +91,8 @@
         new Vue({
             el:"#app",
             data: {
-                country,
+                searchArry: [...country],
+                text: '',
                 activeCountry: {
                     en: 'Kampuchea(Cambodia)',
                     name: '柬埔寨',
@@ -145,6 +150,16 @@
                 selectCountry(item) {
                     this.activeCountry = item;
                     this.showCountry = false;
+                },
+                searchName() {
+                    this.searchArry = country.filter((item) => {
+                        var text = this.text.toLocaleLowerCase();
+                        JSON.stringify(item).toLocaleLowerCase();
+                        if (JSON.stringify(item).toLocaleLowerCase().indexOf(text) > -1) {
+                            return true;
+                        }
+                        return false;
+                    });
                 },
                 loginHandle() {
                     if (this.loading) return;
@@ -233,6 +248,9 @@
                                 normalToast(langMessage[this.lang].sendSuccess);
                             } else if (res.code === 1) {
                                 normalToast(langMessage[this.lang][res.message]);
+                                if (res.message === 'ERR_BAD_VERIFICATION_CODE') {
+                                    this.getImg();
+                                }
                             }
                         }).finally(() => {
                             this.isLoading = false;
