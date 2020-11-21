@@ -7,7 +7,7 @@
                 <h3 class="home-header-coin">{{symbol.toUpperCase()}}</h3>
             </div>
             <div>
-                <img v-show="_isplus" @click="$router.push(`/scanQRCode?type=${1}`)" src="../../assets/img/common/qrcode1.png" alt="">
+                <img v-show="_isplus" @click="loginPath(`/scanQRCode?type=${1}`)" src="../../assets/img/common/qrcode1.png" alt="">
             </div>
         </div>
         <div v-if="_isLogin" class="home-assets flex-around-s flex-column">
@@ -218,6 +218,13 @@ export default Vue.extend({
                 return;
             }
             this.$router.push(`/choisesymbol?symbol=${this.symbol}&form=2`);
+        },
+        loginPath(path: string) {
+            if (!this._isLogin) {
+                this.$loginRoute(path);
+                return;
+            }
+            this.$router.push(path);
         },
         addSymbol() {
             this.$router.push('/addsymbol');

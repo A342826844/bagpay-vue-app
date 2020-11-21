@@ -42,12 +42,12 @@ export default Vue.extend({
     },
     created() {
         if (location.href.indexOf('/mine/protocol') !== -1) return;
-        if (localStorage.getItem('isinit') && this._isLogin) {
+        if (this._isLogin) {
             // if (process.env.NODE_ENV === 'production') {
             //     this.$router.push('/home');
             // }
             this.init();
-        } else {
+        } else if (localStorage.getItem('isinit')) {
             this.$router.push('/home');
             this.plusInitHandle();
         }
@@ -149,7 +149,7 @@ export default Vue.extend({
             this.$api.version({
                 channel: ((window as any).plus.os.name || '').toLowerCase(),
                 build: (window as any).plus.runtime.versionCode,
-                version: (window as any).plus.runtime.version,
+                // version: (window as any).plus.runtime.version,
             }).then((res: any) => {
                 if (res.code === 0) {
                     if (!res.data) return;

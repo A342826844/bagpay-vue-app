@@ -165,7 +165,7 @@ export default Vue.extend({
             this.$api.version({
                 channel: ((window as any).plus.os.name || '').toLowerCase(),
                 build: (window as any).plus.runtime.versionCode,
-                version: (window as any).plus.runtime.version,
+                // version: (window as any).plus.runtime.version,
             }).then((res: any) => {
                 if (res.code === 0) {
                     if (!res.data) {
