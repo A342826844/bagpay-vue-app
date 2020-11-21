@@ -43,12 +43,14 @@ export default Vue.extend({
     created() {
         if (location.href.indexOf('/mine/protocol') !== -1) return;
         if (this._isLogin) {
-            // if (process.env.NODE_ENV === 'production') {
-            //     this.$router.push('/home');
-            // }
+            if (process.env.NODE_ENV === 'production') {
+                this.$router.push('/home');
+            }
             this.init();
         } else if (localStorage.getItem('isinit')) {
             this.$router.push('/home');
+            this.plusInitHandle();
+        } else {
             this.plusInitHandle();
         }
     },

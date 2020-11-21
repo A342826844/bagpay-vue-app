@@ -297,8 +297,8 @@ export default Vue.extend({
         },
         html2CanvasHnadle() {
             this.changeLoading(true);
-            // const erCodeDom = (this.$refs.ercode as any)[this.swiper.activeIndex];
-            const erCodeDom = (this.$refs.ercodeInvite as any);
+            const erCodeDom = (this.$refs.ercode as any)[this.swiper.activeIndex];
+            // const erCodeDom = (this.$refs.ercodeInvite as any);
             return html2canvas((erCodeDom as HTMLElement)).then((canvas: HTMLCanvasElement) => canvas.toDataURL('image/png'));
         },
         saveHandle() {
