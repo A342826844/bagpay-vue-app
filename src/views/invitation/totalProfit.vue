@@ -5,7 +5,7 @@
                 <LiItem v-for="item in list" :key="item.id">
                     <template #title>
                         {{item.commType | invitaCommTypeTeam}}
-                        <span class="">{{$t('invitation.upLevel')}}: {{item.childNickname}}</span>
+                        <span class="">{{$t('invitation.upLevel')}}: {{item.pNickName}}</span>
                     </template>
                     <template #time>{{item.createdAt | date('yyyy-MM-dd hh:mm:ss')}}</template>
                     <template #name>{{$t('invitation.downLevel')}}:{{item.traderNickName}}</template>

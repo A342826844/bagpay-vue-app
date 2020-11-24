@@ -8,9 +8,27 @@
             </transition>
             <!-- <router-view v-if="!$route.meta.keepAlive"></router-view> -->
         </div>
-        <van-dialog v-model="show" :title="force_update ? $t('mine.forceUpdate') : $t('mine.update')" :show-confirm-button="!force_update">
-            <van-circle class="van-circle" v-model="rate" :rate="progress" :text="file ? $t('mine.downloaded') : toastOperateTitle" />
-            <Button v-show="file" @click="installHandle(file)" size="fill">{{$t('mine.clickInstall')}}</Button>
+        <van-dialog
+            v-model="show"
+            :title="(force_update ? $t('mine.forceUpdate') : $t('mine.update')) + ' V' + version"
+            :show-confirm-button="false"
+        >
+            <van-circle
+                class="van-circle "
+                v-show="progress"
+                v-model="rate"
+                :rate="progress"
+                :text="file ? $t('mine.downloaded') : toastOperateTitle"
+            />
+            <div class="update-item text-align-l app-padding40">
+                <p>更新内容：</p>
+                <p>{{content}}</p>
+            </div>
+            <div class="update-item flex-between-c app-padding40">
+                <Button v-show="!force_update && !progress" @click="show = false" type="down" size="small">{{$t('common.cancle')}}</Button>
+                <Button v-show="!progress" @click="uploadApp(downloadUrl)" :size="force_update ? 'fill' : 'small'">{{$t('common.ok')}}</Button>
+                <Button v-show="file" @click="installHandle(file)" size="fill">{{$t('mine.clickInstall')}}</Button>
+            </div>
         </van-dialog>
         <Loading/>
         <Footer v-show="$route.meta.showFooter"/>
@@ -38,6 +56,9 @@ export default Vue.extend({
             toastOperateTitle: '',
             transitionName: '',
             file: null,
+            version: '-.-.-',
+            content: '',
+            downloadUrl: '',
         };
     },
     created() {
@@ -150,29 +171,38 @@ export default Vue.extend({
         saveHandle() {
             this.$api.version({
                 channel: ((window as any).plus.os.name || '').toLowerCase(),
-                build: (window as any).plus.runtime.versionCode,
+                // build: (window as any).plus.runtime.versionCode,
+                build: 100,
                 // version: (window as any).plus.runtime.version,
             }).then((res: any) => {
                 if (res.code === 0) {
                     if (!res.data) return;
-                    if (res.data.force_update) {
-                        this.force_update = true;
-                        this.$dialog.alert({
-                            title: `${this.$t('mine.updateV')}`,
-                            message: `${this.$t('mine.updateTip1')}`,
-                        }).then(() => {
-                            this.show = true;
-                            this.uploadApp(res.data.url);
-                        });
-                    } else {
-                        this.$dialog.confirm({
-                            title: `${this.$t('mine.updateV')}`,
-                            message: `${this.$t('mine.updateTip')}`,
-                        }).then(() => {
-                            this.show = true;
-                            this.uploadApp(res.data.url);
-                        });
+                    if (res.data.content) {
+                        this.content = res.data.content;
                     }
+                    this.version = res.data.version;
+                    this.show = true;
+                    this.force_update = res.data.force_update;
+                    this.downloadUrl = res.data.url;
+                    // if (res.data.force_update) {
+                    //     this.force_update = true;
+                    //     this.$dialog.alert({
+                    //         title: `${this.$t('mine.updateV')}`,
+                    //         messageAlign: 'left',
+                    //         message: `更新内容: \n${this.content}`,
+                    //     }).then(() => {
+                    //         this.show = true;
+                    //         this.uploadApp(res.data.url);
+                    //     });
+                    // } else {
+                    //     this.$dialog.confirm({
+                    //         title: `${this.$t('mine.updateV')}`,
+                    //         message: `${this.$t('mine.updateTip')}`,
+                    //     }).then(() => {
+                    //         this.show = true;
+                    //         this.uploadApp(res.data.url);
+                    //     });
+                    // }
                 }
             }).finally(() => {
                 this.changeLoading(false);
@@ -259,5 +289,8 @@ export default Vue.extend({
 }
 .van-circle{
     margin: 18px 0 18px;
+}
+.update-item{
+    margin: 44px 0;
 }
 </style>
