@@ -9,7 +9,7 @@
         <div class="app-headers-left">
             <slot name="left"></slot>
         </div>
-        <span class="title" :style="{opacity: opacityTtitle}" :class="[{'bold-title': bold}]">{{title}}</span>
+        <span class="title ellipsis" :style="{opacity: opacityTtitle}" :class="[{'bold-title': bold}]">{{title}}</span>
         <span class="rightTitle" @click="$emit('right-click')">{{value}}</span>
         <span class="right"><slot></slot></span>
     </div>
@@ -118,6 +118,8 @@ export default Vue.extend({
         position: absolute;
         left:50%;
         transition: opacity 0.5s;
+        width: 50%;
+        text-align: center;
         &.bold-title{
             font-size: 45px;
             font-weight: bold;
