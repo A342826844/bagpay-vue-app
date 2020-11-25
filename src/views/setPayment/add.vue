@@ -99,6 +99,8 @@ export default Vue.extend({
     },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
+            // eslint-disable-next-line no-param-reassign
+            vm.symbol = to.query.symbol || 'usdt';
             if (from.name === 'choisesymbol') {
                 vm.initPramis();
             }

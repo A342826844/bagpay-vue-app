@@ -23,6 +23,11 @@ import Entry from '@/views/entry/index.vue'; // 入口页
 
 import Login from '@/views/login/index.vue'; // 登录
 import Register from '@/views/login/register.vue'; // 注册
+import Mine from '@/views/mine/index.vue'; // 注册
+import ScanQRCode from '@/views/scanQRCode/index.vue'; // 扫描二维码
+import ChoiseSymbol from '@/views/setPayment/choiseSymbol.vue'; // 选择币种
+import TransferOut from '@/views/home/transferOut.vue'; // 转出
+
 import invitation from './invitation';
 import news from './news';
 
@@ -38,11 +43,10 @@ const AddSymbol = () => import('@/views/home/addSymbol.vue'); // 添加币种
 const TransferHistory = () => import('@/views/home/transferHistory.vue'); // 转入转出记录
 const transferFrozen = () => import('@/views/home/transferFrozen.vue'); // 转入转出冻结
 const Payment = () => import('@/views/home/payment.vue'); // 收款地址二维码
-const TransferOut = () => import('@/views/home/transferOut.vue'); // 转出
 const AddrList = () => import('@/views/home/addressList.vue'); // 选择转出地址
 const Allapplist = () => import('@/views/home/allAppList.vue'); // 选择转出地址
 
-const Mine = () => import('@/views/mine/index.vue');
+// const Mine = () => import('@/views/mine/index.vue');
 const SafeSetting = () => import('@/views/mine/safeSetting.vue');
 const SafePass = () => import('@/views/mine/safePass.vue');
 const ForgetSafePass = () => import('@/views/mine/forgetSafePass.vue');
@@ -65,7 +69,6 @@ const MinHelpDetail = () => import('@/views/mine/helpDetail.vue');
 const SetPayment = () => import('@/views/setPayment/index.vue');
 const SetPaymentAdd = () => import('@/views/setPayment/add.vue');
 const SetPaymentEdit = () => import('@/views/setPayment/edit.vue');
-const ChoiseSymbol = () => import('@/views/setPayment/choiseSymbol.vue');
 
 const OtcEntry = () => import('@/views/otc/page/entry.vue');
 const OtcOrder = () => import('@/views/otc/page/order.vue');
@@ -81,7 +84,6 @@ const AdvStatus = () => import('@/views/otc/page/business/advStatus.vue');
 const OtcProtocol = () => import('@/views/otc/page/protocol.vue');
 const BusinessDetail = () => import('@/views/otc/page/businessDetail.vue');
 
-const ScanQRCode = () => import('@/views/scanQRCode/index.vue'); // 扫描二维码
 const ScanValue = () => import('@/views/scanQRCode/value.vue'); // 扫描结果
 
 const routes: Array<RouteConfig> = [

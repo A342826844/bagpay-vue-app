@@ -40,7 +40,7 @@ export default Vue.extend({
                 needMemo: this.needMemo,
             });
             this.$router.push({
-                path: '/setpayment/add',
+                path: `/setpayment/add?symbol=${this.symbol}`,
             });
         },
     },

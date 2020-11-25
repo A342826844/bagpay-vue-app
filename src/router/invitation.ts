@@ -1,7 +1,8 @@
 // 邀请模块路由
 import { RouteConfig } from 'vue-router';
 
-const Invitation = () => import('@/views/invitation/index.vue'); // 邀请
+import Invitation from '@/views/invitation/index.vue'; // 邀请
+
 const TotalProfit = () => import('@/views/invitation/totalProfit.vue'); // 邀请
 const TeamDetail = () => import('@/views/invitation/teamDetail.vue'); // 邀请
 const Help = () => import('@/views/invitation/help.vue'); // 邀请
