@@ -72,7 +72,7 @@
                         <icon-img :symbol="item.coin"></icon-img>
                         <div class="list-values values1">
                             <h5 class="lable">{{item.coin.toUpperCase()}}</h5>
-                            <p class="value">{{coinMap[item.coin]}}</p>
+                            <p class="value">{{ $store.state.lang === 'en' ? item.coin.toUpperCase() : coinMap[item.coin]}}</p>
                         </div>
                     </div>
                     <div class="list-values">
