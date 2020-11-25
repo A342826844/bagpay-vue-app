@@ -39,6 +39,11 @@ type data = {
 const login = require('../../assets/img/mine/help-login.jpg');
 const tranfer = require('../../assets/img/mine/help-tranfer.jpg');
 const otc = require('../../assets/img/mine/help-otc.jpg');
+const registerEn = require('../../assets/img/mine/help-register.en.png');
+const tranferEn = require('../../assets/img/mine/help-tranfer.en.png');
+const otc1En = require('../../assets/img/mine/help-otc1.en.png');
+const otc2En = require('../../assets/img/mine/help-otc2.en.png');
+const otc3En = require('../../assets/img/mine/help-otc3.en.png');
 
 export default Vue.extend({
     name: 'HelpDetail',
@@ -58,6 +63,26 @@ export default Vue.extend({
                 3: {
                     src: 'https://x100.oss-ap-southeast-1.aliyuncs.com/wap-bagpay/video/otc.mp4',
                     poster: otc,
+                },
+                4: {
+                    src: 'https://x100.oss-ap-southeast-1.aliyuncs.com/wap-bagpay/video/register.en.mp4',
+                    poster: registerEn,
+                },
+                5: {
+                    src: 'https://x100.oss-ap-southeast-1.aliyuncs.com/wap-bagpay/video/tranfer.en.mp4',
+                    poster: tranferEn,
+                },
+                6: {
+                    src: 'https://x100.oss-ap-southeast-1.aliyuncs.com/wap-bagpay/video/otc1.en.mp4',
+                    poster: otc1En,
+                },
+                7: {
+                    src: 'https://x100.oss-ap-southeast-1.aliyuncs.com/wap-bagpay/video/otc2.en.mp4',
+                    poster: otc2En,
+                },
+                8: {
+                    src: 'https://x100.oss-ap-southeast-1.aliyuncs.com/wap-bagpay/video/otc3.en.mp4',
+                    poster: otc3En,
                 },
             },
         };

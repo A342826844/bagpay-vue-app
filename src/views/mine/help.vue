@@ -4,7 +4,7 @@
             <ul class="mine-help-ul">
                 <li
                     @click="gotoPlay(item)"
-                    v-for="item in list"
+                    v-for="item in renderList"
                     :key="item.id"
                     class="mine-help-li flex-between-c app-padding40"
                 >
@@ -22,15 +22,11 @@
 <script lang="ts">
 import Vue from 'vue';
 
-type data = {
-   list: Array<any>;
-};
-
 export default Vue.extend({
     name: 'MineHelp',
-    data(): data {
-        return {
-            list: [{
+    computed: {
+        renderList() {
+            const zh = [{
                 id: 1,
                 title: 'mine.loginTutorial', // 注册登录
                 type: 1, // 1 视频， 2 图片， 3 公告
@@ -45,8 +41,38 @@ export default Vue.extend({
                 title: 'mine.otc', // otc
                 type: 1, // 1 视频， 2 图片， 3 公告
                 tip: 'mine.otcTrading',
-            }],
-        };
+            }];
+            const en = [{
+                id: 4,
+                title: 'mine.loginTutorial', // 注册登录
+                type: 1, // 1 视频， 2 图片， 3 公告
+                tip: 'mine.howToRegister', //
+            }, {
+                id: 5,
+                title: 'mine.howToRecharge', // 充值提现
+                type: 1, // 1 视频， 2 图片， 3 公告
+                tip: 'mine.transferAssets',
+            }, {
+                id: 6,
+                title: 'mine.howToOtcS', // OTC出售
+                type: 1, // 1 视频， 2 图片， 3 公告
+                tip: 'mine.otcSell',
+            }, {
+                id: 7,
+                title: 'mine.howToOtcB', // OTC购买
+                type: 1, // 1 视频， 2 图片， 3 公告
+                tip: 'mine.otcBuy',
+            }, {
+                id: 8,
+                title: 'mine.howToOtcBuss', // OTC商家
+                type: 1, // 1 视频， 2 图片， 3 公告
+                tip: 'mine.otcBussiness',
+            }];
+            if (this.$store.state.lang === 'en') {
+                return en;
+            }
+            return zh;
+        },
     },
     methods: {
         gotoPlay(item: any) {
