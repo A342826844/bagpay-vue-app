@@ -167,8 +167,7 @@ export default Vue.extend({
         saveHandle() {
             this.$api.version({
                 channel: ((window as any).plus.os.name || '').toLowerCase(),
-                // build: (window as any).plus.runtime.versionCode,
-                build: 100,
+                build: (window as any).plus.runtime.versionCode,
                 // version: (window as any).plus.runtime.version,
             }).then((res: any) => {
                 if (res.code === 0) {
