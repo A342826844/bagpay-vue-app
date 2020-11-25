@@ -63,14 +63,11 @@ export default Vue.extend({
     },
     created() {
         if (location.href.indexOf('/mine/protocol') !== -1) return;
-        if (this._isLogin) {
-            if (process.env.NODE_ENV === 'production') {
-                this.$router.push('/home');
-            }
-            this.init();
-        } else if (localStorage.getItem('isinit')) {
+        if (process.env.NODE_ENV === 'production' && localStorage.getItem('isinit')) {
             this.$router.push('/home');
-            this.plusInitHandle();
+        }
+        if (this._isLogin) {
+            this.init();
         } else {
             this.plusInitHandle();
         }
@@ -157,7 +154,6 @@ export default Vue.extend({
             }).catch((error) => {
                 if (error.response && error.response.status === 403) {
                     this.plusInitHandle();
-                    this.$router.push('/home');
                 } else {
                     this.total += 1;
                     if (this.total >= 5) {
