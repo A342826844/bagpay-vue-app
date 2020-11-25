@@ -33,12 +33,19 @@
             <p class="home-assets-tip">{{$t('home.loginForAssets')}}</p>
         </div>
         <div class="home-notice flex-between-c">
-            <div class="flex-item-1 flex-start-c">
+            <div @touchmove.stop.prevent="" @click="handleClickSlide" class="flex-item-1 flex-start-c">
                 <img class=" app-img-50" src="../../assets/img/common/notice.png" alt="">
-                <swiper v-if="article.length" class="home-swiper-notice flex-item-1 text-align-l" :options="noticeSwiperOption">
-                    <swiper-slide v-for="sub_item in article" :key="sub_item.id">
-                        <span @click="$router.push(`/news/noticedetail?id=${sub_item.id}`)" class="notice-item vertical-m">
-                            {{sub_item.type | articleType}}: {{sub_item.title}}
+                <swiper
+                    v-if="article.length"
+                    class="home-swiper-notice flex-item-1 text-align-l"
+                    :options="noticeSwiperOption"
+                >
+                    <swiper-slide :data-id="sub_item.id" v-for="sub_item in article" :key="sub_item.id">
+                        <span
+                            :data-id="sub_item.id"
+                            class="notice-item vertical-m"
+                        >
+                            {{category.title}}: {{sub_item.title}}
                         </span>
                     </swiper-slide>
                 </swiper>
@@ -100,6 +107,7 @@ type data = {
     isLoading: boolean;
     unitDecimal: number;
     article: Array<any>;
+    category: any;
     noticeSwiperOption: {};
     symbolList: Array<{
         coin: string;
@@ -125,6 +133,7 @@ export default Vue.extend({
             unitDecimal: this.$store.getters.getCurrencyTypeInfo.decaimal,
             symbolList: [],
             article: [],
+            category: {},
             noticeSwiperOption: {
                 direction: 'vertical',
                 loop: true,
@@ -176,6 +185,15 @@ export default Vue.extend({
                 });
             }
         },
+        handleClickSlide(event: Event) {
+            const { dataset } = (event.target as any);
+            console.log(dataset, event.target);
+            if (dataset.id) {
+                this.$router.push(`/news/noticedetail?id=${dataset.id}`);
+            } else {
+                this.$router.push(`/news/noticedetail?id=${this.article[0].id}`);
+            }
+        },
         getExchangeRate() {
             return this.$api.getExchangeRate().then((res: any) => {
                 if (res.data) {
@@ -201,8 +219,21 @@ export default Vue.extend({
         getArticleCategories() {
             this.$api.getArticleCategories({ type: 1 }).then((res: any) => {
                 if (res.data) {
-                    this.article = res.data;
+                    return res.data[0];
                 }
+                throw new Error();
+            }).then((res: any) => {
+                const params = {
+                    category: res.id,
+                    offset: this.article.length,
+                    limit: 10,
+                };
+                this.$api.getArticleList(params).then((data: any) => {
+                    if (data.data.list) {
+                        this.article = data.data.list;
+                        this.category = res;
+                    }
+                });
             });
         },
         initBalances() {

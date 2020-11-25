@@ -10,7 +10,7 @@
                         class="li app-padding40 light-grey-bg"
                     >
                         <div class="flex-between-c">
-                            <span class="ellipsis">{{item.title}}</span>
+                            <span class="ellipsis">{{category.title}}: {{item.title}}</span>
                             <img class=" app-img-50" src="../../assets/img/common/arrow_right.png" alt="">
                         </div>
                         <div class="time text-align-l">{{item.created_at | date('yyyy-MM-dd hh:mm:ss')}}</div>
@@ -27,6 +27,7 @@ import Vue from 'vue';
 
 type data = {
     list: Array<any>;
+    category: any;
 }
 
 export default Vue.extend({
@@ -34,6 +35,7 @@ export default Vue.extend({
     data(): data {
         return {
             list: [],
+            category: {},
         };
     },
     created() {
@@ -44,9 +46,23 @@ export default Vue.extend({
             this.changeLoading(true);
             this.$api.getArticleCategories({ type: 1 }).then((res: any) => {
                 if (res.data) {
-                    this.list = res.data;
+                    return res.data[0];
                 }
-            }).finally(() => {
+                throw new Error();
+            }).then((res: any) => {
+                const params = {
+                    category: res.id,
+                    offset: this.list.length,
+                    limit: 10,
+                };
+                this.$api.getArticleList(params).then((data: any) => {
+                    this.changeLoading(false);
+                    if (data.data.list) {
+                        this.list = data.data.list;
+                        this.category = res;
+                    }
+                });
+            }).catch(() => {
                 this.changeLoading(false);
             });
         },
