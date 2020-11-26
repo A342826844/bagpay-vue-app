@@ -242,6 +242,8 @@ export default Vue.extend({
         cancelHandle() {
             this.$dialog.confirm({
                 title: `${this.$t('otc.shelfAdv')}`,
+                confirmButtonText: `${this.$t('common.ok')}`,
+                cancelButtonText: `${this.$t('common.cancle2')}`,
             }).then(() => {
                 this.changeLoading(true);
                 this.$api.otcOrderCancel(this.orderDetail.id).then(() => {
