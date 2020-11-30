@@ -207,6 +207,9 @@
         "paymentTip6": "请务必确认电脑及浏览器安全，防止信息被篡改或泄露。"
     },
     "mine": {
+        "changeNickname": "修改昵称",
+        "placeNickname": "请输入新昵称",
+        "existNickname": "昵称已存在或不可用",
         "contact": "联系客服",
         "safeSetting": "安全设置",
         "collectionSet": "收款设置",

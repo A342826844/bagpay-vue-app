@@ -207,6 +207,9 @@
         "paymentTip6": "Please make sure that the computer and browser are safe to prevent information from being tampered with or leaked."
     },
     "mine": {
+        "changeNickname": "Change Nickname",
+        "placeNickname": "Please enter a new nickname",
+        "existNickname": "Nickname already exists or is not available",
         "contact": "Contact Customer Service",
         "safeSetting": "Security Settings",
         "realName": "Verified",

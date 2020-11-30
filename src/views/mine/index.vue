@@ -27,16 +27,19 @@
         <van-dialog
             :beforeClose="beforeClose"
             v-model="show"
-            title="修改昵称"
+            :title="$t('mine.changeNickname')"
+            :confirmButtonText="$t('common.ok')"
+            :cancelButtonText="$t('common.cancle2')"
             show-cancel-button
         >
             <div class="change-nickname app-padding40">
                 <Inputs
                     @input="debounced"
-                    clearable placeholder="请输入新昵称"
+                    clearable
+                    :placeholder="$t('mine.placeNickname')"
                     v-model="nickName"
                     :error="error"
-                    errorMsg="昵称已存在或不可用"
+                    :errorMsg="$t('mine.existNickname')"
                 />
             </div>
         </van-dialog>
@@ -142,8 +145,7 @@ export default Vue.extend({
                 done(false);
                 return;
             }
-            this.$api.changeNickname({ nickName }).then((res: any) => {
-                console.log(res);
+            this.$api.changeNickname({ nickName }).then(() => {
                 this.$store.commit('setUserInfo', {
                     ...this._userInfo,
                     nickname: this.nickName,
