@@ -55,7 +55,12 @@
                             <span class="form-item-start" slot="start" v-t="'otc.num'"></span>
                             {{coinSHow}}
                         </Inputs>
-                        <p v-show="item.type === 2" class="red-color form-tip text-align-l app-padding40">{{$t('common.placeolderFee')}}</p>
+                        <p
+                            v-show="item.type === 2 && coinInfo.otc_fee"
+                            class="red-color form-tip text-align-l app-padding40"
+                        >
+                            {{$t('common.placeolderFee')}}
+                        </p>
                     </div>
                     <div class="form-item">
                         <Inputs readonly :value="total || $t('otc.total')">

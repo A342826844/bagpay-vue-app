@@ -100,7 +100,7 @@
         "fee": "Handling Fee",
         "clickToLogin": "Click to log in",
         "placeFee": "Order Handling Fee",
-        "placeolderFee": "Note: Please note that the account balance is sufficient to deduct the posting fee",
+        "placeolderFee": "Note: Please note that the service charge will be deducted after the release",
         "article": "Article",
         "notice": "Notice",
         "noNotice": "No Notice",

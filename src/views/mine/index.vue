@@ -148,7 +148,7 @@ export default Vue.extend({
             }
             this.timer = setTimeout(() => {
                 this.checkNickname();
-            }, 1000);
+            }, 500);
         },
         confirmHandle(done: (close?: boolean) => void) {
             const nickName = this.nickName.trim();
@@ -167,6 +167,9 @@ export default Vue.extend({
             });
         },
         beforeClose(action: string, done: () => void) {
+            if (this.timer) {
+                clearTimeout(this.timer);
+            }
             if (action === 'confirm') {
                 this.confirmHandle(done);
                 return;

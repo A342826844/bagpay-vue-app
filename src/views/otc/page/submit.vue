@@ -66,7 +66,12 @@
                     <span>{{$t('common.fee')}}: </span>
                     <span>{{feeValue + (orderDetail.coin && orderDetail.coin.toUpperCase())}}</span>
                 </p>
-                <p v-show="orderDetail.type === 1" class="red-color form-tip text-align-l">{{$t('common.placeolderFee')}}</p>
+                <p
+                    v-show="orderDetail.type === 1 && coinInfo.otc_fee"
+                    class="red-color form-tip text-align-l"
+                >
+                    {{$t('common.placeolderFee')}}
+                </p>
             </form>
             <div>
                 <Poptip>
