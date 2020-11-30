@@ -48,6 +48,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { overflowScrolling } from '@/commons/dom/index';
 
 const manage = require('../../assets/img/mine/manage.png');
 const pay = require('../../assets/img/mine/pay.png');
@@ -117,6 +118,17 @@ export default Vue.extend({
     },
     created() {
         this.initUserInfo();
+    },
+    watch: {
+        show(val) {
+            if (val) {
+                this.$overflowScrolling(false);
+            } else {
+                setTimeout(() => {
+                    this.$overflowScrolling(true);
+                }, 500);
+            }
+        },
     },
     methods: {
         goLink(item: listItem) {
