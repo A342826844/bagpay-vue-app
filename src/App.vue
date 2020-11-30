@@ -21,8 +21,8 @@
                 :text="file ? $t('mine.downloaded') : toastOperateTitle"
             />
             <div class="update-item text-align-l app-padding40">
-                <p>更新内容：</p>
-                <p>{{content}}</p>
+                <p>{{$t('common.updateInfo')}}：</p>
+                <p v-html="content"></p>
             </div>
             <div class="update-item flex-between-c app-padding40">
                 <Button v-show="!force_update && !progress" @click="show = false" type="down" size="small">{{$t('common.cancle')}}</Button>

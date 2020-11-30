@@ -5,6 +5,7 @@
         "mine": "Mine"
     },
     "common": {
+        "updateInfo": "Update Content",
         "send": "Send",
         "send2": "Send",
         "save": "Save",
