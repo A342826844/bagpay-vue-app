@@ -88,6 +88,10 @@ export const forgetPwd = (data: params) => postGolang('/user/forget-password', d
 // 获取安全认证项目
 export const getOption = (data: params) => postGolang(`/user/auth/option/${data.operate}`, data);
 
+// 检查昵称唯一性
+export const checkNickname = (data: params) => postGolang('/user/check-nickname', data);
+// 修改昵称
+export const changeNickname = (data: params) => postGolang('/user/change-nickname', data);
 // 获取用户信息
 export const getUserInfo = (data: params) => postGolang('/user/profile', data);
 // 修改登录密码

@@ -2,7 +2,10 @@
     <div class="mine">
         <div class="app-padding40 mine-header flex-between-c">
             <div>
-                <h3 class="mine-header-coin">{{_userInfo.nickname}}</h3>
+                <h3 @click="show = true" class="mine-header-coin">
+                    {{_userInfo.nickname}}
+                    <img class="mine-header-edit" src="../../assets/img/mine/edit.png" alt="">
+                </h3>
             </div>
             <div>
                 <!-- <img class="app-img-50" src="../../assets/img/common/qrcode1.png" alt=""> -->
@@ -21,6 +24,22 @@
                 </li>
             </ul>
         </div>
+        <van-dialog
+            :beforeClose="beforeClose"
+            v-model="show"
+            title="修改昵称"
+            show-cancel-button
+        >
+            <div class="change-nickname app-padding40">
+                <Inputs
+                    @input="debounced"
+                    clearable placeholder="请输入新昵称"
+                    v-model="nickName"
+                    :error="error"
+                    errorMsg="昵称已存在或不可用"
+                />
+            </div>
+        </van-dialog>
     </div>
 </template>
 
@@ -43,6 +62,10 @@ type listItem = {
 }
 
 type data = {
+    nickName: string;
+    show: boolean;
+    error: boolean;
+    timer: any;
     list: Array<listItem>;
 }
 
@@ -50,6 +73,10 @@ export default Vue.extend({
     name: 'Home',
     data(): data {
         return {
+            nickName: '',
+            show: false,
+            error: false,
+            timer: null,
             list: [
                 {
                     name: 'manage',
@@ -92,6 +119,46 @@ export default Vue.extend({
         goLink(item: listItem) {
             this.$router.push(`${item.path}`);
         },
+        checkNickname() {
+            this.error = false;
+            if (!this.nickName.trim()) return;
+            this.$api.checkNickname({ nickName: this.nickName }).then(() => {
+                this.error = false;
+            }).catch(() => {
+                this.error = true;
+            });
+        },
+        debounced() {
+            if (this.timer) {
+                clearTimeout(this.timer);
+            }
+            this.timer = setTimeout(() => {
+                this.checkNickname();
+            }, 1000);
+        },
+        confirmHandle(done: (close?: boolean) => void) {
+            const nickName = this.nickName.trim();
+            if (!nickName || this.error) {
+                done(false);
+                return;
+            }
+            this.$api.changeNickname({ nickName }).then((res: any) => {
+                console.log(res);
+                this.$store.commit('setUserInfo', {
+                    ...this._userInfo,
+                    nickname: this.nickName,
+                });
+            }).finally(() => {
+                done();
+            });
+        },
+        beforeClose(action: string, done: () => void) {
+            if (action === 'confirm') {
+                this.confirmHandle(done);
+                return;
+            }
+            done();
+        },
     },
 });
 </script>
@@ -104,6 +171,10 @@ export default Vue.extend({
         &-coin{
             vertical-align: middle;
             display: inline-block;
+        }
+        &-edit{
+            height: 32px;
+            width: auto;
         }
     }
     &-body{
@@ -122,6 +193,9 @@ export default Vue.extend({
                 }
             }
         }
+    }
+    .change-nickname{
+        margin: 28px 0;
     }
 }
 </style>
