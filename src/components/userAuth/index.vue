@@ -174,6 +174,8 @@ export default Vue.extend({
                 this.$dialog.confirm({
                     message: `${this.$t('mine.payPwd')}`,
                     className: 'confirm_34',
+                    confirmButtonText: `${this.$t('common.ok')}`,
+                    cancelButtonText: `${this.$t('common.cancle2')}`,
                     beforeClose: (action: any, done: any) => {
                         if (action === 'confirm') {
                             this.$router.push('/mine/safepass');

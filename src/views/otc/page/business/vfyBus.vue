@@ -188,6 +188,8 @@ export default Vue.extend({
                 this.$dialog.confirm({
                     title: `${this.$t('business.confirmApply')}`,
                     messageAlign: 'left',
+                    confirmButtonText: `${this.$t('common.ok')}`,
+                    cancelButtonText: `${this.$t('common.cancle2')}`,
                     message: `<div class="app-reset-diolog-message">
                         ${this.$t('business.needPay', {
         text: `<span class="primary-color">

@@ -103,6 +103,7 @@ export default Vue.extend({
                 this.$dialog.alert({
                     title: `${this.$t('common.poptip')}`,
                     message: `${this.$t('common.isdev')}`,
+                    confirmButtonText: `${this.$t('common.ok')}`,
                 });
                 return;
             }

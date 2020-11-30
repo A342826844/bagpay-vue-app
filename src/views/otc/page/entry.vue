@@ -348,6 +348,7 @@ export default Vue.extend({
                     title: `${this.$t('common.poptip')}`,
                     message: `${this.$t('otc.noPayWay')}`,
                     confirmButtonText: `${this.$t('otc.bind')}`,
+                    cancelButtonText: `${this.$t('common.cancle2')}`,
                 }).then(() => {
                     this.$router.push('/payway');
                 });
@@ -444,6 +445,7 @@ export default Vue.extend({
                         title: `${this.$t('common.poptip')}`,
                         message: `${this.$t('mine.notCertified', { num: 3 })}`,
                         confirmButtonText: `${this.$t('mine.toAuthenticate')}`,
+                        cancelButtonText: `${this.$t('common.cancle2')}`,
                     }).then(() => {
                         this.$router.push('/mine/safesetting');
                     });
@@ -454,6 +456,7 @@ export default Vue.extend({
                         title: `${this.$t('common.poptip')}`,
                         message: `${this.$t('otc.noBusiness')}`,
                         confirmButtonText: `${this.$t('mine.toAuthenticate')}`,
+                        cancelButtonText: `${this.$t('common.cancle2')}`,
                     }).then(() => {
                         this.$router.push('/otc/advBusiness');
                     });
@@ -464,6 +467,7 @@ export default Vue.extend({
                         title: `${this.$t('common.poptip')}`,
                         message: `${this.$t('otc.payPwd')}`,
                         confirmButtonText: `${this.$t('otc.bind')}`,
+                        cancelButtonText: `${this.$t('common.cancle2')}`,
                     }).then(() => {
                         this.$router.push('/mine/safepass');
                     });

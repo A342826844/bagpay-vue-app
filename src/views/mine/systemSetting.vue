@@ -117,6 +117,8 @@ export default Vue.extend({
             this.$dialog.confirm({
                 message: `${this.$t('mine.logoutTip')}`,
                 className: 'confirm_34',
+                confirmButtonText: `${this.$t('common.ok')}`,
+                cancelButtonText: `${this.$t('common.cancle2')}`,
             }).then(() => {
                 this.$api.logout().then((res: any) => {
                     if (res.code === 0) {
@@ -177,6 +179,7 @@ export default Vue.extend({
                         this.$dialog.alert({
                             title: `${this.$t('mine.updateV')}`,
                             message: `${this.$t('mine.updateTip1')}`,
+                            confirmButtonText: `${this.$t('common.ok')}`,
                         }).then(() => {
                             this.show = true;
                             this.uploadApp(res.data.url);
@@ -185,6 +188,8 @@ export default Vue.extend({
                         this.$dialog.confirm({
                             title: `${this.$t('mine.updateV')}`,
                             message: `${this.$t('mine.updateTip')}`,
+                            confirmButtonText: `${this.$t('common.ok')}`,
+                            cancelButtonText: `${this.$t('common.cancle2')}`,
                         }).then(() => {
                             this.show = true;
                             this.uploadApp(res.data.url);

@@ -5,7 +5,11 @@
         @touchend="endHandle"
         class="entry">
         <Headers :isBack="$route.name === 'entrylogin'">
-            <span v-show="activeTab !== 2" class="primary-color" @click="$router.push('/home')">{{$t('entry.skip')}}</span>
+            <span
+                v-show="activeTab !== 2 && $route.name !== 'entrylogin'"
+                class="primary-color"
+                @click="$router.push('/home')"
+            >{{$t('entry.skip')}}</span>
         </Headers>
         <div class="entry-banner">
             <ul
@@ -29,7 +33,7 @@
             <Button @click="$router.push('/login')" class="entry-btn-item">{{$t('login.loginTitle')}}</Button>
             <Button @click="$router.push('/register')" class="entry-btn-item" border type="info">{{$t('login.registerTitle')}}</Button>
         </div>
-        <div v-show="activeTab !== 2" class="entry-next flex-between-c">
+        <div v-show="activeTab !== 2 && $route.name !== 'entrylogin'" class="entry-next flex-between-c">
             <span  href="javascript:void(0)"></span>
             <div class="entry-next-tab">
                 <p class="active0"></p>

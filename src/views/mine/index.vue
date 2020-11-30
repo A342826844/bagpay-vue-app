@@ -150,6 +150,7 @@ export default Vue.extend({
                     ...this._userInfo,
                     nickname: this.nickName,
                 });
+                this.nickName = '';
             }).finally(() => {
                 done();
             });
