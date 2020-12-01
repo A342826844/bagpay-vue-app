@@ -13,7 +13,8 @@
               <icon-img :symbol="item.symbol"></icon-img>
               <div class="list-values values1">
                 <h5 class="lable">{{ item.symbol.toUpperCase() }}</h5>
-                <p class="value">{{ item.name }}</p>
+                <!-- <p class="value">{{ item.name }}</p> -->
+                <p class="value">{{ $store.state.lang === 'en' ? item.symbol.toUpperCase() : item.name}}</p>
               </div>
             </div>
             <div class="list-values" v-show="symbol === item.symbol">

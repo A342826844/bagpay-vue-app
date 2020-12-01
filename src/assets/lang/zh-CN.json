@@ -268,6 +268,7 @@
         "resetReal": "重新认证",
         "systemSetting": "系统设置",
         "hideAmount": "隐藏余额",
+        "availableAmount": "可用余额",
         "payManaged": "收款管理",
         "changeLang": "切换语言",
         "unitPrice": "计价单位",

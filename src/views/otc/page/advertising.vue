@@ -25,6 +25,13 @@
                             <span class="vertical-m">{{formTemp['form'+item.type].coin && formTemp['form'+item.type].coin.toUpperCase()}}
                             </span>
                         </Select>
+                        <p class="form-tip flex-between-c app-padding40" >
+                            <span v-t="'mine.availableAmount'"></span>
+                            <span class=" primary-color">
+                                {{balance}}
+                                {{formTemp['form'+item.type].coin && formTemp['form'+item.type].coin.toUpperCase()}}
+                            </span>
+                        </p>
                     </div>
                     <!-- <div @click="selectPopup = !selectPopup" class="form-item">
                         <Select>
@@ -158,6 +165,7 @@ type data = {
     PayType: PayType;
     isfloatRate: boolean;
     pay_types: Array<number>;
+    balances: Array<any>;
     selectPopup: boolean;
     payPopup: boolean;
     exchangeRate: any;
@@ -203,6 +211,7 @@ export default Vue.extend({
             pay_types: [], // TODO: 出售和购买的支付方式不一样
             exchangeRate: {},
             type: 1,
+            balances: [], // 账户余额
             formTemp: {
                 form1: {
                     coin: '',
@@ -247,6 +256,10 @@ export default Vue.extend({
         bankInfo(): any {
             return this.$store.state.bankInfo;
         },
+        balance(): number {
+            const res = this.balances.find((item) => item.coin === this.formTemp[this.typeKey].coin);
+            return res ? res.available : 0;
+        },
         feeValue(): string {
             const { otc_fee } = this.coinInfo;
             if (Number(this.total)) {
@@ -286,6 +299,7 @@ export default Vue.extend({
             } else {
                 vm.setCoin(to.query.symbol);
                 vm.initFormData();
+                vm.getBalances();
             }
         });
     },
@@ -302,6 +316,11 @@ export default Vue.extend({
                 if (res.data) {
                     this.exchangeRate = res.data;
                 }
+            });
+        },
+        getBalances() {
+            this.$api.getBalances().then((res: any) => {
+                this.balances = res.data;
             });
         },
         changePrice() {
