@@ -134,7 +134,6 @@ export default Vue.extend({
             this.$router.push(`${item.path}`);
         },
         checkNickname() {
-            this.error = false;
             if (!this.nickName.trim()) return;
             this.$api.checkNickname({ nickName: this.nickName }).then(() => {
                 this.error = false;
@@ -170,6 +169,7 @@ export default Vue.extend({
             if (this.timer) {
                 clearTimeout(this.timer);
             }
+            this.error = false;
             if (action === 'confirm') {
                 this.confirmHandle(done);
                 return;
