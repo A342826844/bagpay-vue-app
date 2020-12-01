@@ -16,6 +16,7 @@
                     'font-size': moveIng ? titleFontSize[index] : '',
                     'transition-duration': moveIng ? '' : '.3s'
                 }"
+                class="tabbar-p"
                 :class="{active:index==activeIndex}">
                 {{item.title}}
             </p>
@@ -28,7 +29,7 @@
             ref="tabbarBody"
             :style="{
                 left: bodyLeft,
-                'transition-duration': moveIng ? '' : '0.3s'
+                'transition-duration': moveIng ? '' : '.3s'
             }" class="tab-list-body"
         >
             <div
@@ -387,10 +388,12 @@ export default Vue.extend({
             z-index: 99;
             background: #ffffff;
         }
-        & >p{
+        &-p{
             font-size: 28px;
             transition-property: all;
+            transform : translateZ ( 0 ) ;
             opacity: 0.8;
+            width: 100px;
             &.active{
                 color: #333;
                 font-size: 33.6px;
@@ -420,6 +423,7 @@ export default Vue.extend({
         width: 100%;
         min-height: calc(100% - 93px);
         transition-property: left;
+        transform : translateZ ( 0 ) ;
         .tab-list-content {
             // min-height: 100%;
             position: absolute;

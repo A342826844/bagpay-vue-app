@@ -145,12 +145,14 @@ export default Vue.extend({
             if (this.timer) {
                 clearTimeout(this.timer);
             }
+            this.error = false;
             this.timer = setTimeout(() => {
                 this.checkNickname();
             }, 500);
         },
         confirmHandle(done: (close?: boolean) => void) {
             const nickName = this.nickName.trim();
+            console.log(this.error);
             if (!nickName || this.error) {
                 done(false);
                 return;
@@ -169,7 +171,7 @@ export default Vue.extend({
             if (this.timer) {
                 clearTimeout(this.timer);
             }
-            this.error = false;
+            this.checkNickname();
             if (action === 'confirm') {
                 this.confirmHandle(done);
                 return;
