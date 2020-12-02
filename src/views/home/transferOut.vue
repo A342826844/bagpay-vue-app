@@ -56,7 +56,11 @@
             </form>
             <Poptip>
                 <PoptipItem>
-                    {{$t('home.paymentTip4', {"txt": `${this.maxAmount} ${this.symbol.toUpperCase()}`})}}
+                    {{$t('home.paymentTip4', {
+                            "txt": `${this.maxAmount} ${this.symbol.toUpperCase()}`,
+                            amount: `${this.amount} ${this.symbol.toUpperCase()}`,
+                        }
+                    )}}
                 </PoptipItem>
                 <PoptipItem>
                     {{$t('home.paymentTip5')}}
@@ -136,6 +140,13 @@ export default Vue.extend({
     },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
+            console.log(vm._userInfo);
+            if (vm._userInfo.ver_lv === 0) {
+                // XXX: 有时候页面会自动关, 所以给个定时器解决
+                setTimeout(() => {
+                    vm.showLvConfirm(vm._userInfo.ver_lv);
+                }, 100);
+            }
             if (from.name === 'addrList') {
                 vm.initAddress();
                 return;
@@ -149,7 +160,7 @@ export default Vue.extend({
                 vm.form.address = vm.$store.state.qrcodeResult || '';
                 return;
             }
-            if (from.name === 'minesafepass') {
+            if (from.name === 'minesafepass' || from.name === 'verLv1' || from.name === 'minesafesetting') {
                 return;
             }
             vm.initParams();
@@ -183,6 +194,32 @@ export default Vue.extend({
             }).then((res: any) => {
                 this.amount = res.data || 0;
             });
+        },
+        showLvConfirm(ver_lv: number) {
+            console.log('showLvConfirm');
+            this.$dialog.confirm({
+                title: `${this.$t('common.poptip')}`,
+                message: ver_lv ? `${this.$t('home.paymentTip7')}` : `${this.$t('home.paymentTip8')}`,
+                confirmButtonText: `${this.$t('otc.bind')}`,
+                cancelButtonText: `${this.$t('common.cancle2')}`,
+            }).then(() => {
+                this.goVerLv();
+            }).catch(() => {
+                if (ver_lv === 0) {
+                    this.$router.go(-1);
+                }
+            });
+        },
+        goVerLv() {
+            if (this._userInfo.ver_lv === 0) {
+                this.$router.push('/mine/verlv1');
+            // } else if (this._userInfo.ver_lv === 1) {
+            //     this.$router.push('/mine/safesetting');
+            // } else if (this._userInfo.ver_lv === 2) {
+            //     this.$router.push('/mine/safesetting');
+            } else {
+                this.$router.push('/mine/safesetting');
+            }
         },
         getCoinOne() {
             return this.$api.getCoinOne({
@@ -219,10 +256,17 @@ export default Vue.extend({
             ]);
             if (!vfi) return;
             if (Number(this.form.value) + this.amount > this.maxAmount) {
-                this.$normalToast(this.$t('home.paymentTip4', { txt: `${this.maxAmount} ${this.symbol.toUpperCase()}` }));
-            } else {
-                (this.$refs.UserAuth as any).open();
+                if (this._userInfo.ver_lv === 3) {
+                    this.$normalToast(this.$t('home.paymentTip4', {
+                        txt: `${this.maxAmount} ${this.symbol.toUpperCase()}`,
+                        amount: `${this.amount} ${this.symbol.toUpperCase()}`,
+                    }));
+                    return;
+                }
+                this.showLvConfirm(this._userInfo.ver_lv);
+                return;
             }
+            (this.$refs.UserAuth as any).open();
         },
         saveHandle(auth: any) {
             /**
