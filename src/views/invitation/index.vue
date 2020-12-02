@@ -299,7 +299,9 @@ export default Vue.extend({
             this.changeLoading(true);
             const erCodeDom = (this.$refs.ercode as any)[this.swiper.activeIndex];
             // const erCodeDom = (this.$refs.ercodeInvite as any);
-            return html2canvas((erCodeDom as HTMLElement)).then((canvas: HTMLCanvasElement) => canvas.toDataURL('image/png'));
+            return html2canvas((erCodeDom as HTMLElement), {
+                useCORS: true,
+            }).then((canvas: HTMLCanvasElement) => canvas.toDataURL('image/png'));
         },
         saveHandle() {
             this.html2CanvasHnadle().then((res: any) => {
