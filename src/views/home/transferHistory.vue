@@ -229,7 +229,7 @@ export default Vue.extend({
     .top_flex{
         display: flex;
         justify-content: space-between;
-        min-height: 224px;
+        min-height: 240px;
     }
     &-triangle{
         &::after{

@@ -37,6 +37,11 @@ export default Vue.extend({
     methods: {
         contactHandle() {
             // TODO
+            this.$dialog.alert({
+                title: `${this.$t('common.poptip')}`,
+                message: `${this.$t('common.isdev')}`,
+                confirmButtonText: `${this.$t('common.ok')}`,
+            });
         },
     },
 });

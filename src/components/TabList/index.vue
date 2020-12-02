@@ -13,7 +13,7 @@
                 :key="item.id"
                 ref="tabbarTitle"
                 :style="{
-                    'font-size': moveIng ? titleFontSize[index] : '',
+                    transform: moveIng ? `scale(${titleOpacity[index]})` : '',
                     'transition-duration': moveIng ? '' : '.3s'
                 }"
                 class="tabbar-p"
@@ -389,24 +389,28 @@ export default Vue.extend({
             background: #ffffff;
         }
         &-p{
-            font-size: 28px;
+            // font-size: 28px;
             transition-property: all;
             transform : translateZ ( 0 ) ;
             opacity: 0.8;
-            width: 100px;
+            transform: scale(0.8);
+            transform-origin: bottom left;
             &.active{
                 color: #333;
-                font-size: 33.6px;
+                font-size: 35px;
+                transform: scale(1);
                 opacity: 1;
                 font-weight: bold;
             }
         }
         &.tab-list-size-big {
             & >p{
-                font-size: 30px;
-                &.active{
-                    font-size: 45px;
-                }
+                font-size: 45px;
+                transform-origin: bottom left;
+                // transform: scale(1);
+                // &.active{
+                //     transform: scale(1);
+                // }
             }
         }
         p{

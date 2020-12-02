@@ -18,15 +18,27 @@
                     <div class="app-border-margin16 border-b"></div>
                     <div class="app-padding40 detail-info">
                         <div class="flex-between-c">
-                            <span>{{$t('otc.cumulative')}}</span>
+                            <div>
+                                <p>{{$t('otc.cumulative')}}</p>
+                                <p>{{merchantInfo.order_count}}</p>
+                            </div>
+                            <div>
+                                <p>{{$t('otc.tradeOrderNum')}}</p>
+                                <p>{{merchantInfo.order_count}}</p>
+                            </div>
+                            <div>
+                                <p>{{$t('otc.tradeOrderRate')}}</p>
+                                <p>{{merchantInfo.finished_rate ? (merchantInfo.finished_rate * 100).toFixed(2) : 0 }}%</p>
+                            </div>
+                            <!-- <span>{{$t('otc.cumulative')}}</span>
                             <span>{{$t('otc.tradeOrderNum')}}</span>
-                            <span>{{$t('otc.tradeOrderRate')}}</span>
+                            <span>{{$t('otc.tradeOrderRate')}}</span> -->
                         </div>
-                        <div class="flex-between-c value">
+                        <!-- <div class="flex-between-c value">
                             <span>{{merchantInfo.order_count}}</span>
                             <span>{{merchantInfo.finished_count}}</span>
                             <span>{{merchantInfo.finished_rate ? (merchantInfo.finished_rate * 100).toFixed(2) : 0 }}%</span>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="detail-top-empty"></div>
                 </div>
