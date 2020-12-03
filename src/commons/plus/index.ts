@@ -34,12 +34,23 @@ const bigmapToSave = (bitmap: any, success: any, error: any) => {
  * @return {void}
  */
 const saveImg = (base64: any, successCB: any, errorCB: any) => {
-    const bitmap = new (window as any).plus.nativeObj.Bitmap('image');
-    bitmap.loadBase64Data(base64, () => {
-        bigmapToSave(bitmap, successCB, errorCB);
-    }, (err: any) => {
-        console.log(err);
-    });
+    if ((window as any).plus) {
+        const bitmap = new (window as any).plus.nativeObj.Bitmap('image');
+        bitmap.loadBase64Data(base64, () => {
+            bigmapToSave(bitmap, successCB, errorCB);
+        }, (err: any) => {
+            console.log(err);
+        });
+    } else {
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.download = `bp${+new Date()}`;
+        a.href = base64;
+        a.click();
+        successCB();
+        document.body.removeChild(a);
+    }
 };
 
 /**

@@ -43,7 +43,7 @@
                     <swiper-slide :data-id="sub_item.id" v-for="sub_item in article" :key="sub_item.id">
                         <span
                             :data-id="sub_item.id"
-                            class="notice-item vertical-m"
+                            class="notice-item vertical-m ellipsis"
                         >
                             {{category.title}}: {{sub_item.title}}
                         </span>
@@ -290,6 +290,7 @@ export default Vue.extend({
     }
     &-swiper-notice{
         height: 45px;
+        width: 300px;
         .notice-item{
             line-height: 45px;
             display: inline-block;
