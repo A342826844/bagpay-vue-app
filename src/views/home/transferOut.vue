@@ -153,6 +153,7 @@ export default Vue.extend({
             }
             if (from.name === 'scanQRCode' && vm.$route.name === 'transferpayment') {
                 vm.initAddress();
+                vm.getData();
                 return;
             }
             if (from.name === 'scanQRCode') {
@@ -181,11 +182,18 @@ export default Vue.extend({
             this.symbol = this.$route.query.symbol as string;
             this.form.address = '';
             this.form.memo = '';
+            this.getData();
+            // Promise.all([this.getDayAmount(), this.initUserInfo(), this.getCoinOne()]).finally(() => {
+            //     this.isLoading = false;
+            //     this.changeLoading(false);
+            // });
+        },
+        getData() {
             this.isLoading = true;
             this.changeLoading(true);
-            Promise.all([this.getDayAmount(), this.getCoinOne()]).finally(() => {
-                this.isLoading = false;
-                this.changeLoading(false);
+            this.getDayAmount();
+            this.initUserInfo().then(() => {
+                this.getCoinOne();
             });
         },
         getDayAmount() {
@@ -238,6 +246,9 @@ export default Vue.extend({
                 } else {
                     this.maxAmount = 0;
                 }
+            }).finally(() => {
+                this.isLoading = false;
+                this.changeLoading(false);
             });
         },
         auth() {
