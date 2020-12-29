@@ -62,6 +62,11 @@ export default Vue.extend({
         };
     },
     created() {
+        console.log(this.$route.name);
+        if (this.$route.query.ac && this.$route.name !== 'telegrame') {
+            this.$router.replace(`/telegrame?ac=${this.$route.query.ac}`);
+            return;
+        }
         if (location.href.indexOf('/mine/protocol') !== -1) return;
         if (process.env.NODE_ENV === 'production' && localStorage.getItem('isinit')) {
             this.$router.push('/home');
@@ -94,9 +99,14 @@ export default Vue.extend({
             } else {
                 this.transitionName = '';
             }
-            const isPlus = navigator.userAgent.indexOf('Html5Plus') < 0;
-            // 不支持5+ API
-            if (isPlus && process.env.NODE_ENV === 'production' && location.href.indexOf('/mine/protocol') < 0) {
+            const ac = sessionStorage.getItem('ac');
+            const isPlus = navigator.userAgent.indexOf('Html5Plus') !== -1;
+            const isDevelopment = process.env.NODE_ENV === 'development';
+            const isProtocol = location.href.indexOf('/mine/protocol') !== -1;
+
+            // 是开发环境 或 是plus环境 或 用户协议 或 telegram进入
+            if (!(isDevelopment || isPlus || isProtocol || ac)) {
+                // 不支持的 访问场景
                 location.replace(`${location.origin}/download/`);
             }
         },

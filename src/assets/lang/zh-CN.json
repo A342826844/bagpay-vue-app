@@ -6,6 +6,7 @@
     },
     "common": {
         "updateInfo": "更新内容",
+        "logging": "登录中",
         "send": "发 送",
         "send2": "发送",
         "release": "发 布",

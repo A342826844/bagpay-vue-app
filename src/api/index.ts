@@ -81,6 +81,8 @@ export const getImages = (data: params) => postGolang('/verification-code/captch
 export const register = (data: params) => postGolang('/user/sign-up', data);
 // 登录
 export const login = (data: params) => postGolang('/user/sign-in', data);
+// 使用telegram登录
+export const loginTelegram = (data: params) => postGolang('/user/sign-in/telegram', data);
 // 退出
 export const logout = (data: params) => postGolang('/user/sign-out', data);
 // 找回密码

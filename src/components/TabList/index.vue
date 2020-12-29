@@ -165,6 +165,14 @@ export default Vue.extend({
             return `calc(-${(this as any).activeIndex * 100}% + ${(this as any).moveTo}px)`;
         },
     },
+    created() {
+        if (this.defaultVal === this.activeValue) return;
+        this.tabList.forEach((item: any, index: number) => {
+            if (item.value === this.defaultVal) {
+                this.changgeActiveHandle(index);
+            }
+        });
+    },
     watch: {
         defaultVal(value) {
             if (value === this.activeValue) return;

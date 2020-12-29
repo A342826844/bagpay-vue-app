@@ -10,11 +10,45 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= VUE_APP_MARK %></title>
     <script>
-      // 判断浏览器个原生APP， 浏览器自动跳转下载页
-      var value = '<%= NODE_ENV %>';
-      if(navigator.userAgent.indexOf("Html5Plus") < 0 && value === 'production' && location.href.indexOf('/mine/protocol') < 0){//不支持5+ API  
-          location.replace(location.origin + '/download/');
-      }
+        (function() {
+          var parseQuery = function(query, variable) {
+            var pairs = (query + '').split('&');
+            var res = {};
+            // eslint-disable-next-line no-plusplus
+            for (let i = 0; i < pairs.length; i++) {
+              var pairItem = pairs[i].split('=');
+              if (pairItem[0] === variable) {
+                return pairItem[1];
+              }
+              res[pairItem.key] = pairItem.value;
+            }
+            if (variable) return res[variable];
+            return res;
+          };
+          // 判断浏览器个原生APP， 浏览器自动跳转下载页
+          var value = '<%= NODE_ENV %>';
+          var ac1 = parseQuery(location.search.split('?')[1], 'ac');
+          var ac2 = parseQuery(location.hash.split('?')[1], 'ac');
+          var isTelegram = ac1 || ac2;
+          var isPlus = navigator.userAgent.indexOf("Html5Plus") !== -1;
+          var isDevelopment = value === 'development';
+          var isProtocol = location.href.indexOf('/mine/protocol') !== -1;
+          if (isTelegram) {
+            sessionStorage.setItem('ac', isTelegram);
+          }
+          var hasAc = sessionStorage.getItem('ac');
+          // 是开发环境 或 是plus环境 或 用户协议 或 telegram进入
+          if (!(isDevelopment || isPlus || isProtocol || hasAc)) {
+            //不支持的 访问场景
+            location.replace(location.origin + '/download/');
+          }
+          
+          /*
+            if(navigator.userAgent.indexOf("Html5Plus") < 0 && value === 'production' && location.href.indexOf('/mine/protocol') < 0){//不支持5+ API  
+              location.replace(location.origin + '/download/');
+            }
+          */
+        })()
     </script>
   </head>
   <body>

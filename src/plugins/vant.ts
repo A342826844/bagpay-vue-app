@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 import {
     Dialog, Toast, Switch, Field, Button, Tab, Tabs, PullRefresh, Popup, Uploader, PasswordInput, NumberKeyboard, Checkbox,
-    Circle,
+    Circle, Notify,
 } from 'vant';
 import 'vant/lib/dialog/style';
 import 'vant/lib/switch/style';
@@ -19,6 +19,7 @@ import 'vant/lib/number-keyboard/style';
 import 'vant/lib/toast/style';
 import 'vant/lib/checkbox/style';
 import 'vant/lib/circle/style';
+import 'vant/lib/notify/style';
 
 // import Dialog from 'vant/lib/dialog';
 
@@ -27,6 +28,7 @@ declare module 'vue/types/vue' {
     interface Vue {
         $dialog: Dialog;
         $toast: Toast;
+        $notify: Notify;
         // $imagePreview: ImagePreview;
     }
 }
@@ -45,4 +47,5 @@ Vue.component('V-Checkbox', Checkbox);
 Vue.use(Dialog);
 Vue.use(Toast);
 Vue.use(Circle);
+Vue.use(Notify);
 // Vue.use(ImagePreview);

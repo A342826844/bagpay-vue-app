@@ -279,6 +279,14 @@
 	CurrencyMMK = 22 //缅甸元
 ```
 
+#### telegram操作类型 telegramType
+```txt
+	OtcBuy               = 1  // 场外购买广告列表
+	OtcSell              = 2  // 场外出售广告列表
+	OtcSubmit            = 3  // 场外下单
+	OtcOrder             = 4  // 场外订单详情
+```
+
 ### 错误定义
 
 ```txt
@@ -450,6 +458,32 @@ ga_code: [string] 可选,google验证码
 
 `ok`
 
+#### 使用telegram登录
+
+[post] /user/sign-in/telegram
+
+请求参数：
+
+txt
+ac: [string] telegram认证token
+
+返回数据：
+
+ok
+
+#### 使用telegram登录
+
+https://bagpay.io/#/telegram?ac=
+
+参数：
+
+txt
+ac: [string] telegram认证token
+type: [telegramType] 操作类型
+id: [int|string] 广告id或者订单id
+
+#### APP下载
+https://bagpay.io/download/
 #### 登出
 
 `[post] /user/sign-out`

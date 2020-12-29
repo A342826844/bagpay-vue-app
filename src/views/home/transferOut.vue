@@ -5,7 +5,7 @@
                 class="transfer-out-qrcode"
                 @click="$router.push(`/scanQRCode`)"
                 slot="header"
-                v-if="$route.name !== 'transferpayment'"
+                v-if="$route.name !== 'transferpayment' && _isplus"
                 src="../../assets/img/common/qrcode1.png" alt=""
             >
             <form class="transfer-out-form app-padding40">

@@ -175,10 +175,27 @@ export default Vue.extend({
     },
     methods: {
         getOrder() {
+            if (this.$route.query.id) {
+                this.orderDetail.id = Number(this.$route.query.id);
+                this.getOrderDetail();
+                return;
+            }
             this.orderDetail = { ...this.$route.params };
             if (!this.orderDetail.id) {
                 this.$router.go(-1);
             }
+        },
+        getOrderDetail() {
+            this.changeLoading(true);
+            return this.$api.otcOrderGetById(this.orderDetail.id).then((res: any) => {
+                this.changeLoading(false);
+                if (res.data) {
+                    this.orderDetail = res.data;
+                }
+            }).catch(() => {
+                this.changeLoading(false);
+                this.$normalToast(this.$t('otc.orderInfoFailed'));
+            });
         },
         downLoadHandle() {
             this.timer = setInterval(() => {

@@ -40,7 +40,7 @@
         <li @click="checkVersion" class="flex-between-c sys_item">
           <div v-t="'mine.updateV'"></div>
           <div>
-            <span class="vertical-m">v{{version}}</span>
+            <span class="vertical-m">{{version}}</span>
             <img
               class="app-img-50"
               src="../../assets/img/common/arrow_right.png"
@@ -99,9 +99,9 @@ export default Vue.extend({
     },
     created() {
         if ((window as any).plus) {
-            this.version = (window as any).plus.runtime.version;
+            this.version = `v${(window as any).plus.runtime.version}`;
         } else {
-            this.version = '1.0.0';
+            this.version = '';
         }
     },
     methods: {

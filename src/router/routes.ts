@@ -22,6 +22,7 @@ import Home from '@/views/home/index.vue'; // 首页
 import Entry from '@/views/entry/index.vue'; // 入口页
 
 import Login from '@/views/login/index.vue'; // 登录
+import Telegrame from '@/views/login/telegrame.vue'; // 使用telegrame登录
 import Register from '@/views/login/register.vue'; // 注册
 import Mine from '@/views/mine/index.vue'; // 注册
 import ScanQRCode from '@/views/scanQRCode/index.vue'; // 扫描二维码
@@ -148,6 +149,17 @@ const routes: Array<RouteConfig> = [
             keepAlive: true,
             noLogin: true,
             componentName: 'Register',
+            index: 10,
+        },
+    },
+    {
+        path: '/telegrame',
+        name: 'telegrame',
+        component: Telegrame,
+        meta: {
+            keepAlive: true,
+            noLogin: true,
+            componentName: 'Telegrame',
             index: 10,
         },
     },
@@ -525,6 +537,16 @@ const routes: Array<RouteConfig> = [
         component: ScanValue,
         meta: {
             index: 10,
+        },
+    },
+    {
+        path: '/otcbuy',
+        redirect: '/otc/entry?type=buy',
+    },
+    {
+        path: '/otcsell',
+        redirect: {
+            name: 'otcentry',
         },
     },
 ];

@@ -17,7 +17,7 @@
         <TabList
             size="big"
             border
-            :defaultVal="side"
+            :defaultVal="defaultVal"
             @on-click="clickHandle"
             class="otc-tab"
             :tabList="bodyTabList"
@@ -124,6 +124,7 @@ type data = {
     activeSymbol: string;
     loadMore: boolean;
     side: 1|2;
+    defaultVal: string;
     limit: number;
     // 获取渲染的数据
     renderData: {
@@ -177,6 +178,7 @@ export default Vue.extend({
             loadMore: false,
             activeSymbol: 'usdt',
             side: 2,
+            defaultVal: 'sideBuyT',
             limit: 10,
             renderData: {
                 1: {},
@@ -225,6 +227,12 @@ export default Vue.extend({
         next((vm: any) => {
             if (from.name !== 'otcsubmit') {
                 vm.initData();
+            }
+            if (to.query.type === 'buy') {
+                // eslint-disable-next-line no-param-reassign
+                vm.side = vm.bodyTabList[1].side;
+                // eslint-disable-next-line no-param-reassign
+                vm.defaultVal = vm.bodyTabList[1].value;
             }
             vm.loadData();
             if (vm._isLogin) {
