@@ -75,6 +75,8 @@ export const bankUserEnable = (id: number) => postGolang(`/bank/user/enable/${id
 export const registerCode = (data: params) => postGolang(`/verification-code/phone/${data.type}`, data);
 // 注册验证码
 export const registerCodeEmail = (data: params) => postGolang(`/verification-code/email/${data.type}`, data);
+// 注册验证码
+export const registerCodeTelegram = (data: params) => postGolang(`/verification-code/telegram/${data.type}`, data);
 // 获取图片验证
 export const getImages = (data: params) => postGolang('/verification-code/captcha', data);
 // 注册

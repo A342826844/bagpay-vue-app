@@ -55,6 +55,7 @@
                                                 v-model="isLoading"
                                                 @refresh="onRefresh"
                                             >
+                                            <QuickTrade></QuickTrade>
                                             <div
                                                 v-for="renderData in renderData[item.side][activeSymbol]"
                                                 :key="renderData.id"
@@ -108,6 +109,7 @@ import Drawer from '@/components/commons/Drawer.vue';
 import { OrderFilter, SubOrderFilter, SubOrderFilterItem } from '@/components/Orders/index';
 import Loading from '@/components/loading/index.vue';
 import GoodsCard from '../component/GoodsCard.vue';
+import QuickTrade from '../component/QuickTrade.vue';
 
 const business = require('../../../assets/img/otc/business.png');
 const fabu = require('../../../assets/img/otc/fabu.png');
@@ -163,6 +165,7 @@ export default Vue.extend({
     name: 'OtcEntry',
     components: {
         GoodsCard,
+        QuickTrade,
         Drawer,
         Loading,
         OrderFilter,
