@@ -546,6 +546,7 @@
         "ERR_MAX_CANCEL_COUNT": "以达到当日最大可取消次数",
 
         "ERR_BAD_COIN_SYMBOL": "币种标识不正确",
+        "ERR_BAK_TOKEN": "登录信息已过期",
 
         "phoneErr": "请输入正确的手机号",
         "pwdErr": "请输入大于6位小于16位字母或数字的密码",

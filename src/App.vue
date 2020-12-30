@@ -62,9 +62,11 @@ export default Vue.extend({
         };
     },
     created() {
-        console.log(this.$route.name);
-        if (this.$route.query.ac && this.$route.name !== 'telegrame') {
-            this.$router.replace(`/telegrame?ac=${this.$route.query.ac}`);
+        if (this.$route.query.ac) {
+            localStorage.clear();
+            if (this.$route.name !== 'telegram') {
+                this.$router.replace(`/telegram?ac=${this.$route.query.ac}`);
+            }
             return;
         }
         if (location.href.indexOf('/mine/protocol') !== -1) return;

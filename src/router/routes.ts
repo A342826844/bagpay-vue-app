@@ -22,7 +22,7 @@ import Home from '@/views/home/index.vue'; // 首页
 import Entry from '@/views/entry/index.vue'; // 入口页
 
 import Login from '@/views/login/index.vue'; // 登录
-import Telegrame from '@/views/login/telegrame.vue'; // 使用telegrame登录
+import Telegram from '@/views/login/telegram.vue'; // 使用telegram登录
 import Register from '@/views/login/register.vue'; // 注册
 import Mine from '@/views/mine/index.vue'; // 注册
 import ScanQRCode from '@/views/scanQRCode/index.vue'; // 扫描二维码
@@ -153,13 +153,13 @@ const routes: Array<RouteConfig> = [
         },
     },
     {
-        path: '/telegrame',
-        name: 'telegrame',
-        component: Telegrame,
+        path: '/telegram',
+        name: 'telegram',
+        component: Telegram,
         meta: {
             keepAlive: true,
             noLogin: true,
-            componentName: 'Telegrame',
+            componentName: 'Telegram',
             index: 10,
         },
     },

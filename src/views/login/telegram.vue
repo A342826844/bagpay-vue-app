@@ -1,5 +1,5 @@
 <template>
-    <div class="telegrame-login">
+    <div class="telegram-login">
         <div></div>
     </div>
 </template>
@@ -7,7 +7,7 @@
 <script>
 
 export default {
-    name: 'Telegrame',
+    name: 'Telegram',
     data() {
         return {
             error: false,
@@ -67,7 +67,9 @@ export default {
             }, 50);
         },
         loginTelegram(ac) {
-            this.$api.loginTelegram({ ac }).then(() => {
+            this.$api.loginTelegram({ ac }).then((res) => {
+                this.$store.commit('setsessionId', res.data);
+                this.$store.commit('setLoginState', 1);
                 this.getInitData().catch(() => {
                     setTimeout(() => {
                         this.getInitData();
@@ -75,11 +77,11 @@ export default {
                 });
             }).catch((err) => {
                 if (!this.error) {
-                    this.$notify(`${err}`);
+                    this.$notify(`${err.message || err}`);
                     this.error = true;
                 }
                 setTimeout(() => {
-                    this.loginTelegram();
+                    this.loginTelegram(ac);
                 }, 10000);
             });
         },

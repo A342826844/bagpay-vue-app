@@ -545,6 +545,7 @@
         "ERR_MAX_CANCEL_COUNT": "In order to reach the maximum number of cancellations on the day",
 
         "ERR_BAD_COIN_SYMBOL": "Incorrect currency identification",
+        "ERR_BAK_TOKEN": "ERROR: Login information expired",
 
         "phoneErr": "Please enter a valid phone number",
         "pwdErr": "Please enter a password of 6~16 letters or numbers",
