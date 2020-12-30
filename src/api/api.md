@@ -63,6 +63,7 @@
 	UserAuthTypeEmail        = 3 //邮件
 	UserAuthTypePhone        = 4 //手机
 	UserAuthTypeGA           = 5 //google验证码
+	UserAuthTypeTelegram     = 6 //telegram 验证码
 ```
 
 

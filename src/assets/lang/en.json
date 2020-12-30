@@ -32,6 +32,7 @@
         "enterPayCode": "Please enter a secure password",
         "enterPwdCode": "Please enter your password",
         "enterGoogleCode": "Please enter google password",
+        "enterTelegramCode": "Please input the Telegram verification code",
         "name": "Name",
         "noMore": "No more",
         "noData": "No data",

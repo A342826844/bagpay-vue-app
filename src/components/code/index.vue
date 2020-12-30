@@ -8,7 +8,7 @@ import Vue from 'vue';
 export default Vue.extend({
     props: {
         phone: {
-            type: String,
+            type: [String, Number],
             required: true,
         },
         imgCode: {
@@ -52,6 +52,7 @@ export default Vue.extend({
             if (this.isLoading) return;
             if (this.timeNum > 0) return;
             if (this.type === 1 && !this.$verification.notEmpty(this.imgCode, this.$t('login.imgCode'))) return;
+            console.log(12);
             if (this.verification()) {
                 const data: any = {
                     type: this.type,
@@ -65,6 +66,7 @@ export default Vue.extend({
                     data.captcha = this.imgCode;
                     data.captcha_id = this.imgCodeId;
                 }
+                console.log(this.type, 'type');
                 this.isLoading = true;
                 this.changeLoading(true);
                 this.apiHandle(data).then((res: any) => {
@@ -94,12 +96,15 @@ export default Vue.extend({
             }
         },
         verification() {
+            console.log(this.vType);
             if (this.vType === 'phone' && this.$verification.phoneVfi(this.phone)) return true;
             if (this.vType === 'email' && this.$verification.emailVfi(this.phone)) return true;
+            if (this.vType === 'telegram') return true;
             return false;
         },
         apiHandle(data: any) {
             if (this.vType === 'email') return this.$api.registerCodeEmail(data);
+            if (this.vType === 'telegram') return this.$api.registerCodeTelegram(data);
             return this.$api.registerCode(data);
         },
     },

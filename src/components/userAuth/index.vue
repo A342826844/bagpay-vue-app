@@ -37,6 +37,16 @@
                 <!-- <span slot="start" class="auth_label">{{(google || _userInfo.ga) | formatName}}</span> -->
                 <Code :phone="google || _userInfo.ga" :type="verifyType"></Code>
             </Inputs>
+            <Inputs class="safe-verify-item" value="telegram" readonly v-if="sendType.indexOf(6) !== -1" />
+            <Inputs
+                v-if="sendType.indexOf(6) !== -1"
+                class="safe-verify-item"
+                :placeholder="$t('login.vCode')"
+                v-model="telegramCode"
+                type="number">
+                <!-- <span slot="start" class="auth_label">{{(google || _userInfo.ga) | formatName}}</span> -->
+                <Code :phone="_userInfo.telegram_id" vType="telegram" :type="verifyType"></Code>
+            </Inputs>
             <Inputs
                 v-if="sendType.indexOf(2) !== -1"
                 class="safe-verify-item"
@@ -112,6 +122,7 @@ export default Vue.extend({
             phoneCode: '',
             emailCode: '',
             googleCode: '',
+            telegramCode: '',
             payPwd: '',
             loginPwd: '',
         };
@@ -121,6 +132,7 @@ export default Vue.extend({
             this.phoneCode = '';
             this.emailCode = '';
             this.googleCode = '';
+            this.telegramCode = '';
             this.payPwd = '';
             this.loginPwd = '';
             this.phoneNum = this.phone || this._getPhone;
@@ -165,6 +177,7 @@ export default Vue.extend({
                         this.$emit('save', {});
                     } else {
                         this.sendType = res.data;
+                        console.log(this.sendType, 'sendType');
                     }
                 }
             });
@@ -193,7 +206,7 @@ export default Vue.extend({
         //     return res;
         // },
         handleEnterOut() {
-            // 短信验证码类型 0 =>不需要验证  1 => 密码  2 => 支付密码  3 => 邮件  4 => 手机  5 => google验证码
+            // 短信验证码类型 0 =>不需要验证  1 => 密码  2 => 支付密码  3 => 邮件  4 => 手机  5 => google验证码  6 => telegram验证码
             const pwdObj: any = {};
             let isVerfiy = true;
             for (let i = 0; i < this.sendType.length; i++) {
@@ -241,6 +254,15 @@ export default Vue.extend({
                     } else {
                         isVerfiy = false;
                         normalToast(this.$t('common.enterGoogleCode'));
+                        return;
+                    }
+                    break;
+                case 6:
+                    if (this.telegramCode) {
+                        pwdObj.telegram_code = this.telegramCode;
+                    } else {
+                        isVerfiy = false;
+                        normalToast(this.$t('common.enterTelegramCode'));
                         return;
                     }
                     break;

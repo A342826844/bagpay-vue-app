@@ -63,6 +63,7 @@
         "enterPayCode": "请输入安全密码",
         "enterPwdCode": "请输入登录密码",
         "enterGoogleCode": "请输入google密码",
+        "enterTelegramCode": "请输入Telegram验证码",
         "name": "名称",
         "noMore": "暂无更多",
         "noData": "暂无数据",

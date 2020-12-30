@@ -1,13 +1,20 @@
 <template>
     <div class="telegram-login">
-        <div></div>
+        <!-- <VueTelegramLogin
+            mode="callback"
+            telegram-login="bagpayBot"
+            @callback="yourCallbackFunction" /> -->
     </div>
 </template>
 
 <script>
+// import { vueTelegramLogin } from 'vue-telegram-login';
 
 export default {
     name: 'Telegram',
+    components: {
+        // VueTelegramLogin: vueTelegramLogin,
+    },
     data() {
         return {
             error: false,
