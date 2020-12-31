@@ -1,51 +1,53 @@
 <template>
-    <div class="otc-quick-trade app-padding40">
-        <div class="flex-between-c">
-            <div class=" text-align-l">
-                <p class="font-28">盘口最优价 <span class="primary-color">{{bestPrice}} USD/{{coin && coin.toUpperCase()}}</span></p>
-                <p>余额：{{balance}} {{coin && coin.toUpperCase()}}</p>
+    <div class="otc-quick-trade">
+        <div class="app-padding40">
+            <div class="flex-between-c">
+                <div class=" text-align-l">
+                    <p class="font-28">盘口最优价 <span class="primary-color">{{bestPrice}} USD/{{coin && coin.toUpperCase()}}</span></p>
+                    <p>余额：{{balance}} {{coin && coin.toUpperCase()}}</p>
+                </div>
+                <div>
+                    <div
+                        class="banks"
+                        :class="item.type === pay_type ? 'primary-border-color' : 'gray-border-color'"
+                        v-for="item in userBank"
+                        @click="pay_type = item.type"
+                        :key="item.type"
+                    >
+                        <img v-show="item.type === pay_type" class="select" src="../../../assets/img/common/switch1.png" alt="">
+                        <img class="banks-img" :src="PayTypeImg[item.type]" alt="">
+                    </div>
+                </div>
             </div>
-            <div>
-                <div
-                    class="banks"
-                    :class="item.type === pay_type ? 'primary-border-color' : 'gray-border-color'"
-                    v-for="item in userBank"
-                    @click="pay_type = item.type"
-                    :key="item.type"
+            <div class="margin-t-36 app-size-34">
+                <Inputs
+                    decimal
+                    v-model="value"
+                    :placeholder="$t('otc.placeInput', { type: methodType === 1 ? $t('otc.amount') : $t('otc.num')})"
                 >
-                    <img v-show="item.type === pay_type" class="select" src="../../../assets/img/common/switch1.png" alt="">
-                    <img class="banks-img" :src="PayTypeImg[item.type]" alt="">
+                    <div class="switch">
+                        {{methodType === 1 ? '$' : (coin && coin.toUpperCase())}}
+                        <button @click="changeMethodType" class="switch-btn primary-bg">
+                            <img class="app-img-50" src="../../../assets/img/common/switch.png" alt="">
+                        </button>
+                    </div>
+                </Inputs>
+            </div>
+            <!-- <div class="margin-t-36 flex-between-c">
+                <span></span>
+                <div class="font-28" @click="changeMethodType">
+                    <img class="switch-img" src="../../../assets/img/common/switch.png" alt="">
+                    {{$t('otc.methodType', { type: methodType === 1 ? $t('otc.num') : $t('otc.amount')})}}
                 </div>
+            </div> -->
+            <div class="margin-t-36 app-size-34">
+                <Button @click="tradeHandle">一键{{title}}</Button>
+            </div>
+            <div class="margin-t-36">
+                * 极速一键下单，按需匹配用户挂单最优盘口价
             </div>
         </div>
-        <div class="margin-t-36 app-size-34">
-            <Inputs
-                decimal
-                v-model="value"
-                :placeholder="$t('otc.placeInput', { type: methodType === 1 ? $t('otc.amount') : $t('otc.num')})"
-            >
-                <div class="switch">
-                    {{methodType === 1 ? '$' : (coin && coin.toUpperCase())}}
-                    <button @click="changeMethodType" class="switch-btn primary-bg">
-                        <img class="app-img-50" src="../../../assets/img/common/switch.png" alt="">
-                    </button>
-                </div>
-            </Inputs>
-        </div>
-        <!-- <div class="margin-t-36 flex-between-c">
-            <span></span>
-            <div class="font-28" @click="changeMethodType">
-                <img class="switch-img" src="../../../assets/img/common/switch.png" alt="">
-                {{$t('otc.methodType', { type: methodType === 1 ? $t('otc.num') : $t('otc.amount')})}}
-            </div>
-        </div> -->
-        <div class="margin-t-36 app-size-34">
-            <Button @click="tradeHandle">一键{{title}}</Button>
-        </div>
-        <div class="margin-t-36">
-            * 极速一键下单，按需匹配用户挂单最优盘口价
-        </div>
-        <div class="empty"></div>
+        <div class="empty margin-t-36"></div>
     </div>
 </template>
 
@@ -148,8 +150,13 @@ export default Vue.extend({
                 side: this.side, // [int] 1.买 2.卖
                 pay_type: this.pay_type, // [int] 支付类型
             };
+            this.changeLoading(true);
             this.$api.otcOrderMatch(params).then((res: any) => {
-                console.log(res);
+                this.changeLoading(false);
+                if (!res.data) {
+                    this.$normalToast('暂无匹配订单');
+                    return;
+                }
                 this.$router.push({
                     name: 'otcsubmit',
                     params: {
@@ -158,6 +165,8 @@ export default Vue.extend({
                         inputValue: value,
                     },
                 });
+            }).catch(() => {
+                this.changeLoading(false);
             });
         },
     },
@@ -202,6 +211,12 @@ export default Vue.extend({
             right: 0;
             width: 30px;
         }
+    }
+    .empty{
+        width: 100%;
+        height: 17px;
+        background: #F4F6F9;
+
     }
 }
 </style>
