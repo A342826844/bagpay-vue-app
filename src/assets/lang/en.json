@@ -337,6 +337,7 @@
         "orderType": "Order Type",
         "unitPrice": "Unit Price",
         "num": "Number",
+        "amount": "Amount",
         "remark": "Remark",
         "maxTrade": "Max Trade",
         "minAmount": "Single item minimum",
@@ -413,7 +414,15 @@
         "icePhone": "Emergency Contact Phone",
         "deposit": "Pay the deposit",
         "floatingPrice": "Floating Price",
-        "fixedPrice": "Fixed Price"
+        "fixedPrice": "Fixed Price",
+
+        "methodType": "buy by {type}",
+        "bestPrice": "the best price",
+        "balance": "Balance",
+        "quickTip": "Quick order, match the best price of user's hanging order on demand,",
+        "quick": "Quick ",
+        "noOrder": "no matching order",
+        "placeInput": "P enter {type}"
     },
     "business": {
         "vfiBusTip1": "In order to ensure the safety of funds, when your account security policy changes, password changes, we will manually review the withdrawal of coins, please wait patiently for the staff to contact you by phone or email.",

@@ -3,8 +3,8 @@
         <div class="app-padding40">
             <div class="flex-between-c">
                 <div class=" text-align-l">
-                    <p class="font-28">盘口最优价 <span class="primary-color">{{bestPrice}} USD/{{coin && coin.toUpperCase()}}</span></p>
-                    <p>余额：{{balance}} {{coin && coin.toUpperCase()}}</p>
+                    <p class="font-28">{{$t('otc.bestPrice')}} <span class="primary-color">{{bestPrice}} USD/{{coin && coin.toUpperCase()}}</span></p>
+                    <p>{{$t('otc.balance')}}：{{balance}} {{coin && coin.toUpperCase()}}</p>
                 </div>
                 <div>
                     <div
@@ -41,10 +41,10 @@
                 </div>
             </div> -->
             <div class="margin-t-36 app-size-34">
-                <Button @click="tradeHandle">一键{{title}}</Button>
+                <Button @click="tradeHandle">{{$t('otc.quick')}}{{title}}</Button>
             </div>
             <div class="margin-t-36">
-                * 极速一键下单，按需匹配用户挂单最优盘口价
+                * {{$t('otc.quickTip')}}
             </div>
         </div>
         <div class="empty margin-t-36"></div>
@@ -126,11 +126,11 @@ export default Vue.extend({
                 return;
             }
             if (!this.pay_type) {
-                this.$normalToast('选择支付方式');
+                this.$normalToast(this.$t('common.selectPayType'));
                 return;
             }
             if (!Number(this.value)) {
-                this.$normalToast('请输入数量或金额');
+                this.$normalToast(this.$t('otc.enterNum'));
                 return;
             }
             this.otcOrderMatch();
@@ -154,7 +154,7 @@ export default Vue.extend({
             this.$api.otcOrderMatch(params).then((res: any) => {
                 this.changeLoading(false);
                 if (!res.data) {
-                    this.$normalToast('暂无匹配订单');
+                    this.$normalToast(this.$t('otc.noOrder'));
                     return;
                 }
                 this.$router.push({
