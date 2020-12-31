@@ -23,6 +23,8 @@ export const getExchangeRate = (data: params) => getGolang('/exchange-rate/usd',
 export const otcOrderDealList = (data: params) => postGolang('/otc/deal/list', data);
 // 获取订单列表
 export const otcOrderList = (data: params) => postGolang('/otc/order/list', data);
+// 获取最佳匹配订单
+export const otcOrderMatch = (data: params) => getGolang('/otc/order/match', data);
 // 获取广告信息
 export const otcOrderGetById = (id: number) => postGolang(`/otc/order/get/${id}`, { id });
 // 获取商户状态

@@ -3,6 +3,8 @@ import md5 from 'md5';
 
 import { Store } from 'vuex';
 import 'lib-flexible';
+// Vant 桌面端适配
+import '@vant/touch-emulator';
 
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import 'swiper/swiper-bundle.css';

@@ -1,3 +1,6 @@
+const HUI = require('@/assets/img/common/HUI.png');
+const ABA = require('@/assets/img/common/ABA.png');
+
 export type PayType = Array<number>; // 支付方式
 export type CountryType = Array<number>; // 国家/地区类型
 export type MoblepreForCountryType = { // 更加手机区号匹配国家/地区类型
@@ -28,6 +31,12 @@ export const PayType = [
     // 3, // PayTypeWechatPay  = 3 //微信
     4, // PayTypeHuione     = 4 //汇旺
 ];
+
+// 交易方式图片
+export const PayTypeImg = {
+    1: ABA,
+    4: HUI,
+};
 
 export const CountryType = [
     1, // CountryChina         = 1  //中国

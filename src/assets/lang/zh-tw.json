@@ -337,6 +337,7 @@
         "orderType": "訂單類型",
         "unitPrice": "單價",
         "num": "數量",
+        "amount": "金額",
         "bus": "商家",
         "deal": "成交",
         "turnover": "成交額",
@@ -413,7 +414,15 @@
         "maxTrade": "最大交易",
         "minAmount": "單筆最低",
         "payAmount": "支付金額",
-        "fixedPrice": "固定價格"
+        "fixedPrice": "固定價格",
+
+        "methodType": "按{type}購買",
+        "bestPrice": "盤口最優價",
+        "balance": "餘額",
+        "quickTip": "極速一鍵下單，按需匹配用戶掛單最随身碟口價",
+        "quick": "一鍵",
+        "noOrder": "暫無匹配訂單",
+        "placeInput": "請輸入{type}"
     },
     "business": {
         "vfiBusTip1": "為保障資金安全，當您賬戶安全策略變更、密碼修改、我們會對提幣進行人工審核，請耐心等待工作人員電話或郵件聯繫。",
