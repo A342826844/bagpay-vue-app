@@ -55,7 +55,12 @@
                                                 v-model="isLoading"
                                                 @refresh="onRefresh"
                                             >
-                                            <QuickTrade></QuickTrade>
+                                            <QuickTrade
+                                                :balances="balances"
+                                                :coin="activeSymbol"
+                                                :side="item.side"
+                                                :title="item.title"
+                                            ></QuickTrade>
                                             <div
                                                 v-for="renderData in renderData[item.side][activeSymbol]"
                                                 :key="renderData.id"
@@ -128,6 +133,7 @@ type data = {
     side: 1|2;
     defaultVal: string;
     limit: number;
+    balances: any[];
     // 获取渲染的数据
     renderData: {
         // 购买数据
@@ -183,6 +189,7 @@ export default Vue.extend({
             side: 2,
             defaultVal: 'sideBuyT',
             limit: 10,
+            balances: [],
             renderData: {
                 1: {},
                 2: {},
@@ -240,6 +247,7 @@ export default Vue.extend({
             vm.loadData();
             if (vm._isLogin) {
                 vm.otcGetMerchant();
+                vm.getBalances();
             }
         });
     },
@@ -309,7 +317,13 @@ export default Vue.extend({
             this.loadData(true);
             if (this._isLogin) {
                 this.otcGetMerchant();
+                this.getBalances();
             }
+        },
+        getBalances() {
+            this.$api.getBalances().then((res: any) => {
+                this.balances = res.data;
+            });
         },
         isLoginRouter(path?: string) {
             if (!this._isLogin) {

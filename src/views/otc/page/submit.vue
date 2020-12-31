@@ -184,6 +184,13 @@ export default Vue.extend({
             if (!this.orderDetail.id) {
                 this.$router.go(-1);
             }
+            if (this.orderDetail.inputValue) {
+                this.form.value = this.orderDetail.inputValue;
+                this.inputAmount('value');
+            } else {
+                this.form.amount = this.orderDetail.inputAmount;
+                this.inputAmount('amount');
+            }
         },
         getOrderDetail() {
             this.changeLoading(true);
