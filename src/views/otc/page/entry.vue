@@ -55,12 +55,11 @@
                                                 v-model="isLoading"
                                                 @refresh="onRefresh"
                                             >
-                                            <QuickTrade
+                                            <!-- <QuickTrade
                                                 :balances="balances"
                                                 :coin="activeSymbol"
                                                 :side="item.side"
-                                                :title="item.title"
-                                            ></QuickTrade>
+                                            ></QuickTrade> -->
                                             <div
                                                 v-for="renderData in renderData[item.side][activeSymbol]"
                                                 :key="renderData.id"
@@ -114,7 +113,7 @@ import Drawer from '@/components/commons/Drawer.vue';
 import { OrderFilter, SubOrderFilter, SubOrderFilterItem } from '@/components/Orders/index';
 import Loading from '@/components/loading/index.vue';
 import GoodsCard from '../component/GoodsCard.vue';
-import QuickTrade from '../component/QuickTrade.vue';
+// import QuickTrade from '../component/QuickTrade.vue';
 
 const business = require('../../../assets/img/otc/business.png');
 const fabu = require('../../../assets/img/otc/fabu.png');
@@ -171,7 +170,7 @@ export default Vue.extend({
     name: 'OtcEntry',
     components: {
         GoodsCard,
-        QuickTrade,
+        // QuickTrade,
         Drawer,
         Loading,
         OrderFilter,
@@ -292,11 +291,11 @@ export default Vue.extend({
         },
         bodyTabList(): Array<any> {
             return [{
-                title: this.$t('common.sideBuyT'),
+                title: this.$t('common.typeBuyT'),
                 value: 'sideBuyT',
                 side: 2,
             }, {
-                title: this.$t('common.sideSellT'),
+                title: this.$t('common.typeSellT'),
                 value: 'sideSellT',
                 side: 1,
             }];
@@ -368,7 +367,7 @@ export default Vue.extend({
                 return;
             }
             const bankRes = this.userBank.some((subItem) => subItem.type === Number(item.pay_types));
-            if (!bankRes) {
+            if (!bankRes && item.type === 1) {
                 this.$dialog.confirm({
                     title: `${this.$t('common.poptip')}`,
                     message: `${this.$t('otc.noPayWay')}`,

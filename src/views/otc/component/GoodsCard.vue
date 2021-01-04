@@ -11,7 +11,7 @@
                 </div>
                 <div class="text-align-r">
                     <p class="lable" v-t="'otc.unitPrice'"></p>
-                    <h6 class="app-size-34 primary-color otc-good-card-price">${{ renderData.price }}</h6>
+                    <h6 class="app-size-45 primary-color otc-good-card-price">${{ renderData.price }}</h6>
                 </div>
             </div>
             <div class="flex-between-c otc-good-card-num">
@@ -28,6 +28,7 @@
                     <Button
                         @click="$emit('click', renderData)"
                         size="mini"
+                        class="app-size-28"
                         :disabled="
                             renderData.uid == _userInfo.id|| Number((renderData.total - renderData.filled - renderData.frozen).toFixed(4)) === 0
                         "
@@ -67,7 +68,7 @@ export default Vue.extend({
 @import '../../../assets/less/color.less';
 .otc-good-card{
     height: 269px;
-    padding-top: 42px;
+    padding-top: 20px;
     .lable{
         color: #A5A5A5;
     }
@@ -76,7 +77,7 @@ export default Vue.extend({
         font-size: 28px;
     }
     .value{
-        font-size: 24px;
+        font-size: 28px;
         color: #343434;
     }
     &-pay{

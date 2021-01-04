@@ -41,7 +41,7 @@
                 </div>
             </div> -->
             <div class="margin-t-36 app-size-34">
-                <Button @click="tradeHandle">{{$t('otc.quick')}}{{title}}</Button>
+                <Button @click="tradeHandle">{{$t('otc.quick')}}{{ side | orderSideType}}</Button>
             </div>
             <div class="margin-t-36">
                 * {{$t('otc.quickTip')}}
@@ -73,10 +73,6 @@ export default Vue.extend({
         },
         side: {
             type: Number,
-            required: true,
-        },
-        title: {
-            type: String,
             required: true,
         },
         balances: {

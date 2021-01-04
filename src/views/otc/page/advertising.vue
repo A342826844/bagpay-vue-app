@@ -25,7 +25,7 @@
                             <span class="vertical-m">{{formTemp['form'+item.type].coin && formTemp['form'+item.type].coin.toUpperCase()}}
                             </span>
                         </Select>
-                        <p class="form-tip flex-between-c app-padding40" >
+                        <p v-show="item.type === 2" class="form-tip flex-between-c app-padding40" >
                             <span v-t="'mine.availableAmount'"></span>
                             <span class=" primary-color">
                                 {{balance}}

@@ -173,6 +173,16 @@ Vue.filter('orderSideType', (state: 1|2) => {
     };
     return i18n.t(states[state]);
 });
+// 广告方向 OrderSide
+Vue.filter('orderTypeSideT', (state: 1|2) => {
+	// OrderSideSell  = 1 // 出售
+	// OrderSideBuy   = 2 // 购买
+    const states = {
+        1: 'common.typeSellT',
+        2: 'common.typeBuyT',
+    };
+    return i18n.t(states[state]);
+});
 // 广告方向用户自己看到的 OrderSide
 Vue.filter('orderSideTypeUser', (state: 1|2) => {
 	// OrderSideBuy   = 1 // 购买
@@ -398,17 +408,19 @@ Vue.filter('langType', (state: 'zh-CN'|'en-us') => {
 
 // 手机号加密处理
 Vue.filter('formatName', (str='') => {
+    const index = str.indexOf('-') === -1 ? 0 : str.indexOf('-');
     // return str.replace(str.slice(3, 7), "***");
-    const before = str.slice(0,3)+'***';
+    const before = str.slice(0,3 + index)+'***';
     const temp = before.length - str.length;
     const start = temp <= -4 ? -4 : Math.min(temp, -1);
     return before + str.slice(start, str.length);
 });
-// 手机号加密处理
+// 去掉区号
 Vue.filter('sliceMoblepre', (phone='') => {
-    const index = phone.indexOf('-');
-    if (phone.indexOf('-') !== -1) {
-        return phone.slice(index + 1);
-    }
+    // FIX: 需求更改，不需要去掉区号了
+    // const index = phone.indexOf('-');
+    // if (phone.indexOf('-') !== -1) {
+    //     return phone.slice(index + 1);
+    // }
     return phone;
 });

@@ -236,11 +236,11 @@ export default Vue.extend({
         },
         bodyTabList(): Array<any> {
             return [{
-                title: this.$t('common.sideBuyT'),
+                title: this.$t('common.typeBuyT'),
                 value: 'sideBuyT',
                 side: 2,
             }, {
-                title: this.$t('common.sideSellT'),
+                title: this.$t('common.typeSellT'),
                 value: 'sideSellT',
                 side: 1,
             }];

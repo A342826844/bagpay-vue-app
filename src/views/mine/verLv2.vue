@@ -8,6 +8,7 @@
                         <input type="file" @change="fileChange($event, item.name)" accept="image/*" :name="item.name" />
                         <div class="add-bg">
                             <img :src="item.img" alt="">
+                            <span class="middle-span"></span>
                             <p class="primary-color" v-show="!item.val">{{$t(item.title)}}</p>
                         </div>
                         <div class="myProgress" v-show="!!item.percent">
@@ -182,9 +183,17 @@ export default Vue.extend({
                 background-size: 100% 100%;
                 padding: 15px;
                 img{
-                    width: 100%;
+                    width: auto;
+                    height: auto;
                     max-width: 100%;
                     max-height: 100%;
+                    vertical-align: middle;
+                }
+                .middle-span{
+                    display: inline-block;
+                    height: 100%;
+                    width: 0;
+                    vertical-align: middle;
                 }
                 input{
                     opacity: 0;
