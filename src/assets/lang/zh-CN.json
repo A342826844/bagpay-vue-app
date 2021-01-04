@@ -139,7 +139,7 @@
         "ID": "身份证",
         "passport": "护照",
         "unrecognized": "无法识别此图片",
-        "collectionFailure": "收款方式获取失败"
+        "collectionFailure": "收付款方式获取失败"
     },
     "refresh": {
         "pulling": "下拉即可刷新...",
@@ -219,7 +219,7 @@
         "existNickname": "昵称已存在或不可用",
         "contact": "联系客服",
         "safeSetting": "安全设置",
-        "collectionSet": "收款设置",
+        "collectionSet": "收付款设置",
         "opinionQuest": "意见问题",
         "opinion": "意见",
         "updateV": "版本更新",
@@ -315,8 +315,8 @@
         "pBank": "请选择银行",
         "banksSelect": "支持的银行",
         "qrc": "二维码",
-        "pQrc": "请上传收款二维码",
-        "selecPayWay": "选择收款类型",
+        "pQrc": "请上传收付款二维码",
+        "selecPayWay": "选择收付款类型",
         "payway": "收付款方式"
     },
     "otc": {
@@ -403,7 +403,7 @@
         "protocol": "广告发布方协议",
         "manage": "广告管理",
         "order": "场外订单",
-        "payment": "收款方式",
+        "payment": "收付款方式",
         "business": "广告商家",
         "vfyBus": "认证商家",
         "vfyBused": "已认证商家",
@@ -453,7 +453,7 @@
         "checkAgree": "请勾选广告发布方协议"
     },
     "payment": {
-        "paymentTitle": "收款",
+        "paymentTitle": "收付款",
         "address": "地址",
         "amount": "金额",
         "paymentAddr": "钱包地址",
@@ -466,7 +466,7 @@
         "transferIn": "转入",
         "transferOut": "转出",
         "paymentTip": "扫描二维码，转入",
-        "chequesAddr": "收款地址",
+        "chequesAddr": "收付款地址",
         "memoAddr": "附加地址",
         "addrDetail": "地址详情",
         "setPaymentTitle": "管理钱包",

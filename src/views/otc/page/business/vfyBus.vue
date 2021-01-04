@@ -155,10 +155,10 @@ export default Vue.extend({
         },
         deposit() {
             const val: boolean = this.$verification.fromVfi([
-                {
-                    type: 'phone',
-                    value: this.form.phone,
-                },
+                // {
+                //     type: 'phone',
+                //     value: this.form.phone,
+                // },
                 {
                     type: 'email',
                     value: this.form.email,
@@ -173,7 +173,8 @@ export default Vue.extend({
                     value: this.form.iceName,
                 },
                 {
-                    type: 'phone',
+                    type: 'empty',
+                    msg: this.$t('otc.icePhone'),
                     value: this.form.icePhone,
                 },
                 {
@@ -209,12 +210,12 @@ export default Vue.extend({
         otcMerchant() {
             this.changeLoading(true);
             this.$api.otcMerchant({
-                phone: `${this.country.tel}-${this.form.phone}`,
+                phone: `${this.form.phone}`,
                 email: this.form.email,
                 social_type: this.form.socialType,
                 social: this.form.social,
                 ice_name: this.form.iceName,
-                ice_phone: `${this.country.tel}-${this.form.icePhone}`,
+                ice_phone: `${this.form.icePhone}`,
                 ice_relation: this.form.iceRelation,
                 address: this.form.address,
             }).then((res: any) => {
@@ -229,12 +230,12 @@ export default Vue.extend({
         otcMerchantUpdate() {
             this.changeLoading(true);
             this.$api.otcMerchantUpdate({
-                phone: `${this.country.tel}-${this.form.phone}`,
+                phone: `${this.form.phone}`,
                 email: this.form.email,
                 social_type: this.form.socialType,
                 social: this.form.social,
                 ice_name: this.form.iceName,
-                ice_phone: `${this.country.tel}-${this.form.icePhone}`,
+                ice_phone: `${this.form.icePhone}`,
                 ice_relation: this.form.iceRelation,
                 address: this.form.address,
             }).then((res: any) => {

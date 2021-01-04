@@ -43,7 +43,7 @@ const Findaccount = () => import('@/views/login/findaccount.vue');
 const AddSymbol = () => import('@/views/home/addSymbol.vue'); // 添加币种
 const TransferHistory = () => import('@/views/home/transferHistory.vue'); // 转入转出记录
 const transferFrozen = () => import('@/views/home/transferFrozen.vue'); // 转入转出冻结
-const Payment = () => import('@/views/home/payment.vue'); // 收款地址二维码
+const Payment = () => import('@/views/home/payment.vue'); // 收付款地址二维码
 const AddrList = () => import('@/views/home/addressList.vue'); // 选择转出地址
 const Allapplist = () => import('@/views/home/allAppList.vue'); // 选择转出地址
 

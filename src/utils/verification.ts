@@ -1,11 +1,23 @@
 import { normalToast } from '@/commons/dom/index';
 import i18n from '@/i18n/index';
 import store from '@/store/index';
+
 // 手机号验证
 function phoneVfi(phone: string) {
     const reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
     const reg1 = /^[0-9]{4,16}$/;
-    const vfi: boolean = store.state.country.tel === '86' ? reg.test(phone) : reg1.test(phone);
+    const index = phone.indexOf('-');
+    let subPhone = '';
+    let tel = '';
+    if (phone.indexOf('-') !== -1) {
+        tel = phone.slice(0, index);
+        subPhone = phone.slice(index + 1);
+    } else {
+        tel = store.state.country.tel;
+        subPhone = phone;
+    }
+    console.log(tel, subPhone, 'subPhonesubPhone');
+    const vfi: boolean = tel === '86' ? reg.test(subPhone) : reg1.test(subPhone);
     if (vfi === false) normalToast(i18n.t('error.phoneErr'));
     return vfi;
 }

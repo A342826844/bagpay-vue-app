@@ -137,7 +137,7 @@
         "ID": "身份證",
         "passport": "護照",
         "unrecognized": "無法識別此圖片",
-        "collectionFailure": "收款方式獲取失敗"
+        "collectionFailure": "收付款方式獲取失敗"
     },
     "refresh": {
         "pulling": "下拉即可刷新...",
@@ -217,7 +217,7 @@
         "existNickname": "暱稱已存在或不可用",
         "contact": "聯繫客服",
         "safeSetting": "安全設置",
-        "collectionSet": "收款設置",
+        "collectionSet": "收付款設置",
         "opinionQuest": "意見問題",
         "opinion": "意見",
         "updateV": "版本更新",
@@ -313,8 +313,8 @@
         "pBank": "請選擇銀行",
         "banksSelect": "支持的銀行",
         "qrc": "二維碼",
-        "pQrc": "請上傳收款二維碼",
-        "selecPayWay": "選擇收款類型",
+        "pQrc": "請上傳收付款二維碼",
+        "selecPayWay": "選擇收付款類型",
         "payway": "收付款方式"
     },
     "otc": {
@@ -396,7 +396,7 @@
         "protocol": "廣告發布方協議",
         "manage": "廣告管理",
         "order": "場外訂單",
-        "payment": "收款方式",
+        "payment": "收付款方式",
         "business": "廣告商家",
         "vfyBus": "認證商家",
         "vfyBused": "已認證商家",
@@ -451,7 +451,7 @@
         "checkAgree": "請勾選廣告發布方協議"
     },
     "payment": {
-        "paymentTitle": "收款",
+        "paymentTitle": "收付款",
         "address": "地址",
         "amount": "金額",
         "paymentAddr": "錢包地址",
@@ -464,7 +464,7 @@
         "transferIn": "轉入",
         "transferOut": "轉出",
         "paymentTip": "掃描二維碼，轉入",
-        "chequesAddr": "收款地址",
+        "chequesAddr": "收付款地址",
         "memoAddr": "附加地址",
         "addrDetail": "地址詳情",
         "setPaymentTitle": "管理錢包",
