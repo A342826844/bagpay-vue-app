@@ -150,8 +150,15 @@ export default Vue.extend({
             this.form.icePhone = '';
             this.form.iceRelation = '0';
             this.form.address = '';
-            this.form.phone = this.$hasBindValue(this._getPhone) ? this._getPhone : '';
+            this.form.phone = this.$hasBindValue(this._getPhone) ? `${this.sliceMoblepre(this._getPhone)}` : '';
             this.form.email = this.$hasBindValue(this._userInfo.email) ? this._userInfo.email : '';
+        },
+        sliceMoblepre(phone: string|number) {
+            const index = `${phone}`.indexOf('-');
+            if (`${phone}`.indexOf('-') !== -1) {
+                return `${phone}`.slice(index + 1);
+            }
+            return phone;
         },
         deposit() {
             const val: boolean = this.$verification.fromVfi([

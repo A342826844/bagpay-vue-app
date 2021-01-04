@@ -60,6 +60,9 @@ export default {
                 path = `/otc/order/detail?id=${this.$route.query.id}`;
                 needTowPush = true;
                 break;
+            case 5:
+                path = '/home';
+                break;
             default:
                 path = defaultPath;
                 break;

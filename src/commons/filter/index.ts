@@ -417,7 +417,7 @@ Vue.filter('formatName', (str='') => {
 });
 // 去掉区号
 Vue.filter('sliceMoblepre', (phone='') => {
-    // FIX: 需求更改，不需要去掉区号了
+    // XXX: 需求更改，不需要去掉区号了
     // const index = phone.indexOf('-');
     // if (phone.indexOf('-') !== -1) {
     //     return phone.slice(index + 1);

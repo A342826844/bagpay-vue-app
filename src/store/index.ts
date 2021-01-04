@@ -257,10 +257,11 @@ export default new Vuex.Store({
         },
         getPhone: (state) => {
             const phone: string = state.userInfo.phone || '';
-            const index = phone.indexOf('-');
-            if (phone.indexOf('-') !== -1) {
-                return phone.slice(index + 1);
-            }
+            // XXX: 需求更改，不需要去掉区号了
+            // const index = phone.indexOf('-');
+            // if (phone.indexOf('-') !== -1) {
+            //     return phone.slice(index + 1);
+            // }
             return phone;
         },
         getCoinMap: (state) => {

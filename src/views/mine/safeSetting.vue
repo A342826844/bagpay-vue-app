@@ -5,7 +5,7 @@
         <li v-if="$hasBindValue(_getPhone)" class="flex-between-c payment_item">
           <div v-t="'mine.phone'"></div>
           <div>
-            {{_getPhone | formatName}}
+            <span>{{_getPhone | formatName}}</span>
             <span style="display: inline-block" class="app-img-50"></span>
           </div>
         </li>

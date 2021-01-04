@@ -47,7 +47,7 @@
                             type="number"
                             :autofocus="item.type === 1"
                             v-model="formTemp[`form${item.type}`].price"
-                            :placeholder="`${item.title}${$t('common.price')}`"
+                            :placeholder="`${item.subTitle}${$t('common.price')}`"
                         >
                             <span class="form-item-start" slot="start">{{$t('common.price')}}</span>
                             {{_unitIcon}}
@@ -57,7 +57,7 @@
                         <Inputs
                             :decimal="coinInfo.decimal"
                             v-model="formTemp[`form${item.type}`].amount"
-                            :placeholder="`${item.title}${$t('otc.num')}`"
+                            :placeholder="`${item.subTitle}${$t('otc.num')}`"
                         >
                             <span class="form-item-start" slot="start" v-t="'otc.num'"></span>
                             {{coinSHow}}
@@ -273,11 +273,13 @@ export default Vue.extend({
         bodyTabList(): any {
             return [
                 {
-                    title: this.$t('common.sideBuyT'),
+                    title: this.$t('common.typeBuyT'),
+                    subTitle: this.$t('common.sideBuyT'),
                     value: 'buy',
                     type: 1,
                 }, {
-                    title: this.$t('common.sideSellT'),
+                    title: this.$t('common.typeSellT'),
+                    subTitle: this.$t('common.sideSellT'),
                     value: 'sell',
                     type: 2,
                 },
