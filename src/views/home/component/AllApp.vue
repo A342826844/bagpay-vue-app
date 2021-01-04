@@ -12,9 +12,9 @@
 <script lang="ts">
 import Vue from 'vue';
 
-const cost = require('@/assets/img/home/cost.png');
+// const cost = require('@/assets/img/home/cost.png');
 const financial = require('@/assets/img/home/financial.png');
-const news = require('@/assets/img/home/news.png');
+// const news = require('@/assets/img/home/news.png');
 const invita = require('@/assets/img/home/invita.png');
 const tranfer = require('@/assets/img/home/tranfer.png');
 const allApp = require('@/assets/img/common/all-app.png');
