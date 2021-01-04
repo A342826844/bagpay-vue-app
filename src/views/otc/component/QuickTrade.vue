@@ -61,6 +61,7 @@ interface Data {
     pay_type: number;
     methodType: number;
     bestPrice: number | string;
+    bestOrderInfo: any;
 }
 
 export default Vue.extend({
@@ -90,8 +91,12 @@ export default Vue.extend({
             pay_type: 0,
             bestPrice: '--',
             methodType: 1, // 1 按数量购买 2 按金额购买
+            bestOrderInfo: {},
         };
     },
+    // watch: {
+    //     coin
+    // },
     computed: {
         userBank(): Array<any> {
             return this.$store.getters.getBankEnableList;
@@ -103,6 +108,9 @@ export default Vue.extend({
         coinInfo(): CoinInfo {
             return this.$store.getters.getCoinInfo(this.coin);
         },
+    },
+    mounted() {
+        this.otcGetBestPrice();
     },
     methods: {
         changeMethodType() {
@@ -167,6 +175,18 @@ export default Vue.extend({
                 });
             }).catch(() => {
                 this.changeLoading(false);
+            });
+        },
+        otcGetBestPrice() {
+            const params = {
+                coin: this.coin, // [string] 可选,币种
+                side: this.side, // [int] 1.买 2.卖
+            };
+            this.$api.otcGetBestPrice(params).then((res: any) => {
+                this.bestOrderInfo = res.data;
+                if (res.data) {
+                    this.bestPrice = res.data.price;
+                }
             });
         },
     },
