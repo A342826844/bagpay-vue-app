@@ -1,5 +1,7 @@
-const HUI = require('@/assets/img/common/HUI.png');
-const ABA = require('@/assets/img/common/ABA.png');
+const HUI = require('@/assets/img/common/pay-hui.png');
+const ABA = require('@/assets/img/common/pay-aba.png');
+const BANK = require('@/assets/img/common/pay-bank.png');
+const COIN = require('@/assets/img/common/pay-coin.png');
 
 export type PayType = Array<number>; // 支付方式
 export type CountryType = Array<number>; // 国家/地区类型
@@ -30,12 +32,16 @@ export const PayType = [
     // 2, // PayTypeAlipay     = 2 //支付宝
     // 3, // PayTypeWechatPay  = 3 //微信
     4, // PayTypeHuione     = 4 //汇旺
+    5, // PayTypeBank     = 5 //其他银行
+    6, // PayTypeCoin     = 6 // 现金
 ];
 
 // 交易方式图片
 export const PayTypeImg = {
     1: ABA,
     4: HUI,
+    5: BANK,
+    6: COIN,
 };
 
 export const CountryType = [
