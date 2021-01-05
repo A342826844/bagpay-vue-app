@@ -280,6 +280,8 @@ Vue.filter('payType', (state: 0|1|2|3|4) => {
         2: 'common.alipay',
         3: 'common.weixin',
         4: 'common.huione',
+        5: 'common.otherBank',
+        6: 'common.cash',
     };
     return i18n.t(states[state]);
 });

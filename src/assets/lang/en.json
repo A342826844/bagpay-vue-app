@@ -76,6 +76,8 @@
         "payway": "Payment method",
         "alipay": "Alipay",
         "weixin": "WeChat",
+        "otherBank": "OtherBank",
+        "cash": "Cash",
         "selectPayType": "Select Payment Method",
         "bank": "ABA",
         "huione": "Huiwang",

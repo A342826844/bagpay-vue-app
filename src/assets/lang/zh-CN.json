@@ -119,6 +119,8 @@
         "payway": "支付方式",
         "alipay": "支付宝",
         "weixin": "微信",
+        "otherBank": "其他银行",
+        "cash": "现金",
         "selectPayType": "选择支付方式",
         "bank": "ABA",
         "huione": "汇旺",
