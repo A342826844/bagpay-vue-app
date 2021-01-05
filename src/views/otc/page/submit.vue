@@ -42,7 +42,14 @@
                 </div>
             </div>
             <form class="otc-submit-form app-padding40 text-align-l app-size-34">
-                <div class="form-lable">{{ orderDetail.type | orderSideType}}{{$t('otc.num')}}</div>
+                <div class="form-lable flex-between-c">
+                    <span>{{ orderDetail.type | orderSideType}}{{$t('otc.num')}}</span>
+                    <span v-show="orderDetail.type === 1" class="app-size-28">
+                        <span v-t="'mine.availableAmount'"></span>:
+                        <span class="primary-color">{{balance}}</span>
+                        {{orderDetail.coin && orderDetail.coin.toUpperCase()}}
+                    </span>
+                </div>
                 <div class="form-lable">
                     <input
                         class="form-input app-padding40"
@@ -102,6 +109,7 @@ type data = {
     orderDetail: any;
     timer: any;
     download: number;
+    balances: any[];
     form: {
         amount: string;
         value: string;
@@ -114,6 +122,7 @@ export default Vue.extend({
         return {
             download: 60,
             timer: 0,
+            balances: [],
             orderDetail: {
                 // id: 1,
                 // uid: 10, // 所属用户id
@@ -172,9 +181,14 @@ export default Vue.extend({
             }
             return (0).toFixed(this.coinInfo.decimal);
         },
+        balance(): number {
+            const res = this.balances.find((item) => item.coin === this.orderDetail.coin);
+            return res ? res.available : 0;
+        },
     },
     methods: {
         getOrder() {
+            this.getBalances();
             if (this.$route.query.id) {
                 this.orderDetail.id = Number(this.$route.query.id);
                 this.getOrderDetail();
@@ -289,6 +303,11 @@ export default Vue.extend({
             }).catch(() => {
                 this.$normalToast(this.$t('otc.orderFailed'));
                 this.changeLoading(false);
+            });
+        },
+        getBalances() {
+            this.$api.getBalances().then((res: any) => {
+                this.balances = res.data;
             });
         },
     },

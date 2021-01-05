@@ -550,7 +550,8 @@ export default Vue.extend({
             }
         }
         &-download{
-            font-size: 28px;
+            font-size: 68px;
+            line-height: 1;
         }
     }
     .pay-dialog{
