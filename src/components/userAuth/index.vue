@@ -98,7 +98,7 @@ export default Vue.extend({
             2 //忘记密码
             3 //修改支付密码
             4 //忘记支付密码
-            5 //添加收款方式
+            5 //添加收付款方式
             6 //添加提币地址
             7 //添加可信提币地址
             8 //提币
@@ -149,7 +149,7 @@ export default Vue.extend({
             case 4: // 忘记支付密码
                 this.verifyType = 7;
                 break;
-            case 5: // 添加收款方式
+            case 5: // 添加收付款方式
                 this.verifyType = 14;
                 break;
             case 6: // 添加提币地址

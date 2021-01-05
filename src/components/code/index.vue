@@ -57,7 +57,7 @@ export default Vue.extend({
                     type: this.type,
                 };
                 if (this.vType === 'phone') {
-                    data.phone = `${this.country.tel}-${this.sliceMoblepre(this.phone)}`;
+                    data.phone = this.hasMoblepre(`${this.phone}`) ? this.phone : `${this.country.tel}-${this.phone}`;
                 } else if (this.vType === 'email') {
                     data.email = this.phone;
                 }
@@ -93,15 +93,21 @@ export default Vue.extend({
                 });
             }
         },
-        sliceMoblepre(phone: string|number) {
-            const index = `${phone}`.indexOf('-');
-            if (`${phone}`.indexOf('-') !== -1) {
-                return `${phone}`.slice(index + 1);
+        hasMoblepre(phone: string) {
+            if (phone.indexOf('-') !== -1) {
+                return true;
+            }
+            return false;
+        },
+        sliceMoblepre(phone: string) {
+            const index = phone.indexOf('-');
+            if (phone.indexOf('-') !== -1) {
+                return phone.slice(index + 1);
             }
             return phone;
         },
         verification() {
-            if (this.vType === 'phone' && this.$verification.phoneVfi(this.sliceMoblepre(this.phone))) return true;
+            if (this.vType === 'phone' && this.$verification.phoneVfi(this.phone)) return true;
             if (this.vType === 'email' && this.$verification.emailVfi(this.phone)) return true;
             if (this.vType === 'telegram') return true;
             return false;

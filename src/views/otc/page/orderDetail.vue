@@ -202,7 +202,7 @@ export default Vue.extend({
                 // fee: 0.01, // 手续费 amount*fee_rate
                 // pay_type: 1, // PayType
                 // pay_tag: '0100', // 付款参考号
-                // bank_info_id: 10, // 收款信息id
+                // bank_info_id: 10, // 收付款信息id
                 // state: 1, // OtcOrderState
                 // appealing: 0, // 是否申诉中
                 // created_at: '', // 创建时间

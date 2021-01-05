@@ -26,7 +26,7 @@
 	VerifyCodeTypeChangeEmail       = 11 //修改邮箱,需要登录
 	VerifyCodeTypeBindGA            = 12 //绑定google验证,需要登录
 	VerifyCodeTypeChangeGA          = 13 //关闭google验证,需要登录
-	VerifyCodeTypeAddBank           = 14 //添加收款方式,需要登录
+	VerifyCodeTypeAddBank           = 14 //添加收付款方式,需要登录
 	VerifyCodeTypeAddWallet         = 15 //添加提币地址,需要登录
 	VerifyCodeTypeAddTrustedWallet  = 16 //添加可信提币地址,需要登录
 	VerifyCodeTypeWithdraw          = 17 //提币,需要登录
@@ -39,7 +39,7 @@
 	UserOpTypeForgetPwd             = 2  //忘记密码
 	UserOpTypeChangePayPwd          = 3  //修改支付密码
 	UserOpTypeForgetPayPwd          = 4  //密码支付密码
-	UserOpTypeAddBank               = 5  //添加收款方式
+	UserOpTypeAddBank               = 5  //添加收付款方式
 	UserOpTypeAddWithdrawAddr       = 6  //添加提币地址
 	UserOpTypeAddTrustWithdrawAddr  = 7  //添加可信提币地址
 	UserOpTypeWithdraw              = 8  //提币
@@ -1007,7 +1007,7 @@ amount: [float64] 数量,如果是卖出的话需要保证账户中还有足够�
 	"fee": 0.01, //手续费 amount*fee_rate
 	"pay_type": 1, //PayType
 	"pay_tag": "0100", //付款参考号
-	"bank_info_id": 10, //收款信息id
+	"bank_info_id": 10, //收付款信息id
 	"state": 1, //OtcOrderState
 	"appealing": 0, //是否申诉中
 	"created_at": "" //创建时间 
