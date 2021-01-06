@@ -9,30 +9,83 @@
                         <span class="vertical-m">{{ form.type | payType}}</span>
                     </Select>
                 </div>
-                <div class="form-item">
-                    <div class="lable" v-t="'payway.name'"></div>
-                    <Inputs readonly v-model="form.real_name" :autofocus="true"></Inputs>
-                </div>
-                <div v-if="form.type === 1" class="form-item">
-                    <div class="lable" v-t="'payway.bank'"></div>
-                    <Select @click="$router.push(`/payway/banks?id=${bankInfo.id}`)">
-                        <!-- <img class="app-img-50" src="../../assets/img/mine/del.png" alt=""> -->
-                        <span class="vertical-m">{{ bankInfo.title }}</span>
-                    </Select>
-                    <!-- <Inputs v-model="form.bank"></Inputs> -->
-                </div>
-                <div class="form-item">
-                    <div class="lable" v-t="'payway.account'"></div>
-                    <Inputs v-model="form.account"></Inputs>
-                </div>
-                <div v-if="form.type === 1" class="form-item">
-                    <div class="lable" v-t="'payway.sub_bank'"></div>
-                    <Inputs v-model="form.sub_bank"></Inputs>
-                </div>
-                <div v-if="form.type !== 1" class="form-item">
-                    <div class="lable" v-t="'payway.qrc'"></div>
-                    <V-Uploader :max-count="1" v-model="fileList" multiple :after-read="afterRead"></V-Uploader>
-                </div>
+                <template v-if="form.type === 1">
+                    <div class="form-item">
+                        <div class="lable" v-t="'payway.name'"></div>
+                        <Inputs readonly v-model="form.real_name" :autofocus="true"></Inputs>
+                    </div>
+                    <div class="form-item">
+                        <div class="lable" v-t="'payway.bank'"></div>
+                        <Select @click="$router.push(`/payway/banks?id=${bankInfo.id}`)">
+                            <!-- <img class="app-img-50" src="../../assets/img/mine/del.png" alt=""> -->
+                            <span class="vertical-m">{{ bankInfo.title }}</span>
+                        </Select>
+                        <!-- <Inputs v-model="form.bank"></Inputs> -->
+                    </div>
+                    <div class="form-item">
+                        <div class="lable" v-t="'payway.account'"></div>
+                        <Inputs v-model="form.account"></Inputs>
+                    </div>
+                    <div class="form-item">
+                        <div class="lable" v-t="'payway.sub_bank'"></div>
+                        <Inputs v-model="form.sub_bank"></Inputs>
+                    </div>
+                </template>
+                <template v-if="form.type === 4">
+                    <div class="form-item">
+                        <div class="lable" v-t="'payway.name'"></div>
+                        <Inputs readonly v-model="form.real_name" :autofocus="true"></Inputs>
+                    </div>
+                    <div class="form-item">
+                        <div class="lable" v-t="'payway.account'"></div>
+                        <Inputs v-model="form.account"></Inputs>
+                    </div>
+                    <div class="form-item">
+                        <div class="lable" v-t="'payway.qrc'"></div>
+                        <V-Uploader :max-count="1" v-model="fileList" multiple :after-read="afterRead"></V-Uploader>
+                    </div>
+                </template>
+                <template v-if="form.type === 5">
+                    <div class="form-item">
+                        <div class="lable" v-t="'银行名称'"></div>
+                        <Inputs v-model="form.account"></Inputs>
+                    </div>
+                    <div class="form-item">
+                        <div class="lable" v-t="'姓名'"></div>
+                        <Inputs v-model="form.account"></Inputs>
+                    </div>
+                    <div class="form-item">
+                        <div class="lable" v-t="'账号'"></div>
+                        <Inputs v-model="form.account"></Inputs>
+                    </div>
+                    <div class="form-item">
+                        <div class="lable" v-t="'备注信息'"></div>
+                        <V-Field
+                            v-model="form.account"
+                            rows="3"
+                            autosize
+                            type="textarea"
+                            maxlength="100"
+                            :placeholder="$t('payway.placeAddress')"
+                            show-word-limit
+                        />
+                    </div>
+                </template>
+                <template v-if="form.type === 6">
+                    <div v-for="item in addressList" :key="item.id" class="form-item">
+                        <div class="lable">{{`${$t('payway.address')} ${item.id}`}}</div>
+                        <Inputs class="lable" :placeholder="$t('payway.placeTel')" v-model="item.tel"></Inputs>
+                        <V-Field
+                            v-model="item.address"
+                            rows="3"
+                            autosize
+                            type="textarea"
+                            maxlength="100"
+                            :placeholder="$t('payway.placeAddress')"
+                            show-word-limit
+                        />
+                    </div>
+                </template>
             </form>
             <user-auth ref="UserAuth" :type="5" @save="addHandle"></user-auth>
         </TitleHeader>
@@ -61,6 +114,7 @@ type data = {
     payPopup: boolean;
     fileList: Array<any>;
     bankInfo: any;
+    addressList: any[];
     form: {
         type: number;
         account: string;
@@ -81,6 +135,23 @@ export default Vue.extend({
             symbol: this.$route.query.symbol as string,
             needMede: this.$route.query.needMede as string,
             fileList: [],
+            addressList: [
+                {
+                    id: 1,
+                    tel: '',
+                    address: '',
+                },
+                {
+                    id: 2,
+                    tel: '',
+                    address: '',
+                },
+                {
+                    id: 3,
+                    tel: '',
+                    address: '',
+                },
+            ],
             form: {
                 type: 1,
                 account: '',

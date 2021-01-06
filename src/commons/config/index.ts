@@ -26,21 +26,21 @@ export type Relationship = Array<number>;
 export type OtcAppealType = Array<number>;
 export type CardType = Array<number>;
 export type LangType = Array<number>;
-
-export const PayType = [
-    1, // PayTypeBank       = 1 //银行卡
-    // 2, // PayTypeAlipay     = 2 //支付宝
-    // 3, // PayTypeWechatPay  = 3 //微信
-    4, // PayTypeHuione     = 4 //汇旺
-    // 5, // PayTypeBank     = 5 //其他银行
-    // 6, // PayTypeCoin     = 6 // 现金
-];
 export type PayTypeImg = {
     1: any;
     4: any;
     5: any;
     6: any;
 };
+
+export const PayType = [
+    1, // PayTypeBank       = 1 //银行卡
+    // 2, // PayTypeAlipay     = 2 //支付宝
+    // 3, // PayTypeWechatPay  = 3 //微信
+    4, // PayTypeHuione     = 4 //汇旺
+    5, // PayTypeBank     = 5 //其他银行
+    6, // PayTypeCoin     = 6 // 现金
+];
 
 // 交易方式图片
 export const PayTypeImg = {

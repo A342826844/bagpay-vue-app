@@ -320,7 +320,10 @@
         "qrc": "二维码",
         "pQrc": "请上传收付款二维码",
         "selecPayWay": "选择收付款类型",
-        "payway": "收付款方式"
+        "payway": "收付款方式",
+        "placeTel": "填写联系电话",
+        "placeAddress": "填写交易地址",
+        "address": "地址"
     },
     "otc": {
         "otcAdv": "发布广告",
