@@ -4,7 +4,15 @@
             <p class="realname-tip app-padding40">{{$t('mine.currentLv', {num: '3'})}}</p>
             <form class="realname-form app-padding40" action="">
                 <ul>
-                    <li>
+                    <li class="li-box">
+                        <div v-show="progress !== 0" class="circle-box">
+                            <van-circle
+                                class="van-circle"
+                                v-model="rate"
+                                :rate="progress"
+                                :text="toastOperateTitle"
+                            />
+                        </div>
                         <input type="file" @change="fileChange($event, uploadList.name)" accept="video/*" name="" />
                         <div class="add-bg">
                             <img class="img_cont" :src="uploadList.img" alt="">
@@ -33,6 +41,9 @@ const verlvVideo = require('../../assets/img/mine/verlv_video.png');
 type data = {
     isoading: boolean;
     uploadList: any;
+    progress: number;
+    rate: number;
+    toastOperateTitle: string;
 }
 
 export default Vue.extend({
@@ -43,6 +54,9 @@ export default Vue.extend({
     data(): data {
         return {
             isoading: false,
+            progress: 0,
+            rate: 0,
+            toastOperateTitle: '',
             uploadList: {
                 val: '',
                 title: 'mine.realName4',
@@ -65,7 +79,12 @@ export default Vue.extend({
                 this.isoading = true;
                 const formData = new FormData();
                 formData.append('video', this.uploadList.val);
-                this.$api.postVerLv3(formData).then((res: any) => {
+                const config = {
+                    onUploadProgress: (progressEvent: any) => {
+                        this.progress = Math.floor((progressEvent.loaded / progressEvent.total) * 100);
+                    },
+                };
+                this.$api.postVerLv3(formData, config).then((res: any) => {
                     if (res.code === 0) {
                         this.initUserInfo();
                         this.$toast({
@@ -163,6 +182,15 @@ export default Vue.extend({
                 background: url('../../assets/img/mine/idCardBor.png');
                 background-size: 100% 100%;
                 padding: 15px;
+                .circle-box{
+                    position: absolute;
+                    height: 100%;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    top: 100px;
+                    margin: auto;
+                }
                 .img_cont{
                     width: 100%;
                     max-width: 100%;

@@ -43,12 +43,13 @@ export const getGolang = (url: string, params?: object) => axiosOfGoLang({
     withCredentials: false,
     baseURL: process.env.VUE_APP_SERVE_DEV === 'DEV' ? baseURL : process.env.VUE_APP_GOLANG_apiUrl,
 });
-export const postGolang = (url: string, data?: object) => axiosOfGoLang({
+export const postGolang = (url: string, data?: object, config = {}) => axiosOfGoLang({
     url,
     data,
     method: 'post',
     withCredentials: false,
     baseURL: process.env.VUE_APP_SERVE_DEV === 'DEV' ? baseURL : process.env.VUE_APP_GOLANG_apiUrl,
+    ...config,
 });
 
 export const URL = process.env.VUE_APP_SERVE_DEV === 'DEV' ? baseURL : process.env.VUE_APP_GOLANG_apiUrl;
