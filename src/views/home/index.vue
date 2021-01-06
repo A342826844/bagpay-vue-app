@@ -187,7 +187,6 @@ export default Vue.extend({
         },
         handleClickSlide(event: Event) {
             const { dataset } = (event.target as any);
-            console.log(dataset, event.target);
             if (dataset.id) {
                 this.$router.push(`/news/noticedetail?id=${dataset.id}`);
             } else {

@@ -177,7 +177,6 @@ export default Vue.extend({
                         this.$emit('save', {});
                     } else {
                         this.sendType = res.data;
-                        console.log(this.sendType, 'sendType');
                     }
                 }
             });

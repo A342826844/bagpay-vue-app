@@ -27,6 +27,11 @@
                 <div class="label_item">{{$t('mine.verLv3Tip1')}}</div>
                 <div class="label_item">{{$t('mine.verLv3Tip2')}}</div>
             </div>
+            <Poptip>
+                <PoptipItem>
+                    {{$t('mine.verLv3Popit')}}
+                </PoptipItem>
+            </Poptip>
         </TitleHeader>
     </div>
 </template>

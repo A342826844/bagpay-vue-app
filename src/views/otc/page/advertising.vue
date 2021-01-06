@@ -379,7 +379,6 @@ export default Vue.extend({
             this.formTemp.form2.remark = '';
         },
         submitHandle() {
-            console.log(this.coinInfo);
             if (!Number(this.formTemp[this.typeKey].price)) {
                 this.$normalToast(this.$t('otc.enterPrice'));
                 return;

@@ -42,7 +42,8 @@ export default {
     methods: {
         routerPush() {
             const type = Number(this.$route.query.type);
-            const defaultPath = '/otc/entry';
+            const coin = this.$route.query.coin || 'usdt';
+            let defaultPath = '/otc/entry';
             let path = '/otc/entry'; // 跳转路由
             let needTowPush = false; // 需要2次跳转
             switch (type) {
@@ -62,6 +63,41 @@ export default {
                 break;
             case 5:
                 path = '/home';
+                break;
+            case 6:
+                path = `/payment?symbol=${coin}`; // 充值
+                needTowPush = true;
+                defaultPath = '/home';
+                break;
+            case 7:
+                path = `/transferout?symbol=${coin}`; // 提现
+                needTowPush = true;
+                defaultPath = '/home';
+                break;
+            case 8:
+                path = `/transferhistory?symbol=${coin}`; // 转入转出记录
+                needTowPush = true;
+                defaultPath = '/home';
+                break;
+            case 9:
+                path = '/invitation'; // 邀请
+                needTowPush = true;
+                defaultPath = '/home';
+                break;
+            case 10:
+                path = '/payway'; // 收付款管理
+                needTowPush = true;
+                defaultPath = '/mine';
+                break;
+            case 11:
+                path = '/mine/protocol'; // 用户协议
+                needTowPush = true;
+                defaultPath = '/mine';
+                break;
+            case 12:
+                path = '/mine/help'; // 新手教程
+                needTowPush = true;
+                defaultPath = '/mine';
                 break;
             default:
                 path = defaultPath;

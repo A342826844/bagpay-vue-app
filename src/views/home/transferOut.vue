@@ -140,7 +140,6 @@ export default Vue.extend({
     },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
-            console.log(vm._userInfo);
             if (vm._userInfo.ver_lv === 0) {
                 // XXX: 有时候页面会自动关, 所以给个定时器解决
                 setTimeout(() => {
@@ -204,7 +203,6 @@ export default Vue.extend({
             });
         },
         showLvConfirm(ver_lv: number) {
-            console.log('showLvConfirm');
             this.$dialog.confirm({
                 title: `${this.$t('common.poptip')}`,
                 message: ver_lv ? `${this.$t('home.paymentTip7')}` : `${this.$t('home.paymentTip8')}`,
