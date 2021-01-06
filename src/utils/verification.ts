@@ -16,7 +16,6 @@ function phoneVfi(phone: string) {
         tel = store.state.country.tel;
         subPhone = phone;
     }
-    console.log(tel, subPhone, 'subPhonesubPhone');
     const vfi: boolean = tel === '86' ? reg.test(subPhone) : reg1.test(subPhone);
     if (vfi === false) normalToast(i18n.t('error.phoneErr'));
     return vfi;

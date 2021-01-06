@@ -152,7 +152,6 @@ export default Vue.extend({
         },
         confirmHandle(done: (close?: boolean) => void) {
             const nickName = this.nickName.trim();
-            console.log(this.error);
             if (!nickName || this.error) {
                 done(false);
                 return;
