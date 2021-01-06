@@ -35,6 +35,12 @@ export const PayType = [
     // 5, // PayTypeBank     = 5 //其他银行
     // 6, // PayTypeCoin     = 6 // 现金
 ];
+export type PayTypeImg = {
+    1: any;
+    4: any;
+    5: any;
+    6: any;
+};
 
 // 交易方式图片
 export const PayTypeImg = {

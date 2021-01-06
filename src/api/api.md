@@ -286,7 +286,14 @@
 	OtcSell              = 2  // 场外出售广告列表
 	OtcSubmit            = 3  // 场外下单
 	OtcOrder             = 4  // 场外订单详情
+	OtcOrder             = 5  // 查看余额
+	OtcOrder             = 6  // 充值
 ```
+
+telegramType
+type: 6 充值;
+type: 7 提现; 
+coin: usdt 币种,默认usdt
 
 ### 错误定义
 

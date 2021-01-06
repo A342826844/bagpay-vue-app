@@ -5,13 +5,13 @@
             <!-- <img v-show="item.status" @click="delHandle" src="../../assets/img/common/del.png" alt=""> -->
             <ul class="payway-box app-padding40 text-align-l">
                 <li @click="selectBank(item)" class="payway-li" v-for="item in renderList" :key="item.id">
-                    <div class="flex-between-c">
+                    <div class="payway-li-title flex-between-c">
                         <h5 class="app-size-34" v-if="item.type === 1">{{`${item.bank}`}}</h5>
                         <h5 class="app-size-34" v-else>
                             <span class="vertical-m">{{item.type | payType}}</span>
                             <img @click="showImg(item)" class="payway-ercode app-img-50" src="../../assets/img/common/ercode.png" alt="">
                         </h5>
-                        <img v-show="id === item.id" class="app-img-50" src="../../assets/img/setting/ok.png" alt="">
+                        <img v-show="idList.includes(item.id)" class="app-img-50" src="../../assets/img/setting/ok.png" alt="">
                     </div>
                     <div class="payway-info">{{`${item.real_name}  ${item.account}`}}</div>
                 </li>
@@ -27,7 +27,7 @@ import { ImagePreview } from 'vant';
 
 type data = {
     // list: Array<any>;
-    id: number;
+    // id: number;
 };
 
 export default Vue.extend({
@@ -35,7 +35,7 @@ export default Vue.extend({
     data(): data {
         return {
             // list: [],
-            id: 0,
+            // id: 0,
         };
     },
     computed: {
@@ -45,26 +45,28 @@ export default Vue.extend({
         list(): Array<any> {
             return this.$store.state.bankList;
         },
+        idList(): number[] {
+            return this.$store.state.otcPayTypes.map((item: any) => item.id);
+        },
     },
     created() {
-        this.setId(this.$route.query.id);
         this.getList();
     },
     methods: {
         selectBank(item: any) {
-            this.setId(item.id);
-            this.$store.commit('selectBank', item);
-            setTimeout(() => {
-                this.$router.go(-1);
-            }, 300);
+            if (this.idList.includes(item.id)) {
+                this.$store.commit('filterOtcPayTypes', item.id);
+            } else {
+                this.$store.commit('addOtcPayTypes', item);
+            }
+            // setTimeout(() => {
+            //     this.$router.go(-1);
+            // }, 300);
         },
         showImg(item: any) {
             ImagePreview({
                 images: [`${this.$api.getFile}${item.qrc}`],
             });
-        },
-        setId(id: any) {
-            this.id = Number(id);
         },
         getList() {
             this.changeLoading(true);

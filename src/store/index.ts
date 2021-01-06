@@ -64,7 +64,8 @@ export default new Vuex.Store({
         addAddr: {}, // 添加提币地址
         address: {}, // 转出使用
         hideBalance, // 是否显示隐藏余额 '0'表示显示 '1'表示隐藏 , 值是字符串类型
-        bankInfo: {}, // 发布广告所选择的收付款信息
+        bankInfo: {}, // 添加收款方式银行卡信息
+        otcPayTypes: [], // 场外选择的收款方式
         symbolList, // 可用币种列表
         configCommon, // OTC配置信息
         bankList: [], // 用户绑定的收付款方式
@@ -222,6 +223,12 @@ export default new Vuex.Store({
          */
         selectBank(state, bankInfo) {
             state.bankInfo = bankInfo;
+        },
+        filterOtcPayTypes(state, id) {
+            state.otcPayTypes = state.otcPayTypes.filter((item: any) => item.id !== id);
+        },
+        addOtcPayTypes(state, item) {
+            state.otcPayTypes = state.otcPayTypes.concat(item);
         },
         /**
          * 重置用户信息

@@ -95,8 +95,10 @@
                     </div>
                     <div @click="selectPayHandle" class="form-item">
                         <Select>
-                            <span v-if="formTemp[`form${item.type}`].pay_types.length" class="vertical-m">
-                                {{formTemp[`form${item.type}`].pay_types[0] | payType}}
+                            <span v-for="(subitem, index) in formTemp[`form${item.type}`].pay_types" :key="subitem" class="vertical-m">
+                                {{subitem | payType}}
+                                <!-- <img class="app-img-50" :src="PayTypeImg[item]" alt=""> -->
+                                <span v-show="index !== formTemp[`form${item.type}`].pay_types.length - 1">、</span>
                             </span>
                             <span v-if="!formTemp[`form${item.type}`].pay_types.length" class="vertical-m">
                                 {{item.type === 1 ? $t('common.payway') : $t('otc.payment')}}
@@ -152,17 +154,30 @@
         </SelectPopup> -->
         <user-auth ref="UserAuth" :type="10" @save="saveHandle"></user-auth>
         <SelectPopup v-model="payPopup">
-            <SelectPopupItem v-for="item in PayType" :key="item" @click="selectPayType(item)">{{ item | payType }}</SelectPopupItem>
+            <SelectPopupItem
+                v-for="item in PayType"
+                :key="item"
+                class="select-box"
+                @click="selectPayType(item)"
+            >
+                {{ item | payType }}
+                <img
+                    v-show="formTemp[`form${type}`].pay_types.includes(item)"
+                    class="app-img-50 select-img"
+                    src="../../../assets/img/setting/ok.png" alt=""
+                >
+            </SelectPopupItem>
         </SelectPopup>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { PayType } from '@/commons/config/index';
+import { PayType, PayTypeImg } from '@/commons/config/index';
 
 type data = {
     PayType: PayType;
+    PayTypeImg: PayTypeImg;
     isfloatRate: boolean;
     pay_types: Array<number>;
     balances: Array<any>;
@@ -204,6 +219,7 @@ export default Vue.extend({
     name: 'OtcAdv',
     data(): data {
         return {
+            PayTypeImg,
             PayType,
             isfloatRate: true,
             selectPopup: false,
@@ -293,11 +309,12 @@ export default Vue.extend({
     },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
+            console.log(vm.formTemp.form1);
             if (from.name === 'choisesymbol') {
                 const symbol = sessionStorage.getItem('symbol');
                 vm.setCoin(symbol);
             } else if (from.name === 'PaywaySelect') {
-                vm.selectPayType(vm.$store.state.bankInfo.type);
+                vm.setPayType();
             } else {
                 vm.setCoin(to.query.symbol);
                 vm.initFormData();
@@ -338,9 +355,14 @@ export default Vue.extend({
             }
         },
         selectPayType(item: number) {
-            if (item) {
-                this.formTemp[this.typeKey].pay_types = [item];
+            if (this.formTemp[this.typeKey].pay_types.includes(item)) {
+                this.formTemp[this.typeKey].pay_types = this.formTemp[this.typeKey].pay_types.filter((subitem: number) => subitem !== item);
+            } else {
+                this.formTemp[this.typeKey].pay_types = this.formTemp[this.typeKey].pay_types.concat(item);
             }
+        },
+        setPayType() {
+            this.formTemp[this.typeKey].pay_types = this.$store.state.otcPayTypes.map((item: any) => item.type);
         },
         initFormData() {
             this.formTemp.form1.price = '';
@@ -452,6 +474,16 @@ export default Vue.extend({
     }
     .app-poptip{
         margin-bottom: 30px;
+    }
+    .select-box{
+        position: relative;
+    }
+    .select-img{
+        position: absolute;
+        right: 22px;
+        top: 0;
+        bottom: 0;
+        margin: auto;
     }
     &-form{
         .form-item{
