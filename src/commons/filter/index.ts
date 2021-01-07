@@ -274,14 +274,14 @@ Vue.filter('payType', (state: 0|1|2|3|4) => {
 	// PayTypeAlipay     = 2 //支付宝
 	// PayTypeWechatPay  = 3 //微信
 	// PayTypeHuione     = 4 //汇旺
+	// PayTypeHuione     = 5 //其他银行
     const states = {
         0: 'common.selectPayType',
         1: 'common.bank',
         2: 'common.alipay',
         3: 'common.weixin',
         4: 'common.huione',
-        5: 'common.otherBank',
-        6: 'common.cash',
+        5: 'common.cash',
     };
     return i18n.t(states[state]);
 });

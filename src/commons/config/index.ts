@@ -30,7 +30,6 @@ export type PayTypeImg = {
     1: any;
     4: any;
     5: any;
-    6: any;
 };
 
 export const PayType = [
@@ -38,16 +37,14 @@ export const PayType = [
     // 2, // PayTypeAlipay     = 2 //支付宝
     // 3, // PayTypeWechatPay  = 3 //微信
     4, // PayTypeHuione     = 4 //汇旺
-    // 5, // PayTypeBank     = 5 //其他银行
-    // 6, // PayTypeCoin     = 6 // 现金
+    5, // PayTypeCoin     = 5 //现金
 ];
 
 // 交易方式图片
 export const PayTypeImg = {
     1: ABA,
     4: HUI,
-    5: BANK,
-    6: COIN,
+    5: COIN,
 };
 
 export const CountryType = [

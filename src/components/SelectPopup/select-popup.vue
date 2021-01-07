@@ -17,6 +17,10 @@ export default Vue.extend({
     props: {
         msg: String,
         value: Boolean,
+        autoHide: {
+            type: Boolean,
+            default: true,
+        },
     },
     data() {
         return {
@@ -38,7 +42,9 @@ export default Vue.extend({
     methods: {
         cancleHandle() {
             this.$emit('cancle');
-            this.show = false;
+            if (!this.autoHide) {
+                this.show = false;
+            }
         },
     },
 });

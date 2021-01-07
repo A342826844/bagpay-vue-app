@@ -6,7 +6,8 @@
                     <div class="lable" v-t="'payway.payway'"></div>
                     <Select @click="payPopup = true">
                         <!-- <img class="app-img-50" src="../../assets/img/mine/del.png" alt=""> -->
-                        <span class="vertical-m">{{ form.type | payType}}</span>
+                        <span v-show="!ortherBank" class="vertical-m">{{ form.type | payType}}</span>
+                        <span v-show="ortherBank">其他银行</span>
                     </Select>
                 </div>
                 <template v-if="form.type === 1">
@@ -16,11 +17,11 @@
                     </div>
                     <div class="form-item">
                         <div class="lable" v-t="'payway.bank'"></div>
-                        <Select @click="$router.push(`/payway/banks?id=${bankInfo.id}`)">
+                        <Select v-if="!ortherBank" @click="$router.push(`/payway/banks?id=${bankInfo.id}`)">
                             <!-- <img class="app-img-50" src="../../assets/img/mine/del.png" alt=""> -->
                             <span class="vertical-m">{{ bankInfo.title }}</span>
                         </Select>
-                        <!-- <Inputs v-model="form.bank"></Inputs> -->
+                        <Inputs v-if="ortherBank" v-model="form.bank"></Inputs>
                     </div>
                     <div class="form-item">
                         <div class="lable" v-t="'payway.account'"></div>
@@ -47,21 +48,21 @@
                 </template>
                 <template v-if="form.type === 5">
                     <div class="form-item">
-                        <div class="lable" v-t="'银行名称'"></div>
-                        <Inputs v-model="form.account"></Inputs>
-                    </div>
-                    <div class="form-item">
                         <div class="lable" v-t="'姓名'"></div>
+                        <Inputs v-model="form.real_name"></Inputs>
+                    </div>
+                    <div class="form-item">
+                        <div class="lable" v-t="'联系方式'"></div>
                         <Inputs v-model="form.account"></Inputs>
                     </div>
                     <div class="form-item">
-                        <div class="lable" v-t="'账号'"></div>
-                        <Inputs v-model="form.account"></Inputs>
+                        <div class="lable" v-t="'地址'"></div>
+                        <Inputs v-model="form.bank"></Inputs>
                     </div>
                     <div class="form-item">
-                        <div class="lable" v-t="'备注信息'"></div>
+                        <div class="lable" v-t="'详细地址'"></div>
                         <V-Field
-                            v-model="form.account"
+                            v-model="form.sub_bank"
                             rows="3"
                             autosize
                             type="textarea"
@@ -97,6 +98,7 @@
         </div>
         <SelectPopup v-model="payPopup">
             <SelectPopupItem v-for="item in PayType" :key="item" @click="selectPayType(item)">{{ item | payType }}</SelectPopupItem>
+            <SelectPopupItem @click="selectOrtherBank">其他银行</SelectPopupItem>
         </SelectPopup>
     </div>
 </template>
@@ -115,6 +117,7 @@ type data = {
     fileList: Array<any>;
     bankInfo: any;
     addressList: any[];
+    ortherBank: boolean;
     form: {
         type: number;
         account: string;
@@ -135,6 +138,7 @@ export default Vue.extend({
             symbol: this.$route.query.symbol as string,
             needMede: this.$route.query.needMede as string,
             fileList: [],
+            ortherBank: false,
             addressList: [
                 {
                     id: 1,
@@ -251,6 +255,11 @@ export default Vue.extend({
         },
         selectPayType(type: any) {
             this.form.type = type;
+            this.ortherBank = false;
+        },
+        selectOrtherBank() {
+            this.selectPayType(1);
+            this.ortherBank = true;
         },
         addHandle(data: any) {
             let params: any = null;
