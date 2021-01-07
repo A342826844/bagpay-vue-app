@@ -16,7 +16,11 @@
                                     {{orderDetail.coin | toUpperCase}}
                                     <span :class="orderDetail.type | orderSideColor">{{ orderDetail.type | orderSideTypeUser}}</span></h5>
                             </div>
-                            <p class="otc-advdetail-pay">{{ orderDetail.pay_types | payType}}</p>
+                            <p class="otc-advdetail-pay">
+                                <span v-for="item in orderDetail.pay_types.split(',')" :key="item">
+                                    {{ item | payType}}
+                                </span>
+                            </p>
                         </div>
                         <div class="text-align-r">
                             <p class="lable" v-t="'otc.unitPrice'"></p>
@@ -153,7 +157,7 @@ export default Vue.extend({
                 // frozen: 0, // 下单被冻结数量
                 // min_value: 10, // 最小下单金额
                 // max_value: 100, // 最大下单金额
-                // pay_types: '1', // 支持的支付类型
+                pay_types: '', // 支持的支付类型
                 // country: 1, // 国家类型
                 // currency: 1, // 货币类型
                 // remark: '', // 备注

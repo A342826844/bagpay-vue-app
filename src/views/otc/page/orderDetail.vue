@@ -327,6 +327,8 @@ export default Vue.extend({
             return this.$api.otcAppealByOrderId(this.id).then((res: any) => {
                 if (res.data) {
                     this.appealData = res.data;
+                } else {
+                    this.appealData = {};
                 }
             });
         },

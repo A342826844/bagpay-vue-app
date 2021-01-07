@@ -38,8 +38,8 @@ export const PayType = [
     // 2, // PayTypeAlipay     = 2 //支付宝
     // 3, // PayTypeWechatPay  = 3 //微信
     4, // PayTypeHuione     = 4 //汇旺
-    5, // PayTypeBank     = 5 //其他银行
-    6, // PayTypeCoin     = 6 // 现金
+    // 5, // PayTypeBank     = 5 //其他银行
+    // 6, // PayTypeCoin     = 6 // 现金
 ];
 
 // 交易方式图片

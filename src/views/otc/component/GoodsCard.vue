@@ -39,7 +39,13 @@
                     </div>
                 </div> -->
                 <div>
-                    <img class="app-img-50" :src="PayTypeImg[renderData.pay_types]" alt="">
+                    <img
+                        v-for="item in renderData.pay_types.split(',')"
+                        :key="item"
+                        class="app-img-50"
+                        :src="PayTypeImg[item]"
+                        alt=""
+                    >
                 </div>
                 <div>
                     <Button

@@ -69,6 +69,13 @@
                         @input="inputAmount('value')"
                     />
                 </div>
+                <div class="form-lable">{{orderDetail.type === 2 ? $t('common.payway') : $t('otc.payment')}}</div>
+                <div class="form-lable">
+                    <Select @click="payPopup = true">
+                        <span v-show="form.pay_type">{{form.pay_type | payType}}</span>
+                        <span v-show="!form.pay_type">{{$t('otc.selectPayWay')}}</span>
+                    </Select>
+                </div>
                 <p class="flex-between-c fee">
                     <span>{{$t('common.fee')}}: </span>
                     <span>{{feeValue + (orderDetail.coin && orderDetail.coin.toUpperCase())}}</span>
@@ -99,6 +106,16 @@
             <Button @click="$router.go(-1)" size="medium" type="cancel">{{$t('common.cancle2')}}（{{download}} s）</Button>
             <Button @click="submitHandle" size="medium" :disabled="!form.amount || !form.value" type="up">{{$t('common.ok')}}</Button>
         </div>
+        <SelectPopup v-model="payPopup">
+            <SelectPopupItem
+                v-for="item in pay_types"
+                :key="item"
+                class="select-box"
+                @click="selectPayType(item)"
+            >
+                {{ item | payType }}
+            </SelectPopupItem>
+        </SelectPopup>
     </div>
 </template>
 
@@ -109,10 +126,13 @@ type data = {
     orderDetail: any;
     timer: any;
     download: number;
+    payPopup: boolean;
     balances: any[];
+    // pay_types: any[];
     form: {
         amount: string;
         value: string;
+        pay_type: string;
     };
 }
 
@@ -123,6 +143,8 @@ export default Vue.extend({
             download: 60,
             timer: 0,
             balances: [],
+            // pay_types: [],
+            payPopup: false,
             orderDetail: {
                 // id: 1,
                 // uid: 10, // 所属用户id
@@ -136,7 +158,7 @@ export default Vue.extend({
                 // frozen: 0, // 下单被冻结数量
                 // min_value: 10, // 最小下单金额
                 // max_value: 100, // 最大下单金额
-                // pay_types: '1,2', // 支持的支付类型
+                pay_types: '', // 支持的支付类型
                 // country: 1, // 国家类型
                 // currency: 1, // 货币类型
                 // remark: '', // 备注
@@ -148,6 +170,7 @@ export default Vue.extend({
             form: {
                 amount: '',
                 value: '',
+                pay_type: '',
             },
         };
     },
@@ -185,6 +208,24 @@ export default Vue.extend({
             const res = this.balances.find((item) => item.coin === this.orderDetail.coin);
             return res ? res.available : 0;
         },
+        userBank(): Array<any> {
+            return this.$store.getters.getBankEnableList;
+        },
+        pay_types(): any[] {
+            if (this.orderDetail.type === 2) {
+                return this.orderDetail.pay_types.split(',');
+            }
+            const res = this.userBank.filter((item: any) => this.orderDetail.pay_types.split(',').includes(`${item.type}`));
+            return res.map((item: any) => `${item.type}`);
+        },
+    },
+    watch: {
+        pay_types(value) {
+            if (value && value.length === 1 && !this.form.pay_type) {
+                // eslint-disable-next-line prefer-destructuring
+                this.form.pay_type = value[0];
+            }
+        },
     },
     methods: {
         getOrder() {
@@ -205,6 +246,9 @@ export default Vue.extend({
                 this.form.amount = this.orderDetail.inputAmount;
                 this.inputAmount('amount');
             }
+        },
+        selectPayType(type: string) {
+            this.form.pay_type = type;
         },
         getOrderDetail() {
             this.changeLoading(true);
@@ -236,6 +280,10 @@ export default Vue.extend({
             }
             if (Number(this.form.amount) <= 0) {
                 this.$normalToast(this.$t('otc.enterNum'));
+                return;
+            }
+            if (!this.form.pay_type) {
+                this.$normalToast(this.$t('otc.selectPayWay'));
                 return;
             }
             // this.$dialog.confirm({
@@ -290,7 +338,7 @@ export default Vue.extend({
         otcDealSubmit(data: any) {
             const params = {
                 order_id: this.orderDetail.id, // [int64] 广告id
-                pay_type: Number(this.orderDetail.pay_types), // [PayType] 支付类型
+                pay_type: Number(this.form.pay_type), // [PayType] 支付类型
                 price: this.orderDetail.price, // [float64] 价格
                 amount: Number(this.form.amount), // [float64] 数量
                 ...data,

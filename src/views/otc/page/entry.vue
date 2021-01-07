@@ -219,7 +219,7 @@ export default Vue.extend({
                     neediRealAuth: false,
                 }, {
                     img: payment,
-                    title: 'otc.payment',
+                    title: 'mine.payManaged',
                     name: 'payway',
                     needlogin: true,
                 }, {
@@ -366,7 +366,7 @@ export default Vue.extend({
                 });
                 return;
             }
-            const bankRes = this.userBank.some((subItem) => subItem.type === Number(item.pay_types));
+            const bankRes = this.userBank.some((subItem) => item.pay_types.split(',').includes(`${subItem.type}`));
             if (!bankRes && item.type === 1) {
                 this.$dialog.confirm({
                     title: `${this.$t('common.poptip')}`,
