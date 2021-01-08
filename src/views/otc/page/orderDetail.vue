@@ -151,7 +151,15 @@
                     <span v-t="'payway.account'"></span>
                     <span @click="$copyText(payDetail.account)" class="primary-color">{{payDetail.account}}</span>
                 </div>
-                <div v-if="payDetail.type !== 1" class="flex-between-c">
+                <div class="flex-between-c">
+                    <span v-t="'payway.address'"></span>
+                    <span @click="$copyText(payDetail.bank)" class="primary-color">{{payDetail.bank}}</span>
+                </div>
+                <div class="flex-between-s">
+                    <span v-t="'payway.fullAddress'"></span>
+                    <span @click="$copyText(payDetail.sub_bank)" class="primary-color text">{{payDetail.sub_bank}}</span>
+                </div>
+                <div v-if="payDetail.type === 2 || payDetail.type === 3 || payDetail.type === 4" class="flex-between-c">
                     <span v-t="'payway.qrc'"></span>
                     <img @click="showPayImg(payDetail.qrc)" class="app-img-50" :src="`${$api.getFile}${payDetail.qrc}`" alt="">
                 </div>
@@ -559,6 +567,11 @@ export default Vue.extend({
     .pay-dialog{
         line-height: 80px;
         padding-bottom: 42px;
+        .text{
+            display: inline-block;
+            max-width: 350px;
+            text-align: left;
+        }
     }
     .appeal-suggest{
         width: 50%;

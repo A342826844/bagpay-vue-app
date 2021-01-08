@@ -1,5 +1,5 @@
 const HUI = require('@/assets/img/common/pay-hui.png');
-const ABA = require('@/assets/img/common/pay-aba.png');
+// const ABA = require('@/assets/img/common/pay-aba.png');
 const BANK = require('@/assets/img/common/pay-bank.png');
 const COIN = require('@/assets/img/common/pay-coin.png');
 
@@ -42,7 +42,7 @@ export const PayType = [
 
 // 交易方式图片
 export const PayTypeImg = {
-    1: ABA,
+    1: BANK,
     4: HUI,
     5: COIN,
 };

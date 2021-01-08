@@ -4,12 +4,18 @@
             <img slot="header" @click="addHandle" class="app-img-50" src="../../assets/img/common/add.png" alt="">
             <!-- <img v-show="item.status" @click="delHandle" src="../../assets/img/common/del.png" alt=""> -->
             <ul class="payway-box app-padding40 text-align-l">
-                <li class="payway-li" v-for="item in list" :key="item.id">
+                <li @click="viewDetail(item)" class="payway-li" v-for="item in list" :key="item.id">
                     <div class="flex-between-c">
                         <h5 class="app-size-34" v-if="item.type === 1">{{`${item.bank}`}}</h5>
                         <h5 class="app-size-34" v-if="item.type !== 1">
                             <span class="vertical-m">{{item.type | payType}}</span>
-                            <img @click="showImg(item)" class="payway-ercode app-img-35" src="../../assets/img/common/ercode.png" alt="">
+                            <img
+                                @click.stop="showImg(item)"
+                                v-if="item.type === 2 || item.type === 3 || item.type === 4"
+                                class="payway-ercode app-img-35"
+                                src="../../assets/img/common/ercode.png"
+                                alt=""
+                            >
                         </h5>
                         <!-- {{item.status}} -->
                         <!-- <Switchs @on-change="changeHandle(item)" :value="!!item.status"></Switchs> -->
@@ -18,11 +24,17 @@
                             :active-value="1"
                             :inactive-value="0"
                             size="20px"
+                            @click.stop=""
                             @change="changeHandle(item)"
                             active-color="#5894EE"
                             inactive-color="#EDF3FB"/>
                     </div>
-                    <div class="payway-info">{{`${item.real_name}  ${item.account}`}}</div>
+                    <div class="payway-info">
+                        <span v-if="item.type !== 5">{{`${item.real_name} ${item.account}`}}</span>
+                        <span class="ellipsis-1" v-if="item.type === 5">
+                            {{`${item.account} ${item.bank} ${item.sub_bank}`}}
+                        </span>
+                    </div>
                 </li>
             </ul>
             <noData v-if="!_loading && (!list.length)"/>
@@ -39,7 +51,7 @@ import { ImagePreview } from 'vant';
 // };
 
 export default Vue.extend({
-    name: 'Aboutus',
+    name: 'Payway',
     // data(): data {
     //     return {
     //         // list: [],
@@ -71,6 +83,16 @@ export default Vue.extend({
                 images: [`${this.$api.getFile}${item.qrc}`],
             });
         },
+        viewDetail(item: any) {
+            console.log(item);
+            this.$router.push({
+                path: '/payway/detail',
+                name: 'PaywayDetail',
+                params: {
+                    ...item,
+                },
+            });
+        },
         addHandle() {
             if (this._userInfo.ver_lv < 1) {
                 this.$dialog.confirm({
@@ -79,7 +101,7 @@ export default Vue.extend({
                     confirmButtonText: `${this.$t('mine.toAuthenticate')}`,
                     cancelButtonText: `${this.$t('common.cancle2')}`,
                 }).then(() => {
-                    this.$router.push('/mine/safesetting');
+                    this.$router.push('/mine/safesetting?type=1');
                 });
                 return;
             }

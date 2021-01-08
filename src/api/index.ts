@@ -71,6 +71,8 @@ export const getBankListByType = (type: number) => getGolang(`/bank/user/get-by-
 export const getUserBankList = () => getGolang('/bank/user/list');
 // 添加支付方式
 export const addUserBank = (data: params) => postGolang('/bank/user/add', data);
+// 删除指定的支付方式
+export const bankUserDelete = (id: number) => getGolang(`/bank/user/delete/${id}`, { id });
 // 禁用指定的支付方式
 export const bankUserDisable = (id: number) => getGolang(`/bank/user/disable/${id}`, { id });
 // 启用指定的支付方式

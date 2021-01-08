@@ -15,6 +15,7 @@
         "cancle": "Cancel",
         "all": "All",
         "del": "Delete",
+        "delSucces": "Successfully deleted",
         "ok": "Confirm",
         "repeat": "Resend",
         "available": "Available",
@@ -77,9 +78,10 @@
         "alipay": "Alipay",
         "weixin": "WeChat",
         "otherBank": "OtherBank",
+        "theBank": "Bank",
         "cash": "Cash",
         "selectPayType": "Select Payment Method",
-        "bank": "ABA",
+        "bank": "Bank",
         "huione": "Huiwang",
         "stateWait"      : "Waiting",
         "stateFinished"  : "Completed",
@@ -307,6 +309,7 @@
     "payway": {
         "addpay": "Add payment method",
         "name": "Name",
+        "contact": "Contact information",
         "pName": "Please enter your username",
         "account": "Account number",
         "pAccount": "Please enter the account number",
@@ -319,7 +322,13 @@
         "pQrc": "Please upload the payment QR code",
         "selecPayWay": "Select payment type",
         "payway": "Payment method",
-        "bankDeposit": "Account Bank"
+        "bankDeposit": "Account Bank",
+        "Placetel": "please fill in the contact number,",
+        "Placeaddress": "please fill in the transaction address,",
+        "Placefulladdress": "please fill in the Full address,",
+        "Fulladdress": "Full address,",
+        "Deletetitle": "are you sure you want to delete the collection and payment method",
+        "Address": "transaction address"
     },
     "otc": {
         "otcAdv": "Post an ad",

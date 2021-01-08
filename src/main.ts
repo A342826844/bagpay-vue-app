@@ -125,6 +125,8 @@ Vue.mixin({
             return this.$api.getUserBankList().then((res: any) => {
                 if (res.data) {
                     this.$store.commit('setBankList', res.data);
+                } else {
+                    this.$store.commit('setBankList', []);
                 }
             });
         },

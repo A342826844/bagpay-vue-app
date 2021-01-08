@@ -87,11 +87,17 @@ export default Vue.extend({
         };
     },
     mounted() {
-        this.initUserInfo();
-        this.init();
+        // this.initUserInfo();
+        // this.init();
+    },
+    beforeRouteEnter(to, from, next) {
+        next((vm: any) => {
+            vm.initUserInfo();
+            vm.init(from);
+        });
     },
     methods: {
-        init() {
+        init(from: any) {
             this.isLoading = true;
             this.changeLoading(true);
             this.$api.getVerStutas().then((res: any) => {
@@ -115,6 +121,11 @@ export default Vue.extend({
             }).finally(() => {
                 this.isLoading = false;
                 this.changeLoading(false);
+                // 直接跳转实名认证
+                const notVerlv = from.name !== 'verLvStatus' && from.name !== 'verLv3' && from.name !== 'verLv2' && from.name !== 'verLv1';
+                if (this.$route.query.type === '1' && notVerlv) {
+                    this.goVerLv();
+                }
             });
         },
         goVerLv() {

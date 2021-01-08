@@ -7,7 +7,7 @@
                     <Select @click="payPopup = true">
                         <!-- <img class="app-img-50" src="../../assets/img/mine/del.png" alt=""> -->
                         <span v-show="!ortherBank" class="vertical-m">{{ form.type | payType}}</span>
-                        <span v-show="ortherBank">其他银行</span>
+                        <span v-show="ortherBank">{{$t('common.otherBank')}}</span>
                     </Select>
                 </div>
                 <template v-if="form.type === 1">
@@ -48,41 +48,26 @@
                 </template>
                 <template v-if="form.type === 5">
                     <div class="form-item">
-                        <div class="lable" v-t="'姓名'"></div>
-                        <Inputs v-model="form.real_name"></Inputs>
+                        <div class="lable" v-t="'payway.name'"></div>
+                        <Inputs readonly v-model="form.real_name"></Inputs>
                     </div>
                     <div class="form-item">
-                        <div class="lable" v-t="'联系方式'"></div>
-                        <Inputs v-model="form.account"></Inputs>
+                        <div class="lable" v-t="'payway.contact'"></div>
+                        <Inputs :placeholder="$t('payway.placeTel')" v-model="form.account"></Inputs>
                     </div>
                     <div class="form-item">
-                        <div class="lable" v-t="'地址'"></div>
-                        <Inputs v-model="form.bank"></Inputs>
+                        <div class="lable" v-t="'payway.address'"></div>
+                        <Inputs :placeholder="$t('payway.placeAddress')" v-model="form.bank"></Inputs>
                     </div>
                     <div class="form-item">
-                        <div class="lable" v-t="'详细地址'"></div>
+                        <div class="lable" v-t="'payway.fullAddress'"></div>
                         <V-Field
                             v-model="form.sub_bank"
                             rows="3"
                             autosize
                             type="textarea"
                             maxlength="100"
-                            :placeholder="$t('payway.placeAddress')"
-                            show-word-limit
-                        />
-                    </div>
-                </template>
-                <template v-if="form.type === 6">
-                    <div v-for="item in addressList" :key="item.id" class="form-item">
-                        <div class="lable">{{`${$t('payway.address')} ${item.id}`}}</div>
-                        <Inputs class="lable" :placeholder="$t('payway.placeTel')" v-model="item.tel"></Inputs>
-                        <V-Field
-                            v-model="item.address"
-                            rows="3"
-                            autosize
-                            type="textarea"
-                            maxlength="100"
-                            :placeholder="$t('payway.placeAddress')"
+                            :placeholder="$t('payway.placeFullAddress')"
                             show-word-limit
                         />
                     </div>
@@ -94,11 +79,11 @@
             <Button
                 @click="authHandle"
                 v-t="'common.ok'"
-                :disabled="!form.real_name || !form.account || (!form.sub_bank && form.type === 1) || (!fileList.length && form.type !== 1)"></Button>
+                :disabled="disabled"></Button>
         </div>
         <SelectPopup v-model="payPopup">
             <SelectPopupItem v-for="item in PayType" :key="item" @click="selectPayType(item)">{{ item | payType }}</SelectPopupItem>
-            <SelectPopupItem @click="selectOrtherBank">其他银行</SelectPopupItem>
+            <SelectPopupItem @click="selectOrtherBank">{{$t('common.otherBank')}}</SelectPopupItem>
         </SelectPopup>
     </div>
 </template>
@@ -166,6 +151,30 @@ export default Vue.extend({
             },
         };
     },
+    computed: {
+        disabled(): boolean {
+            const {
+                real_name,
+                account,
+                bank,
+                sub_bank,
+                type,
+            } = this.form;
+            if (this.ortherBank) {
+                return !real_name || !account || !sub_bank || !bank;
+            }
+            if (type === 1) {
+                return !real_name || !account || !sub_bank;
+            }
+            if (type === 4 || type === 3 || type === 2) {
+                return !real_name || !account || !this.fileList.length;
+            }
+            if (type === 5) {
+                return !real_name || !account || !sub_bank || !bank;
+            }
+            return !real_name || !account || (!sub_bank && type === 1) || (!bank && this.ortherBank) || (!this.fileList.length && type === 4);
+        },
+    },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
             vm.getVerStutas();
@@ -211,42 +220,8 @@ export default Vue.extend({
                 const vfi: boolean = this.$verification.fromVfi([
                     {
                         type: 'empty',
-                        msg: this.$t('payway.name'),
-                        value: this.form.real_name,
-                    },
-                    {
-                        type: 'empty',
                         msg: this.$t('payway.bank'),
-                        value: this.bankInfo.name,
-                    },
-                    {
-                        type: 'empty',
-                        msg: this.$t('payway.account'),
-                        value: this.form.account,
-                    },
-                    {
-                        type: 'empty',
-                        msg: this.$t('payway.sub_bank'),
-                        value: this.form.sub_bank,
-                    },
-                ]);
-                if (!vfi) return;
-            } else {
-                const vfi: boolean = this.$verification.fromVfi([
-                    {
-                        type: 'empty',
-                        msg: this.$t('payway.name'),
-                        value: this.form.real_name,
-                    },
-                    {
-                        type: 'empty',
-                        msg: this.$t('payway.account'),
-                        value: this.form.account,
-                    },
-                    {
-                        type: 'empty',
-                        msg: this.$t('payway.qrc'),
-                        value: this.form.qrc,
+                        value: this.ortherBank ? this.form.bank : this.bankInfo.name,
                     },
                 ]);
                 if (!vfi) return;
@@ -266,7 +241,7 @@ export default Vue.extend({
             const list = {
                 type: this.form.type, // type: [int] 类型：1.银行卡 2.支付宝 3.微信 4.汇旺
                 real_name: this.form.real_name, // real_name: [string] 持卡人姓名
-                bank: this.bankInfo.title || '', // bank: [string] 银行名称
+                bank: ((this.ortherBank || this.form.type === 5) ? this.form.bank : this.bankInfo.title) || '', // bank: [string] 银行名称
                 sub_bank: this.form.sub_bank || '', // sub_bank: [string] 支行名称
                 account: this.form.account, // account: [string] 账号
                 qrc: this.form.type === 1 ? null : this.form.qrc, // qrc: [file] 二维码

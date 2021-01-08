@@ -9,11 +9,22 @@
                         <h5 class="app-size-34" v-if="item.type === 1">{{`${item.bank}`}}</h5>
                         <h5 class="app-size-34" v-else>
                             <span class="vertical-m">{{item.type | payType}}</span>
-                            <img @click="showImg(item)" class="payway-ercode app-img-50" src="../../assets/img/common/ercode.png" alt="">
+                            <img
+                                v-if="item.type === 2 || item.type === 3 || item.type === 4"
+                                @click="showImg(item)"
+                                class="payway-ercode app-img-50"
+                                src="../../assets/img/common/ercode.png"
+                                alt=""
+                            >
                         </h5>
                         <img v-show="idList.includes(item.id)" class="app-img-50" src="../../assets/img/setting/ok.png" alt="">
                     </div>
-                    <div class="payway-info">{{`${item.real_name}  ${item.account}`}}</div>
+                    <div class="payway-info">
+                        <span v-if="item.type !== 5">{{`${item.real_name} ${item.account}`}}</span>
+                        <span class="ellipsis-1" v-if="item.type === 5">
+                            {{`${item.account} ${item.bank} ${item.sub_bank}`}}
+                        </span>
+                    </div>
                 </li>
             </ul>
             <noData v-if="!_loading && (!renderList.length)"/>
@@ -87,7 +98,7 @@ export default Vue.extend({
                     confirmButtonText: `${this.$t('mine.toAuthenticate')}`,
                     cancelButtonText: `${this.$t('common.cancle2')}`,
                 }).then(() => {
-                    this.$router.push('/mine/safesetting');
+                    this.$router.push('/mine/safesetting?type=1');
                 });
                 return;
             }

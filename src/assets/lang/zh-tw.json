@@ -43,6 +43,7 @@
         "cancle2": "取消",
         "all": "全部",
         "del": "刪 除",
+        "delSucces": "删除成功",
         "ok": "確 定",
         "repeat": "重發",
         "status": "狀態",
@@ -118,9 +119,10 @@
         "alipay": "支付寶",
         "weixin": "微信",
         "otherBank": "其他銀行",
+        "theBank": "銀行卡",
         "cash": "現金",
         "selectPayType": "選擇支付方式",
-        "bank": "ABA",
+        "bank": "銀行卡",
         "huione": "匯旺",
         "stateWait" : "等待中",
         "stateFinished" : "已完成",
@@ -306,6 +308,7 @@
     "payway": {
         "addpay": "添加收付款方式",
         "name": "姓名",
+        "contact": "聯繫方式",
         "bankDeposit": "開戶行",
         "pName": "請輸入賬戶名",
         "account": "賬號",
@@ -318,7 +321,12 @@
         "qrc": "二維碼",
         "pQrc": "請上傳收付款二維碼",
         "selecPayWay": "選擇收付款類型",
-        "payway": "收付款方式"
+        "placeTel": "請填寫聯繫電話",
+        "placeAddress": "請填寫交易地址",
+        "placeFullAddress": "請填寫交易地址",
+        "fullAddress": "詳細地址",
+        "deleteTitle": "確定删除收付款方式",
+        "address": "交易地址"
     },
     "otc": {
         "otcAdv": "發布廣告",

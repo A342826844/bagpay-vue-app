@@ -416,7 +416,7 @@ export default Vue.extend({
                 this.$normalToast(this.$t('otc.minLimit3'));
                 return;
             }
-            if (Number(this.formTemp[this.typeKey].max_value) <= Number(this.formTemp[this.typeKey].min_value)) {
+            if (Number(this.formTemp[this.typeKey].max_value) < Number(this.formTemp[this.typeKey].min_value)) {
                 this.$normalToast(this.$t('otc.maxLimit3'));
                 return;
             }

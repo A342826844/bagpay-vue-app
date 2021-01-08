@@ -61,6 +61,7 @@ const VerLv3 = () => import('@/views/mine/verLv3.vue');
 const VerLvStatus = () => import('@/views/mine/verLvStatus.vue');
 const Payway = () => import('@/views/payway/index.vue');
 const PaywayAdd = () => import('@/views/payway/add.vue');
+const PaywayDetail = () => import('@/views/payway/detail.vue');
 const PaywayBanks = () => import('@/views/payway/banks.vue');
 const PaywaySelect = () => import('@/views/payway/select.vue');
 const MineProtocol = () => import('@/views/mine/protocol.vue');
@@ -474,6 +475,16 @@ const routes: Array<RouteConfig> = [
             index: 100,
             keepAlive: true,
             componentName: 'PaywayAdd',
+        },
+    },
+    {
+        path: '/payway/detail',
+        name: 'PaywayDetail',
+        component: PaywayDetail,
+        meta: {
+            index: 100,
+            keepAlive: false,
+            componentName: 'PaywayDetail',
         },
     },
     {

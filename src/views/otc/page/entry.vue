@@ -423,6 +423,8 @@ export default Vue.extend({
                     } else {
                         this.renderData[this.side][this.activeSymbol] = this.renderData[this.side][this.activeSymbol].concat(res.data.list);
                     }
+                } else {
+                    this.renderData[this.side][this.activeSymbol] = [];
                 }
                 if (typeof this.paramsData[this.side][this.activeSymbol] === 'undefined') {
                     this.$set(this.paramsData[this.side], this.activeSymbol, res.data.total);
@@ -471,7 +473,7 @@ export default Vue.extend({
                         confirmButtonText: `${this.$t('mine.toAuthenticate')}`,
                         cancelButtonText: `${this.$t('common.cancle2')}`,
                     }).then(() => {
-                        this.$router.push('/mine/safesetting');
+                        this.$router.push('/mine/safesetting?type=1'); // 直接跳转实名认证
                     });
                     return;
                 }

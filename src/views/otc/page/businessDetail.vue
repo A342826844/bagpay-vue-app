@@ -407,7 +407,7 @@ export default Vue.extend({
                         confirmButtonText: `${this.$t('mine.toAuthenticate')}`,
                         cancelButtonText: `${this.$t('common.cancle2')}`,
                     }).then(() => {
-                        this.$router.push('/mine/safesetting');
+                        this.$router.push('/mine/safesetting?type=1');
                     });
                     return;
                 }

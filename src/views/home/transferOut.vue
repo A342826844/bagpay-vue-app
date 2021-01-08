@@ -224,7 +224,7 @@ export default Vue.extend({
             // } else if (this._userInfo.ver_lv === 2) {
             //     this.$router.push('/mine/safesetting');
             } else {
-                this.$router.push('/mine/safesetting');
+                this.$router.push('/mine/safesetting?type=1');
             }
         },
         getCoinOne() {
