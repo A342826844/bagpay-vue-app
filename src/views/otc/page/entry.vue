@@ -428,6 +428,8 @@ export default Vue.extend({
                 }
                 if (typeof this.paramsData[this.side][this.activeSymbol] === 'undefined') {
                     this.$set(this.paramsData[this.side], this.activeSymbol, res.data.total);
+                } else {
+                    this.paramsData[this.side][this.activeSymbol] = res.data.total;
                 }
             }).catch((err: any) => {
                 this.isLoading = false;

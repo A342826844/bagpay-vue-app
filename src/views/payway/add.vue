@@ -6,7 +6,10 @@
                     <div class="lable" v-t="'payway.payway'"></div>
                     <Select @click="payPopup = true">
                         <!-- <img class="app-img-50" src="../../assets/img/mine/del.png" alt=""> -->
-                        <span v-show="!ortherBank" class="vertical-m">{{ form.type | payType}}</span>
+                        <span v-show="!ortherBank" class="vertical-m">
+                            <span v-show="form.type !== 1">{{ form.type | payType}}</span>
+                            <span v-show="form.type === 1">ABA</span>
+                        </span>
                         <span v-show="ortherBank">{{$t('common.otherBank')}}</span>
                     </Select>
                 </div>
@@ -82,7 +85,12 @@
                 :disabled="disabled"></Button>
         </div>
         <SelectPopup v-model="payPopup">
-            <SelectPopupItem v-for="item in PayType" :key="item" @click="selectPayType(item)">{{ item | payType }}</SelectPopupItem>
+            <SelectPopupItem @click="selectPayType(1)">ABA</SelectPopupItem>
+            <SelectPopupItem
+                v-for="item in PayType.filter(item => item !== 1)"
+                :key="item"
+                @click="selectPayType(item)"
+            >{{ item | payType }}</SelectPopupItem>
             <SelectPopupItem @click="selectOrtherBank">{{$t('common.otherBank')}}</SelectPopupItem>
         </SelectPopup>
     </div>
