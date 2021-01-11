@@ -4,10 +4,10 @@
             <div class="flex-between-c">
                 <div class=" text-align-l">
                     <p class="font-28">{{$t('otc.bestPrice')}} <span class="primary-color">{{bestPrice}} USD/{{coin && coin.toUpperCase()}}</span></p>
-                    <p>{{$t('otc.balance')}}：{{balance}} {{coin && coin.toUpperCase()}}</p>
+                    <p v-show="side === 1">{{$t('otc.balance')}}：{{balance}} {{coin && coin.toUpperCase()}}</p>
                 </div>
                 <div>
-                    <div
+                    <!-- <div
                         class="banks"
                         :class="item.type === pay_type ? 'primary-border-color' : 'gray-border-color'"
                         v-for="item in userBank"
@@ -16,7 +16,7 @@
                     >
                         <img v-show="item.type === pay_type" class="select" src="../../../assets/img/common/switch1.png" alt="">
                         <img class="banks-img" :src="PayTypeImg[item.type]" alt="">
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="margin-t-36 app-size-34">
@@ -25,6 +25,7 @@
                     v-model="value"
                     :placeholder="$t('otc.placeInput', { type: methodType === 1 ? $t('otc.amount') : $t('otc.num')})"
                 >
+                    <span class="form-item-start" slot="start" v-t="methodType === 1? 'otc.amount' : 'otc.num'"></span>
                     <div class="switch">
                         {{methodType === 1 ? '$' : (coin && coin.toUpperCase())}}
                         <button @click="changeMethodType" class="switch-btn primary-bg">
@@ -40,7 +41,12 @@
                     {{$t('otc.methodType', { type: methodType === 1 ? $t('otc.num') : $t('otc.amount')})}}
                 </div>
             </div> -->
-            <div class="margin-t-36 app-size-34">
+            <div class="margin-t-36 app-size-34 flex-between-c">
+                <Select class="select-pay" @click="selectPayHandle">
+                    <span v-for="item in pay_type" :key="item">{{item | payType}}</span>
+                    <span v-show="!pay_type.length">{{side === 2 ? $t('common.payway') : $t('otc.payment')}}</span>
+                </Select>
+                <span>&nbsp;</span>
                 <Button @click="tradeHandle">{{$t('otc.quick')}}{{ side | orderSideType}}</Button>
             </div>
             <div class="margin-t-36">
@@ -48,18 +54,37 @@
             </div>
         </div>
         <div class="empty margin-t-36"></div>
+        <SelectPopup container="#app" v-model="payPopup">
+            <SelectPopupItem
+                v-for="item in PayType"
+                :key="item"
+                :autoHide="false"
+                class="select-box"
+                @click="selectPayType(item)"
+            >
+                {{ item | payType }}
+                <img
+                    v-show="pay_type.includes(item)"
+                    class="app-img-50 select-img"
+                    src="../../../assets/img/setting/ok.png" alt=""
+                >
+            </SelectPopupItem>
+        </SelectPopup>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { PayTypeImg } from '@/commons/config';
+import { PayTypeImg, PayType } from '@/commons/config';
 
 interface Data {
     PayTypeImg: any;
+    PayType: PayType;
     value: string;
-    pay_type: number;
+    pay_type1: number[];
+    pay_type2: number[];
     methodType: number;
+    payPopup: boolean;
     bestPrice: number | string;
     bestOrderInfo: any;
 }
@@ -83,16 +108,16 @@ export default Vue.extend({
     data(): Data {
         return {
             PayTypeImg,
+            PayType,
+            payPopup: false,
             value: '',
-            pay_type: 0,
+            pay_type1: [],
+            pay_type2: [],
             bestPrice: '--',
             methodType: 1, // 1 按数量购买 2 按金额购买
             bestOrderInfo: {},
         };
     },
-    // watch: {
-    //     coin
-    // },
     computed: {
         userBank(): Array<any> {
             return this.$store.getters.getBankEnableList;
@@ -104,6 +129,12 @@ export default Vue.extend({
         coinInfo(): CoinInfo {
             return this.$store.getters.getCoinInfo(this.coin);
         },
+        pay_type(): number[] {
+            console.log(this.$store.state.otcPayTypes, 'otcPayTypes');
+            if (this.side === 2) return this.pay_type2;
+            if (this.side === 1) return this.$store.state.otcPayTypes.map((item: any) => item.type);
+            return [];
+        },
     },
     mounted() {
         this.otcGetBestPrice();
@@ -113,12 +144,27 @@ export default Vue.extend({
             this.methodType = (this.methodType === 1 ? 2 : 1);
             this.value = '';
         },
+        selectPayHandle() {
+            if (this.side === 2) {
+                this.payPopup = true;
+                return;
+            }
+            this.$router.push('/payway/select?type=1');
+        },
+        selectPayType(item: number) {
+            // if (this.pay_type2.includes(item)) {
+            //     this.pay_type2 = this.pay_type2.filter((subitem: number) => subitem !== item);
+            // } else {
+            //     this.pay_type2 = this.pay_type2.concat(item);
+            // }
+            this.pay_type2 = [item];
+        },
         tradeHandle() {
             if (!this._isLogin) {
                 this.$loginRoute(this.$route.path);
                 return;
             }
-            if (!this.userBank.length) {
+            if (!this.userBank.length && this.side === 1) {
                 this.$dialog.confirm({
                     title: `${this.$t('common.poptip')}`,
                     message: `${this.$t('otc.noPayWay')}`,
@@ -129,7 +175,7 @@ export default Vue.extend({
                 });
                 return;
             }
-            if (!this.pay_type) {
+            if (!this.pay_type.length) {
                 this.$normalToast(this.$t('common.selectPayType'));
                 return;
             }
@@ -151,8 +197,8 @@ export default Vue.extend({
                 value, // [float64] 按金额
                 amount, // [float64] 按数量,按金额和按数量只能选一个
                 coin: this.coin, // [string] 可选,币种
-                side: this.side, // [int] 1.买 2.卖
-                pay_type: this.pay_type, // [int] 支付类型
+                side: this.side === 1 ? 2 : 1, // [int] 1.买 2.卖
+                pay_type: this.pay_type.join(','), // [int] 支付类型
             };
             this.changeLoading(true);
             this.$api.otcOrderMatch(params).then((res: any) => {
@@ -167,6 +213,7 @@ export default Vue.extend({
                         ...res.data,
                         inputAmount: amount,
                         inputValue: value,
+                        selectPayType: this.pay_type[0],
                     },
                 });
             }).catch(() => {
@@ -197,6 +244,12 @@ export default Vue.extend({
     }
     .margin-t-36{
         margin-top: 36px;
+    }
+    .form-item-start{
+        margin-right: 40px;
+    }
+    .select-pay{
+        margin-right: 28px;
     }
     .switch{
         height: 100%;
@@ -234,5 +287,15 @@ export default Vue.extend({
         background: #F4F6F9;
 
     }
+}
+.select-box{
+    position: relative;
+}
+.select-img{
+    position: absolute;
+    right: 22px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
 }
 </style>

@@ -11,7 +11,7 @@
                             <span class="vertical-m">{{item.type | payType}}</span>
                             <img
                                 v-if="item.type === 2 || item.type === 3 || item.type === 4"
-                                @click="showImg(item)"
+                                @click.stop="showImg(item)"
                                 class="payway-ercode app-img-50"
                                 src="../../assets/img/common/ercode.png"
                                 alt=""
@@ -65,14 +65,24 @@ export default Vue.extend({
     },
     methods: {
         selectBank(item: any) {
+            if (Number(this.$route.query.type) === 1) {
+                this.singleHandle(item);
+            } else {
+                this.multipleHandle(item);
+            }
+        },
+        singleHandle(item: any) {
+            this.$store.commit('changeOtcPayTypes', item);
+            setTimeout(() => {
+                this.$router.go(-1);
+            }, 300);
+        },
+        multipleHandle(item: any) {
             if (this.idList.includes(item.id)) {
                 this.$store.commit('filterOtcPayTypes', item.id);
             } else {
                 this.$store.commit('addOtcPayTypes', item);
             }
-            // setTimeout(() => {
-            //     this.$router.go(-1);
-            // }, 300);
         },
         showImg(item: any) {
             ImagePreview({

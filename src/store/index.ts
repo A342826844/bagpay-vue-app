@@ -230,6 +230,13 @@ export default new Vuex.Store({
         addOtcPayTypes(state, item) {
             state.otcPayTypes = state.otcPayTypes.concat(item);
         },
+        changeOtcPayTypes(state, item) {
+            state.otcPayTypes = [].concat(item);
+        },
+        resetOtcPayTypes(state) {
+            state.otcPayTypes = [];
+            console.log('=========');
+        },
         /**
          * 重置用户信息
          * @param state

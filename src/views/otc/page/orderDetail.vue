@@ -151,9 +151,9 @@
                     <span v-t="'payway.account'"></span>
                     <span @click="$copyText(payDetail.account)" class="primary-color">{{payDetail.account}}</span>
                 </div>
-                <div class="flex-between-c">
+                <div class="flex-between-s">
                     <span v-t="'payway.address'"></span>
-                    <span @click="$copyText(payDetail.bank)" class="primary-color">{{payDetail.bank}}</span>
+                    <span @click="$copyText(payDetail.bank)" class="primary-color text">{{payDetail.bank}}</span>
                 </div>
                 <div class="flex-between-s">
                     <span v-t="'payway.fullAddress'"></span>

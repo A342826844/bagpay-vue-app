@@ -12,7 +12,11 @@
                             <h5 class="name">{{ orderDetail.nickname }}</h5>
                             <!-- <img class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt=""> -->
                         </div>
-                        <p class="otc-submit-pay">{{ orderDetail.pay_types | payType}}</p>
+                        <p class="otc-submit-pay">
+                            <span v-for="item in orderDetail.pay_types.split(',')" :key="item">
+                                {{ item | payType}}
+                            </span>
+                        </p>
                     </div>
                     <div class="text-align-r">
                         <p class="lable">{{$t('otc.unitPrice')}}</p>
@@ -71,7 +75,7 @@
                 </div>
                 <div class="form-lable">{{orderDetail.type === 2 ? $t('common.payway') : $t('otc.payment')}}</div>
                 <div class="form-lable">
-                    <Select @click="payPopup = true">
+                    <Select @click="selectPayHandle">
                         <span v-show="form.pay_type">{{form.pay_type | payType}}</span>
                         <span v-show="!form.pay_type">{{$t('otc.selectPayWay')}}</span>
                     </Select>
@@ -132,7 +136,7 @@ type data = {
     form: {
         amount: string;
         value: string;
-        pay_type: string;
+        pay_type: string|number;
     };
 }
 
@@ -180,6 +184,13 @@ export default Vue.extend({
     },
     beforeDestroy() {
         clearInterval(this.timer);
+    },
+    beforeRouteEnter(to, from, next) {
+        next((vm: any) => {
+            if (to.name === 'PaywaySelect') {
+                vm.setPayType();
+            }
+        });
     },
     computed: {
         maxTip(): any {
@@ -246,9 +257,24 @@ export default Vue.extend({
                 this.form.amount = this.orderDetail.inputAmount;
                 this.inputAmount('amount');
             }
+            if (this.orderDetail.selectPayType) {
+                this.form.pay_type = Number(this.orderDetail.selectPayType);
+            }
         },
         selectPayType(type: string) {
             this.form.pay_type = type;
+        },
+        selectPayHandle() {
+            if (this.orderDetail.side === 1) {
+                this.payPopup = true;
+                return;
+            }
+            this.$router.push(`/payway/select?type=1&pay_types=${this.orderDetail.pay_types}`);
+        },
+        setPayType() {
+            const [pay_type] = this.$store.state.otcPayTypes.map((item: any) => item.type);
+            // eslint-disable-next-line prefer-destructuring
+            this.form.pay_type = Number(pay_type);
         },
         getOrderDetail() {
             this.changeLoading(true);
