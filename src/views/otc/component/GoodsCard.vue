@@ -42,7 +42,7 @@
                     <img
                         v-for="item in renderData.pay_types.split(',')"
                         :key="item"
-                        class="app-img-50"
+                        class="app-img-50 margin-r8"
                         :src="PayTypeImg[item]"
                         alt=""
                     >
@@ -122,6 +122,9 @@ export default Vue.extend({
     &-num{
         margin-top: 15px;
         // line-height: 50px;
+    }
+    .margin-r8{
+        margin-right: 8px;
     }
 }
 </style>

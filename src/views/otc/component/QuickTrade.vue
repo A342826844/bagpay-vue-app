@@ -3,7 +3,7 @@
         <div class="app-padding40">
             <div class="flex-between-c">
                 <div class=" text-align-l">
-                    <p class="font-28">{{$t('otc.bestPrice')}} <span class="primary-color">{{bestPrice}} USD/{{coin && coin.toUpperCase()}}</span></p>
+                    <p class="font-28">{{$t('otc.bestPrice')}} <span class="primary-color">{{bestPrice}} $/{{coin && coin.toUpperCase()}}</span></p>
                     <p v-show="side === 1">{{$t('otc.balance')}}：{{balance}} {{coin && coin.toUpperCase()}}</p>
                 </div>
                 <div>

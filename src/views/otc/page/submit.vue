@@ -265,11 +265,12 @@ export default Vue.extend({
             this.form.pay_type = type;
         },
         selectPayHandle() {
-            if (this.orderDetail.side === 1) {
-                this.payPopup = true;
-                return;
-            }
-            this.$router.push(`/payway/select?type=1&pay_types=${this.orderDetail.pay_types}`);
+            this.payPopup = true;
+            // if (this.orderDetail.side === 1) {
+            //     this.payPopup = true;
+            //     return;
+            // }
+            // this.$router.push(`/payway/select?type=1&pay_types=${this.orderDetail.pay_types}`);
         },
         setPayType() {
             const [pay_type] = this.$store.state.otcPayTypes.map((item: any) => item.type);
