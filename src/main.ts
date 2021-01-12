@@ -43,6 +43,7 @@ declare module 'vue/types/vue' {
         $verification: any;
         $hasBindValue: Function;
         $app_mark: string;
+        $app_public: boolean;
         $invitationUrl: string;
         _userInfo: any;
         _configCommon: any;
@@ -152,7 +153,9 @@ Vue.prototype.$md5 = md5;
 Vue.prototype.$verification = verification;
 Vue.prototype.$hasBindValue = hasBindValue;
 Vue.prototype.$app_mark = process.env.VUE_APP_MARK;
+Vue.prototype.$app_public = !!Number(process.env.VUE_APP_PUBLIC); // 是否在浏览器公开使用
 Vue.prototype.$invitationUrl = `${process.env.NODE_ENV === 'production' ? process.env.VUE_APP_ORIGIN_URL : location.origin}/register`; // 邀请链接
+Vue.prototype.$isServe = window.location.protocol !== 'file:';
 
 new Vue({
     router,

@@ -11,9 +11,10 @@
                 @click="$router.push('/home')"
             >{{$t('entry.skip')}}</span>
         </Headers>
-        <div class="entry-banner">
+        <!-- <div @click="$router.push('/telegramLogin')" class="entry-hide-btn"></div> -->
+        <div class="entry-banner" :class="{ 'login-type': $route.name === 'entrylogin'}">
             <ul
-                :class="`active${activeTab}`"
+                :class="[`active${activeTab}`]"
                 :style="{
                     transform: moveIng ? bodyLeft : '',
                     'transition-duration': moveIng ? '' : '.3s'
@@ -21,8 +22,8 @@
             >
                 <li class="entry-banner-item" :class="`item${index}`" v-for="(item, index) in list" :key="index">
                     <img @click.prevent="" :src="item.img" :alt="item.title">
-                    <h5 class="primary-color">{{$t(item.title)}}</h5>
-                    <p>{{$t(item.tip)}}</p>
+                    <h5 v-show="$route.name !== 'entrylogin'" class="primary-color">{{$t(item.title)}}</h5>
+                    <p v-show="$route.name !== 'entrylogin'">{{$t(item.tip)}}</p>
                 </li>
             </ul>
         </div>
@@ -32,6 +33,20 @@
         <div v-if="$route.name === 'entrylogin'" class="entry-btn app-size-34">
             <Button @click="$router.push('/login')" class="entry-btn-item">{{$t('login.loginTitle')}}</Button>
             <Button @click="$router.push('/register')" class="entry-btn-item" border type="info">{{$t('login.registerTitle')}}</Button>
+        </div>
+        <div v-if="$route.name === 'entrylogin' && $isServe" class="entry-third">
+            <p>{{$t('common.thirdLogin')}}</p>
+            <div class="entry-third-line">
+                <div class="border-b"></div>
+            </div>
+            <div>
+                <ul>
+                    <li @click="$router.push('/telegramLogin')">
+                        <img class="app-img-50" src="@/assets/img/common/telegram.png" alt="">
+                        <p class="entry-third-title">Telegram</p>
+                    </li>
+                </ul>
+            </div>
         </div>
         <div v-show="activeTab !== 2 && $route.name !== 'entrylogin'" class="entry-next flex-between-c">
             <span  href="javascript:void(0)"></span>
@@ -189,11 +204,23 @@ export default Vue.extend({
     position: relative;
     height: 100%;
     min-height: 1280px;
+    &-hide-btn{
+        position: absolute;
+        height: 50px;
+        width: 50px;
+        background: transparent;
+        top: 0;
+        left: 50%;
+        z-index: 2000;
+    }
     &-banner{
         width: 100%;
         height: 800px;
         overflow: hidden;
         margin-top: 120px;
+        &.login-type{
+            height: 600px;
+        }
         &>ul{
             position: relative;
             transition-property: all;
@@ -241,6 +268,14 @@ export default Vue.extend({
             &:last-child{
                 margin-top: 30px;
             }
+        }
+    }
+    &-third{
+        &-line{
+            padding: 44px;
+        }
+        &-title{
+            margin-top: 24px;
         }
     }
     &-next{

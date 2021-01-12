@@ -91,6 +91,8 @@ export const register = (data: params) => postGolang('/user/sign-up', data);
 export const login = (data: params) => postGolang('/user/sign-in', data);
 // 使用telegram登录
 export const loginTelegram = (data: params) => postGolang('/user/sign-in/telegram', data);
+// 使用telegram快捷登录
+export const loginQuickTelegram = (data: params) => postGolang('/user/login/telegram', data, { noLang: true });
 // 退出
 export const logout = (data: params) => postGolang('/user/sign-out', data);
 // 找回密码

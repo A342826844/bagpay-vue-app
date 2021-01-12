@@ -17,12 +17,17 @@ axios.defaults.headers.get.Accept = 'application/json';
 
 interface AxiosConfig extends AxiosRequestConfig{
     cancleId?: string;
+    noLang?: boolean;
 }
 
 function resetConfig(config: AxiosConfig, lang: string, Authorization?: string) {
     const resConfig: AxiosConfig = {
         ...config,
     };
+    if (Authorization) {
+        resConfig.headers.sid = `${Authorization}`;
+    }
+    if (resConfig.noLang) return resConfig;
     if (!resConfig.data) {
         resConfig.data = {};
     }
@@ -34,9 +39,6 @@ function resetConfig(config: AxiosConfig, lang: string, Authorization?: string) 
         resConfig.params.lang = lang;
     } else if (resConfig.method === 'get') {
         resConfig.params.lang = lang;
-    }
-    if (Authorization) {
-        resConfig.headers.sid = `${Authorization}`;
     }
     return resConfig;
 }

@@ -6,6 +6,7 @@
     },
     "common": {
         "updateInfo": "Update Content",
+        "thirdLogin": "Third party quick login",
         "send": "Send",
         "send2": "Send",
         "save": "Save",

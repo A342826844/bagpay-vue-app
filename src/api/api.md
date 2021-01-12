@@ -490,6 +490,19 @@ ac: [string] telegram认证token
 type: [telegramType] 操作类型
 id: [int|string] 广告id或者订单id
 
+#### 使用telegram快捷登录
+
+[post] /user/login/telegram
+
+请求参数：
+
+txt
+[telegram返回的所有认证参数]
+
+返回数据：
+
+ok
+
 #### APP下载
 https://bagpay.io/download/
 #### 登出
