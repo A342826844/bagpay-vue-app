@@ -56,6 +56,12 @@
             </form>
             <Poptip>
                 <PoptipItem>
+                    {{$t('home.paymentTip10', {
+                            amount: `${this.internal_out_fee} ${this.symbol.toUpperCase()}`,
+                        }
+                    )}}
+                </PoptipItem>
+                <PoptipItem>
                     {{$t('home.paymentTip4', {
                             "txt": `${this.maxAmount} ${this.symbol.toUpperCase()}`,
                             amount: `${this.amount} ${this.symbol.toUpperCase()}`,
@@ -97,6 +103,7 @@ type data = {
     isLoading: boolean;
     amount: number;
     maxAmount: number;
+    internal_out_fee: string|number;
     form: form;
 }
 
@@ -108,6 +115,7 @@ export default Vue.extend({
             isLoading: false,
             amount: 0,
             maxAmount: 0,
+            internal_out_fee: '--',
             form: {
                 address: '',
                 memo: '',
@@ -232,6 +240,7 @@ export default Vue.extend({
                 coin: this.symbol,
             }).then((res: any) => {
                 if (res.data) {
+                    this.internal_out_fee = res.data.internal_out_fee;
                     if (this._userInfo.ver_lv === 1) {
                         this.maxAmount = res.data.out_max_lv_1;
                     } else if (this._userInfo.ver_lv === 2) {

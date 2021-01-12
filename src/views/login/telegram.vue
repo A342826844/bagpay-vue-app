@@ -9,6 +9,7 @@
 
 <script>
 // import { vueTelegramLogin } from 'vue-telegram-login';
+import i18n, { langType } from '@/i18n/index';
 
 export default {
     name: 'Telegram',
@@ -21,6 +22,7 @@ export default {
         };
     },
     created() {
+        this.setLang(this.$route.query.lang);
         this.toast = this.$toast.loading({
             message: `${this.$t('common.logging')}···`,
             duration: 0,
@@ -140,6 +142,13 @@ export default {
                 this.routerPush();
                 this.toast.clear();
             });
+        },
+        setLang(value) {
+            const hasLang = langType.some((item) => item.value === value);
+            if (!hasLang) return;
+            this.lang = value;
+            this.$store.commit('setLang', value);
+            i18n.locale = value;
         },
     },
 };
