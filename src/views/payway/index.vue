@@ -84,7 +84,6 @@ export default Vue.extend({
             });
         },
         viewDetail(item: any) {
-            console.log(item);
             this.$router.push({
                 path: '/payway/detail',
                 name: 'PaywayDetail',

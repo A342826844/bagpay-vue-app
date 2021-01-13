@@ -24,7 +24,7 @@
                             </div>
                             <div>
                                 <p>{{$t('otc.tradeOrderNum')}}</p>
-                                <p>{{merchantInfo.order_count}}</p>
+                                <p>{{merchantInfo.finished_count}}</p>
                             </div>
                             <div>
                                 <p>{{$t('otc.tradeOrderRate')}}</p>

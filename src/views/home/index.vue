@@ -7,7 +7,7 @@
                 <h3 class="home-header-coin">{{symbol.toUpperCase()}}</h3>
             </div>
             <div>
-                <img v-show="_isplus" @click="loginPath(`/scanQRCode?type=${1}`)" src="../../assets/img/common/qrcode1.png" alt="">
+                <img @click="loginPath(`/scanQRCode?type=${1}`)" src="../../assets/img/common/qrcode1.png" alt="">
             </div>
         </div>
         <div v-if="_isLogin" class="home-assets flex-around-s flex-column">

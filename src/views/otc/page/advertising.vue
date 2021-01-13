@@ -310,7 +310,6 @@ export default Vue.extend({
     },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
-            console.log(vm.formTemp.form1);
             if (from.name === 'choisesymbol') {
                 const symbol = sessionStorage.getItem('symbol');
                 vm.setCoin(symbol);

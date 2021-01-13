@@ -101,7 +101,6 @@ export default Vue.extend({
             } else {
                 this.transitionName = '';
             }
-            console.log(this.$app_public, 'this.$app_public');
             if (this.$app_public) return;
             const ac = sessionStorage.getItem('ac');
             const isPlus = navigator.userAgent.indexOf('Html5Plus') !== -1;

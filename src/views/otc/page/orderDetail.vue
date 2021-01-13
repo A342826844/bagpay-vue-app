@@ -121,15 +121,24 @@
             // OtcDealStateCanceled  = 3 //已取消 -->
             <!-- {{showPayBtn}}
             {{showReleasBtn}} -->
-            <Button @click="cancleHandle" v-if="showPayBtn" type="cancel">{{$t('common.cancle2')}}</Button>
-            <Button @click="otcDealPadiHandle" v-if="showPayBtn">{{$t('otc.markPaid')}}</Button>
-            <Button @click="appealHandle"
+            <Button class="margin-20" @click="cancleHandle" v-if="showPayBtn" type="cancel">{{$t('common.cancle2')}}</Button>
+            <Button class="margin-20" @click="otcDealPadiHandle" v-if="showPayBtn">{{$t('otc.markPaid')}}</Button>
+            <Button class="margin-20" @click="appealHandle"
                 v-if="orderDetail.state === 1 && !orderDetail.appealing && !appealData.id" type="down">{{$t('otc.appeal')}}</Button>
-            <Button @click="cancleAppealHandle" v-if="orderDetail.appealing && appealingStatus(appealData.uid, appealData.user_type)" type="down">
+            <Button
+                class="margin-20"
+                @click="cancleAppealHandle"
+                v-if="orderDetail.appealing && appealingStatus(appealData.uid, appealData.user_type)"
+                type="down"
+            >
                 {{$t('otc.cancelAppeal')}}
             </Button>
-            <Button @click="releaseHandle" v-if="showReleasBtn && !orderDetail.appealing" type="up">{{$t('otc.release')}}</Button>
-            <Button @click="showAppealing" v-if="orderDetail.appealing && !appealingStatus(appealData.uid, appealData.user_type)" type="down">
+            <Button class="margin-20" @click="releaseHandle" v-if="showReleasBtn && !orderDetail.appealing" type="up">{{$t('otc.release')}}</Button>
+            <Button
+                class="margin-20"
+                @click="showAppealing"
+                v-if="orderDetail.appealing && !appealingStatus(appealData.uid, appealData.user_type)" type="down"
+            >
                 {{$t('otc.appealing')}}
             </Button>
         </div>
@@ -563,6 +572,9 @@ export default Vue.extend({
             font-size: 68px;
             line-height: 1;
         }
+    }
+    .margin-20{
+        margin: 0 20px;
     }
     .pay-dialog{
         line-height: 80px;

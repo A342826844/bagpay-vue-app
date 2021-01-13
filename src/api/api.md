@@ -1341,6 +1341,20 @@ id: [int64] 提币地址id
 
 `ok`
 
+#### 根据币种地址取用户id,判断是否平台内地址
+
+[post] /user/uid-by-address
+
+请求参数：
+
+txt
+coin: [string] 币种
+address: [string] 地址
+protocol: [string] 协议,可选
+
+返回数据：
+
+uid
 #### 提交提币申请
 
 `[post] /withdraw/submit`

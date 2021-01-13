@@ -11,6 +11,8 @@
         "send2": "Send",
         "save": "Save",
         "scan": "Scan it",
+        "scanTip1": "Scan the opposite party's collection QR code",
+        "scanTip2": "Make payment / transfer",
         "bFlash": "Flash",
         "scanPicture": "Photo album",
         "cancle": "Cancel",

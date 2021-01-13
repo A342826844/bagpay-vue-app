@@ -147,6 +147,8 @@ export const getCoinList = (data: params) => getGolang('/coin/list', data);
 export const getDeposit = (data: params) => getGolang(`/deposit/address/${data.coin}`, data);
 // 提交提币申请
 export const withdrawSubmit = (data: params) => getGolang('/withdraw/submit', data);
+// 提交提币申请
+export const queryUidByAddress = (data: params) => postGolang('/user/uid-by-address', data);
 // 取消提币申请
 export const withdrawCcancel = (data: params) => getGolang(`/withdraw/cancel/${data.id}`, data);
 // 获取指定币种信息

@@ -1,23 +1,41 @@
 <template>
-    <div ref="qrcode" style="background-color:#000000;">
-        <div id="bcid">
-            <div style="height:40%"></div>
-            <p class="tip">...loading...</p>
+    <div class="scan-qrcode">
+        <div v-show="_isplus" ref="qrcode" style="background-color:#000000;">
+            <div id="bcid">
+                <div style="height:40%"></div>
+                <p class="tip">...loading...</p>
+            </div>
+        </div>
+        <div v-show="!_isplus" class="brower-qr primary-bg">
+            <Headers theme="primary"></Headers>
+            <h4 class="brower-qr-title app-size-45">{{$t('common.scan')}}</h4>
+            <JsQRCode @onmarked="JsQRMarked" class="brower-jsqrcode"></JsQRCode>
+            <div class="brower-qr-tip app-size-34">
+                <p>{{$t('common.scanTip1')}}</p>
+                <p>{{$t('common.scanTip2')}}</p>
+            </div>
+            <div class="brower-qr-btn app-size-34">
+                <Button type="info">
+                    <label class="label-btn" for="qrcodeFile">{{$t('common.scanPicture')}}</label>
+                    <input @change="changeHandle" id="qrcodeFile" class="brower-qr-file" type="file">
+                </Button>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-// import Headers from '@/component/header';
+import jsQR from 'jsqr';
+import JsQRCode from '@/components/jsQR/index.vue';
 import {
     getQueryUrl,
     isHttpUrl,
 } from '@/utils/tool';
 
 export default {
-    // components: {
-    //     Headers,
-    // },
+    components: {
+        JsQRCode,
+    },
     data() {
         return {
             ws: null,
@@ -86,6 +104,9 @@ export default {
             this.createSubview();
             this.scan.start();
         },
+        JsQRMarked(res) {
+            this.onmarked(null, res);
+        },
         scanPicture() {
             window.plus.gallery.pick((path) => {
                 window.plus.barcode.scan(path, this.onmarked, () => {
@@ -128,9 +149,13 @@ export default {
                 }
             } else if (Number(this.$route.query.type) === 1) {
                 if (isHttpUrl(result)) {
-                    window.plus.runtime.openURL(result, () => {
-                        this.$normalToast('更新失败,请开启浏览器权限');
-                    });
+                    if (this._isplus) {
+                        window.plus.runtime.openURL(result, () => {
+                            this.$normalToast('更新失败,请开启浏览器权限');
+                        });
+                    } else {
+                        window.open(result);
+                    }
                 }
                 this.$router.replace(`/scanvalue?value=${result}`);
                 this.goBackHandle();
@@ -222,6 +247,7 @@ export default {
             this.ws.append(this.header);
         },
         goBackHandle(flag) {
+            if (!this._isplus) return;
             this.view.close();
             this.header.close();
             this.scan.close();
@@ -229,11 +255,34 @@ export default {
                 this.ws.back();
             }
         },
+        changeHandle(event) {
+            const [file] = event.target.files;
+            const canvas = document.createElement('canvas');
+            const image = new Image();
+            image.src = URL.createObjectURL(file);
+            image.onload = () => {
+                canvas.width = image.width;
+                canvas.height = image.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(image, 0, 0);
+                const imageData = ctx.getImageData(0, 0, image.width, image.height);
+                const code = jsQR(imageData.data, image.width, image.height);
+                if (code) {
+                    // this.$emit('onmarked', code.data);
+                    this.JsQRMarked(code.data);
+                } else {
+                    this.$normalToast(this.$t('common.unrecognized'));
+                }
+            };
+        },
     },
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+.scan-qrcode{
+    height: 100%;
+}
 #bcid {
     width: 100%;
     height: 100%;
@@ -259,5 +308,40 @@ export default {
 }
 .footer-btn div{
     flex: 1;
+}
+.brower-qr{
+    height: 100%;
+    width: 100%;
+    position: relative;
+    &-title{
+        padding: 40px;
+    }
+    &-tip{
+        padding: 40px;
+    }
+    &-btn{
+        margin-top: 280px;
+    }
+    .brower-jsqrcode{
+        margin: 0 auto;
+        background: #fff;
+        color: #333;
+    }
+    .label-btn{
+        height: 100%;
+        width: 100%;
+        display: inline-block;
+        vertical-align: middle;
+        &::after{
+            content: '';
+            display: inline-block;
+            vertical-align: middle;
+            height: 100%;
+        }
+    }
+    .brower-qr-file{
+        height: 1px;
+        width: 1px;
+    }
 }
 </style>

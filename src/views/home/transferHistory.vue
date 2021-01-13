@@ -7,7 +7,8 @@
                     <p class="sub-value">{{$t('common.available')}}</p>
                     <h3 class="value">{{activeSymbol.available}}</h3>
                 </div>
-                <div @click="goFrozen" class="transfer-history-top txt_right">
+                <div class="transfer-history-nbsp">哈哈哈</div>
+                <div @click="goFrozen" class="transfer-history-top txt_left">
                     <p class="sub-value transfer-history-triangle">{{$t('common.frozen')}}</p>
                     <h3 class="value">
                         {{(activeSymbol.otc_frozen || 0) + (activeSymbol.sys_frozen || 0) + (activeSymbol.withdraw_frozen || 0)}}
@@ -230,6 +231,8 @@ export default Vue.extend({
         display: flex;
         justify-content: space-between;
         min-height: 240px;
+        margin: 20px 0;
+        flex-wrap: wrap;
     }
     &-triangle{
         &::after{
@@ -245,8 +248,12 @@ export default Vue.extend({
             border-bottom-color: transparent;
         }
     }
+    &-nbsp{
+        width: 50px !important;
+        color: transparent;
+    }
     &-top{
-        margin: 50px 0;
+        margin: 30px 0;
         &.txt_left{
             text-align: left;
         }

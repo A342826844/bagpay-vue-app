@@ -5,7 +5,7 @@
                 class="transfer-out-qrcode"
                 @click="$router.push(`/scanQRCode`)"
                 slot="header"
-                v-if="$route.name !== 'transferpayment' && _isplus"
+                v-if="$route.name !== 'transferpayment'"
                 src="../../assets/img/common/qrcode1.png" alt=""
             >
             <form class="transfer-out-form app-padding40">
@@ -17,6 +17,7 @@
                         autosize
                         type="textarea"
                         maxlength="64"
+                        @input="queryUidByAddress"
                         :autofocus="true"
                         :placeholder="`${symbol.toUpperCase()} ${$t('payment.address')}`"
                         show-word-limit
@@ -50,17 +51,23 @@
                 <div class="fee_label">
                     <div class="lable flex-between-c">
                         <p>{{$t('home.serviceCharge')}}</p>
-                        <p>{{`${charge.out_fee}  ${symbol.toUpperCase()}`}}</p>
+                        <p>{{`${ innerUser ? charge.internal_out_fee : charge.out_fee}  ${symbol.toUpperCase()}`}}</p>
                     </div>
                 </div>
             </form>
             <Poptip>
-                <PoptipItem>
-                    {{$t('home.paymentTip10', {
-                            amount: `${this.internal_out_fee} ${this.symbol.toUpperCase()}`,
+                <!-- <PoptipItem>
+                    {{$t('home.paymentTip11', {
+                            amount: `${charge.out_fee} ${this.symbol.toUpperCase()}`,
                         }
                     )}}
                 </PoptipItem>
+                <PoptipItem>
+                    {{$t('home.paymentTip10', {
+                            amount: `${charge.internal_out_fee} ${this.symbol.toUpperCase()}`,
+                        }
+                    )}}
+                </PoptipItem> -->
                 <PoptipItem>
                     {{$t('home.paymentTip4', {
                             "txt": `${this.maxAmount} ${this.symbol.toUpperCase()}`,
@@ -101,6 +108,7 @@ type form = {
 type data = {
     symbol: string;
     isLoading: boolean;
+    innerUser: boolean;
     amount: number;
     maxAmount: number;
     internal_out_fee: string|number;
@@ -113,6 +121,7 @@ export default Vue.extend({
         return {
             symbol: this.$route.query.symbol as string,
             isLoading: false,
+            innerUser: false,
             amount: 0,
             maxAmount: 0,
             internal_out_fee: '--',
@@ -180,6 +189,7 @@ export default Vue.extend({
             if (this.address.address) {
                 this.form.address = this.address.address || '';
                 this.form.memo = this.address.memo || '';
+                this.queryUidByAddress();
             }
         },
         initParams() {
@@ -194,6 +204,22 @@ export default Vue.extend({
             //     this.isLoading = false;
             //     this.changeLoading(false);
             // });
+        },
+        queryUidByAddress() {
+            if (!this.form.address) return;
+            const params = {
+                coin: this.symbol, // 币种
+                address: this.form.address, // 地址
+                // protocol: [string] 协议,可选
+            };
+            this.$api.queryUidByAddress(params).then((res: any) => {
+                if (res.data) {
+                    this.innerUser = true;
+                } else {
+                    this.innerUser = false;
+                }
+                console.log(res);
+            });
         },
         getData() {
             this.isLoading = true;

@@ -56,17 +56,7 @@ export default {
     destroyed() {
         this.toast.clear();
     },
-    mounted() {
-        // console.log(this.$refs.bagpayBot);
-        // setInterval(() => {
-        //     console.log(this.$refs.bagpayBot);
-        // }, 1000);
-        window.addEventListener('error', this.windowErr);
-    },
     methods: {
-        windowErr(err) {
-            console.log(err);
-        },
         getInitData() {
             return Promise.all([
                 this.getCoinList(),
@@ -94,7 +84,6 @@ export default {
             });
         },
         loginCallbackHanlde(data) {
-            console.log(data, 'aaaaaaaaaaaa');
             this.$api.loginQuickTelegram(data).then((res) => {
                 this.$store.commit('setsessionId', res.data);
                 this.$store.commit('setLoginState', 1);
