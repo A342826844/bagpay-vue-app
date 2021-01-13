@@ -320,7 +320,12 @@ export default {
         padding: 40px;
     }
     &-btn{
-        margin-top: 280px;
+        // margin-top: 280px;
+        margin: 0 auto;
+        position: absolute;
+        bottom: 40px;
+        left: 0;
+        right: 0;
     }
     .brower-jsqrcode{
         margin: 0 auto;

@@ -55,7 +55,7 @@ export default Vue.extend({
                     lable: '%',
                 },
                 {
-                    title: 'invitation.2level',
+                    title: 'invitation.3level',
                     key: 'threeComm',
                     lable: '%',
                 },
