@@ -130,7 +130,6 @@ export default Vue.extend({
             return this.$store.getters.getCoinInfo(this.coin);
         },
         pay_type(): number[] {
-            console.log(this.$store.state.otcPayTypes, 'otcPayTypes');
             if (this.side === 2) return this.pay_type2;
             if (this.side === 1) return this.$store.state.otcPayTypes.map((item: any) => item.type);
             return [];

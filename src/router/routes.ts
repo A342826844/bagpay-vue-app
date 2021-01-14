@@ -279,6 +279,8 @@ const routes: Array<RouteConfig> = [
         component: OtcSubmit,
         meta: {
             index: 20,
+            keepAlive: true,
+            componentName: 'OtcSubmit',
         },
     }, {
         path: '/otc/order/appeal',

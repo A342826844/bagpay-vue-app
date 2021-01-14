@@ -218,7 +218,6 @@ export default Vue.extend({
                 } else {
                     this.innerUser = false;
                 }
-                console.log(res);
             });
         },
         getData() {

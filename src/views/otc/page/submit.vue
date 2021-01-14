@@ -23,7 +23,7 @@
                         <h6 class="app-size-34 primary-color otc-submit-price">{{ orderDetail.price }}</h6>
                     </div>
                 </div>
-                <div class="flex-between-c app-padding40 app-margin-t40">
+                <div class="flex-between-c app-padding40 app-margin-t40 otc-submit-amountinfo">
                     <div class="text-align-l">
                         <p class="lable">{{$t('otc.num')}}({{orderDetail.coin && orderDetail.coin.toUpperCase()}})</p>
                         <h6 class="app-size-34 otc-submit-price">
@@ -35,10 +35,10 @@
                         <h6 class="app-size-34 otc-submit-price">{{_unitIcon}}{{orderDetail.min_value}}~{{orderDetail.max_value}}</h6>
                     </div>
                 </div>
-                <div class="app-padding40 app-margin-t40">
+                <div v-show="orderDetail.remark" class="app-padding40">
                     <div class="border-b "></div>
                 </div>
-                <div class="text-align-l otc-submit-mark app-padding40">
+                <div v-show="orderDetail.remark" class="text-align-l otc-submit-mark app-padding40">
                     <p class="lable">{{$t('otc.remark')}}</p>
                     <div class="otc-submit-num">
                         {{ orderDetail.remark }}
@@ -178,18 +178,29 @@ export default Vue.extend({
             },
         };
     },
-    created() {
-        this.getOrder();
-        this.downLoadHandle();
-    },
-    beforeDestroy() {
+    // created() {
+    //     this.getOrder();
+    //     this.downLoadHandle();
+    // },
+    // beforeDestroy() {
+    //     clearInterval(this.timer);
+    // },
+    beforeRouteLeave(to, from, next) {
         clearInterval(this.timer);
+        if (to.name !== 'PaywaySelect') {
+            this.$store.commit('resetOtcPayTypes');
+        }
+        next();
     },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
-            if (to.name === 'PaywaySelect') {
+            if (from.name === 'PaywaySelect') {
                 vm.setPayType();
+            } else {
+                vm.initData();
+                vm.getOrder();
             }
+            vm.downLoadHandle();
         });
     },
     computed: {
@@ -239,6 +250,17 @@ export default Vue.extend({
         },
     },
     methods: {
+        initData() {
+            this.form = {
+                amount: '',
+                value: '',
+                pay_type: '',
+            };
+            this.orderDetail = {
+                pay_types: '', // 支持的支付类型
+            };
+            this.download = 60;
+        },
         getOrder() {
             this.getBalances();
             if (this.$route.query.id) {
@@ -265,12 +287,12 @@ export default Vue.extend({
             this.form.pay_type = type;
         },
         selectPayHandle() {
-            this.payPopup = true;
-            // if (this.orderDetail.side === 1) {
-            //     this.payPopup = true;
-            //     return;
-            // }
-            // this.$router.push(`/payway/select?type=1&pay_types=${this.orderDetail.pay_types}`);
+            // this.payPopup = true;
+            if (this.orderDetail.type === 2) {
+                this.payPopup = true;
+                return;
+            }
+            this.$router.push(`/payway/select?type=1&pay_types=${this.orderDetail.pay_types}&selectType=${this.form.pay_type}`);
         },
         setPayType() {
             const [pay_type] = this.$store.state.otcPayTypes.map((item: any) => item.type);
@@ -416,11 +438,15 @@ export default Vue.extend({
         margin-top: 22px;
         line-height: 50px;
     }
+    &-amountinfo{
+        padding-bottom: 33px;
+    }
     &-mark{
         padding-top: 33px;
+        padding-bottom: 33px;
         color: #333333;
         font-size: 28px;
-        height: 248px;
+        min-height: 150px;
         .lable{
             font-size: 24px;
         }

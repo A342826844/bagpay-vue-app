@@ -51,7 +51,9 @@ export default Vue.extend({
     },
     computed: {
         renderList(): Array<any> {
-            return this.list.filter((item) => item.status);
+            const data = this.list.filter((item) => item.status);
+            if (!this.$route.query.pay_types) return data;
+            return data.filter((item) => this.$route.query.pay_types.includes(item.type));
         },
         list(): Array<any> {
             return this.$store.state.bankList;
@@ -93,6 +95,13 @@ export default Vue.extend({
             this.changeLoading(true);
             this.getUserBankList().then(() => {
                 this.changeLoading(false);
+                // 选择默认的收款方式
+                if (this.$route.query.selectType) {
+                    const res = this.$store.state.bankList.find((item: any) => item.type === Number(this.$route.query.selectType));
+                    if (res) {
+                        this.$store.commit('changeOtcPayTypes', res);
+                    }
+                }
             }).catch((err: any) => {
                 this.changeLoading(false);
                 if (!err.data) {

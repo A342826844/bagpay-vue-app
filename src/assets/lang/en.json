@@ -334,7 +334,7 @@
         "Address": "transaction address"
     },
     "otc": {
-        "otcAdv": "Post an ad",
+        "otcAdv": "Place order",
         "otcAdvFee": "Advertising fee",
         "totalTurnover": "Total Turnover",
         "total": "Total",

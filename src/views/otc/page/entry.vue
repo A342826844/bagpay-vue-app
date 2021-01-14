@@ -382,6 +382,9 @@ export default Vue.extend({
             this.$router.push({
                 name: 'otcsubmit',
                 params: item,
+                query: {
+                    id: item.id,
+                },
             });
         },
         changeCoinHandle(side: number) {

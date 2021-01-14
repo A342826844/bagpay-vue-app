@@ -235,7 +235,6 @@ export default new Vuex.Store({
         },
         resetOtcPayTypes(state) {
             state.otcPayTypes = [];
-            console.log('=========');
         },
         /**
          * 重置用户信息
