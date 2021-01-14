@@ -308,17 +308,24 @@ export default Vue.extend({
         this.formTemp.form2.coin = (this.$route.query.symbol as string) || '';
         this.getExchangeRate();
     },
+    beforeRouteLeave(to, from, next) {
+        if (to.name !== 'choisesymbol' && to.name !== 'PaywaySelect') {
+            this.$store.commit('resetOtcPayTypes');
+        }
+        next();
+    },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
             if (from.name === 'choisesymbol') {
                 const symbol = sessionStorage.getItem('symbol');
                 vm.setCoin(symbol);
-            } else if (from.name === 'PaywaySelect') {
-                vm.setPayType();
+            // } else if (from.name === 'PaywaySelect') {
+            //     vm.setPayType();
             } else {
                 vm.setCoin(to.query.symbol);
                 vm.initFormData();
                 vm.getBalances();
+                vm.setPayType();
             }
         });
     },

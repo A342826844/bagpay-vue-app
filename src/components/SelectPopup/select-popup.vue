@@ -1,5 +1,10 @@
 <template>
-    <V-Popup position="bottom" :overlay-style="{ background: 'rgba(62, 62, 62, 0.3)' }" v-model="show" class="select-popup">
+    <V-Popup
+        position="bottom" :get-container="container"
+        :overlay-style="{ background: 'rgba(62, 62, 62, 0.3)' }"
+        v-model="show"
+        class="select-popup"
+    >
         <div @click="show = false" class="select-popup-box">
             <slot></slot>
         </div>
@@ -17,6 +22,7 @@ export default Vue.extend({
     props: {
         msg: String,
         value: Boolean,
+        container: [String, Function],
         autoHide: {
             type: Boolean,
             default: true,
