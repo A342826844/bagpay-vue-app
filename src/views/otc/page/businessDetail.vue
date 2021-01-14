@@ -2,7 +2,7 @@
     <div @scroll.capture="scrollLoad" class="otc-business-detail">
         <TitleHeader>
             <template #title>
-                <span>{{merchantInfo.nickname}}</span>
+                <span class="otc-business-detail-name ellipsis-1">{{merchantInfo.nickname}}</span>
                 <span class="otc-business-detail-tel">{{merchantInfo.phone | sliceMoblepre | formatName}}</span>
             </template>
             <div slot="right">
@@ -452,6 +452,11 @@ export default Vue.extend({
     height: 100%;
     width: 100%;
     overflow: scroll;
+    &-name{
+        display: inline-block;
+        max-width: 300px;
+        white-space: nowrap;
+    }
     &-tel{
         font-size: 28px;
         line-height: 28px;

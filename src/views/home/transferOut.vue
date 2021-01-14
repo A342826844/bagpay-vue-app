@@ -75,6 +75,9 @@
                         }
                     )}}
                 </PoptipItem>
+                <PoptipItem v-show="symbol === 'usdt'">
+                    {{$t('common.erc20Cash')}}
+                </PoptipItem>
                 <PoptipItem>
                     {{$t('home.paymentTip5')}}
                 </PoptipItem>
@@ -144,7 +147,8 @@ export default Vue.extend({
         },
         // 实际到账
         actualValue(): string {
-            const value = Number(this.form.value) - this.charge.out_fee;
+            const fee = this.innerUser ? this.charge.internal_out_fee : this.charge.out_fee;
+            const value = Number(this.form.value) - fee;
             if (value && value > 0) return value.toFixed(this.charge.decimal);
             return (0).toFixed(this.charge.decimal);
         },

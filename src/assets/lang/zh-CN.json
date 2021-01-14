@@ -146,7 +146,9 @@
         "ID": "身份证",
         "passport": "护照",
         "unrecognized": "无法识别此图片",
-        "collectionFailure": "收付款方式获取失败"
+        "collectionFailure": "收付款方式获取失败",
+        "erc20Cash": "USDT提币仅支持ERC20充值的方法，使用（ERC20）以外的提币暂时无法上账，请您谅解。",
+        "erc20Charge": "USDT充币仅支持ERC20充值的方法，使用（ERC20）以外的充币暂时无法上账，请您谅解。"
     },
     "refresh": {
         "pulling": "下拉即可刷新...",

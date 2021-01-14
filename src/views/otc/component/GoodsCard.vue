@@ -3,8 +3,8 @@
         <div>
             <div class="flex-between-c">
                 <div class="text-align-l">
-                    <div @click="$emit('arrow-click', renderData)" class="flex-start-c">
-                        <h5 class="name">{{ renderData.nickname }}</h5>
+                    <div @click="$emit('arrow-click', renderData)" class="flex-start-c app-padding-r40">
+                        <h5 class="name ellipsis-1">{{ renderData.nickname }}</h5>
                         <img v-if="arrow" class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt="">
                     </div>
                     <!-- <p class="otc-good-card-pay value">{{ renderData.pay_types | payType}}</p> -->
@@ -13,14 +13,14 @@
                     <!-- <p class="lable" v-t="'otc.unitPrice'"></p>
                     <h6 class="app-size-45 primary-color otc-good-card-price">${{ renderData.price }}</h6> -->
                     <span class="lable">{{$t('otc.quota')}}($)：</span>
-                    <h6 style="display: inline">{{ renderData.min_value }}~{{ renderData.max_value }}</h6>
+                    <h6 style="display: inline">{{ renderData.min_value }}~{{ maxValue }}</h6>
                 </div>
             </div>
             <div class="flex-between-c otc-good-card-num">
                 <div class="text-align-l">
                     <p class="lable">{{$t('otc.num')}}({{renderData.coin.toUpperCase()}})</p>
                     <h6 class=" app-size-34 otc-good-card-value">
-                        {{ Number((renderData.total - renderData.filled - renderData.frozen).toFixed(4)) }}
+                        {{ total }}
                     </h6>
                 </div>
                 <div class="text-align-r">
@@ -53,7 +53,7 @@
                         size="mini"
                         class="app-size-28"
                         :disabled="
-                            renderData.uid == _userInfo.id|| Number((renderData.total - renderData.filled - renderData.frozen).toFixed(4)) === 0
+                            renderData.uid == _userInfo.id || total === 0
                         "
                         :type="renderData.type === 2 ? 'up' : 'down'"
                     >
@@ -83,6 +83,19 @@ export default Vue.extend({
         renderData: {
             type: Object,
             required: true,
+        },
+    },
+    computed: {
+        total(): number {
+            return Number((this.renderData.total - this.renderData.filled - this.renderData.frozen).toFixed(this.coinInfo.decimal));
+        },
+        coinInfo(): CoinInfo {
+            return this.$store.getters.getCoinInfo(this.renderData.coin);
+        },
+        maxValue(): number {
+            const total = Number((this.total * this.renderData.price).toFixed(4));
+            const max = Math.min(total, this.renderData.max_value);
+            return max;
         },
     },
     data() {
@@ -125,6 +138,9 @@ export default Vue.extend({
     }
     .margin-r8{
         margin-right: 8px;
+    }
+    .padding-r40{
+        padding-right: 40px;
     }
 }
 </style>

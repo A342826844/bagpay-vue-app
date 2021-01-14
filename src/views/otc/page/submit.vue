@@ -8,8 +8,8 @@
             <div class="otc-submit-box">
                 <div class="flex-between-c app-padding40">
                     <div>
-                        <div class="flex-start-c">
-                            <h5 class="name">{{ orderDetail.nickname }}</h5>
+                        <div class="flex-start-c app-padding-r40">
+                            <h5 class="name ellipsis-1">{{ orderDetail.nickname }}</h5>
                             <!-- <img class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt=""> -->
                         </div>
                         <p class="otc-submit-pay">
@@ -27,12 +27,12 @@
                     <div class="text-align-l">
                         <p class="lable">{{$t('otc.num')}}({{orderDetail.coin && orderDetail.coin.toUpperCase()}})</p>
                         <h6 class="app-size-34 otc-submit-price">
-                            {{ Number((orderDetail.total - orderDetail.filled - orderDetail.frozen).toFixed(4)) }}
+                            {{ total }}
                         </h6>
                     </div>
                     <div class="text-align-r">
                         <p class="lable">{{$t('otc.quota')}}</p>
-                        <h6 class="app-size-34 otc-submit-price">{{_unitIcon}}{{orderDetail.min_value}}~{{orderDetail.max_value}}</h6>
+                        <h6 class="app-size-34 otc-submit-price">{{_unitIcon}}{{orderDetail.min_value}}~{{maxValue}}</h6>
                     </div>
                 </div>
                 <div v-show="orderDetail.remark" class="app-padding40">
@@ -206,11 +206,11 @@ export default Vue.extend({
     computed: {
         maxTip(): any {
             const {
-                max_value, total, price, frozen,
+                max_value, price,
             } = (this as any).orderDetail;
-            const maxValue = (max_value / price).toFixed(2);
-            const maxTotal = (total - frozen).toFixed(2);
-            const res = Math.max(Number(maxValue), Number(maxTotal));
+            const maxValue = (max_value / price).toFixed(this.coinInfo.decimal);
+            // const maxTotal = (total - frozen).toFixed(this.coinInfo.decimal);
+            const res = Math.min(Number(maxValue), this.total);
             return res;
         },
         minTip(): any {
@@ -225,6 +225,14 @@ export default Vue.extend({
                 return (Number(this.form.amount) * otc_fee).toFixed(this.coinInfo.decimal);
             }
             return (0).toFixed(this.coinInfo.decimal);
+        },
+        total(): number {
+            return Number((this.orderDetail.total - this.orderDetail.filled - this.orderDetail.frozen).toFixed(this.coinInfo.decimal));
+        },
+        maxValue(): number {
+            const total = Number((this.total * this.orderDetail.price).toFixed(4));
+            const max = Math.min(total, this.orderDetail.max_value);
+            return max;
         },
         balance(): number {
             const res = this.balances.find((item) => item.coin === this.orderDetail.coin);

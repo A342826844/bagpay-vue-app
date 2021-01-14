@@ -23,6 +23,9 @@
                 <PoptipItem>
                     {{ $t("home.paymentTip2", {"symbol": symbol.toUpperCase()}) }}
                 </PoptipItem>
+                <PoptipItem v-show="symbol === 'usdt'">
+                    {{$t('common.erc20Charge')}}
+                </PoptipItem>
                 <PoptipItem>
                     {{ $t("home.paymentTip3") }}
                 </PoptipItem>

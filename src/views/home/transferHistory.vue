@@ -7,7 +7,7 @@
                     <p class="sub-value">{{$t('common.available')}}</p>
                     <h3 class="value">{{activeSymbol.available}}</h3>
                 </div>
-                <div class="transfer-history-nbsp">哈哈哈</div>
+                <div class="transfer-history-nbsp">---</div>
                 <div @click="goFrozen" class="transfer-history-top txt_left">
                     <p class="sub-value transfer-history-triangle">{{$t('common.frozen')}}</p>
                     <h3 class="value">
@@ -32,7 +32,7 @@
                                     <h5 class="status_label" :class="{
                                         gery: item.status > 0,
                                     }">{{item.status | depositState}}</h5>
-                                    <p class="sub-value">{{item.created_at}}</p>
+                                    <p class="sub-value">{{item.created_at | date('yyyy-MM-dd hh:mm:ss')}}</p>
                                 </div>
                                 <div class="values">
                                     <h5 class="value">{{item.amount}}</h5>
@@ -52,7 +52,7 @@
                                     <h5 class="status_label" :class="{
                                         gery: item.status === 1 || item.status > 2,
                                     }">{{item.status | withdrawState}}</h5>
-                                    <p class="sub-value">{{item.created_at}}</p>
+                                    <p class="sub-value">{{item.created_at | date('yyyy-MM-dd hh:mm:ss')}}</p>
                                     <p class="sub-value">{{item.address.replace(item.address.slice(5,-5), '*****')}}</p>
                                 </div>
                                 <div class="values">
@@ -233,6 +233,7 @@ export default Vue.extend({
         min-height: 240px;
         margin: 20px 0;
         flex-wrap: wrap;
+        flex-shrink: 0;
     }
     &-triangle{
         &::after{

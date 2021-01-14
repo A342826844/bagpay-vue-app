@@ -24,15 +24,15 @@
                             <!-- <img class="app-img-50" src="../../assets/img/mine/del.png" alt=""> -->
                             <span class="vertical-m">{{ bankInfo.title }}</span>
                         </Select>
-                        <Inputs v-if="ortherBank" v-model="form.bank"></Inputs>
+                        <Inputs maxlength="50" v-if="ortherBank" v-model="form.bank"></Inputs>
                     </div>
                     <div class="form-item">
                         <div class="lable" v-t="'payway.account'"></div>
-                        <Inputs v-model="form.account"></Inputs>
+                        <Inputs maxlength="50" v-model="form.account"></Inputs>
                     </div>
                     <div class="form-item">
                         <div class="lable" v-t="'payway.sub_bank'"></div>
-                        <Inputs v-model="form.sub_bank"></Inputs>
+                        <Inputs maxlength="100" v-model="form.sub_bank"></Inputs>
                     </div>
                 </template>
                 <template v-if="form.type === 4">
@@ -42,7 +42,7 @@
                     </div>
                     <div class="form-item">
                         <div class="lable" v-t="'payway.account'"></div>
-                        <Inputs v-model="form.account"></Inputs>
+                        <Inputs maxlength="50" v-model="form.account"></Inputs>
                     </div>
                     <div class="form-item">
                         <div class="lable" v-t="'payway.qrc'"></div>
@@ -56,11 +56,11 @@
                     </div>
                     <div class="form-item">
                         <div class="lable" v-t="'payway.contact'"></div>
-                        <Inputs :placeholder="$t('payway.placeTel')" v-model="form.account"></Inputs>
+                        <Inputs maxlength="50" :placeholder="$t('payway.placeTel')" v-model="form.account"></Inputs>
                     </div>
                     <div class="form-item">
                         <div class="lable" v-t="'payway.address'"></div>
-                        <Inputs :placeholder="$t('payway.placeAddress')" v-model="form.bank"></Inputs>
+                        <Inputs maxlength="50" :placeholder="$t('payway.placeAddress')" v-model="form.bank"></Inputs>
                     </div>
                     <div class="form-item">
                         <div class="lable" v-t="'payway.fullAddress'"></div>

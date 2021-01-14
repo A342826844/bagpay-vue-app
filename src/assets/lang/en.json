@@ -144,7 +144,9 @@
         "networkErr": "Network error, try again after refreshing",
         "abnormal": "abnormal",
         "unrecognized": "Unrecognized this picture",
-        "collectionFailure": "Failed to obtain the collection method"
+        "collectionFailure": "Failed to obtain the collection method",
+        "erc20Cash": "USDT withdraw only supports the method of ERC20,it is temporarily impossible to use the currency other than the (ERC20).",
+        "erc20Charge": "USDT deposit only supports the method of ERC20,it is temporarily impossible to use the currency other than the (ERC20)."
     },
     "refresh": {
         "pulling": "Pull down to refresh...",

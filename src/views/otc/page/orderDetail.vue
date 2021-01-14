@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                             <div class="flex-between-c list-item-2">
-                                <div class="value">{{orderDetail.target_nickname}}</div>
+                                <div class="value ellipsis-1 name-ellipsis">{{orderDetail.target_nickname}}</div>
                                 <div v-if="$hasBindValue(orderDetail.target_phone)" class="value">
                                     {{orderDetail.target_phone | sliceMoblepre | formatName}}
                                 </div>
@@ -154,11 +154,11 @@
                 </div>
                 <div v-if="payDetail.type === 1" class="flex-between-c">
                     <span v-t="'payway.bankDeposit'"></span>
-                    <span @click="$copyText(payDetail.bank)" class="primary-color">{{payDetail.bank}}</span>
+                    <span @click="$copyText(payDetail.bank)" class="primary-color text">{{payDetail.bank}}</span>
                 </div>
                 <div class="flex-between-c">
                     <span v-t="'payway.account'"></span>
-                    <span @click="$copyText(payDetail.account)" class="primary-color">{{payDetail.account}}</span>
+                    <span @click="$copyText(payDetail.account)" class="primary-color text">{{payDetail.account}}</span>
                 </div>
                 <div class="flex-between-s">
                     <span v-t="'payway.address'"></span>
@@ -561,6 +561,9 @@ export default Vue.extend({
                     .value{
                         font-size: 28px;
                         color: #333333;
+                    }
+                    .name-ellipsis{
+                        max-width: 350px;
                     }
                     .list-item-2{
                         margin-top: 42px;

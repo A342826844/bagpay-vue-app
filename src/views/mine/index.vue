@@ -3,7 +3,7 @@
         <div class="app-padding40 mine-header flex-between-c">
             <div>
                 <h3 @click="show = true" class="mine-header-coin">
-                    {{_userInfo.nickname}}
+                    <span class="ellipsis-1 mine-header-name vertical-m">{{_userInfo.nickname}}</span>
                     <img class="mine-header-edit" src="../../assets/img/mine/edit.png" alt="">
                 </h3>
             </div>
@@ -189,6 +189,11 @@ export default Vue.extend({
         &-coin{
             vertical-align: middle;
             display: inline-block;
+        }
+        &-name{
+            display: inline-block;
+            max-width: 500px;
+            white-space: nowrap;
         }
         &-edit{
             height: 32px;

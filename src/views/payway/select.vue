@@ -17,7 +17,7 @@
                                 alt=""
                             >
                         </h5>
-                        <img v-show="idList.includes(item.id)" class="app-img-50" src="../../assets/img/setting/ok.png" alt="">
+                        <img v-show="idList.includes(item.type)" class="app-img-50" src="../../assets/img/setting/ok.png" alt="">
                     </div>
                     <div class="payway-info">
                         <span v-if="item.type !== 5">{{`${item.real_name} ${item.account}`}}</span>
@@ -59,11 +59,29 @@ export default Vue.extend({
             return this.$store.state.bankList;
         },
         idList(): number[] {
-            return this.$store.state.otcPayTypes.map((item: any) => item.id);
+            return this.$store.state.otcPayTypes.map((item: any) => item.type);
         },
     },
     created() {
         this.getList();
+    },
+    watch: {
+        renderList(value) {
+            /*
+                选择去重
+                如果选择的里面有的id在可用的里面没有，就需要筛选掉
+            */
+            // 可用的 id 列表
+            // debugger;
+            const ids = value.map((item: any) => item.id);
+            // 已选择的 列表
+            const idsList = this.$store.state.otcPayTypes.map((item: any) => item.id);
+            idsList.forEach((item: number) => {
+                if (!ids.includes(item)) {
+                    this.$store.commit('filterOtcPayTypes', item);
+                }
+            });
+        },
     },
     methods: {
         selectBank(item: any) {
@@ -80,7 +98,7 @@ export default Vue.extend({
             }, 300);
         },
         multipleHandle(item: any) {
-            if (this.idList.includes(item.id)) {
+            if (this.idList.includes(item.type)) {
                 this.$store.commit('filterOtcPayTypes', item.id);
             } else {
                 this.$store.commit('addOtcPayTypes', item);
