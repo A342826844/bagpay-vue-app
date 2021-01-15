@@ -49,6 +49,7 @@ declare module 'vue/types/vue' {
         _configCommon: any;
         _loading: boolean;
         _isLogin: boolean;
+        _isplus: boolean;
         _unit: string;
         _unitIcon: string;
         _getPhone: string;

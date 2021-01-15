@@ -1,12 +1,12 @@
 <template>
     <div class="scan-qrcode">
-        <div v-show="_isplus" ref="qrcode" style="background-color:#000000;">
+        <div v-if="_isplus" ref="qrcode" style="background-color:#000000;">
             <div id="bcid">
                 <div style="height:40%"></div>
                 <p class="tip">...loading...</p>
             </div>
         </div>
-        <div v-show="!_isplus" class="brower-qr primary-bg">
+        <div v-if="!_isplus" class="brower-qr primary-bg">
             <Headers theme="primary"></Headers>
             <h4 class="brower-qr-title app-size-45">{{$t('common.scan')}}</h4>
             <JsQRCode @onmarked="JsQRMarked" class="brower-jsqrcode"></JsQRCode>
