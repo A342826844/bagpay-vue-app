@@ -66,7 +66,9 @@ export default Vue.extend({
                     drawLine(code.location.topRightCorner, code.location.bottomRightCorner, '#FF3B58');
                     drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, '#FF3B58');
                     drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, '#FF3B58');
-                    this.$emit('onmarked', code.data);
+                    if (code.data.trim()) {
+                        this.$emit('onmarked', code.data.trim());
+                    }
                 }
             }
             requestAnimationFrame(tick);
@@ -96,8 +98,10 @@ export default Vue.extend({
 
 <style lang="less" scoped>
 .jsqr{
-    height: 500px;
+    min-height: 500px;
     width: 500px;
+    padding: 0;
+    margin: 0;
     .loading-message {
         text-align: center;
         padding: 40px;
@@ -105,7 +109,8 @@ export default Vue.extend({
     }
     .canvas {
         width: 100%;
-        height: 100%;
+        // height: 100%;
+        vertical-align: top;
     }
 }
 
