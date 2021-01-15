@@ -208,7 +208,7 @@ export default Vue.extend({
             const {
                 max_value, price,
             } = (this as any).orderDetail;
-            const maxValue = (max_value / price).toFixed(this.coinInfo.decimal);
+            const maxValue = Math.floor(max_value / price);
             // const maxTotal = (total - frozen).toFixed(this.coinInfo.decimal);
             const res = Math.min(Number(maxValue), this.total);
             return res;
@@ -230,7 +230,7 @@ export default Vue.extend({
             return Number((this.orderDetail.total - this.orderDetail.filled - this.orderDetail.frozen).toFixed(this.coinInfo.decimal));
         },
         maxValue(): number {
-            const total = Number((this.total * this.orderDetail.price).toFixed(4));
+            const total = Math.floor(this.total * this.orderDetail.price);
             const max = Math.min(total, this.orderDetail.max_value);
             return max;
         },

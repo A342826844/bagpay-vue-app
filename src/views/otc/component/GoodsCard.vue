@@ -93,7 +93,7 @@ export default Vue.extend({
             return this.$store.getters.getCoinInfo(this.renderData.coin);
         },
         maxValue(): number {
-            const total = Number((this.total * this.renderData.price).toFixed(4));
+            const total = Math.floor((this.total * this.renderData.price));
             const max = Math.min(total, this.renderData.max_value);
             return max;
         },
