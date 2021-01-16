@@ -132,7 +132,7 @@ type data = {
 }
 
 export default Vue.extend({
-    name: 'OtcSubmit',
+    name: 'AdvDetail',
     components: {
         NCardItem,
     },

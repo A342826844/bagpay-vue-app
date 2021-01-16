@@ -319,8 +319,8 @@ export default Vue.extend({
             if (from.name === 'choisesymbol') {
                 const symbol = sessionStorage.getItem('symbol');
                 vm.setCoin(symbol);
-            // } else if (from.name === 'PaywaySelect') {
-            //     vm.setPayType();
+            } else if (from.name === 'PaywaySelect') {
+                vm.setPayType();
             } else {
                 vm.setCoin(to.query.symbol);
                 vm.initFormData();

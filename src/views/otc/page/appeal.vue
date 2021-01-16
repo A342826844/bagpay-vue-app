@@ -46,7 +46,7 @@ import Vue from 'vue';
 import { OtcAppealType } from '@/commons/config/index';
 
 export default Vue.extend({
-    name: 'OtcSubmit',
+    name: 'OtcAppeal',
     data() {
         return {
             OtcAppealType,
