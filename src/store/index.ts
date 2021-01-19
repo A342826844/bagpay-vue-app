@@ -42,6 +42,7 @@ export default new Vuex.Store({
     state: {
         lang,
         loading: false,
+        showTopBar: true,
         symbol, // 主页当前币种
         unit: 'USD', // 计价单位
         unitIcon: '$', // 计价单位符号

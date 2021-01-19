@@ -1,5 +1,8 @@
 <template>
     <div class="otc">
+        <TopBar v-if="_showTopBar">
+            <h1 class="app-padding40 app-size-45 text-align-l">OTC</h1>
+        </TopBar>
         <Drawer position="right" v-model="screen">
             <OrderFilter size='small' :title="$t('common.screen')">
                 <SubOrderFilter :title="$t('common.status')">
@@ -20,6 +23,7 @@
             :defaultVal="defaultVal"
             @on-click="clickHandle"
             class="otc-tab"
+            :class="_showTopBar ? 'otc-tab-mini' : ''"
             :tabList="bodyTabList"
         >
             <div slot="right" class="otc-header-right">
@@ -536,8 +540,19 @@ export default Vue.extend({
 @padding35: 35px;
 .otc{
     height: 100%;
+    &-title{
+        color: #575757;
+    }
     &-tab{
         padding-top: @padding35;
+        min-height: calc(100% - @padding35);
+    }
+    &-tab-mini{
+        min-height: auto;
+        height: calc(100% - @padding35 - 129px);
+        .tab-list-body{
+            min-height: calc(100% - @padding35 - 93px);
+        }
     }
     &-header{
         &-right{
@@ -603,4 +618,17 @@ export default Vue.extend({
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0.3;
 }
+</style>
+
+<style lang="less">
+// @padding35: 35px;
+// .otc{
+//     &-tab-mini{
+//         min-height: auto;
+//         height: calc(100% - @padding35 - 129px);
+//         .tab-list-body{
+//             height: calc(100% - @padding35 - 93px);
+//         }
+//     }
+// }
 </style>

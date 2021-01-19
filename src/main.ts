@@ -12,6 +12,7 @@ import 'swiper/swiper-bundle.css';
 import * as Api from '@/api/index.ts';
 import verification, { hasBindValue } from '@/utils/verification.ts';
 import Headers from '@/components/headers/index.vue';
+import TopBar from '@/components/topBar/index.vue';
 import TitleHeader from '@/components/headers/TitleHeader.vue';
 import Titles from '@/components/headers/Titles.vue';
 import Button from '@/components/commons/Button.vue';
@@ -66,6 +67,7 @@ Vue.config.productionTip = false;
 Vue.use(VueAwesomeSwiper);
 Vue.component('Headers', Headers);
 Vue.component('TitleHeader', TitleHeader);
+Vue.component('TopBar', TopBar);
 Vue.component('Titles', Titles);
 Vue.component('Button', Button);
 Vue.component('Inputs', Input);
@@ -106,6 +108,9 @@ Vue.mixin({
         },
         _isLogin() {
             return !!(this.$store as Store<any>).state.loginStatus;
+        },
+        _showTopBar(): string {
+            return (this.$store as Store<any>).state.showTopBar;
         },
     },
     methods: {

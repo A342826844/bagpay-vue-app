@@ -1,6 +1,7 @@
 <template>
     <div id="app" :class="[lang]">
-        <div id="main">
+        <!-- <TopBar v-if="showTopBar" v-show="$route.meta.showFooter"></TopBar> -->
+        <div id="main" class="main">
             <transition :name="transitionName">
                 <keep-alive :include="keepAlive">
                     <router-view class="app-view"></router-view>
@@ -31,7 +32,7 @@
             </div>
         </van-dialog>
         <Loading/>
-        <Footer v-show="$route.meta.showFooter"/>
+        <Footer v-if="!_showTopBar" v-show="$route.meta.showFooter"/>
     </div>
 </template>
 
@@ -39,12 +40,14 @@
 import Vue from 'vue';
 import Loading from '@/components/loading/index.vue'; // @ is an alias to /src
 import Footer from '@/components/footer/index.vue'; // @ is an alias to /src
+// import TopBar from '@/components/topBar/index.vue'; // @ is an alias to /src
 
 export default Vue.extend({
     name: 'Home',
     components: {
         Loading,
         Footer,
+        // TopBar,
     },
     data() {
         return {
@@ -270,6 +273,17 @@ export default Vue.extend({
     width: 100%;
     position: absolute !important;
     top: 0;
+}
+.main{
+    height: 100%;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    overflow-x: hidden;
+    flex-direction: column;
+}
+.sub-top{
+    height: calc(100% - 129px);
 }
 .slide-right-enter-active,
 .slide-right-leave-active,

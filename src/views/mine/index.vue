@@ -1,14 +1,17 @@
 <template>
     <div class="mine">
-        <div class="app-padding40 mine-header flex-between-c">
+        <TopBar v-if="_showTopBar">
+            <h3 @click="show = true" class="app-padding40 text-align-l">
+                <span class="ellipsis-1 vertical-m app-size-45">{{_userInfo.nickname}}</span>
+                <!-- <img class="mine-header-edit" src="../../assets/img/mine/edit.png" alt=""> -->
+            </h3>
+        </TopBar>
+        <div v-if="!_showTopBar" class="app-padding40 mine-header flex-between-c">
             <div>
                 <h3 @click="show = true" class="mine-header-coin">
                     <span class="ellipsis-1 mine-header-name vertical-m">{{_userInfo.nickname}}</span>
                     <img class="mine-header-edit" src="../../assets/img/mine/edit.png" alt="">
                 </h3>
-            </div>
-            <div>
-                <!-- <img class="app-img-50" src="../../assets/img/common/qrcode1.png" alt=""> -->
             </div>
         </div>
         <div class="mine-body">
