@@ -54,6 +54,7 @@ declare module 'vue/types/vue' {
         _unit: string;
         _unitIcon: string;
         _getPhone: string;
+        _showTopBar: boolean;
         changeLoading: Function;
         initUserInfo: Function;
         getCoinList: Function;

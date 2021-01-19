@@ -118,6 +118,7 @@ export default {
             this.$api.loginTelegram({ ac }).then((res) => {
                 this.$store.commit('setsessionId', res.data);
                 this.$store.commit('setLoginState', 1);
+                this.$store.commit('changeShowTopBar', true);
                 this.getInitData().catch(() => {
                     setTimeout(() => {
                         this.getInitData();

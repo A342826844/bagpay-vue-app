@@ -91,6 +91,13 @@ export default Vue.extend({
             }
             this.$router.push(item.path);
         },
+        loginPath(path: string) {
+            if (!this._isLogin) {
+                this.$loginRoute(path);
+                return;
+            }
+            this.$router.push(path);
+        },
     },
 });
 </script>

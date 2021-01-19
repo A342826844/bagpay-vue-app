@@ -34,6 +34,17 @@
             />
           </div>
         </li>
+        <li v-if="false" @click="changeShowTopBar" class="flex-between-c sys_item">
+          <div>更改布局方式</div>
+          <div>
+            <span class="vertical-m">{{_showTopBar ? '头部导航' : '底部导航'}}</span>
+            <img
+              class="app-img-50"
+              src="../../assets/img/common/arrow_right.png"
+              alt=""
+            />
+          </div>
+        </li>
       </ul>
       <div class="sys-empty"></div>
       <ul class="app-padding40 sys_cont no-margin-top">
@@ -130,6 +141,9 @@ export default Vue.extend({
                     }
                 });
             });
+        },
+        changeShowTopBar() {
+            this.$store.commit('changeShowTopBar', !this._showTopBar);
         },
         checkVersion() {
             if (this._loading) return;
