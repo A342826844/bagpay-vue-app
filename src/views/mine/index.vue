@@ -1,7 +1,7 @@
 <template>
     <div class="mine">
         <TopBar v-if="_showTopBar">
-            <h3 @click="show = true" class="app-padding40 text-align-l">
+            <h3 @click="showModel" class="app-padding40 text-align-l">
                 <span class="ellipsis-1 vertical-m app-size-45">{{_userInfo.nickname}}</span>
                 <!-- <img class="mine-header-edit" src="../../assets/img/mine/edit.png" alt=""> -->
             </h3>
@@ -136,8 +136,13 @@ export default Vue.extend({
         goLink(item: listItem) {
             this.$router.push(`${item.path}`);
         },
+        showModel() {
+            this.nickName = this._userInfo.nickname;
+            this.show = true;
+        },
         checkNickname() {
             if (!this.nickName.trim()) return;
+            if (this.nickName === this._userInfo.nickname) return;
             this.$api.checkNickname({ nickName: this.nickName }).then(() => {
                 this.error = false;
             }).catch(() => {
@@ -165,8 +170,9 @@ export default Vue.extend({
                     nickname: this.nickName,
                 });
                 this.nickName = '';
-            }).finally(() => {
                 done();
+            }).catch(() => {
+                done(false);
             });
         },
         beforeClose(action: string, done: () => void) {

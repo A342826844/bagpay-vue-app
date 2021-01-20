@@ -34,7 +34,7 @@
             />
           </div>
         </li>
-        <li v-if="false" @click="changeShowTopBar" class="flex-between-c sys_item">
+        <li v-if="true" @click="changeShowTopBar" class="flex-between-c sys_item">
           <div>更改布局方式</div>
           <div>
             <span class="vertical-m">{{_showTopBar ? '头部导航' : '底部导航'}}</span>

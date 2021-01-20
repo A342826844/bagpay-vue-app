@@ -1,12 +1,12 @@
 <template>
-    <div>
-        <TopBar v-if="_showTopBar">
+    <div class="home">
+        <TopBar class="home-top-bar" v-if="_showTopBar">
             <h2 @click="toChoiceSymbol" class="app-padding-l40 text-align-l">
                 <span class="app-size-45  vertical-m">{{symbol.toUpperCase()}} &nbsp;</span>
                 <span class="triangle-r vertical-m"></span>
             </h2>
         </TopBar>
-        <div class="home app-padding40">
+        <div class="app-padding40">
             <div v-if="!_showTopBar" class="home-header flex-between-c">
                 <div>
                     <img src="../../assets/img/common/menu.png" alt=""

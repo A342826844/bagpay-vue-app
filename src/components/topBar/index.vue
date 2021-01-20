@@ -104,7 +104,7 @@ export default Vue.extend({
 
 <style scoped lang="less">
 .app-top-bar {
-    position: static;
+    position: sticky;
     // box-shadow: -1px -6px 10px 0px rgba(188, 188, 188, 0.15);
     box-shadow: 0px 6px 10px 0px rgba(188, 188, 188, 0.15);
     z-index: 100;

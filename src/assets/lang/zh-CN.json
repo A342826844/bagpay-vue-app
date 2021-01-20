@@ -579,6 +579,7 @@
 
         "ERR_BAD_COIN_SYMBOL": "币种标识不正确",
         "ERR_BAK_TOKEN": "登录信息已过期",
+        "ERR_NICKNAME_ALREADY_EXIST": "昵称已存在,请重试",
 
         "phoneErr": "请输入正确的手机号",
         "pwdErr": "请输入大于6位小于16位字母或数字的密码",

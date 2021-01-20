@@ -1,5 +1,5 @@
 <template>
-    <div class="otc">
+    <div class="otc" :class="_showTopBar ? 'otc-hidden' : ''">
         <TopBar v-if="_showTopBar">
             <h1 class="app-padding40 app-size-45 text-align-l">OTC</h1>
         </TopBar>
@@ -23,7 +23,6 @@
             :defaultVal="defaultVal"
             @on-click="clickHandle"
             class="otc-tab"
-            :class="_showTopBar ? 'otc-tab-mini' : ''"
             :tabList="bodyTabList"
         >
             <div slot="right" class="otc-header-right">
@@ -538,6 +537,9 @@ export default Vue.extend({
 <style lang='less' scoped>
 
 @padding35: 35px;
+.otc-hidden{
+    overflow: hidden;
+}
 .otc{
     height: 100%;
     &-title{
@@ -547,13 +549,13 @@ export default Vue.extend({
         padding-top: @padding35;
         min-height: calc(100% - @padding35);
     }
-    &-tab-mini{
-        min-height: auto;
-        height: calc(100% - @padding35 - 129px);
-        .tab-list-body{
-            min-height: calc(100% - @padding35 - 93px);
-        }
-    }
+    // &-tab-mini{
+    //     min-height: auto;
+    //     height: calc(100% - @padding35 - 129px);
+    //     .tab-list-body{
+    //         min-height: calc(100% - @padding35 - 93px);
+    //     }
+    // }
     &-header{
         &-right{
         padding-top: @padding35;
