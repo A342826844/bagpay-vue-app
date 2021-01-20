@@ -153,6 +153,8 @@ export const queryUidByAddress = (data: params) => postGolang('/user/uid-by-addr
 export const withdrawCcancel = (data: params) => getGolang(`/withdraw/cancel/${data.id}`, data);
 // 获取指定币种信息
 export const getCoinOne = (data: params) => getGolang(`/coin/one/${data.coin}`, data);
+// 获取指定币种信息
+export const getWithdraw = (data: params) => getGolang(`/withdraw/meta/${data.coin}`, data);
 // 获取指定币种已转出数量
 export const getDayAmount = (data: params) => getGolang(`/withdraw/day-amount/${data.coin}`, data);
 

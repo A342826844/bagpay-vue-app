@@ -204,7 +204,7 @@ export default Vue.extend({
             this.form.address = '';
             this.form.memo = '';
             this.getData();
-            // Promise.all([this.getDayAmount(), this.initUserInfo(), this.getCoinOne()]).finally(() => {
+            // Promise.all([this.getDayAmount(), this.initUserInfo(), this.getWithdraw()]).finally(() => {
             //     this.isLoading = false;
             //     this.changeLoading(false);
             // });
@@ -227,18 +227,18 @@ export default Vue.extend({
         getData() {
             this.isLoading = true;
             this.changeLoading(true);
-            this.getDayAmount();
+            // this.getDayAmount();
             this.initUserInfo().then(() => {
-                this.getCoinOne();
+                this.getWithdraw();
             });
         },
-        getDayAmount() {
-            return this.$api.getDayAmount({
-                coin: this.symbol,
-            }).then((res: any) => {
-                this.amount = res.data || 0;
-            });
-        },
+        // getDayAmount() {
+        //     return this.$api.getDayAmount({
+        //         coin: this.symbol,
+        //     }).then((res: any) => {
+        //         this.amount = res.data || 0;
+        //     });
+        // },
         showLvConfirm(ver_lv: number) {
             this.$dialog.confirm({
                 title: `${this.$t('common.poptip')}`,
@@ -264,8 +264,8 @@ export default Vue.extend({
                 this.$router.push('/mine/safesetting?type=1');
             }
         },
-        getCoinOne() {
-            return this.$api.getCoinOne({
+        getWithdraw() {
+            return this.$api.getWithdraw({
                 coin: this.symbol,
             }).then((res: any) => {
                 if (res.data) {
@@ -277,8 +277,9 @@ export default Vue.extend({
                     } else if (this._userInfo.ver_lv === 3) {
                         this.maxAmount = res.data.out_max;
                     } else {
-                        this.maxAmount = 0;
+                        this.maxAmount = res.data.max_amount_24h;
                     }
+                    this.amount = res.data.amount_24h;
                 } else {
                     this.maxAmount = 0;
                 }

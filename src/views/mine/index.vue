@@ -2,7 +2,7 @@
     <div class="mine">
         <TopBar v-if="_showTopBar">
             <h3 @click="showModel" class="app-padding40 text-align-l">
-                <span class="ellipsis-1 vertical-m app-size-45">{{_userInfo.nickname}}</span>
+                <span class="ellipsis-1 ellipsis-name vertical-m app-size-45">{{_userInfo.nickname}}</span>
                 <!-- <img class="mine-header-edit" src="../../assets/img/mine/edit.png" alt=""> -->
             </h3>
         </TopBar>
@@ -192,6 +192,12 @@ export default Vue.extend({
 
 <style lang="less" scoped>
 .mine{
+    .ellipsis-name{
+        width: 160px;
+        white-space: nowrap;
+        display: inline-block;
+
+    }
     &-header{
         font-size: 45px;
         height: 100px;

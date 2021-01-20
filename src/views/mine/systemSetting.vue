@@ -34,7 +34,7 @@
             />
           </div>
         </li>
-        <li v-if="true" @click="changeShowTopBar" class="flex-between-c sys_item">
+        <li v-if="false" @click="changeShowTopBar" class="flex-between-c sys_item">
           <div>{{$t('mine.navLayout')}}</div>
           <div>
             <span class="vertical-m">{{_showTopBar ? $t('mine.navLayoutForTop') : $t('mine.navLayoutForBottom')}}</span>
