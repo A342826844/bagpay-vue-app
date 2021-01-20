@@ -42,7 +42,7 @@ export default new Vuex.Store({
     state: {
         lang,
         loading: false,
-        showTopBar: false, // 是否头部展示导航栏
+        showTopBar: !!Number(sessionStorage.getItem('showTopBar')), // 是否头部展示导航栏
         symbol, // 主页当前币种
         unit: 'USD', // 计价单位
         unitIcon: '$', // 计价单位符号
@@ -88,6 +88,7 @@ export default new Vuex.Store({
          */
         changeShowTopBar(state, show) {
             state.showTopBar = show;
+            sessionStorage.setItem('showTopBar', `${Number(show)}`);
         },
         /**
          * 设置sessionId, 前后端用户信息交互

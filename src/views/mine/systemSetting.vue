@@ -35,9 +35,9 @@
           </div>
         </li>
         <li v-if="true" @click="changeShowTopBar" class="flex-between-c sys_item">
-          <div>更改布局方式</div>
+          <div>{{$t('mine.navLayout')}}</div>
           <div>
-            <span class="vertical-m">{{_showTopBar ? '头部导航' : '底部导航'}}</span>
+            <span class="vertical-m">{{_showTopBar ? $t('mine.navLayoutForTop') : $t('mine.navLayoutForBottom')}}</span>
             <img
               class="app-img-50"
               src="../../assets/img/common/arrow_right.png"
