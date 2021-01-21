@@ -1,7 +1,7 @@
 <template>
   <div class="set-payment-add">
     <TitleHeader :title="$t('payment.addAddress')">
-      <form class="set-payment-add-form app-padding40">
+      <form @submit.prevent="" class="set-payment-add-form app-padding40">
         <div class="form-item">
           <div class="lable" v-t="'payment.choiceAddress'"></div>
           <div

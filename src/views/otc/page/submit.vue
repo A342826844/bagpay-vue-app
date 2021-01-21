@@ -45,7 +45,7 @@
                     </div>
                 </div>
             </div>
-            <form class="otc-submit-form app-padding40 text-align-l app-size-34">
+            <form @submit.prevent="" class="otc-submit-form app-padding40 text-align-l app-size-34">
                 <div class="form-lable flex-between-c">
                     <span>{{ orderDetail.type | orderSideType}}{{$t('otc.num')}}</span>
                     <span v-show="orderDetail.type === 1" class="app-size-28">
