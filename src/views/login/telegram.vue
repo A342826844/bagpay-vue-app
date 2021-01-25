@@ -22,7 +22,10 @@ export default {
         };
     },
     created() {
-        this.setLang(this.$route.query.lang);
+        const lang = localStorage.getItem('lang');
+        if (!lang) {
+            this.setLang(this.$route.query.lang);
+        }
         this.toast = this.$toast.loading({
             message: `${this.$t('common.logging')}···`,
             duration: 0,
