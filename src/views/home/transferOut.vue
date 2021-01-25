@@ -10,7 +10,7 @@
             >
             <form @submit.prevent="" class="transfer-out-form app-padding40">
                 <div class="form-item">
-                    <div class="lable" v-t="'payment.chequesAddr'"></div>
+                    <div class="lable" v-t="'payment.toAdd'"></div>
                     <V-Field
                         v-model="form.address"
                         rows="2"
@@ -50,7 +50,7 @@
                 </div> -->
                 <div class="fee_label">
                     <div class="lable flex-between-c">
-                        <p>{{$t('home.serviceCharge')}}</p>
+                        <p>{{$t('common.minerFee')}}</p>
                         <p>{{`${ innerUser ? charge.internal_out_fee : charge.out_fee}  ${symbol.toUpperCase()}`}}</p>
                     </div>
                 </div>
