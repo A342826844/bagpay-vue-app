@@ -158,6 +158,7 @@ export default Vue.extend({
             } else {
                 document.addEventListener('plusready', plusReady, false);
             }
+            this.saveHandle();
         },
         init() {
             this.otcGetMerchant();
@@ -181,8 +182,14 @@ export default Vue.extend({
             });
         },
         saveHandle() {
+            const appVersion = localStorage.getItem('app_version');
+            let channel = ((window as any).plus.os.name || '').toLowerCase();
+            if (process.env.VUE_APP_CHANNEL) {
+                channel = process.env.VUE_APP_CHANNEL.toLowerCase();
+            }
             this.$api.version({
-                channel: ((window as any).plus.os.name || '').toLowerCase(),
+                // channel: ((window as any).plus.os.name || '').toLowerCase(),
+                channel,
                 build: (window as any).plus.runtime.versionCode,
                 // version: (window as any).plus.runtime.version,
             }).then((res: any) => {
@@ -192,9 +199,13 @@ export default Vue.extend({
                         this.content = res.data.content;
                     }
                     this.version = res.data.version;
-                    this.show = true;
+                    // this.show = true;
                     this.force_update = res.data.force_update;
                     this.downloadUrl = res.data.url;
+                    if (this.force_update || appVersion !== this.version) {
+                        this.show = true;
+                    }
+                    localStorage.setItem('app_version', this.version);
                     // if (res.data.force_update) {
                     //     this.force_update = true;
                     //     this.$dialog.alert({
@@ -232,7 +243,11 @@ export default Vue.extend({
             document.body.removeChild(a);
         },
         uploadApp(downlaodUrl: string) {
-            if ((window as any).plus.os.name === 'Android') {
+            if (process.env.VUE_APP_CHANNEL === 'GOOGLE_PLAY') {
+                (window as any).plus.runtime.openURL(downlaodUrl, () => {
+                    this.$normalToast('更新失败,请开启Google Play 权限');
+                });
+            } else if ((window as any).plus.os.name === 'Android') {
                 this.downlaodApp(downlaodUrl);
             } else {
                 (window as any).plus.runtime.openURL(downlaodUrl, () => {
