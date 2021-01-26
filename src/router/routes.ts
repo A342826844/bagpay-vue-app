@@ -89,6 +89,8 @@ const BusinessDetail = () => import('@/views/otc/page/businessDetail.vue');
 
 const ScanValue = () => import('@/views/scanQRCode/value.vue'); // 扫描结果
 
+const RedEnvelope = () => import('@/views/logs/redEnvelope.vue'); //
+
 const routes: Array<RouteConfig> = [
     {
         path: '/',
@@ -172,6 +174,16 @@ const routes: Array<RouteConfig> = [
         meta: {
             noLogin: true,
             componentName: 'telegramLogin',
+            index: 10,
+        },
+    },
+    {
+        path: '/redEnvelope',
+        name: 'redEnvelope',
+        component: RedEnvelope,
+        meta: {
+            noLogin: true,
+            componentName: 'RedEnvelope',
             index: 10,
         },
     },

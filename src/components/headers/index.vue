@@ -30,7 +30,7 @@ export default Vue.extend({
         },
         theme: {
             type: String,
-            default: 'light', // light dark primary
+            default: 'light', // light dark primary red
         },
         bold: {
             type: Boolean,
@@ -88,6 +88,10 @@ export default Vue.extend({
     }
     &.primary{
         background: @primary;
+        color: #fff;
+    }
+    &.red{
+        background: @red;
         color: #fff;
     }
     &.header-position-fixed{

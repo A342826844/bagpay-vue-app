@@ -1862,3 +1862,31 @@ type: [int] 可选, 广告类型 1.开屏广告 2.首页banner
 	}
 ]
 ```
+#### 获取指定红包的领取记录
+
+[get] /red_envelope/log/list/:id
+
+请求参数：
+
+txt
+id: [int] 红包id
+
+返回数据：
+
+json
+{
+  "sender": "xxx", //发送者昵称
+  "coin": "usdt",
+  "amount": 10, //总金额
+  "took_amount": 3, //已被领取的金额
+  "shares": 2, //红包个数
+  "took_shares": 1, //已被领取的个数
+  "created_at": "", //发送时间
+  "list": [
+    {
+      "nickname": "xxx", //领取者昵称
+      "amount": 1, //获得的数量
+      "time": "", //领取时间
+    }
+  ]
+}

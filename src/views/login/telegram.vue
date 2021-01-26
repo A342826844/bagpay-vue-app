@@ -77,30 +77,30 @@ export default {
                 defaultPath = '/home';
                 break;
             case 8:
-                path = `/transferhistory?symbol=${coin}`; // 转入转出记录
+                path = `/transferhistory?symbol=${coin}`; // 红包记录
                 needTowPush = true;
                 defaultPath = '/home';
                 break;
-            case 9:
-                path = '/invitation'; // 邀请
-                needTowPush = true;
-                defaultPath = '/home';
-                break;
-            case 10:
-                path = '/payway'; // 收付款管理
-                needTowPush = true;
-                defaultPath = '/mine';
-                break;
-            case 11:
-                path = '/mine/protocol'; // 用户协议
-                needTowPush = true;
-                defaultPath = '/mine';
-                break;
-            case 12:
-                path = '/mine/help'; // 新手教程
-                needTowPush = true;
-                defaultPath = '/mine';
-                break;
+            // case 9:
+            //     path = '/invitation'; // 邀请
+            //     needTowPush = true;
+            //     defaultPath = '/home';
+            //     break;
+            // case 10:
+            //     path = '/payway'; // 收付款管理
+            //     needTowPush = true;
+            //     defaultPath = '/mine';
+            //     break;
+            // case 11:
+            //     path = '/mine/protocol'; // 用户协议
+            //     needTowPush = true;
+            //     defaultPath = '/mine';
+            //     break;
+            // case 12:
+            //     path = '/mine/help'; // 新手教程
+            //     needTowPush = true;
+            //     defaultPath = '/mine';
+            //     break;
             default:
                 path = defaultPath;
                 break;

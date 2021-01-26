@@ -29,12 +29,15 @@
           var value = '<%= NODE_ENV %>';
           var ac1 = parseQuery(location.search.split('?')[1], 'ac');
           var ac2 = parseQuery(location.hash.split('?')[1], 'ac');
+          var type = parseQuery(location.hash.split('?')[1], 'type');
           var isTelegram = ac1 || ac2;
           var isPlus = navigator.userAgent.indexOf("Html5Plus") !== -1;
           var isDevelopment = value === 'development';
           var isProtocol = location.href.indexOf('/mine/protocol') !== -1;
           if (isTelegram) {
             sessionStorage.setItem('ac', isTelegram);
+          } else if (type === '8') {
+            sessionStorage.setItem('ac', +new Date());
           }
           var hasAc = sessionStorage.getItem('ac');
           // 是开发环境 或 是plus环境 或 用户协议 或 telegram进入

@@ -163,7 +163,10 @@ export const getArticleCategories = (data: params) => getGolang(`/article/catego
 // 获取文章列表
 export const getArticleList = (data: params) => getGolang(`/article/list/${data.category}`, data);
 // 获取文章列表
-export const getArticleDetail = (id: number) => getGolang(`/article/get//${id}`, { id });
+export const getArticleDetail = (id: number) => getGolang(`/article/get/${id}`, { id });
+
+// 获取指定红包的领取记录
+export const redEnvelopeLogList = (id: number) => getGolang(`/red_envelope/log/list/${id}`, { id });
 
 /**
  * JAVA 接口
