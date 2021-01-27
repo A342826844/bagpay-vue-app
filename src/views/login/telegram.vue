@@ -22,7 +22,6 @@ export default {
         };
     },
     created() {
-        this.setLang(this.$route.query.lang);
         const type = Number(this.$route.query.type);
         if (type === 8) {
             this.routerPush();
