@@ -8,9 +8,9 @@
                 v-if="$route.name !== 'transferpayment'"
                 src="../../assets/img/common/qrcode1.png" alt=""
             >
-            <form class="transfer-out-form app-padding40">
+            <form @submit.prevent="" class="transfer-out-form app-padding40">
                 <div class="form-item">
-                    <div class="lable" v-t="'payment.chequesAddr'"></div>
+                    <div class="lable" v-t="'payment.toAdd'"></div>
                     <V-Field
                         v-model="form.address"
                         rows="2"
@@ -50,7 +50,7 @@
                 </div> -->
                 <div class="fee_label">
                     <div class="lable flex-between-c">
-                        <p>{{$t('home.serviceCharge')}}</p>
+                        <p>{{$t('common.minerFee')}}</p>
                         <p>{{`${ innerUser ? charge.internal_out_fee : charge.out_fee}  ${symbol.toUpperCase()}`}}</p>
                     </div>
                 </div>
@@ -161,12 +161,12 @@ export default Vue.extend({
     },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
-            if (vm._userInfo.ver_lv === 0) {
-                // XXX: 有时候页面会自动关, 所以给个定时器解决
-                setTimeout(() => {
-                    vm.showLvConfirm(vm._userInfo.ver_lv);
-                }, 100);
-            }
+            // if (vm._userInfo.ver_lv === 0) {
+            //     // XXX: 有时候页面会自动关, 所以给个定时器解决
+            //     setTimeout(() => {
+            //         vm.showLvConfirm(vm._userInfo.ver_lv);
+            //     }, 100);
+            // }
             if (from.name === 'addrList') {
                 vm.initAddress();
                 return;
@@ -248,9 +248,9 @@ export default Vue.extend({
             }).then(() => {
                 this.goVerLv();
             }).catch(() => {
-                if (ver_lv === 0) {
-                    this.$router.go(-1);
-                }
+                // if (ver_lv === 0) {
+                //     this.$router.go(-1);
+                // }
             });
         },
         goVerLv() {

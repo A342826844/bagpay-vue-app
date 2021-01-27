@@ -2,7 +2,7 @@
     <div class="payment primary-bg">
         <TitleHeader class="payment-body" theme="primary" ref="titleHeader" :title="$t('payment.paymentTitle')">
             <div class="payment-card">
-                <h5 class="payment-card-title">{{$t('payment.paymentTip') + symbol.toUpperCase()}}</h5>
+                <h5 class="payment-card-title">{{$t('home.paymentTip') + symbol.toUpperCase()}}</h5>
                 <div class="payment-card-qrcode" :style="{width: `${size + 15}px`, height: `${size + 15}px`}">
                     <Loading v-show="loading"/>
                     <QrcodeVue ref="qrcode" v-show="qrValue" foreground="#5894EE" :size="size" :value="qrValue"></QrcodeVue>

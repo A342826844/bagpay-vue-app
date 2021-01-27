@@ -1,7 +1,7 @@
 <template>
     <div class="otc-appeal">
         <TitleHeader :title="$t('otc.orderAppeal')" />
-        <form class="app-padding40 app-size-34" action="">
+        <form @submit.prevent="" class="app-padding40 app-size-34" action="">
             <div class="form-item">
                 <div class="lable" v-t="'otc.appealType'"></div>
                 <Select @click="selectPopup = !selectPopup">{{ form.type | otcAppealType}}</Select>

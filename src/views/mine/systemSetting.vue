@@ -178,8 +178,12 @@ export default Vue.extend({
             });
         },
         saveHandle() {
+            let channel = ((window as any).plus.os.name || '').toLowerCase();
+            if (process.env.VUE_APP_CHANNEL) {
+                channel = process.env.VUE_APP_CHANNEL.toLowerCase();
+            }
             this.$api.version({
-                channel: ((window as any).plus.os.name || '').toLowerCase(),
+                channel,
                 build: (window as any).plus.runtime.versionCode,
                 // version: (window as any).plus.runtime.version,
             }).then((res: any) => {
@@ -195,7 +199,6 @@ export default Vue.extend({
                             message: `${this.$t('mine.updateTip1')}`,
                             confirmButtonText: `${this.$t('common.ok')}`,
                         }).then(() => {
-                            this.show = true;
                             this.uploadApp(res.data.url);
                         });
                     } else {
@@ -205,7 +208,6 @@ export default Vue.extend({
                             confirmButtonText: `${this.$t('common.ok')}`,
                             cancelButtonText: `${this.$t('common.cancle2')}`,
                         }).then(() => {
-                            this.show = true;
                             this.uploadApp(res.data.url);
                         });
                     }
@@ -227,9 +229,15 @@ export default Vue.extend({
             document.body.removeChild(a);
         },
         uploadApp(downlaodUrl: string) {
-            if ((window as any).plus.os.name === 'Android') {
+            if (process.env.VUE_APP_CHANNEL === 'GOOGLE_PLAY') {
+                (window as any).plus.runtime.openURL(downlaodUrl, () => {
+                    this.$normalToast('更新失败,请开启Google Play 权限');
+                });
+            } else if ((window as any).plus.os.name === 'Android') {
                 this.downlaodApp(downlaodUrl);
+                this.show = true;
             } else {
+                this.show = true;
                 (window as any).plus.runtime.openURL(downlaodUrl, () => {
                     this.$normalToast('更新失败,请开启浏览器权限');
                 });

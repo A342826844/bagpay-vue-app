@@ -28,6 +28,10 @@ export default {
             this.routerPush();
             return;
         }
+        const lang = localStorage.getItem('lang');
+        if (!lang) {
+            this.setLang(this.$route.query.lang);
+        }
         this.toast = this.$toast.loading({
             message: `${this.$t('common.logging')}···`,
             duration: 0,

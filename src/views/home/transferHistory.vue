@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="values">
                                     <h5 class="value">{{item.amount}}</h5>
-                                    <p class="sub-value">{{$t('home.serviceCharge')}}：<span class="price">{{item.fee || 0}}</span></p>
+                                    <p class="sub-value">{{$t('common.minerFee')}}：<span class="price">{{item.fee || 0}}</span></p>
                                 </div>
                             </li>
                         </ul>
@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="values">
                                     <h5 class="value">{{item.amount}}</h5>
-                                    <p class="sub-value">{{$t('home.serviceCharge')}}：<span class="price">{{item.fee}}</span></p>
+                                    <p class="sub-value">{{$t('common.minerFee')}}：<span class="price">{{item.fee}}</span></p>
                                     <img class="cancel_img" @click="cancel(item.id)"
                                         v-if="item.status === 0" src="@/assets/img/mine/cancel.png" alt="">
                                 </div>
@@ -110,7 +110,7 @@ export default Vue.extend({
                     value: 1,
                     color: 'green-color',
                     bgColor: 'green-bg',
-                    title: 'payment.transferIn',
+                    title: 'payment.receive',
                     type: 'up',
                     path: '/payment',
                 },
@@ -118,7 +118,7 @@ export default Vue.extend({
                     value: 1,
                     color: 'red-color',
                     bgColor: 'red-bg',
-                    title: 'payment.transferOut',
+                    title: 'payment.send',
                     type: 'down',
                     path: '/transferout',
                 },

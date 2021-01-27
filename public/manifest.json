@@ -3,8 +3,8 @@
     "id" : "H568BB831", /*应用的标识*/
     "name" : "BagPay", /*应用名称，程序桌面图标名称*/
     "version" : {
-        "name" : "1.2.1", /*应用版本名称*/
-        "code" : 121
+        "name" : "1.2.2", /*应用版本名称*/
+        "code" : 122
     },
     "description" : "", /*应用描述信息*/
     "icons" : {
@@ -132,7 +132,9 @@
                 "abiFilters":[  
                     "armeabi-v7a",  
                     "arm64-v8a"  
-                ]
+                ],
+                "targetSdkVersion" : 29,
+                "minSdkVersion" : 24
             },
             /*使用Native.js调用原生安卓API需要使用到的系统权限*/
             "orientation" : [ "portrait-primary" ], /*应用支持的方向，portrait-primary：竖屏正方向；portrait-secondary：竖屏反方向；landscape-primary：横屏正方向；landscape-secondary：横屏反方向*/

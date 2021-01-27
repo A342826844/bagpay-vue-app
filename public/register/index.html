@@ -13,6 +13,18 @@
     <script src="./js/lang.js"></script>
     <script src="./js/md5.min.js"></script>
     <script src="./js/tool.js"></script>
+    <script>
+      window.onload=function () {
+        var lastTouchEnd=0;
+        document.addEventListener('touchend',function (event) {
+          var now=(new Date()).getTime();
+          if(now-lastTouchEnd<=500){
+            event.preventDefault();
+          }
+          lastTouchEnd=now;
+        },false);
+      }
+    </script>
 </head>
 <body class="body_container">
     <div id="app">

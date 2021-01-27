@@ -7,6 +7,7 @@
     "build": "vue-cli-service build",
     "serve:dev": "cross-env VUE_APP_SERVE_DEV=DEV vue-cli-service serve",
     "build:dev": "cross-env VUE_APP_SHOW_VCONSOLE=DEV vue-cli-service build",
+    "build:google": "cross-env VUE_APP_CHANNEL=GOOGLE_PLAY vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

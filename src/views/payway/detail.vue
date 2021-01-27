@@ -1,7 +1,7 @@
 <template>
     <div class="payway-add">
         <TitleHeader :title="$t('payway.addpay')">
-            <form class="payway-add-form app-padding40">
+            <form @submit.prevent="" class="payway-add-form app-padding40">
                 <div class="form-item">
                     <div class="lable" v-t="'payway.payway'"></div>
                     <!-- <Inputs v-if="bankInfo.type === 1" readonly :value="$t('common.theBank')"></Inputs> -->
