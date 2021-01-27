@@ -66,7 +66,7 @@ export default Vue.extend({
     },
     created() {
         if (this.$route.query.ac) {
-            localStorage.clear();
+            // localStorage.clear();
             if (this.$route.name !== 'telegram') {
                 this.$router.replace(`/telegram?ac=${this.$route.query.ac}`);
             }

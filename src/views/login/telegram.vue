@@ -11,8 +11,6 @@
 // import { vueTelegramLogin } from 'vue-telegram-login';
 import i18n, { langType } from '@/i18n/index';
 
-const lang = window.localStorage.getItem('lang');
-
 export default {
     name: 'Telegram',
     components: {
@@ -34,6 +32,7 @@ export default {
             duration: 0,
             forbidClick: true,
         });
+        const lang = localStorage.getItem('lang');
         if (!lang) {
             this.setLang(this.$route.query.lang);
         }
