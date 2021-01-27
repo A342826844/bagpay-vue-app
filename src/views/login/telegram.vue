@@ -11,6 +11,8 @@
 // import { vueTelegramLogin } from 'vue-telegram-login';
 import i18n, { langType } from '@/i18n/index';
 
+const lang = window.localStorage.getItem('lang');
+
 export default {
     name: 'Telegram',
     components: {
@@ -21,21 +23,20 @@ export default {
             error: false,
         };
     },
-    created() {
+    mounted() {
         const type = Number(this.$route.query.type);
         if (type === 8) {
             this.routerPush();
             return;
-        }
-        const lang = localStorage.getItem('lang');
-        if (!lang) {
-            this.setLang(this.$route.query.lang);
         }
         this.toast = this.$toast.loading({
             message: `${this.$t('common.logging')}···`,
             duration: 0,
             forbidClick: true,
         });
+        if (!lang) {
+            this.setLang(this.$route.query.lang);
+        }
         this.loginTelegram(this.$route.query.ac);
 
         // if (this.$route.query.ac) {
