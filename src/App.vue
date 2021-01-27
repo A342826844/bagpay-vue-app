@@ -158,7 +158,6 @@ export default Vue.extend({
             } else {
                 document.addEventListener('plusready', plusReady, false);
             }
-            this.saveHandle();
         },
         init() {
             this.otcGetMerchant();
