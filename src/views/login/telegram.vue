@@ -23,6 +23,11 @@ export default {
     },
     created() {
         this.setLang(this.$route.query.lang);
+        const type = Number(this.$route.query.type);
+        if (type === 8) {
+            this.routerPush();
+            return;
+        }
         this.toast = this.$toast.loading({
             message: `${this.$t('common.logging')}···`,
             duration: 0,
@@ -77,9 +82,9 @@ export default {
                 defaultPath = '/home';
                 break;
             case 8:
-                path = `/transferhistory?symbol=${coin}`; // 红包记录
-                needTowPush = true;
-                defaultPath = '/home';
+                path = `/redEnvelope?id=${this.$route.query.id}`; // 红包记录
+                // needTowPush = true;
+                // defaultPath = '/home';
                 break;
             // case 9:
             //     path = '/invitation'; // 邀请

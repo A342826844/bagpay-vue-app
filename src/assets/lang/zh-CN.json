@@ -7,6 +7,7 @@
     "common": {
         "envelopeSender": "{sender}的红包",
         "envelopeShares": "已领取{took_shares}/{shares}个",
+        "redenvelopefail": "获取红包信息失败",
         "updateInfo": "更新内容",
         "thirdLogin": "第三方快捷登录",
         "logging": "登录中",

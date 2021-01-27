@@ -5,6 +5,9 @@
         "mine": "Mine"
     },
     "common": {
+        "envelopeSender": "Red envelope of {sender}",
+        "envelopeShares": "Received {took_shares} / {shares}",
+        "redenvelopefail": "Failed to get red packet information",
         "updateInfo": "Update Content",
         "thirdLogin": "Third party quick login",
         "send": "Send",

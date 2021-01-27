@@ -5,6 +5,9 @@
         "mine": "我的"
     },
     "common": {
+        "envelopeSender": "{sender}的紅包",
+        "envelopeShares": "已領取{took_shares}/{shares}個",
+        "redenvelopefail": "獲取紅包資訊失敗",
         "updateInfo": "更新內容",
         "thirdLogin": "協力廠商快捷登入",
         "send": "發 送",
