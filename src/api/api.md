@@ -131,6 +131,9 @@
 	BalanceLogTypeMerchantBail  = 5 //商家保证金
 	BalanceLogTypePenalty       = 6 //罚金
 	BalanceLogTypeReward        = 7 //奖金
+	BalanceLogTypeSendRedEnvelope   BalanceLogType = 10 //发红包
+	BalanceLogTypeRedEnvelopeRefund BalanceLogType = 11 //红包退款
+	BalanceLogTypeGotRedEnvelope    BalanceLogType = 12 //得到红包
 ```
 
 #### otc申诉类型 OtcAppealType
