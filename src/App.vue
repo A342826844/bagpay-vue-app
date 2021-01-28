@@ -72,6 +72,7 @@ export default Vue.extend({
             }
             return;
         }
+        if (this.$route.name === 'telegram') return;
         if (location.href.indexOf('/mine/protocol') !== -1) return;
         if (process.env.NODE_ENV === 'production' && localStorage.getItem('isinit')) {
             this.$router.push('/home');
