@@ -1,5 +1,5 @@
 <template>
-    <div class="otc-good-card app-padding40">
+    <div v-show="show" class="otc-good-card app-padding40">
         <div>
             <div class="flex-between-c">
                 <div class="text-align-l">
@@ -96,6 +96,13 @@ export default Vue.extend({
             const total = Math.floor((this.total * this.renderData.price));
             const max = Math.min(total, this.renderData.max_value);
             return max;
+        },
+        show(): boolean {
+            console.log(this.renderData.min_value, this.maxValue);
+            if (this.renderData.min_value > this.maxValue && this.renderData.uid !== this._userInfo.id) {
+                return false;
+            }
+            return true;
         },
     },
     data() {
