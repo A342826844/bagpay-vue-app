@@ -112,6 +112,28 @@
                 <img src="./img/app-download.png" alt="">
             </div>
         </div>
+        <div class="pcindex-banner5 flex-center">
+            <div>
+                <h3 class="font-32">持有正规合法牌照</h3>
+                <div class="pcindex-banner5-tip font-16">BagPay通过全资持有WTG Bank Holdings，持有柬埔寨商业部颁发的数字资产交易牌照，可合法进行数字货币钱包。 </div>
+            </div>
+            <div class="pcindex-banner5-right">
+                <div class="card flex-start-c">
+                    <img class="banner5-img" src="./img/1_00.png" alt="">
+                    <div>
+                        <h4 class="font-26">合法支付钱包牌照</h4>
+                        <p class="font-16">BagPay持有国际官方集中支付钱包交易牌照，可合法 进行数字货币钱包进行支付交易。</p>
+                    </div>
+                </div>
+                <div class="card flex-start-c">
+                    <img class="banner5-img" src="./img/1_00.png" alt="">
+                    <div>
+                        <h4 class="font-26">合法支付钱包牌照</h4>
+                        <p class="font-16">BagPay持有国际官方集中支付钱包交易牌照，可合法 进行数字货币钱包进行支付交易。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

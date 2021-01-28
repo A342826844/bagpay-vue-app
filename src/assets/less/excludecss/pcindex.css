@@ -197,4 +197,25 @@
 }
 .pcindex-banner4-ercodebox .download-ercode{
     width: 214px;
+    box-shadow: 0px 16px 24px 0px rgba(105, 105, 105, 0.16);
+}
+.pcindex-banner5{
+    text-align: left;
+}
+.pcindex-banner5-tip{
+    width: 330px;
+}
+.pcindex-banner5-right{
+    margin-left: 200px;
+}
+.pcindex-banner5 .card{
+    width: 619px;
+    height: 180px;
+    background: #FFFFFF;
+    box-shadow: 0px 16px 24px 0px rgba(105, 105, 105, 0.16);
+    border-radius: 6px;
+    margin-bottom: 30px;
+}
+.pcindex-banner5-right .banner5-img{
+    margin: 0 30px 0 45px;
 }
