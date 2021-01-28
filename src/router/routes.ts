@@ -91,6 +91,8 @@ const ScanValue = () => import('@/views/scanQRCode/value.vue'); // 扫描结果
 
 const RedEnvelope = () => import('@/views/logs/redEnvelope.vue'); //
 
+const PcDev = () => import('@/views/pcdev/index.vue');
+
 const routes: Array<RouteConfig> = [
     {
         path: '/',
@@ -588,5 +590,11 @@ const routes: Array<RouteConfig> = [
 ];
 
 // routes.push(...invitation);
-
+if (process.env.NODE_ENV === 'development') {
+    routes.push({
+        path: '/PcDev',
+        name: 'PcDev',
+        component: PcDev,
+    });
+}
 export default routes.concat(invitation).concat(news);
