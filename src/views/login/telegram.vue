@@ -86,8 +86,8 @@ export default {
                 break;
             case 8:
                 path = `/redEnvelope?id=${this.$route.query.id}`; // 红包记录
-                // needTowPush = true;
-                // defaultPath = '/home';
+                needTowPush = true;
+                defaultPath = '/home';
                 break;
             // case 9:
             //     path = '/invitation'; // 邀请

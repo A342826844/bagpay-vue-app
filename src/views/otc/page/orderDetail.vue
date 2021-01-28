@@ -156,15 +156,19 @@
                     <span v-t="'payway.bankDeposit'"></span>
                     <span @click="$copyText(payDetail.bank)" class="primary-color text">{{payDetail.bank}}</span>
                 </div>
-                <div class="flex-between-c">
+                <div v-if="payDetail.type !== 5" class="flex-between-c">
                     <span v-t="'payway.account'"></span>
                     <span @click="$copyText(payDetail.account)" class="primary-color text">{{payDetail.account}}</span>
                 </div>
-                <div class="flex-between-s">
+                <div v-if="payDetail.type === 5" class="flex-between-c">
+                    <span v-t="'payway.contact'"></span>
+                    <span @click="$copyText(payDetail.account)" class="primary-color text">{{payDetail.account}}</span>
+                </div>
+                <div v-if="payDetail.type === 5" class="flex-between-s">
                     <span v-t="'payway.address'"></span>
                     <span @click="$copyText(payDetail.bank)" class="primary-color text">{{payDetail.bank}}</span>
                 </div>
-                <div class="flex-between-s">
+                <div v-if="payDetail.type === 5" class="flex-between-s">
                     <span v-t="'payway.fullAddress'"></span>
                     <span @click="$copyText(payDetail.sub_bank)" class="primary-color text">{{payDetail.sub_bank}}</span>
                 </div>
