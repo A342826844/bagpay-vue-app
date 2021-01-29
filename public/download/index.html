@@ -87,6 +87,10 @@
             // language: (navigator.browserLanguage || navigator.language).toLowerCase()
         }
 
+        if (!browser.versions.mobile) {
+            location.href = "https://pc.bagpay.io"
+        }
+
         new Vue({
             el:"#app",
             data: {
