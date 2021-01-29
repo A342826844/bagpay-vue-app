@@ -12,7 +12,12 @@
                 <div class="pcindex-top-language">
                     <div>
                         <img src="./img/language.png" alt="">
-                        <span>简体中文</span>
+                        <span class="language-value">简体中文</span>
+                    </div>
+                    <div class="language-select">
+                        <p><a href="./zh-cn/">简体中文</a></p>
+                        <p><a href="./en-us/">English</a> </p>
+                        <p><a href="./zh-tw/">繁體中文</a> </p>
                     </div>
                 </div>
             </div>
@@ -21,10 +26,10 @@
                     <p class="font-20">最好的货币钱包</p>
                     <p class="font-42 color-black title">USDT数字钱包</p>
                     <p class="font-20">轻松购买、出售、存储，转账美金数字货币USDT</p>
-                    <a class="font-16 app-download" href="">立即下载APP</a>
+                    <a class="font-16 app-download" href="#downloadNow">立即下载APP</a>
                 </div>
                 <div>
-                    <img src="./img/en.png" alt="">
+                    <img src="./img/cn.png" alt="">
                 </div>
             </div>
         </div>
@@ -69,7 +74,7 @@
                 <h5 class="font-32">线下实体兑换店支持</h5>
                 <p class="font-16">全球各地，线下实体店兑换支持，只需到店扫一扫，即可完成订单交易</p>
             </div>
-            <div>
+            <div class="pcindex-banner3-right">
                 <ul>
                     <li v-for="item in 3" :key="item" class="flex-start-c pcindex-banner3-li">
                         <div>
@@ -85,7 +90,7 @@
         </div>
         <div class="pcindex-banner4 flex-center">
             <div>
-                <h3 class="font-32 pcindex-banner4-header">立刻下载APP</h3>
+                <h3 id="downloadNow" class="font-32 pcindex-banner4-header">立刻下载APP</h3>
                 <p class="font-16">BagPay资产钱包管理</p>
                 <h6 class="font-18 pcindex-banner4-title">资产多链管理</h6>
                 <p class="font-16 pcindex-banner4-value">支持多种主流币种 跨链交易 方便高效安全存储资产，轻松完成交易； 例如：USDT、USDC、TUSD...等币种。</p>
@@ -132,6 +137,70 @@
                         <p class="font-16">BagPay持有国际官方集中支付钱包交易牌照，可合法 进行数字货币钱包进行支付交易。</p>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="pcindex-footer">
+            <div class="pcindex-footer-code">
+                <div class="code-box">
+                    <pre>
+        message Transaction {
+          enum Type {
+            UNDEFINED = 0;
+            // deploy a chaincode to the network and call Init function
+            CHAINCODE_DEPLOY = 1;
+            // call a chaincode Invoke function as a transaction
+            CHAINCODE_INVOKE = 2;
+            // call a chaincode query function
+            CHAINCODE_QUERY = 3;
+            // terminate a chaincode; not implemented yet
+            CHAINCODE_TERMINATE = 4;
+          }
+          Type type = 1;
+          //store ChaincodeID as bytes so its encrypted value can be stored
+          bytes chaincodeID = 2;
+          bytes payload = 3;
+          bytes metadata = 4;
+          string uuid = 5;
+          google.protobuf.Timestamp timestamp = 6;
+
+          ConfidentialityLevel confidentialityLevel = 7;
+          string confidentialityProtocolVersion = 8;
+          bytes nonce = 9;
+
+          bytes toValidators = 10;
+          bytes cert = 11;
+          bytes signature = 12;
+        }
+                    </pre>
+                </div>
+                <div class="code-copyright">GitHub托管bit的BagPay-token.sol</div>
+            </div>
+            <div class="pcindex-footer-subscribe">
+                <p class="font-32">BagPay-订阅我们 <br /> 了解更多信息！</p>
+                <div class="subscribe-input">
+                    <input placeholder="输入你的手机号码" type="text">
+                    <button>订阅</button>
+                </div>
+                <!-- https://t.me/bagpayBot -->
+            </div>
+            <div class="pcindex-footer-link flex-center">
+                <div class="flex-start-s">
+                    <div class="link1">
+                        <h4>导航</h4>
+                        <p>个人</p>
+                        <p>企业级</p>
+                    </div>
+                    <div class="link2">
+                        <h4>Telegram社区</h4>
+                        <p>TG导航</p>
+                    </div>
+                </div>
+                <div class="link-right">
+                    <img src="./img/logo.png" alt="">
+                </div>
+            </div>
+            <div class="pcindex-footer-copyright">
+                © 2018 BagPay Copyright.
             </div>
         </div>
     </div>

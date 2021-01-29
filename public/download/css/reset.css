@@ -1,0 +1,104 @@
+/* 
+Reset Stylesheet 
+2020-09-02
+Author: long_shaun
+*/
+
+*{
+    -webkit-touch-callout:text;
+    -webkit-user-select:text;
+    -khtml-user-select:text;
+    -moz-user-select:text;
+    -ms-user-select:text;
+    user-select:text;
+}
+body,
+ul,
+ol,
+dl,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+div,
+form,
+legend,
+input,
+textarea,
+button,
+p,
+blockquote,
+th,
+td {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+small,
+big,
+input,
+textarea,
+button,
+select {
+    font-size: 100%
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+b,
+strong {
+    font-weight: bold
+}
+
+ul,
+ol,
+menu {
+    list-style: none
+}
+
+img {
+    border: 0;
+}
+
+img,
+input,
+textarea,
+button,
+select {
+    vertical-align: middle
+}
+
+input,
+textarea,
+button,
+select,
+a {
+    outline: 0 none;
+    border: none;
+}
+
+a {
+    text-decoration: none
+}
+::-webkit-input-placeholder {
+    color: #b3b3b3;
+}
+/* 去除默认样式 */
+input {
+    -webkit-appearance:none;
+    max-width: 100%;
+}

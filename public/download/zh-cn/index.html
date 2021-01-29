@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en" class="html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1, minimum-scale=1, user-scalable=no,viewport-fit=cover">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <script src="../js/swiper.min.js"></script>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/font.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/pcindex.css">
+    <link rel="stylesheet" href="../css/flex.css">
+    <link rel="stylesheet" href="../css/swiper.min.css">
+    <title>Bag Pay</title>
+    
+    <script src="https://lib.baomitu.com/vue/2.6.11/vue.js"></script>
+    <script src="https://lib.baomitu.com/axios/0.21.0/axios.min.js"></script>
+    <script src="../js/lang.js"></script>
+    <script>
+      window.onload=function () {
+        var lastTouchEnd=0;
+        document.addEventListener('touchend',function (event) {
+          var now=(new Date()).getTime();
+          if(now-lastTouchEnd<=500){
+            event.preventDefault();
+          }
+          lastTouchEnd=now;
+        },false);
+      }
+    </script>
+</head>
+<body>
+    <div id="app">
+        <div v-show="isMobile" style="display: none" class="body_container">
+            <div class="logo_box">
+                <img src="../img/logo.png" alt="" class="logo_img">
+            </div>
+        
+            <div class="white_bg">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <img src="../img/swi1.jpg" alt="" class="swi_img">
+                            <div class="blue_title">{{langMessage[lang].title1}}</div>
+                            <p>{{langMessage[lang].tip1}}</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="../img/swi2.jpg" alt="" class="swi_img">
+                            <div class="blue_title">{{langMessage[lang].title2}}</div>
+                            <p>{{langMessage[lang].tip2}}</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="../img/swi3.jpg" alt="" class="swi_img">
+                            <div class="blue_title">{{langMessage[lang].title3}}</div>
+                            <p>{{langMessage[lang].tip3}}</p>
+                        </div>
+                    </div>
+                    <!-- 分页器 -->
+                    <div class="swiper-pagination"></div>
+                </div>
+
+                <div class="btn_box">
+                    <div id="android_download" class = "android_btn android_img" @click.stop="androidDown">
+                        <span >Android {{langMessage[lang].download}}</span>
+                        <img v-show="loading1" class="loading" src="../img/loading.gif">
+                    </div>
+                    <div id="ios_download" class = "ios_btn ios_img" @click.stop="iosDown">
+                        <span  style="color:white">IOS {{langMessage[lang].download}} </span>
+                        <img v-show="loading2" class="loading" src="../img/loading.gif">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-show="!isMobile" style="display: none" class="pcindex">
+            <div class="pcindex-top">
+                <div class="pcindex-top-header flex-between-c">
+                    <div>
+                        <img ref="topLogo" src="../img/logo1.png" alt="">
+                    </div>
+                    <div class="tab">
+                        <span class="tab-item active">平台介绍</span>
+                        <!--
+                        <span class="tab-item">企业注册</span>
+                        -->
+                    </div>
+                    <div @mouseleave="mouseleaveHandle" @mouseenter="mouseenterHandle" data-type="languageshow" class="pcindex-top-language font-18">
+                        <div>
+                            <img src="../img/language.png" alt="">
+                            <span class="language-value">简体中文</span>
+                        </div>
+                        <div v-show="languageshow" class="language-select">
+                            <p><a href="/download/zh-cn/">简体中文</a></p>
+                            <p><a href="/download/en-us/">English</a> </p>
+                            <p><a href="/download/zh-tw/">繁體中文</a> </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="pcindex-top-body flex-between-c">
+                    <div>
+                        <p class="font-20">最好的货币钱包</p>
+                        <p class="font-42 color-black title">USDT数字钱包</p>
+                        <p class="font-20">轻松购买、出售、存储，转账美金数字货币USDT</p>
+                        <a @click.prevent="goDownload" class="font-16 app-download" href="#downloadNow">立即下载APP</a>
+                    </div>
+                    <div>
+                        <img src="../img/cn.png" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="pcindex-banner1 flex-center">
+                <div>
+                    <img src="../img/bot.png" alt="">
+                </div>
+                <div class="pcindex-banner1-content">
+                    <h4 class="color-black font-w400 font-32 title">BagPay全球首家的钱包机器人</h4>
+                    <p class="font-16">通过Telegram机器人，方便快捷操作网页版BagPay资产钱包；TG机器人回复您想要的。</p>
+                    <div>
+                        <div class="card">
+                            <h5 class="color-black font-w400 font-20 title1">Telegram钱包机器人</h5>
+                            <p class="font-14">BagPay Wallet 机器人，让你的 Telegram 账号拥有数字货币钱包的全部功能</p>
+                        </div>
+                        <div class="card">
+                            <h5 class="color-black font-w400 font-20 title1">Telegram派送红包</h5>
+                            <p class="font-14">全球第一家Telegram红包机器人，自由创建金额红包，每日蹲点抢USDT红包。</p>
+                        </div>
+                        <div class="card">
+                            <h5 class="color-black font-w400 font-20 title1">资金钱包</h5>
+                            <p class="font-14">客户资金都以数字货币方式存储在BagPay的冷热钱包系统上，保证资金绝对安全。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h3 class="font-32 color-black pcindex-h3">
+                BagPay支持多种支付，是基于区块链开发的平台之一，<br/> 支持世界各地的操作系统。
+            </h3>
+            <div class="pcindex-banner2">
+                <ul class="pcindex-banner2-ul">
+                    <li class="pcindex-banner2-li">
+                        <img class="pcindex-banner2-img" src="../img/hui.png" alt="">
+                        <h6 class="color-black pcindex-banner2-title font-24">Huione Pay</h6>
+                        <p class="pcindex-banner2-value font-16">汇旺支付是一家旨在为世界带来领先金融科技服务的创新企业。支付致力于通过科技创新能力，立足东南亚，面向全球客户，提供安全可靠、利益共享的优质金融服务。</p>
+                    </li>
+                    <li class="pcindex-banner2-li">
+                        <img class="pcindex-banner2-img" src="../img/aba.png" alt="">
+                        <h6 class="color-black pcindex-banner2-title font-24">ABA Bank</h6>
+                        <p class="pcindex-banner2-value font-16">台湾第一银行统筹主办柬埔寨Advanced Bank of Asia (简称ABA银行)，即推出ATM、信用卡及电子银行等业务，并积极拓展小微企业放款业务。</p>
+                    </li>
+                    <li class="pcindex-banner2-li">
+                        <img class="pcindex-banner2-img" src="../img/hui.png" alt="">
+                        <h6 class="color-black pcindex-banner2-title font-24">更多银行</h6>
+                        <p class="pcindex-banner2-value font-16">支持全球各大主流银行，进行国际汇款、转账等交易，便于操作。</p>
+                    </li>
+                    <li class="pcindex-banner2-li">
+                        <img class="pcindex-banner2-img" src="../img/hui.png" alt="">
+                        <h6 class="color-black pcindex-banner2-title font-24">Huione Pay</h6>
+                        <p class="pcindex-banner2-value font-16">全球各地，线下实体店兑换支持，只需定点提供现金交易的位置，即可完成订单交易</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="pcindex-banner3 flex-center">
+                <div>
+                    <img src="../img/shop.png" alt="">
+                    <h5 class="color-black font-32">线下实体兑换店支持</h5>
+                    <p class="font-16">全球各地，线下实体店兑换支持，只需到店扫一扫，即可完成订单交易</p>
+                </div>
+                <div class="pcindex-banner3-right">
+                    <ul>
+                        <li class="flex-start-c pcindex-banner3-li">
+                            <div>
+                                <img src="../img/otc.png" alt="">
+                            </div>
+                            <div class="">
+                                <h4 class="color-black">OTC交易</h4>
+                                <p>OTC线下交易支持“银行卡、ABA Bank、Huione  Pay”我们不对OTC交易收取任何费用。</p>
+                            </div>
+                        </li>
+                        <li class="flex-start-c pcindex-banner3-li">
+                            <div>
+                                <img src="../img/otc.png" alt="">
+                            </div>
+                            <div class="">
+                                <h4 class="color-black">联通全球</h4>
+                                <p>超过50个国家的70W实体店，接受数字货币的投资和 当地法币兑换。</p>
+                            </div>
+                        </li>
+                        <li class="flex-start-c pcindex-banner3-li">
+                            <div>
+                                <img src="../img/otc.png" alt="">
+                            </div>
+                            <div class="">
+                                <h4 class="color-black">扫码支付</h4>
+                                <p>支持用户自定义提供店铺的位置，买家到达指定地址 扫码完成订单交易。</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pcindex-banner4 flex-center">
+                <div>
+                    <h3 ref="downloadNow" id="downloadNow" class="font-32 pcindex-banner4-header">立刻下载APP</h3>
+                    <p class="font-16">BagPay资产钱包管理</p>
+                    <h6 class="color-black font-18 pcindex-banner4-title">资产多链管理</h6>
+                    <p class="font-16 pcindex-banner4-value">支持多种主流币种 跨链交易 方便高效安全存储资产，轻松完成交易； 例如：USDT、USDC、TUSD...等币种。</p>
+                    <h6 class="color-black font-18 pcindex-banner4-title">用USDT进行投资，理财，避险</h6>
+                    <p class="font-16 pcindex-banner4-value">持有USDT意味着持有美金，可在全球各地交易所购买股票，外汇，期货，或者兑换成其他数字货币进行投资：BTC，ETH等。</p>
+                    <h6 class="color-black font-18 pcindex-banner4-title">Telegram导航机器人</h6>
+                    <p class="font-16 pcindex-banner4-value">通过Telegram机器人，方便快捷操作网页版BagPay资产钱包；TG机器人回复您想要的。</p>
+                    <div class="pcindex-banner4-btns">
+                        <a @mouseleave="mouseleaveHandle" @mouseenter="mouseenterHandle" data-type="download1" class="pcindex-banner4-btn" href="">
+                            <div class="btn-value flex-start-c">
+                                <img class="banner4-btn-img" src="../img/apple.png" alt="">
+                                <div class="color-white">
+                                    <span>下载</span>
+                                    <div class="font-22">App Store</div>
+                                </div>
+                            </div>
+                            <div v-show="download1" class="pcindex-banner4-ercodebox">
+                                <img class="download-ercode" src="../img/ercode.png" alt="">
+                            </div>
+                        </a>
+                        <a @mouseleave="mouseleaveHandle" @mouseenter="mouseenterHandle" data-type="download2" class="pcindex-banner4-btn" href="">
+                            <div class="btn-value flex-start-c">
+                                <img class="banner4-btn-img" src="../img/android.png" alt="">
+                                <div class="color-white">
+                                    <span>下载</span>
+                                    <div class="font-22">Android</div>
+                                </div>
+                            </div>
+                            <div v-show="download2" class="pcindex-banner4-ercodebox">
+                                <img class="download-ercode" src="../img/ercode.png" alt="">
+                            </div>
+                        </a>
+                        <a @mouseleave="mouseleaveHandle" @mouseenter="mouseenterHandle" data-type="download3" class="pcindex-banner4-btn" href="">
+                            <div class="btn-value flex-start-c">
+                                <img class="banner4-btn-img" src="../img/google.png" alt="">
+                                <div class="color-white">
+                                    <span>下载</span>
+                                    <div class="font-22">Google Play</div>
+                                </div>
+                            </div>
+                            <div v-show="download3" class="pcindex-banner4-ercodebox">
+                                <img class="download-ercode" src="../img/google-download.png" alt="">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <img src="../img/app-download.png" alt="">
+                </div>
+            </div>
+            <div class="pcindex-banner5 flex-center">
+                <div>
+                    <h3 class="font-32 color-black">持有正规合法牌照</h3>
+                    <div class="pcindex-banner5-tip font-16">BagPay通过全资持有WTG Bank Holdings，持有柬埔寨商业部颁发的数字资产交易牌照，可合法进行数字货币钱包。 </div>
+                </div>
+                <div class="pcindex-banner5-right">
+                    <div class="card flex-start-c">
+                        <img class="banner5-img" src="../img/1_00.png" alt="">
+                        <div>
+                            <h4 class="color-black font-26">合法支付钱包牌照</h4>
+                            <p class="font-16">BagPay持有国际官方集中支付钱包交易牌照，可合法 进行数字货币钱包进行支付交易。</p>
+                        </div>
+                    </div>
+                    <div class="card flex-start-c">
+                        <img class="banner5-img" src="../img/1_01.png" alt="">
+                        <div>
+                            <h4 class="color-black font-26">合法货币兑换牌照</h4>
+                            <p class="font-16">正规持有国际法币、货币兑换，超过50个国家能进行 合法数字货币兑换以及法币兑换。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pcindex-footer">
+                <div class="pcindex-footer-code">
+                    <div class="code-box">
+                        <pre>
+            message Transaction {
+            enum Type {
+                UNDEFINED = 0;
+                // deploy a chaincode to the network and call Init function
+                CHAINCODE_DEPLOY = 1;
+                // call a chaincode Invoke function as a transaction
+                CHAINCODE_INVOKE = 2;
+                // call a chaincode query function
+                CHAINCODE_QUERY = 3;
+                // terminate a chaincode; not implemented yet
+                CHAINCODE_TERMINATE = 4;
+            }
+            Type type = 1;
+            //store ChaincodeID as bytes so its encrypted value can be stored
+            bytes chaincodeID = 2;
+            bytes payload = 3;
+            bytes metadata = 4;
+            string uuid = 5;
+            google.protobuf.Timestamp timestamp = 6;
+
+            ConfidentialityLevel confidentialityLevel = 7;
+            string confidentialityProtocolVersion = 8;
+            bytes nonce = 9;
+
+            bytes toValidators = 10;
+            bytes cert = 11;
+            bytes signature = 12;
+            }
+                        </pre>
+                    </div>
+                    <div class="code-copyright">GitHub托管bit的BagPay-token.sol</div>
+                </div>
+                <div class="pcindex-footer-subscribe">
+                    <p class="font-32">BagPay-订阅我们 <br /> 了解更多信息！</p>
+                    <div class="subscribe-input">
+                        <input v-model="tel" placeholder="输入你的手机号码" type="text">
+                        <button @click="goSubscription">订阅</button>
+                    </div>
+                    <!-- https://t.me/bagpayBot -->
+                </div>
+                <div class="pcindex-footer-link flex-center">
+                    <div class="flex-start-s">
+                        <div class="link1">
+                            <h4>导航</h4>
+                            <!-- <p>个人</p>
+                            <p>企业级</p> -->
+                            <p><a href="./">平台</a></p>
+                        </div>
+                        <div class="link2">
+                            <h4>Telegram社区</h4>
+                            <p>
+                                <a target="_blank" href="https://t.me/bagpayBot">TG导航 <img src="../img/share.png"></a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="link-right">
+                        <img @click="goTop" src="../img/logo2.png" alt="">
+                    </div>
+                </div>
+                <div class="pcindex-footer-copyright">
+                    © 2018 BagPay Copyright.
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var browser = {
+            versions: function () {
+                var u = navigator.userAgent, app = navigator.appVersion;
+                return {//移动终端浏览器版本信息
+                trident: u.indexOf('Trident') > -1, //IE内核
+                presto: u.indexOf('Presto') > -1, //opera内核
+                webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                mobile: !!u.match(/AppleWebKit.*Mobile/i) || !!u.match(/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/), //是否为移动终端
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                iPad: u.indexOf('iPad') > -1, //是否iPad
+                webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+                };
+            } (),
+            // language: (navigator.browserLanguage || navigator.language).toLowerCase()
+        }
+
+        console.log(browser.versions)
+
+        new Vue({
+            el:"#app",
+            data: {
+                title: 'Bag Pay 下载',
+                loading1: false,
+                isMobile: browser.versions.mobile,
+                loading2: false,
+                languageshow: false,
+                download1: false,
+                download2: false,
+                download3: false,
+                tel: '',
+                type: 'Android IOS',
+                langMessage: langMessage,
+                lang: 'en-us'
+            },
+            created() {
+                var language = navigator.language.toLowerCase();
+                var getQueryUrl = (query) => {
+                    var querys = `${query}`.split('&');
+                    var res = {};
+                    querys.forEach(function(item) {
+                        var values = item.split('=');
+                        res[values[0]] = values[1];
+                    });
+                    return res;
+                };
+                var query = getQueryUrl(location.search.slice(1));
+                if (query.lang && Object.keys(langMessage).indexOf(query.lang) !== -1) {
+                    this.lang = query.lang;
+                } else if (language.indexOf('zh') !== -1) {
+                    this.lang = 'zh-CN';
+                } else {
+                    this.lang = 'en-us';
+                }
+            },
+            mounted() {
+                this.$nextTick(() => {
+                    var mySwiper = new Swiper ('.swiper-container', {
+                        autoplay: true,
+                        pagination: {
+                            el: '.swiper-pagination',
+                        },
+
+                    }) 
+                })
+            },
+            methods: {
+                androidDown() {
+                    if (this.loading1) return;
+                    this.loading1 = true;
+                    this.getUrl('android').then(res => {
+                        this.loading1 = false;
+                        this.downloadHandle(res.url);
+                    }).catch(() => {
+                        this.loading1 = false;
+                        this.downloadHandle('http://x100.oss-ap-southeast-1.aliyuncs.com/app/bagpay.apk');
+                    })
+                },
+                goSubscription() {
+                    if (this.tel && this.tel.trim()) {
+                        open('https://t.me/bagpayBot');
+                    }
+                },
+                goTop() {
+                    var topLogo = this.$refs.topLogo;
+                    if (topLogo) {
+                        this.goElement(topLogo);
+                    }
+                },
+                goDownload() {
+                    var downloadELe = this.$refs.downloadNow;
+                    if (downloadELe) {
+                        this.goElement(downloadELe);
+                    }
+                },
+                goElement(el) {
+                    if (el) {
+                        el.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+                    }
+                },
+                mouseenterHandle(event) {
+                    var type = event.target.dataset.type;
+                    this[type] = true;
+                },
+                mouseleaveHandle(event) {
+                    var type = event.target.dataset.type;
+                    var that = this;
+                    setTimeout(function() {
+                        that[type] = false;
+                    }, 300)
+                },
+                getUrl(channel) {
+                            /* txt
+                    channel: [string] 渠道 ios,android
+                    version: [string] 版本
+                    build: [string] 构建号 */
+                    return axios.get('https://api.bagpay.io/app/version/check?channel='+channel).then(function(res) {
+                        return res.data.data;
+                    });
+                },
+                iosDown() {
+                    // console.log(browser.versions);
+                    if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
+                        if (this.loading2) return;
+                        this.loading2 = true;
+                        this.getUrl('ios').then(res => {
+                            window.location.href = res.url;
+                        }).catch(() => {
+                            this.loading2 = false;
+                        })
+                    } else {
+                    }
+                },
+                downloadHandle(url) {
+                    let a = document.createElement('a');
+                    a.style.display = 'none';
+                    document.body.appendChild(a);
+                    a.download;
+                    a.href = url;
+                    a.click();
+                    document.body.removeChild(a);
+                }
+            }
+        })
+    </script>
+</body>
+</html>
