@@ -397,13 +397,21 @@ Vue.filter('articleType', (state: 0|1) => {
     return i18n.t(states[state]);
 });
 
-// 语言类型
-Vue.filter('langType', (state: 'zh-CN'|'en-us') => {
-    //"简体中文",             = 1 // 简体中文
-    //"英文",                 = 2 // 英文
-    const states = {
-        'zh-CN': 'common.ZHcn',
-        'en-us': 'common.ENus',
+// 返佣类型 CommType
+Vue.filter('balanceLogType', (state: number) => {
+	// ArticleTypeArt    = 0  //普通文章
+	// ArticleTypeNotice   = 1  //公告
+    const states: any = {
+        1: 'common.balanceLogTypeDeposit',
+        2: 'common.balanceLogTypeWithdraw',
+        3: 'common.balanceLogTypeOtcBuy',
+        4: 'common.balanceLogTypeOtcSell',
+        5: 'common.balanceLogTypeMerchantBail',
+        6: 'common.balanceLogTypePenalty',
+        7: 'common.balanceLogTypeReward',
+        10: 'common.balanceLogTypeSendRedEnvelope',
+        11: 'common.balanceLogTypeRedEnvelopeRefund',
+        12: 'common.balanceLogTypeGotRedEnvelope',
     };
     return i18n.t(states[state]);
 });

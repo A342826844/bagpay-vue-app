@@ -167,6 +167,8 @@ export const getArticleDetail = (id: number) => getGolang(`/article/get/${id}`, 
 
 // 获取指定红包的领取记录
 export const redEnvelopeLogList = (id: number) => getGolang(`/red_envelope/log/list/${id}`, { id });
+// 获取指定红包的领取记录
+export const getUserBalanceLog = (data: params) => postGolang(`/user/balance-log/${data.coin}`, data);
 
 /**
  * JAVA 接口

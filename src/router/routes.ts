@@ -90,7 +90,8 @@ const BusinessDetail = () => import('@/views/otc/page/businessDetail.vue');
 
 const ScanValue = () => import('@/views/scanQRCode/value.vue'); // 扫描结果
 
-const RedEnvelope = () => import('@/views/logs/redEnvelope.vue'); //
+const RedEnvelope = () => import('@/views/logs/redEnvelope.vue'); // 抢红包记录
+const UserBalanceLog = () => import('@/views/logs/userBalanceLog.vue'); // 抢红包记录
 
 const routes: Array<RouteConfig> = [
     {
@@ -196,7 +197,17 @@ const routes: Array<RouteConfig> = [
         meta: {
             noLogin: true,
             componentName: 'RedEnvelope',
-            index: 10,
+            index: 500,
+        },
+    },
+    {
+        path: '/userBalanceLog',
+        name: 'userBalanceLog',
+        component: UserBalanceLog,
+        meta: {
+            noLogin: true,
+            componentName: 'UserBalanceLog',
+            index: 600,
         },
     },
     {

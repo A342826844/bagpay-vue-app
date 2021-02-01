@@ -25,7 +25,7 @@ export type SocialType = Array<number>;
 export type Relationship = Array<number>;
 export type OtcAppealType = Array<number>;
 export type CardType = Array<number>;
-export type LangType = Array<number>;
+export type BalanceLogType = Array<number>;
 export type PayTypeImg = {
     1: any;
     4: any;
@@ -185,8 +185,15 @@ export const OtcAppealType = [
     4, // OtcAppealTypeFalsePaid          = 4 //恶意点击已付款
 ];
 
-// 语言类型
-export const LangType = [
-    'zh-CN', //           = 1 //简体中文
-    'en-us', //           = 2 //英文
+export const BalanceLogType = [
+    1, // BalanceLogTypeDeposit       = 1 //充值
+    2, // BalanceLogTypeWithdraw      = 2 //提现
+    3, // BalanceLogTypeOtcBuy        = 3 //场外买入
+    4, // BalanceLogTypeOtcSell       = 4 //场外卖出
+    5, // BalanceLogTypeMerchantBail  = 5 //商家保证金
+    6, // BalanceLogTypePenalty       = 6 //罚金
+    7, // BalanceLogTypeReward        = 7 //奖金
+    10, // BalanceLogTypeSendRedEnvelope   BalanceLogType = 10 //发红包
+    11, // BalanceLogTypeRedEnvelopeRefund BalanceLogType = 11 //红包退款
+    12, // BalanceLogTypeGotRedEnvelope    BalanceLogType = 12 //得到红包
 ];
