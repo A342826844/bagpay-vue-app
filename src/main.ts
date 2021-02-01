@@ -23,6 +23,7 @@ import TabList from '@/components/TabList/index.vue';
 import PullRefresh from '@/components/pull-refresh/index.vue';
 import NoData from '@/components/NoData/index.vue';
 import UserAuth from '@/components/userAuth/index.vue';
+import RedEnvelopesPopup from '@/components/redEnvelopes/popup.vue';
 import IconImg from '@/components/iconUrl/iconImg.vue';
 import { Poptip, PoptipItem } from '@/components/Poptip/index';
 import { SelectPopup, SelectPopupItem } from '@/components/SelectPopup/index';
@@ -43,6 +44,7 @@ declare module 'vue/types/vue' {
         $md5: any;
         $verification: any;
         $hasBindValue: Function;
+        $showRedEnvelopesPopup: Function;
         $app_mark: string;
         $app_public: boolean;
         $invitationUrl: string;
@@ -82,6 +84,7 @@ Vue.component('PoptipItem', PoptipItem);
 Vue.component('SelectPopup', SelectPopup);
 Vue.component('SelectPopupItem', SelectPopupItem);
 Vue.component('UserAuth', UserAuth);
+Vue.component('RedEnvelopesPopup', RedEnvelopesPopup);
 Vue.component('IconImg', IconImg);
 
 Vue.mixin({
@@ -163,7 +166,6 @@ Vue.prototype.$app_mark = process.env.VUE_APP_MARK;
 Vue.prototype.$app_public = !!Number(process.env.VUE_APP_PUBLIC); // 是否在浏览器公开使用
 Vue.prototype.$invitationUrl = `${process.env.NODE_ENV === 'production' ? process.env.VUE_APP_ORIGIN_URL : location.origin}/register`; // 邀请链接
 Vue.prototype.$isServe = window.location.protocol !== 'file:';
-
 new Vue({
     router,
     store,

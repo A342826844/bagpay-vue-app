@@ -6,6 +6,7 @@
                 <p class="li-p">{{$t(item.title)}}</p>
             </li>
         </ul>
+        <RedEnvelopesPopup v-model="show"></RedEnvelopesPopup>
     </div>
 </template>
 
@@ -31,6 +32,7 @@ type appItem = {
 type data = {
     applicationList: Array<appItem>;
     more: appItem;
+    show: boolean;
 
 }
 
@@ -41,6 +43,7 @@ export default Vue.extend({
     },
     data(): data {
         return {
+            show: false,
             applicationList: [
                 {
                     link: '/transferout?symbol=usdt',
@@ -99,6 +102,10 @@ export default Vue.extend({
     },
     methods: {
         applicationHandle(item: appItem) {
+            if (item.value === 'cost') {
+                this.show = true;
+                return;
+            }
             if (item.isDev) {
                 this.$dialog.alert({
                     title: `${this.$t('common.poptip')}`,
