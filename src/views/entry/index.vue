@@ -34,7 +34,7 @@
             <Button @click="$router.push('/login')" class="entry-btn-item">{{$t('login.loginTitle')}}</Button>
             <Button @click="$router.push('/register')" class="entry-btn-item" border type="info">{{$t('login.registerTitle')}}</Button>
         </div>
-        <div v-if="$route.name === 'entrylogin' && $isServe" class="entry-third">
+        <!-- <div v-if="$route.name === 'entrylogin' && $isServe" class="entry-third">
             <p>{{$t('common.thirdLogin')}}</p>
             <div class="entry-third-line">
                 <div class="border-b"></div>
@@ -47,7 +47,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div> -->
         <div v-show="activeTab !== 2 && $route.name !== 'entrylogin'" class="entry-next flex-between-c">
             <span  href="javascript:void(0)"></span>
             <div class="entry-next-tab">

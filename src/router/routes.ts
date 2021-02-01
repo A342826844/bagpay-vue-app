@@ -40,6 +40,7 @@ import news from './news';
 
 const LoginSearch = () => import('@/views/login/search.vue');
 const Findaccount = () => import('@/views/login/findaccount.vue');
+const LoginForCode = () => import('@/views/login/loginForCode.vue');
 
 const AddSymbol = () => import('@/views/home/addSymbol.vue'); // 添加币种
 const TransferHistory = () => import('@/views/home/transferHistory.vue'); // 转入转出记录
@@ -132,6 +133,17 @@ const routes: Array<RouteConfig> = [
             keepAlive: true,
             noLogin: true,
             componentName: 'Findaccount',
+            index: 100,
+        },
+    },
+    {
+        path: '/loginForCode',
+        name: 'loginForCode',
+        component: LoginForCode,
+        meta: {
+            keepAlive: true,
+            noLogin: true,
+            componentName: 'LoginForCode',
             index: 100,
         },
     },
