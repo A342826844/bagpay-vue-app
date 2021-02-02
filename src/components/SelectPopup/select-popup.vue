@@ -5,7 +5,7 @@
         v-model="show"
         class="select-popup"
     >
-        <div @click="show = false" class="select-popup-box">
+        <div @click="selectHide" class="select-popup-box">
             <slot></slot>
         </div>
         <div class="select-popup-cancle" >
@@ -46,11 +46,14 @@ export default Vue.extend({
         },
     },
     methods: {
-        cancleHandle() {
-            this.$emit('cancle');
-            if (!this.autoHide) {
+        selectHide() {
+            if (this.autoHide) {
                 this.show = false;
             }
+        },
+        cancleHandle() {
+            this.show = false;
+            this.$emit('cancle');
         },
     },
 });

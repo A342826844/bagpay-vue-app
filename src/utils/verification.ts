@@ -20,6 +20,13 @@ function phoneVfi(phone: string) {
     if (vfi === false) normalToast(i18n.t('error.phoneErr'));
     return vfi;
 }
+// Telegram Id 验证
+function tIdVfi(tId: string) {
+    const reg = /^[0-9]{4,16}$/;
+    const vfi: boolean = reg.test(tId);
+    if (vfi === false) normalToast(i18n.t('error.tIdErr'));
+    return vfi;
+}
 
 // 邮箱验证
 function emailVfi(email: string) {
@@ -104,6 +111,9 @@ function fromVfi(arr: any) {
         case 'name':
             if (!nameVfi(item.value)) return false;
             break;
+        case 'tId':
+            if (!tIdVfi(item.value)) return false;
+            break;
         case 'email':
             if (!emailVfi(item.value)) return false;
             break;
@@ -133,6 +143,7 @@ export const hasBindValue = (value = '') => {
 
 export default {
     phoneVfi,
+    tIdVfi,
     emailVfi,
     pwdVfi,
     pwd2Vfi,

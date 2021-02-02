@@ -52,6 +52,7 @@ export default Vue.extend({
             if (this.isLoading) return;
             if (this.timeNum > 0) return;
             if (this.type === 1 && !this.$verification.notEmpty(this.imgCode, this.$t('login.imgCode'))) return;
+            if (this.vType === 'telegramId' && !this.$verification.notEmpty(this.imgCode, this.$t('login.imgCode'))) return;
             if (this.verification()) {
                 const data: any = {
                     type: this.type,
@@ -60,8 +61,10 @@ export default Vue.extend({
                     data.phone = this.hasMoblepre(`${this.phone}`) ? this.phone : `${this.country.tel}-${this.phone}`;
                 } else if (this.vType === 'email') {
                     data.email = this.phone;
+                } else if (this.vType === 'telegramId') {
+                    data.uid = Number(this.phone);
                 }
-                if (this.type === 1) {
+                if (this.type === 1 || this.vType === 'telegramId') {
                     data.captcha = this.imgCode;
                     data.captcha_id = this.imgCodeId;
                 }
@@ -87,6 +90,8 @@ export default Vue.extend({
                             });
                         }
                     }
+                }).catch(() => {
+                    this.$normalToast(this.$t('common.sendFail'));
                 }).finally(() => {
                     this.isLoading = false;
                     this.changeLoading(false);
@@ -110,11 +115,13 @@ export default Vue.extend({
             if (this.vType === 'phone' && this.$verification.phoneVfi(this.phone)) return true;
             if (this.vType === 'email' && this.$verification.emailVfi(this.phone)) return true;
             if (this.vType === 'telegram') return true;
+            if (this.vType === 'telegramId' && this.$verification.tIdVfi(this.phone)) return true;
             return false;
         },
         apiHandle(data: any) {
             if (this.vType === 'email') return this.$api.registerCodeEmail(data);
             if (this.vType === 'telegram') return this.$api.registerCodeTelegram(data);
+            if (this.vType === 'telegramId') return this.$api.veriCodeTelegramId(data);
             return this.$api.registerCode(data);
         },
     },

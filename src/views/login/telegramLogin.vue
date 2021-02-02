@@ -1,68 +1,165 @@
 <template>
-    <div>
-        <Headers></Headers>
-        <!-- <div class="telegram-login">
-            <VueTelegramLogin
-                mode="callback"
-                telegram-login="bagpayBot"
-                :userpic="false"
-                ref="bagpayBot"
-                @callback="loginCallbackHanlde">
-                    test
-                </VueTelegramLogin>
-        </div> -->
-        <div class="entry">
-        <div @click="$router.push('/telegramLogin')" class="entry-hide-btn"></div>
-        <div class="entry-banner">
-            <ul>
-                <li class="entry-banner-item">
-                    <img src="@/assets/img/entry/banner3.png" alt="">
-                    <p>点击使用 Telegram 登录 <span class="primary-color">{{$app_mark}}</span></p>
-                </li>
-            </ul>
+  <div class="login">
+    <TitleHeader :title="$t('login.tgLogin')">
+        <!-- <span slot="header" @click="type = (1 - type/1)"
+        class="primary-color app-size-34">{{type?$t('login.findPhone'):$t('login.findEmail')}}</span> -->
+        <div class="login-box app-padding40">
+            <!-- <p class="login-tip">{{ $t("验证码登录") }}</p> -->
+            <p class="login-tip">{{$t('login.loginTip')}}(USDT、USDC、TUSD......)</p>
+            <form @submit.prevent="loginHandle" class="login-form" action="">
+                <Inputs
+                    class="login-form-item"
+                    :placeholder="$t('login.tgLoginId')"
+                    clearable
+                    v-show="!type"
+                    v-model="form.phone"
+                    autocomplete="username"
+                    type="tel"
+                >
+                    <!-- <span @click="$router.push('/login/search')" class="primary-color login-form-item-country">+ {{country.tel}} </span> -->
+                </Inputs>
+                <Inputs
+                    class="login-form-item img_code_input"
+                    :placeholder="$t('login.imgCode')"
+                    v-model="form.imgCode"
+                    autocomplete="username"
+                    type="text"
+                >
+                    <img class="code-img" :src="imgUrl" alt="" @click="getImg" />
+                </Inputs>
+                <Inputs
+                    class="login-form-item"
+                    :placeholder="$t('login.vCode')"
+                    v-model="form.code"
+                    autocomplete="username"
+                    type="text"
+                >
+                    <Code
+                        :vType="'telegramId'"
+                        :phone="form.phone"
+                        :imgCode="form.imgCode"
+                        :imgCodeId="imgCode"
+                        :type="2"
+                    ></Code>
+                </Inputs>
+            </form>
         </div>
-        <div class="entry-btn app-size-34">
-            <VueTelegramLogin
-                mode="callback"
-                telegram-login="bagpayBot"
-                :userpic="false"
-                ref="bagpayBot"
-                @callback="loginCallbackHanlde" />
-        </div>
+    </TitleHeader>
+    <div class="lxa-footer-btn">
+      <Button @click="loginHandle" v-t="'login.done'"
+        :disabled="disabled"></Button>
     </div>
-    </div>
+  </div>
 </template>
 
-<script>
-import { vueTelegramLogin } from 'vue-telegram-login';
+<script lang="ts">
+import Vue from 'vue';
+import Code from '@/components/code/index.vue';
 
-export default {
-    name: 'Telegram',
+type form = {
+  code: string;
+  phone: string;
+  email: string;
+  password: string;
+  imgCode: string;
+};
+
+type data = {
+  isLoading: boolean;
+  imgUrl: string;
+  imgCode: string;
+  form: form;
+  type: 1|0; // 账号类型，1为邮箱，0位手机号
+};
+
+export default Vue.extend({
+    name: 'TelegramLogin',
     components: {
-        VueTelegramLogin: vueTelegramLogin,
+        Code,
     },
-    data() {
+    data(): data {
         return {
-            error: false,
+            isLoading: false,
+            imgUrl: '',
+            imgCode: '',
+            type: 0,
+            form: {
+                code: '',
+                phone: '',
+                email: '',
+                password: '',
+                imgCode: '',
+            },
         };
     },
     created() {
-        // this.toast = this.$toast.loading({
-        //     message: `${this.$t('common.logging')}···`,
-        //     duration: 0,
-        //     // forbidClick: true,
-        // });
+        this.getImg();
+        this.form.phone = (this.$route.query.phone as string) || '';
     },
-    destroyed() {
-        this.toast.clear();
+    computed: {
+        country() {
+            return this.$store.state.country;
+        },
+        disabled(): boolean {
+            // if (this.type) return !(this.form.email && this.form.imgCode && this.form.code && this.form.password);
+            // return !(this.form.phone && this.form.imgCode && this.form.code && this.form.password);
+            if (this.type) return !(this.form.email && this.form.imgCode && this.form.code && this.form.password);
+            return !(this.form.phone);
+        },
+    },
+    beforeRouteEnter(to, from, next) {
+        next((vm: any) => {
+            if (from.name === 'login') {
+                vm.clear();
+            }
+        });
     },
     methods: {
-        getInitData() {
-            return Promise.all([
+        clear() {
+            this.form = {
+                code: '',
+                email: '',
+                phone: '',
+                password: '',
+                imgCode: '',
+            };
+        },
+        loginHandle() {
+            if (this.isLoading) return;
+            this.isLoading = true;
+            this.changeLoading(true);
+            const vfi: boolean = this.$verification.fromVfi([
+                {
+                    type: 'tId',
+                    value: this.form.phone,
+                },
+                {
+                    type: 'code',
+                    value: this.form.code,
+                },
+            ]);
+            if (vfi) {
+                this.$api.loginTelegramId({
+                    uid: this.form.phone,
+                    code: this.form.code,
+                }).then((res: any) => {
+                    this.$store.commit('setsessionId', res.data);
+                    this.getAllData();
+                }).finally(() => {
+                    this.isLoading = false;
+                    this.changeLoading(false);
+                });
+            }
+        },
+        getAllData() {
+            this.changeLoading(true);
+            Promise.all([
                 this.getCoinList(),
                 this.initUserInfo(),
                 this.getUserBankList(),
             ]).then(() => {
+                this.$store.commit('setLoginState', 1);
+                // this.$store.commit('setsessionId', data);
                 const loginPath = sessionStorage.getItem('loginPath');
                 if (loginPath) {
                     if (isNaN(Number(loginPath))) {
@@ -81,130 +178,24 @@ export default {
                 this.$router.push({
                     name: 'home',
                 });
+            }).catch(() => {
+                this.$normalToast(this.$t('login.loginFailed'));
+            }).finally(() => {
+                this.changeLoading(false);
             });
         },
-        loginCallbackHanlde(data) {
-            this.$api.loginQuickTelegram(data).then((res) => {
-                this.$store.commit('setsessionId', res.data);
-                this.$store.commit('setLoginState', 1);
-                this.getInitData().catch(() => {
-                    setTimeout(() => {
-                        this.getInitData();
-                    }, 1000);
-                });
+        // 获取图片
+        getImg() {
+            this.$api.getImages().then((res: any) => {
+                this.form.imgCode = '';
+                this.imgUrl = res.data.data;
+                this.imgCode = res.data.id;
             });
         },
     },
-};
+});
 </script>
 
 <style lang="less" scoped>
-.entry{
-    position: relative;
-    height: 100%;
-    min-height: 1280px;
-    &-hide-btn{
-        position: absolute;
-        height: 50px;
-        width: 50px;
-        background: transparent;
-        top: 0;
-        left: 50%;
-        z-index: 2000;
-    }
-    &-banner{
-        width: 100%;
-        height: 800px;
-        overflow: hidden;
-        margin-top: 120px;
-        &>ul{
-            position: relative;
-            transition-property: all;
-            width: 300%;
-            &.active0{
-                transform: translateX(0);
-            }
-            &.active1{
-                transform: translateX(-100vw);
-            }
-            &.active2{
-                transform: translateX(-200vw);
-            }
-            &>li{
-                position: absolute;
-                width: 100vw;
-                // height: 400px;
-                img{
-                    width: 650px;
-                }
-                h5{
-                    font-size: 45px;
-                    line-height: 1;
-                }
-                p{
-                    margin-top: 47px;
-                    font-size: 34px;
-                    line-height: 1;
-                }
-                &.item0{
-                    left: 0;
-                }
-                &.item1{
-                    left: 100vw;
-                }
-                &.item2{
-                    left: 200vw;
-                }
-            }
-        }
-    }
-    &-btn{
-        margin: 120px 0 60px;
-        &-item{
-            &:last-child{
-                margin-top: 30px;
-            }
-        }
-    }
-    &-next{
-        padding: 0 60px 0 72px;
-        position: absolute;
-        bottom: 180px;
-        width: 100%;
-        font-size: 28px;
-        &-tab{
-            position: relative;
-            width: 54px;
-            &>.active-tip, &>p{
-                width: 42px;
-                height: 11px;
-                border-radius: 6px;
-                position: absolute;
-                left: 0;
-                top: 0;
-                bottom: 0;
-                margin: auto;
-                &.active0{
-                    transform: translateX(-62px);
-                }
-                &.active1{
-                    transform: translateX(0);
-                }
-                &.active2{
-                    transform: translateX(62px);
-                }
-            }
-            &>.active-tip{
-                transition: all 0.3s;
-            }
-            &>p{
-                display: inline-block;
-                background: #EEF3FB;
-                // &:nth-child(2) {
-                //     margin: 0 20px;
-                // }
-            }
-        }
-    }
-}
+@import "./index.less";
 </style>

@@ -14,6 +14,9 @@
                 </h3>
             </div>
         </div>
+        <div v-if="_userInfo.channel === 'telegram'" class="text-align-l app-padding40 app-size-34 mine-tg-id">
+            ID: <span @click="$copyText(_userInfo.telegram_id)" class="primary-color">{{_userInfo.telegram_id}}</span>
+        </div>
         <div class="mine-body">
             <ul class="app-padding40">
                 <li @click="goLink(item)" class="flex-between-c" v-for="item in list" :key="item.name">
@@ -214,6 +217,9 @@ export default Vue.extend({
             height: 32px;
             width: auto;
         }
+    }
+    &-tg-id{
+        margin-top: 28px;
     }
     &-body{
         margin-top: 32px;

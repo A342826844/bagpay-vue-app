@@ -73,7 +73,6 @@ export default Vue.extend({
             };
             this.changeLoading(true);
             this.$api.getUserBalanceLog(params).then((res: any) => {
-                console.log(res);
                 this.list = res.data.list;
             }).finally(() => {
                 this.changeLoading(false);

@@ -58,7 +58,6 @@
             <SelectPopupItem
                 v-for="item in PayType"
                 :key="item"
-                :autoHide="false"
                 class="select-box"
                 @click="selectPayType(item)"
             >

@@ -98,7 +98,6 @@ export default Vue.extend({
             return max;
         },
         show(): boolean {
-            console.log(this.renderData.min_value, this.maxValue);
             if (this.renderData.min_value > this.maxValue && this.renderData.uid !== this._userInfo.id) {
                 return false;
             }

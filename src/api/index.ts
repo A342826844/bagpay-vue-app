@@ -82,6 +82,8 @@ export const registerCode = (data: params) => postGolang(`/verification-code/pho
 // 发送验证码
 export const registerCodeEmail = (data: params) => postGolang(`/verification-code/email/${data.type}`, data);
 // 发送验证码
+export const veriCodeTelegramId = (data: params) => postGolang(`/verification-code/telegram-id/${data.type}`, data);
+// 发送验证码
 export const registerCodeTelegram = (data: params) => postGolang(`/verification-code/telegram/${data.type}`, data);
 // 获取图片验证
 export const getImages = (data: params) => postGolang('/verification-code/captcha', data);
@@ -93,6 +95,8 @@ export const login = (data: params) => postGolang('/user/sign-in', data);
 export const loginTelegram = (data: params) => postGolang('/user/sign-in/telegram', data);
 // 使用telegram快捷登录
 export const loginQuickTelegram = (data: params) => postGolang('/user/login/telegram', data, { noLang: true });
+// 使用telegram验证码登录
+export const loginTelegramId = (data: params) => postGolang('/user/login/telegram-id', data);
 // 退出
 export const logout = (data: params) => postGolang('/user/sign-out', data);
 // 找回密码

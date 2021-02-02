@@ -16,7 +16,7 @@
                 <template v-if="form.type === 1">
                     <div class="form-item">
                         <div class="lable" v-t="'payway.name'"></div>
-                        <Inputs readonly v-model="form.real_name" :autofocus="true"></Inputs>
+                        <Inputs v-model="form.real_name" :autofocus="true"></Inputs>
                     </div>
                     <div class="form-item">
                         <div class="lable" v-t="'payway.bank'"></div>
@@ -38,7 +38,7 @@
                 <template v-if="form.type === 4">
                     <div class="form-item">
                         <div class="lable" v-t="'payway.name'"></div>
-                        <Inputs readonly v-model="form.real_name" :autofocus="true"></Inputs>
+                        <Inputs v-model="form.real_name" :autofocus="true"></Inputs>
                     </div>
                     <div class="form-item">
                         <div class="lable" v-t="'payway.account'"></div>

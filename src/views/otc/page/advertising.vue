@@ -153,11 +153,10 @@
             <SelectPopupItem @click="isfloatRate = false">{{$t('otc.fixedPrice')}}</SelectPopupItem>
         </SelectPopup> -->
         <user-auth ref="UserAuth" :type="10" @save="saveHandle"></user-auth>
-        <SelectPopup v-model="payPopup">
+        <SelectPopup :autoHide="false" v-model="payPopup">
             <SelectPopupItem
                 v-for="item in PayType"
                 :key="item"
-                :autoHide="false"
                 class="select-box"
                 @click="selectPayType(item)"
             >

@@ -506,6 +506,31 @@ txt
 
 ok
 
+#### 使用telegramUid发送telegram验证码, 只用来登录
+
+[post] /verification-code/telegram-id/:type
+
+请求参数：
+
+txt
+type: [VerifyCodeType] 验证码类型
+captcha: [string] 图形验证码
+captcha_id: [string] 图形验证码id
+
+#### 使用telegram快捷登录
+
+[post] /user/login/telegram-id
+
+请求参数：
+
+txt
+uid: [int64] telegramUid
+code: [string] 验证码
+
+返回数据：
+
+ok
+
 #### APP下载
 https://bagpay.io/download/
 #### 登出

@@ -43,13 +43,11 @@ export default Vue.extend({
     watch: {
         show(val) {
             if (val !== this.value) {
-                console.log('show', val);
                 this.$emit('input', val);
             }
         },
         value(val) {
             if (val !== this.show) {
-                console.log('value', val);
                 this.show = val;
             }
         },
