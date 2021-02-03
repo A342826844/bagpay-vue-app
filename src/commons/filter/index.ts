@@ -416,6 +416,17 @@ Vue.filter('balanceLogType', (state: number) => {
     return i18n.t(states[state]);
 });
 
+// redEnvelopeType 0.固定金额 1.拼手气
+Vue.filter('redEnvelopeType', (state: 0|1) => {
+	// ArticleTypeArt    = 0  //普通文章
+	// ArticleTypeNotice   = 1  //公告
+    const states = {
+        0: 'common.fixedAmount',
+        1: 'common.byLuck',
+    };
+    return i18n.t(states[state]);
+});
+
 // 手机号加密处理
 Vue.filter('formatName', (str='') => {
     const index = str.indexOf('-') === -1 ? 0 : str.indexOf('-');

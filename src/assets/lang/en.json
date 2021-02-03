@@ -8,6 +8,9 @@
         "envelopeSender": "Red envelope of {sender}",
         "envelopeShares": "Received {took_shares} / {shares}",
         "redenvelopefail": "Failed to get red packet information",
+        "redEnvelope": "Red envelope",
+        "fixedAmount": "Fixed amount",
+        "byLuck": "By Luck",
         "updateInfo": "Update Content",
         "thirdLogin": "Login in other ways",
         "send": "Send",
@@ -600,6 +603,13 @@
         "ERR_BAD_COIN_SYMBOL": "Incorrect currency identification",
         "ERR_BAK_TOKEN": "ERROR: Login information expired",
         "ERR_NICKNAME_ALREADY_EXIST": "Nickname already exists, please try again",
+
+        "ERR_ALREADY_TOOK": "Already took",
+        "ERR_EXPIRED": "Expired",
+        "ERR_HAS_NONE": "Has none",
+        "ERR_DUPLICATION_CDK": "Word cannot be used",
+        "ERR_CDK_TOO_SHORT": "Word is too short",
+        "ERR_CDK_TOO_LONG": "Word is too long",
 
         "phoneErr": "Please enter a valid phone number",
         "pwdErr": "Please enter a password of 6~16 letters or numbers",

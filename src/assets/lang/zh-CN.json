@@ -8,6 +8,9 @@
         "envelopeSender": "{sender}的红包",
         "envelopeShares": "已领取{took_shares}/{shares}个",
         "redenvelopefail": "获取红包信息失败",
+        "redEnvelope": "红包",
+        "fixedAmount": "固定金额",
+        "byLuck": "拼手气",
         "updateInfo": "更新内容",
         "thirdLogin": "其它方式登录",
         "logging": "登录中",
@@ -603,6 +606,13 @@
         "ERR_BAD_COIN_SYMBOL": "币种标识不正确",
         "ERR_BAK_TOKEN": "登录信息已过期",
         "ERR_NICKNAME_ALREADY_EXIST": "昵称已存在,请重试",
+
+        "ERR_ALREADY_TOOK": "已经领取过",
+        "ERR_EXPIRED": "已过期",
+        "ERR_HAS_NONE": "已领完",
+        "ERR_DUPLICATION_CDK": "红包口令不可使用",
+        "ERR_CDK_TOO_SHORT": "红包口令太短",
+        "ERR_CDK_TOO_LONG": "红包口令太长",
 
         "phoneErr": "请输入正确的手机号",
         "pwdErr": "请输入大于6位小于16位字母或数字的密码",

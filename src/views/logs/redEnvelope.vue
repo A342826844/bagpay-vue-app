@@ -55,7 +55,7 @@ type data = {
 }
 
 export default Vue.extend({
-    name: 'RedEnvelope',
+    name: 'RedEnvelopeLog',
     data(): data {
         return {
             list: [],

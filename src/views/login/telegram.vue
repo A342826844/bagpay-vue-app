@@ -85,7 +85,7 @@ export default {
                 defaultPath = '/home';
                 break;
             case 8:
-                path = `/redEnvelope?id=${this.$route.query.id}`; // 红包记录
+                path = `/redEnvelopeLog?id=${this.$route.query.id}`; // 红包记录
                 needTowPush = true;
                 defaultPath = '/home';
                 break;

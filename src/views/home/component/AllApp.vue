@@ -6,7 +6,6 @@
                 <p class="li-p">{{$t(item.title)}}</p>
             </li>
         </ul>
-        <RedEnvelopesPopup v-model="show"></RedEnvelopesPopup>
     </div>
 </template>
 
@@ -14,6 +13,7 @@
 import Vue from 'vue';
 
 // const cost = require('@/assets/img/home/cost.png');
+const red = require('@/assets/img/home/red.png');
 const financial = require('@/assets/img/home/financial.png');
 // const news = require('@/assets/img/home/news.png');
 const invita = require('@/assets/img/home/invita.png');
@@ -23,6 +23,7 @@ const allApp = require('@/assets/img/common/all-app.png');
 type appItem = {
     link: string;
     isDev?: boolean;
+    showOut?: boolean;
     img: unknown;
     needLogin?: boolean;
     title: string;
@@ -50,7 +51,16 @@ export default Vue.extend({
                     img: tranfer,
                     value: 'tranfer',
                     needLogin: true,
+                    showOut: true,
                     title: 'common.tranfer',
+                },
+                {
+                    link: '/envelope',
+                    img: red,
+                    value: 'envelope',
+                    showOut: true,
+                    needLogin: true,
+                    title: 'common.redEnvelope',
                 },
                 {
                     link: '',
@@ -71,6 +81,7 @@ export default Vue.extend({
                 {
                     link: '/invitation',
                     img: invita,
+                    showOut: true,
                     value: 'invita',
                     needLogin: true,
                     title: 'common.invita',
@@ -97,7 +108,7 @@ export default Vue.extend({
             if (this.all) {
                 return this.applicationList;
             }
-            return this.applicationList.slice(0, 7).concat(this.more);
+            return this.applicationList.filter((item) => item.showOut).concat(this.more);
         },
     },
     methods: {

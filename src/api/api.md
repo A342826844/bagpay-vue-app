@@ -1918,3 +1918,71 @@ json
     }
   ]
 }
+
+#### 发红包
+
+[post] /red_envelope/send
+
+请求参数：
+
+txt
+cdk: [string] 可选,口令
+coin: [string] 币种
+amount: [float64] 金额
+shares: [int] 份数,至少为1
+type: [int] 0.固定金额 1.拼手气  
+text: [string] 消息
+
+返回数据：RedEnvelopeInfo
+
+json
+{
+  "id": 1, //红包id
+  "uid": 1, //用户id
+  "cdk": "", //红包口令
+  "coin": "usdt", //币种
+  "amount": 10, //总金额
+  "took_amount": 0, //已领取的金额
+  "shares": 1, //红包份数
+  "took_count": 0, //已被领取的数量
+  "type": 1, //0.固定金额 1.拼手气  
+  "refund_at": "", //过期退款时间，不为空代表已过期
+  "text": "", //消息
+  "created_at": "", //领取时间
+}
+
+#### 领取红包
+
+[get] /red_envelope/take/:id
+
+请求参数：
+
+txt
+id: [int] 红包id
+
+返回数据：
+
+json
+{
+  "rid": 1, //红包id
+  "amount": 10, //领取到的金额
+  "created_at": "", //领取时间
+}
+
+#### 使用口令领取红包
+
+[post] /red_envelope/cdk/take
+
+请求参数：
+
+txt
+cdk: [string] 红包口令
+
+返回数据：
+
+json
+{
+  "rid": 1, //红包id
+  "amount": 10, //领取到的金额
+  "created_at": "", //领取时间
+}

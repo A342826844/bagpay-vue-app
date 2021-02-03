@@ -169,9 +169,16 @@ export const getArticleList = (data: params) => getGolang(`/article/list/${data.
 // 获取文章列表
 export const getArticleDetail = (id: number) => getGolang(`/article/get/${id}`, { id });
 
+// 发送红包
+export const redEnvelopeSend = (data: params) => postGolang('/red_envelope/send', data);
+// 领取红包(ID)
+export const redEnvelopeTakeForId = (id: number) => postGolang(`/red_envelope/take/${id}`, { id });
+// 领取红包(口令)
+export const redEnvelopeTakeForCak = (data: params) => postGolang('/red_envelope/cdk/take', data);
+
 // 获取指定红包的领取记录
 export const redEnvelopeLogList = (id: number) => getGolang(`/red_envelope/log/list/${id}`, { id });
-// 获取指定红包的领取记录
+// 财务记录
 export const getUserBalanceLog = (data: params) => postGolang(`/user/balance-log/${data.coin}`, data);
 
 /**

@@ -90,8 +90,11 @@ const BusinessDetail = () => import('@/views/otc/page/businessDetail.vue');
 
 const ScanValue = () => import('@/views/scanQRCode/value.vue'); // 扫描结果
 
-const RedEnvelope = () => import('@/views/logs/redEnvelope.vue'); // 抢红包记录
-const UserBalanceLog = () => import('@/views/logs/userBalanceLog.vue'); // 抢红包记录
+const Envelope = () => import('@/views/envelope/index.vue'); // 红包
+const EnvelopeSend = () => import('@/views/envelope/send.vue'); // 红包
+
+const RedEnvelopeLog = () => import('@/views/logs/redEnvelope.vue'); // 抢红包记录
+const UserBalanceLog = () => import('@/views/logs/userBalanceLog.vue'); // 账单
 
 const routes: Array<RouteConfig> = [
     {
@@ -191,12 +194,12 @@ const routes: Array<RouteConfig> = [
         },
     },
     {
-        path: '/redEnvelope',
-        name: 'redEnvelope',
-        component: RedEnvelope,
+        path: '/redEnvelopeLog',
+        name: 'redEnvelopeLog',
+        component: RedEnvelopeLog,
         meta: {
             noLogin: true,
-            componentName: 'RedEnvelope',
+            componentName: 'RedEnvelopeLog',
             index: 500,
         },
     },
@@ -218,6 +221,16 @@ const routes: Array<RouteConfig> = [
             index: 1000,
             noLogin: true,
         },
+    },
+    {
+        path: '/envelope',
+        name: 'envelope',
+        component: Envelope,
+    },
+    {
+        path: '/envelope/send',
+        name: 'envelope/send',
+        component: EnvelopeSend,
     },
     {
         path: '/home',

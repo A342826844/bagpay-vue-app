@@ -78,7 +78,7 @@ export default Vue.extend({
             type: [Number, String],
         },
         decimal: {
-            type: [Number, Boolean], // 保留小数位数, true为计价单位的小数位数， 默认不做处理
+            type: [Number, String, Boolean], // 保留小数位数, true为计价单位的小数位数， 默认不做处理
         },
         clearable: {
             type: Boolean,
@@ -169,6 +169,10 @@ export default Vue.extend({
             }, 50);
         },
         decimalHandle(decimal: number) {
+            if (decimal === 0) {
+                this.inputV = `${this.inputV.split('.')[0]}`;
+                return;
+            }
             if ((this.inputV.includes('.') && this.inputV.split('.')[1].length) > decimal) {
                 this.inputV = `${this.inputV.split('.')[0]}.${this.inputV.split('.')[1].slice(0, decimal)}`;
             }
