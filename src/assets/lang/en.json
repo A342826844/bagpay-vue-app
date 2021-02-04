@@ -8,6 +8,7 @@
         "envelopeSender": "Red envelope of {sender}",
         "envelopeShares": "Received {took_shares} / {shares}",
         "redenvelopefail": "Failed to get red packet information",
+        "shareRedEnvelopeText": "Please go to Bagpay wallet and enter your password 👉 {cdk} 👈 Get a red envelope https://bagpay.io/",
         "redEnvelope": "Red envelope",
         "fixedAmount": "Fixed amount",
         "byLuck": "By Luck",

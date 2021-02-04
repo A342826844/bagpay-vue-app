@@ -1,6 +1,6 @@
 <template>
     <div class="red-envelope flex-column">
-        <Headers ref="headers" bold theme="red" title="发红包"/>
+        <Headers ref="headers" bold theme="red" :title="$t('envelope.sendEnvelope')"/>
         <div ref="fringe" class="red-envelope-fringe">
             <div class="red-envelope-fringe-info red-bg"></div>
         </div>
@@ -15,31 +15,31 @@
                     </Select>
                 </div>
                 <div class="form-lable flex-between-c">
-                    <div>单个金额</div>
+                    <div>{{$t('envelope.singleEnvelope')}}</div>
                     <div class="form-item-switch" @click="form.type = (form.type ? 0 : 1)">
                         <img src="@/assets/img/common/switch2.png" class="app-img-50" alt="">
                         <span> {{form.type | redEnvelopeType}}</span>
                     </div>
                 </div>
                 <div class="form-item">
-                    <Inputs :decimal="coinInfo.decimal" v-model="form.amount" placeholder="填写金额">
+                    <Inputs :decimal="coinInfo.decimal" v-model="form.amount" :placeholder="$t('envelope.enterAmount')">
                         {{form.coin && form.coin.toUpperCase()}}
                     </Inputs>
                 </div>
                 <div class="form-lable flex-between-c">
                     <!-- TODO: 取消这个事件 -->
-                    <span @click="testHandle">红包个数</span>
+                    <span @click="testHandle">{{$t('envelope.envelopeNum')}}</span>
                 </div>
                 <div class="form-item">
-                    <Inputs decimal="0" v-model="form.shares" placeholder="填写个数">
-                        个
+                    <Inputs decimal="0" v-model="form.shares" :placeholder="$t('envelope.enterNum')">
+                        {{$t('envelope.individual')}}
                     </Inputs>
                 </div>
             </div>
             <div class="light-grey-bg red-envelope-empty"></div>
             <div class="red-envelope-box2 app-padding40 app-size-34">
                 <div class="form-lable flex-between-c">
-                    <div>祝福语</div>
+                    <div>{{$t('envelope.blessing')}}</div>
                 </div>
                 <div class="form-item">
                     <Inputs maxlength="30" v-model="form.text" :placeholder="luckyText"></Inputs>
@@ -49,8 +49,8 @@
                     <span class="envelope-coin color-light"> {{form.coin && form.coin.toUpperCase()}}</span>
                 </div>
                 <div class="form-btn">
-                    <Button @click="verfyValue" type="down">发送红包</Button>
-                    <p class="form-btn-tip app-size-28">24小时内未被领取，红包金额将退回</p>
+                    <Button @click="verfyValue" type="down">{{$t('envelope.sendOfEnvelope')}}</Button>
+                    <p class="form-btn-tip app-size-28">{{$t('envelope.tipForTime')}}</p>
                 </div>
             </div>
         </div>
@@ -71,13 +71,13 @@
                     <Inputs v-model="form.pws" placeholder="请输入您的交易密码"></Inputs>
                 </div> -->
                 <div class="form-lable flex-between-c">
-                    <div>红包口令</div>
+                    <div>{{$t('envelope.envelopeCdk')}}</div>
                 </div>
                 <div class="form-item">
-                    <Inputs maxlength="64" v-model="form.cdk" placeholder="设置红包口令"></Inputs>
+                    <Inputs maxlength="64" v-model="form.cdk" :placeholder="$t('envelope.setEnvelopeCdk')"></Inputs>
                 </div>
                 <div class="form-btn">
-                    <Button @click="redEnvelopeSend" type="down">发送红包</Button>
+                    <Button @click="redEnvelopeSend" type="down">{{$t('envelope.sendOfEnvelope')}}</Button>
                 </div>
             </div>
         </V-Popup>
@@ -90,12 +90,12 @@
             <div class="send-success-info">
                 <img class="send-success-bg" src="@/assets/img/envelope/send-s.png" alt="">
                 <div class="send-success-box">
-                    <h5 class="send-success-tip">红包已备好</h5>
+                    <h5 class="send-success-tip">{{$t('envelope.envelopeIsReady')}}</h5>
                     <div @click="$copyText(dataInfo.cdk)" class="send-success-btn">
-                        <span class="form-item2-btn btn app-size-45 ">复制口令</span>
+                        <span class="form-item2-btn btn app-size-45 ">{{$t('envelope.copyCdk')}}</span>
                     </div>
                     <div @click="shareHandle(dataInfo.cdk)" class="send-success-btn">
-                        <span class="form-item2-btn btn app-size-45 ">分享口令</span>
+                        <span class="form-item2-btn btn app-size-45 ">{{$t('envelope.shareCdk')}}</span>
                     </div>
                 </div>
             </div>
@@ -226,7 +226,8 @@ export default Vue.extend({
                 this.changeLoading(false);
             });
         },
-        shareHandle(content: string) {
+        shareHandle(cdk: string) {
+            const content = this.$getRedEnvelopeCdk(cdk);
             this.$shareDataHandle({
                 content,
                 type: 'text',
@@ -241,7 +242,7 @@ export default Vue.extend({
         },
         closedHandle() {
             this.show = false;
-            this.$router.push(`/redEnvelopeLog?id=${this.dataInfo.id}`);
+            this.$router.replace(`/envelope/detail?id=${this.dataInfo.id}`);
         },
     },
 });

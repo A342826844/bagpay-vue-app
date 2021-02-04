@@ -8,6 +8,7 @@
         "envelopeSender": "{sender}的紅包",
         "envelopeShares": "已領取{took_shares}/{shares}個",
         "redenvelopefail": "獲取紅包資訊失敗",
+        "shareRedEnvelopeText": "請前往BagPay錢包輸入口令👉{cdk}👈領取紅包 https://bagpay.io/",
         "redEnvelope": "紅包",
         "fixedAmount": "固定金額",
         "byLuck": "拼手氣",

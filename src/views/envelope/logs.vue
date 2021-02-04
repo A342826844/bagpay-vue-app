@@ -1,6 +1,6 @@
 <template>
     <div class="red-envelope flex-column">
-        <Headers ref="headers" bold theme="red" title="红包记录"/>
+        <Headers ref="headers" bold theme="red" :title="$t('envelope.logs')"/>
         <div ref="fringe" class="red-envelope-fringe">
             <div class="red-envelope-fringe-info red-bg"></div>
         </div>
@@ -18,9 +18,13 @@
                 </div>
                 <div v-for="item in bodyTabList" :key="item.value" :slot="item.value">
                     <div class="app-margin-t40">
-                        <p class="app-size-34">共收到1个红包</p>
+                        <p class="app-size-34">
+                            <!-- TODO: -->
+                            <span v-if="item === 'received'">{{$t('envelope.receivedEnvelopeTotal', { total: 12})}}</span>
+                            <span v-if="item === 'send'">{{$t('envelope.sendEnvelopeTotal', { total: 12})}}</span>
+                        </p>
                         <div class="red-envelope-amount">
-                            <b class="app-size-100 yellow-color">1212{{amount}}</b>
+                            <b class="app-size-100 yellow-color">{{amount}}</b>
                             <span class="envelope-coin color-light app-size-28">USDT{{coin && coin.toUpperCase()}}</span>
                         </div>
                     </div>
@@ -29,7 +33,7 @@
                         <li @click="$router.push(`/envelope/detail?id=${subItem}`)" v-for="subItem in list[item.value]" :key="subItem">
                             <NCardItem hideTitle>
                                 <template slot="lable">
-                                    <span class="app-size-34 default57-color">口令红包</span>
+                                    <span class="app-size-34 default57-color">{{$t('envelope.cdkEnvelope')}}</span>
                                     <span class="app-size-34 yellow-color">0.125 USDT</span>
                                 </template>
                                 <template slot="value">
@@ -47,12 +51,11 @@
         </div>
         <V-Popup class="red-envelope-picker" v-model="datePicker">
             <div class="picker-confirm flex-between-c">
-                <div @click="cancelHandle">取消</div>
-                <div @click="confirmHandle" class="primary-color">确定</div>
+                <div @click="cancelHandle">{{$t('common.cancel')}}</div>
+                <div @click="confirmHandle" class="primary-color">{{$t('common.ok')}}</div>
             </div>
             <van-picker
                 ref="datePicker"
-                title="标题"
                 :visible-item-count="3"
                 :columns="columns"
             >
@@ -134,7 +137,7 @@ export default Vue.extend({
             const arr = new Array(100).keys();
             this.list[this.active] = Array.from(arr);
             // this.getRedEnvelopeListForReceived();
-            // this.getRedEnvelopeListForSend();
+            this.getRedEnvelopeListForSend();
         },
         getRedEnvelopeListForReceived() {
             const params = {

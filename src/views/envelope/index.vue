@@ -7,21 +7,21 @@
                 bold
                 theme="dark"
                 @right-click="$router.push('/envelope/logs')"
-                value="红包记录"
+                :value="$t('envelope.logs')"
             />
             <h3 class="envelope-ctx-title">
-                领取红包
+                {{$t('envelope.receivedEnvelope')}}
             </h3>
             <h4 class="envelope-ctx-tip">
-                输入口令，领取红包
+                {{$t('envelope.entryCdkForEnvelope')}}
             </h4>
             <div class="envelope-ctx-form">
                 <div class="form-item form-item1 flex-between-c app-size-34">
-                    <input class="input" v-model="cdk" placeholder="填写口令" type="text">
-                    <button @click="redEnvelopeTakeForCak" class="btn primary-color">领取</button>
+                    <input class="input" v-model="cdk" :placeholder="$t('envelope.entryCdk')" type="text">
+                    <button @click="redEnvelopeTakeForCak" class="btn primary-color">{{$t('envelope.received')}}</button>
                 </div>
                 <div @click="$router.push('/envelope/send')" class="form-item form-item2">
-                    <button class="form-item2-btn btn app-size-45 ">发红包</button>
+                    <button class="form-item2-btn btn app-size-45 ">{{$t('envelope.sendEnvelope')}}</button>
                     <img src="@/assets/img/common/red-go.png" class="app-img-50" alt="">
                 </div>
             </div>

@@ -24,6 +24,7 @@ declare module 'vue/types/vue' {
         $compress: Function;
         $logoutHandle: Function;
         $getRedEnvelopeCdk: Function;
+        $setRedEnvelopeCdk: Function;
         $loginRoute: (path?: string, loginPth?: string) => void;
     }
 }
@@ -54,7 +55,7 @@ Vue.prototype.$logoutHandle = function () {
 };
 // 设置分享文本
 // eslint-disable-next-line func-names
-Vue.prototype.$getRedEnvelopeCdk = function (cdk: string) {
+Vue.prototype.$setRedEnvelopeCdk = function (cdk: string) {
     return this.$t(SHARE_RED_ENVELOPE_TEXT, { cdk });
 };
 // 获取红包口令
