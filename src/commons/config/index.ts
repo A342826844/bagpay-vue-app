@@ -197,3 +197,5 @@ export const BalanceLogType = [
     11, // BalanceLogTypeRedEnvelopeRefund BalanceLogType = 11 //红包退款
     12, // BalanceLogTypeGotRedEnvelope    BalanceLogType = 12 //得到红包
 ];
+
+export const SHARE_RED_ENVELOPE_TEXT = 'common.shareRedEnvelopeText';

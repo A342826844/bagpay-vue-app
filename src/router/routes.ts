@@ -90,8 +90,10 @@ const BusinessDetail = () => import('@/views/otc/page/businessDetail.vue');
 
 const ScanValue = () => import('@/views/scanQRCode/value.vue'); // 扫描结果
 
-const Envelope = () => import('@/views/envelope/index.vue'); // 红包
-const EnvelopeSend = () => import('@/views/envelope/send.vue'); // 红包
+const Envelope = () => import('@/views/envelope/index.vue'); // 领取红包
+const EnvelopeSend = () => import('@/views/envelope/send.vue'); // 发红包
+const EnvelopeLogs = () => import('@/views/envelope/logs.vue'); // 红包记录
+const EnvelopeDetail = () => import('@/views/envelope/detail.vue'); // 红包详情
 
 const RedEnvelopeLog = () => import('@/views/logs/redEnvelope.vue'); // 抢红包记录
 const UserBalanceLog = () => import('@/views/logs/userBalanceLog.vue'); // 账单
@@ -226,11 +228,33 @@ const routes: Array<RouteConfig> = [
         path: '/envelope',
         name: 'envelope',
         component: Envelope,
+        meta: {
+            index: 100,
+        },
     },
     {
         path: '/envelope/send',
         name: 'envelope/send',
         component: EnvelopeSend,
+        meta: {
+            index: 200,
+        },
+    },
+    {
+        path: '/envelope/logs',
+        name: 'envelope/logs',
+        component: EnvelopeLogs,
+        meta: {
+            index: 400,
+        },
+    },
+    {
+        path: '/envelope/detail',
+        name: 'envelope/detail',
+        component: EnvelopeDetail,
+        meta: {
+            index: 500,
+        },
     },
     {
         path: '/home',

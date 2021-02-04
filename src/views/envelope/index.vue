@@ -2,7 +2,13 @@
     <div class="envelope">
         <img class="envelope-bg" :src="bg" alt="">
         <div class="envelope-ctx">
-            <Headers ref="headers" bold theme="dark" value="红包记录"/>
+            <Headers
+                ref="headers"
+                bold
+                theme="dark"
+                @right-click="$router.push('/envelope/logs')"
+                value="红包记录"
+            />
             <h3 class="envelope-ctx-title">
                 领取红包
             </h3>

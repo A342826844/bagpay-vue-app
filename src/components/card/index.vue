@@ -1,6 +1,6 @@
 <template>
     <div @click="$emit('click')" class="n_card_item app-padding40">
-        <div class="card_title flex-between-c">
+        <div v-show="!hideTitle" class="card_title flex-between-c">
             <div class="left_cont">
                 <slot name="title"></slot>
             </div>
@@ -32,6 +32,7 @@ export default {
             type: Number,
             default: 1,
         },
+        hideTitle: Boolean,
         showArrow: {
             type: Boolean,
             default: false,

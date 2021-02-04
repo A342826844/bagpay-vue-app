@@ -1,6 +1,7 @@
 import Vue from 'vue';
 
 import compress from '@/utils/compress';
+import { SHARE_RED_ENVELOPE_TEXT } from './config';
 import './filter/index';
 import { normalToast, copyText, overflowScrolling } from './dom/index';
 import { shareDataHandle, downloadImg, saveImg } from './plus/index';
@@ -22,6 +23,7 @@ declare module 'vue/types/vue' {
         $overflowScrolling: Function;
         $compress: Function;
         $logoutHandle: Function;
+        $getRedEnvelopeCdk: Function;
         $loginRoute: (path?: string, loginPth?: string) => void;
     }
 }
@@ -49,4 +51,16 @@ Vue.prototype.$goback = function () {
 Vue.prototype.$logoutHandle = function () {
     sessionStorage.clear();
     this.$store.commit('reSetUserState');
+};
+// 设置分享文本
+// eslint-disable-next-line func-names
+Vue.prototype.$getRedEnvelopeCdk = function (cdk: string) {
+    return this.$t(SHARE_RED_ENVELOPE_TEXT, { cdk });
+};
+// 获取红包口令
+// eslint-disable-next-line func-names
+Vue.prototype.$getRedEnvelopeCdk = function (text: string) {
+    const reg = new RegExp(`^${this.$t(SHARE_RED_ENVELOPE_TEXT, { cdk: '(.*?)' })}$`);
+    const cdk = text.replace(reg, '$1');
+    return cdk === text ? '' : cdk;
 };

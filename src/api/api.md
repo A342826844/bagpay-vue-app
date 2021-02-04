@@ -1986,3 +1986,66 @@ json
   "amount": 10, //领取到的金额
   "created_at": "", //领取时间
 }
+
+#### 根据cdk取红包信息
+
+[get] /red_envelope/cdk-get
+
+请求参数：
+
+txt
+cdk: [string] cdk
+
+返回数据：
+
+RedEnvelopeInfo
+
+
+#### 取我发送的红包列表
+
+[get] /red_envelope/list
+
+请求参数：
+
+txt
+start: [int64] 可选，开始时间，毫秒
+end: [int] 可选，结束时间,毫秒
+offset: [int]
+limit: [int]
+
+返回数据：
+
+json
+{
+  "total": 1,
+  "total_amount": 1, //总金额
+  "list": [RedEnvelopeInfo]
+}
+
+#### 我领取的红包记录
+
+[get] /red_envelope/log/list
+
+请求参数：
+
+txt
+start: [int64] 可选，开始时间，毫秒
+end: [int] 可选，结束时间,毫秒
+offset: [int]
+limit: [int]
+
+
+返回数据：
+
+json
+{
+  "total": 1, 
+  "total_amount": 1, //总金额
+  "list": [
+    {
+      "nickname": "xxx", //发送者昵称
+      "amount": 1, //获得的数量
+      "time": "", //领取时间
+    }
+  ]
+}

@@ -16,9 +16,8 @@
                 </div>
                 <div class="form-lable flex-between-c">
                     <div>单个金额</div>
-                    <div>
-                        <!-- TODO: 更换图片 -->
-                        <img @click="form.type = (form.type ? 0 : 1)" src="@/assets/img/common/switch2.png" class="app-img-50" alt="">
+                    <div class="form-item-switch" @click="form.type = (form.type ? 0 : 1)">
+                        <img src="@/assets/img/common/switch2.png" class="app-img-50" alt="">
                         <span> {{form.type | redEnvelopeType}}</span>
                     </div>
                 </div>
@@ -28,7 +27,8 @@
                     </Inputs>
                 </div>
                 <div class="form-lable flex-between-c">
-                    <span>红包个数</span>
+                    <!-- TODO: 取消这个事件 -->
+                    <span @click="testHandle">红包个数</span>
                 </div>
                 <div class="form-item">
                     <Inputs decimal="0" v-model="form.shares" placeholder="填写个数">
@@ -85,21 +85,22 @@
             class="send-success"
             v-model="show"
             :overlay-style="{ background: 'rgba(62, 62, 62, 0.3)' }"
+            @click-overlay="closedHandle"
         >
-            <div>
+            <div class="send-success-info">
                 <img class="send-success-bg" src="@/assets/img/envelope/send-s.png" alt="">
                 <div class="send-success-box">
-                    <p>红包已备好</p>
-                    <div>
-                        <button class="form-item2-btn btn app-size-45 ">发红包</button>
+                    <h5 class="send-success-tip">红包已备好</h5>
+                    <div @click="$copyText(dataInfo.cdk)" class="send-success-btn">
+                        <span class="form-item2-btn btn app-size-45 ">复制口令</span>
                     </div>
-                    <div>
-                        <button class="form-item2-btn btn app-size-45 ">发红包</button>
+                    <div @click="shareHandle(dataInfo.cdk)" class="send-success-btn">
+                        <span class="form-item2-btn btn app-size-45 ">分享口令</span>
                     </div>
                 </div>
             </div>
             <div>
-                <img class="app-img-50" src="@/assets/img/common/close1.png" alt="">
+                <img @click="closedHandle" class="app-img-50" src="@/assets/img/common/close1.png" alt="">
             </div>
         </V-Popup>
     </div>
@@ -112,6 +113,7 @@ type data = {
     popup: boolean;
     show: boolean;
     luckyText: string;
+    dataInfo: any;
     form: {
         cdk: string; // [string] 可选,口令
         coin: string; // [string] 币种
@@ -135,15 +137,30 @@ export default Vue.extend({
     data(): data {
         return {
             popup: false,
-            show: true,
+            show: false,
             luckyText: '',
+            dataInfo: {
+                amount: 10,
+                cdk: '414141',
+                chat_id: 0,
+                coin: 'usdt',
+                created_at: '2021-02-04 07:05:54',
+                id: 61,
+                refund_at: null,
+                shares: 2,
+                text: '恭喜发财，大吉大利',
+                took_amount: 0,
+                took_count: 0,
+                type: 1,
+                uid: 75,
+            },
             form: {
                 cdk: '', // [string] 可选,口令
                 coin: 'usdt', // [string] 币种
                 password: '', // [string] 密码
                 amount: '', // [float64] 金额
                 shares: '', // [int] 份数,至少为1
-                type: 0, // [int] 0.固定金额 1.拼手气
+                type: 1, // [int] 0.固定金额 1.拼手气
                 text: '', // [string] 消息
             },
         };
@@ -165,6 +182,9 @@ export default Vue.extend({
         },
         lang(): string {
             return this.$store.state.lang;
+        },
+        cdk(): string {
+            return '';
         },
     },
     methods: {
@@ -199,10 +219,29 @@ export default Vue.extend({
             if (this._loading) return;
             this.changeLoading(true);
             this.$api.redEnvelopeSend(params).then((res: any) => {
-                console.log(res);
+                this.dataInfo = res.data;
+                this.show = true;
+                this.popup = false;
             }).finally(() => {
                 this.changeLoading(false);
             });
+        },
+        shareHandle(content: string) {
+            this.$shareDataHandle({
+                content,
+                type: 'text',
+            }, () => {
+                // that.$normalToast(that.$t('invitauser.invitationSuccess'), 1000);
+            }, () => {
+                this.$normalToast(this.$t('common.invitationFail'), 1000);
+            });
+        },
+        testHandle() {
+            this.$getRedEnvelopeCdk('请前往BagPay钱包输入口令👉这是领取红包的口令👈领取红包 https://bagpay.io/');
+        },
+        closedHandle() {
+            this.show = false;
+            this.$router.push(`/redEnvelopeLog?id=${this.dataInfo.id}`);
         },
     },
 });
@@ -254,6 +293,10 @@ export default Vue.extend({
     }
     .form-item{
         margin: 40px 0;
+        &-switch{
+            min-width: 100px;
+            transition: all 0.3s;
+        }
     }
     .form-btn{
         margin-top: 45px;
@@ -271,12 +314,34 @@ export default Vue.extend({
     &-bg{
         width: 750px;
     }
+    &-info{
+        position: relative;
+    }
     &-box{
         position: absolute;
-        top: 300px;
+        top: 600px;
         margin: 0 auto;
         left: 0;
         right: 0;
+    }
+    &-tip{
+        // margin-top: 338px;
+        font-size: 40px;
+        font-weight: 900;
+        color: #FADA26 ;
+        background: linear-gradient(0deg, #FADA26 0%, #FFF8E1 100%);
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        padding-bottom: 60px;
+    }
+    &-btn{
+        width: 567px;
+        margin: 48px auto;
+        height: 100px;
+        color: #EF2B31;
+        line-height: 100px;
+        background: linear-gradient(0deg, #F8C136  0%, #FFEFBE 100%);
+        border-radius: 50px;
     }
 }
 </style>

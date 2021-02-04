@@ -452,6 +452,7 @@ export default Vue.extend({
         right: 0;
         top: 0;
         height: 93px;
+        z-index: 100;
     }
 }
 </style>

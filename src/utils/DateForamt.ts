@@ -30,7 +30,7 @@ export default class DateForamt {
 
     private WEEK = this.DAY * 7;
 
-    private MONTH = this.DAY * 3;
+    private MONTH = this.DAY * 30;
 
     private language: stradegyTime;
 
@@ -86,6 +86,10 @@ export default class DateForamt {
 
     getDate(): Date {
         return this.date;
+    }
+
+    getTime(): number {
+        return this.date.getTime();
     }
 
     // 日期
