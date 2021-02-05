@@ -91,7 +91,6 @@ import SendSuccess from './component/SendSuccess.vue';
 type data = {
     popup: boolean;
     show: boolean;
-    luckyText: string;
     dataInfo: any;
     form: {
         cdk: string; // [string] 可选,口令
@@ -120,7 +119,6 @@ export default Vue.extend({
         return {
             popup: false,
             show: false,
-            luckyText: '',
             dataInfo: {
                 amount: 10,
                 cdk: '414141',
@@ -147,9 +145,6 @@ export default Vue.extend({
             },
         };
     },
-    created() {
-        [this.luckyText] = defaultLucky[this.lang];
-    },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
             if (from.name === 'choisesymbol') {
@@ -169,6 +164,9 @@ export default Vue.extend({
         },
         cdk(): string {
             return '';
+        },
+        luckyText(): string {
+            return defaultLucky[this.lang];
         },
     },
     methods: {

@@ -12,7 +12,7 @@
         <div @scroll="scrollHandle" class="red-envelope-info">
             <div class="-detail">
                 <h3 ref="title" class="app-size-45 envelope-sender">{{$t('common.envelopeSender', {sender})}}</h3>
-                <p class="default57-color ellipsis-1 app-padding40"></p>
+                <p class="default57-color ellipsis-1 app-padding40">{{dataInfo.text}}</p>
                 <div class="envelope-took-amount">
                     <b class="app-size-100 yellow-color">{{amount}}</b>
                     <span class="envelope-coin color-light">{{coin && coin.toUpperCase()}}</span>
@@ -63,7 +63,7 @@ type data = {
 }
 
 export default Vue.extend({
-    name: 'RedEnvelopeLog',
+    name: 'RedEnvelopeDetail',
     components: {
         SendSuccess,
     },

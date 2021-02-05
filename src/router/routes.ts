@@ -248,6 +248,8 @@ const routes: Array<RouteConfig> = [
         component: EnvelopeLogs,
         meta: {
             index: 400,
+            keepAlive: true,
+            componentName: 'EnvelopeLogs',
         },
     },
     {

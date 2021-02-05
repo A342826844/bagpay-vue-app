@@ -555,7 +555,7 @@
         "sendEnvelopeTotal": "共發出{total}個紅包",
         "received": "領取",
         "mineReceived": "我收到的",
-        "mineSend": "我收到的",
+        "mineSend": "我發送的",
         "sendEnvelope": "發紅包",
         "sendOfEnvelope": "發送紅包",
         "tipForTime": "24小時內未被領取，紅包金額將退回",

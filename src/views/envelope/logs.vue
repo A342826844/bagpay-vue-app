@@ -18,32 +18,42 @@
                     {{columns[dateIndex]}} <img class="app-img-50" src="@/assets/img/common/calendar.png" alt="">
                 </div>
                 <div v-for="item in bodyTabList" :key="item.value" :slot="item.value">
-                    <div class="app-margin-t40">
-                        <p class="app-size-34">
-                            <!-- TODO: -->
-                            <span v-if="item.value === 'received'">{{$t('envelope.receivedEnvelopeTotal', { total: params[active].total})}}</span>
-                            <span v-if="item.value === 'send'">{{$t('envelope.sendEnvelopeTotal', { total: params[active].total})}}</span>
-                        </p>
-                        <div v-for="sumItem in params[active].sum" :key="sumItem.coin" class="red-envelope-amount">
-                            <b class="app-size-100 yellow-color">{{sumItem.amount}}</b>
-                            <span class="envelope-coin color-light app-size-28">{{sumItem.coin && sumItem.coin.toUpperCase()}}</span>
-                        </div>
-                    </div>
-                    <div class="light-grey-bg red-envelope-empty"></div>
                     <!-- <PullRefresh
                         v-model="isLoading"
                         @refresh="onRefresh"
                     > -->
+                    <div class="app-margin-t40">
+                        <p class="app-size-34">
+                            <!-- TODO: -->
+                            <span
+                                v-html="$t('envelope.receivedEnvelopeTotal', { total: `<span class=red-color>${params[active].total || 0}</span>`})"
+                                v-if="item.value === 'received'"
+                            >
+                            </span>
+                            <span
+                                v-html="$t('envelope.sendEnvelopeTotal', { total: `<span class=red-color>${params[active].total || 0}</span>`})"
+                                v-if="item.value === 'send'"
+                            >
+                            </span>
+                        </p>
+                        <div class="red-envelope-amount">
+                            ≈ <b class="app-size-100 yellow-color">{{totalAmount}}</b>
+                            <span class="envelope-coin color-light app-size-28">{{_unit}}</span>
+                        </div>
+                    </div>
+                    <div class="light-grey-bg red-envelope-empty"></div>
                         <ul>
                             <li
-                                @click="$router.push(`/envelope/detail?id=${subItem.id || subItem.rid}`)"
                                 v-for="subItem in list[item.value]"
+                                @click="$router.push(`/envelope/detail?id=${subItem.id || subItem.rid}`)"
                                 :key="subItem.rid"
                             >
                                 <NCardItem hideTitle>
                                     <template slot="lable">
                                         <span class="app-size-34 default57-color">{{$t('envelope.cdkEnvelope')}}</span>
-                                        <span class="app-size-34 yellow-color">{{subItem.amount}} {{coin && coin.toUpperCase()}}</span>
+                                        <span class="app-size-34 yellow-color">
+                                            {{subItem.amount}} {{subItem.coin && subItem.coin.toUpperCase()}}
+                                        </span>
                                     </template>
                                     <template slot="value">
                                         <span>{{subItem.created_at | date('MM-dd hh:mm')}}</span>
@@ -58,6 +68,7 @@
                                 </div>
                             </li>
                         </ul>
+                        <NoData v-show="!list[item.value].length && !_loading"></NoData>
                     <!-- </PullRefresh> -->
                 </div>
             </TabList>
@@ -91,6 +102,7 @@ type data = {
     amount: number|string;
     isLoading: boolean;
     limit: number;
+    rate: any;
     list: {
         received: any[];
         send: any[];
@@ -102,7 +114,7 @@ type data = {
 }
 
 export default Vue.extend({
-    name: 'Envelope',
+    name: 'EnvelopeLogs',
     components: {
         NCardItem,
     },
@@ -110,12 +122,13 @@ export default Vue.extend({
         return {
             datePicker: false,
             isLoading: false,
-            active: 'send',
+            active: 'received',
             columns: [],
             dateIndex: 0,
             limit: 20,
             amount: '',
             coin: '',
+            rate: {},
             list: {
                 received: [],
                 send: [],
@@ -148,10 +161,30 @@ export default Vue.extend({
                 },
             ];
         },
+        totalAmount(): number {
+            const { sum } = this.params[this.active];
+            if (!sum.length) return 0;
+            if (sum.length === 1) return sum[0].amount * (this.rate[sum[0].coin] || 1);
+            const res = sum.reduce((total: any, item: any) => {
+                if (typeof total === 'object') {
+                    return total.amount * (this.rate[total.coin] || 1) + item.amount * (this.rate[item.coin] || 1);
+                }
+                return total + item.amount * (this.rate[item.coin] || 1);
+            });
+            return res;
+        },
     },
     created() {
         this.getColumns();
-        this.getList();
+    },
+    beforeRouteEnter(to, from, next) {
+        next((vm: any) => {
+            if (from.name !== 'envelopeDetail') {
+                // eslint-disable-next-line no-param-reassign
+                vm.dateIndex = 0;
+                vm.initHandle();
+            }
+        });
     },
     methods: {
         getColumns() {
@@ -162,20 +195,51 @@ export default Vue.extend({
                 year -= 1;
             }
         },
+        initHandle() {
+            this.list.send = [];
+            this.list.received = [];
+            this.params = {
+                received: {
+                    loadMore: false,
+                    isEnd: false,
+                    total: '',
+                    sum: [],
+                },
+                send: {
+                    loadMore: false,
+                    isEnd: false,
+                    total: '',
+                    sum: [],
+                },
+            };
+            this.getExchangeRate();
+            this.getList();
+        },
+        getCoinRate(coin: string) {
+            return this.rate[coin] || 1;
+        },
         cancelHandle() {
             this.datePicker = false;
             (this.$refs.datePicker as any).setIndexes(this.dateIndex);
         },
+        getExchangeRate() {
+            return this.$api.getExchangeRate().then((res: any) => {
+                if (res.data) {
+                    this.rate = res.data;
+                }
+            });
+        },
         confirmHandle() {
             this.datePicker = false;
             this.dateIndex = (this.$refs.datePicker as any).getIndexes();
+            this.list.send = [];
+            this.list.received = [];
             this.getList(true);
         },
         onRefresh() {
             this.getList(true);
         },
         changeHandle(item: any) {
-            console.log(item);
             this.active = item.value;
             if (!this.list[this.active].length) {
                 this.getList();
@@ -185,6 +249,7 @@ export default Vue.extend({
             if (refresh) {
                 this.params[this.active].isEnd = false;
             }
+            this.changeLoading(true);
             if (this.active === 'send') {
                 this.getRedEnvelopeListForSend(refresh);
             } else {
@@ -213,17 +278,18 @@ export default Vue.extend({
             };
             this.$api.getRedEnvelopeListForReceived(params).then((res: any) => {
                 if (refresh) {
-                    this.list.received = res.data.list;
+                    this.list.received = res.data.list || [];
                 } else {
-                    this.list.received = this.list.received.concat(res.data.list);
+                    this.list.received = this.list.received.concat(res.data.list || []);
                 }
-                this.params.received.sum = res.data.sum;
+                this.params.received.sum = res.data.sum || [];
                 this.params.received.total = res.data.total;
                 if (this.list.received.length === res.data.total) {
                     this.params.received.isEnd = true;
                 }
             }).finally(() => {
                 this.isLoading = false;
+                this.changeLoading(false);
             });
         },
         getRedEnvelopeListForSend(refresh?: boolean) {
@@ -235,16 +301,17 @@ export default Vue.extend({
             };
             this.$api.getRedEnvelopeListForSend(params).then((res: any) => {
                 if (refresh) {
-                    this.list.send = res.data.list;
+                    this.list.send = res.data.list || [];
                 } else {
-                    this.list.send = this.list.send.concat(res.data.list);
+                    this.list.send = this.list.send.concat(res.data.list || []);
                 }
                 this.params.send.total = res.data.total;
-                this.params.send.sum = res.data.sum;
+                this.params.send.sum = res.data.sum || [];
                 if (this.list.send.length === res.data.total) {
                     this.params.send.isEnd = true;
                 }
             }).finally(() => {
+                this.changeLoading(false);
                 this.isLoading = false;
             });
         },
