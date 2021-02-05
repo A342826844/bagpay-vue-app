@@ -5,6 +5,7 @@ import { SHARE_RED_ENVELOPE_TEXT } from './config';
 import './filter/index';
 import { normalToast, copyText, overflowScrolling } from './dom/index';
 import { shareDataHandle, downloadImg, saveImg } from './plus/index';
+import { shareRedEnvelope, langs } from '../i18n/index';
 
 declare module 'vue/types/vue' {
 // 3. 声明为 Vue 补充的东西
@@ -61,7 +62,14 @@ Vue.prototype.$setRedEnvelopeCdk = function (cdk: string) {
 // 获取红包口令
 // eslint-disable-next-line func-names
 Vue.prototype.$getRedEnvelopeCdk = function (text: string) {
-    const reg = new RegExp(`^${this.$t(SHARE_RED_ENVELOPE_TEXT, { cdk: '(.*?)' })}$`);
-    const cdk = text.replace(reg, '$1');
-    return cdk === text ? '' : cdk;
+    console.log(shareRedEnvelope, langs);
+    let res = '';
+    langs.forEach((item) => {
+        const reg = new RegExp(`^${shareRedEnvelope[item].replace('{cdk}', '(.*?)')}$`);
+        const cdk = text.replace(reg, '$1');
+        if (cdk !== text) {
+            res = cdk;
+        }
+    });
+    return res;
 };

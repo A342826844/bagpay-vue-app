@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
+import { SHARE_RED_ENVELOPE_TEXT } from '../commons/config';
 
 Vue.use(VueI18n);
 
@@ -14,6 +15,7 @@ const loadLocaleMessages = () => {
     const locales = require.context('@/assets/lang', true, /[A-Za-z0-9-_,\s]+\.json$/i);
     const langs: string[] = [];
     const langType: Array<any> = [];
+    const shareRedEnvelope: any = {};
     const messages: any = {};
     locales.keys().forEach((key) => {
         const matched = key.match(/([A-Za-z0-9-_]+)\./i);
@@ -24,6 +26,7 @@ const loadLocaleMessages = () => {
                 value: locale,
                 label: messages[locale].language,
             });
+            shareRedEnvelope[locale] = messages[locale][SHARE_RED_ENVELOPE_TEXT];
             langs.push(locale);
         }
     });
@@ -32,10 +35,13 @@ const loadLocaleMessages = () => {
         messages: JSON.parse(message),
         langType,
         langs,
+        shareRedEnvelope,
     };
 };
 
-export const { langs, messages, langType } = loadLocaleMessages();
+export const {
+    langs, messages, langType, shareRedEnvelope,
+} = loadLocaleMessages();
 
 /**
  * 获取默认语言

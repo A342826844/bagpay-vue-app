@@ -12,6 +12,7 @@
         <div @scroll="scrollHandle" class="red-envelope-info">
             <div class="-detail">
                 <h3 ref="title" class="app-size-45 envelope-sender">{{$t('common.envelopeSender', {sender})}}</h3>
+                <p class="default57-color ellipsis-1 app-padding40"></p>
                 <div class="envelope-took-amount">
                     <b class="app-size-100 yellow-color">{{amount}}</b>
                     <span class="envelope-coin color-light">{{coin && coin.toUpperCase()}}</span>
@@ -24,10 +25,10 @@
                 <ul class="red-envelope-ul">
                     <li v-for="item in list" :key="item.nickname" class="red-envelope-li light-grey-bg">
                         <div class=" flex-between-c">
-                            <div>{{item.nickname}}</div>
+                            <div class="app-size-28">{{item.nickname}}</div>
                             <h5>
                                 <img v-show="win === item.nickname" class="app-img-50" src="@/assets/img/common/crown.png" alt="">&nbsp;
-                                <span class="vertical-m">{{item.amount}}</span>
+                                <span class="vertical-m app-size-34">{{item.amount}}</span>
                             </h5>
                         </div>
                         <div class="color-light flex-between-c">
@@ -38,11 +39,16 @@
                 </ul>
             </div>
         </div>
+        <div v-show="dataInfo.uid === _userInfo.id" class="lxa-footer-btn app-size-34">
+            <Button @click="show = true" type="down">{{$t('envelope.reSend')}}</Button>
+        </div>
+        <SendSuccess :dataInfo="dataInfo" v-model="show"></SendSuccess>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import SendSuccess from './component/SendSuccess.vue';
 
 type data = {
     list: any[]; // 转出
@@ -50,25 +56,32 @@ type data = {
     title: any;
     coin: string;
     shares: number;
+    show: boolean;
     amount: number;
     took_shares: number;
+    dataInfo: any;
 }
 
 export default Vue.extend({
     name: 'RedEnvelopeLog',
+    components: {
+        SendSuccess,
+    },
     data(): data {
         return {
             list: [],
             sender: '',
+            show: false,
             coin: '',
             title: '',
             shares: 0,
             amount: 0,
             took_shares: 0,
+            dataInfo: {},
         };
     },
     created() {
-        this.redEnvelopeLogList();
+        this.getData();
     },
     computed: {
         win(): string {
@@ -80,10 +93,8 @@ export default Vue.extend({
         },
     },
     methods: {
-        redEnvelopeLogList() {
-            const id = Number(this.$route.query.id);
-            this.changeLoading(true);
-            this.$api.redEnvelopeLogList(id).then((res: any) => {
+        redEnvelopeLogList(id: number) {
+            return this.$api.redEnvelopeLogList(id).then((res: any) => {
                 this.list = res.data.list;
                 // this.list = this.list.concat(this.list).concat(this.list).concat(this.list);
                 this.sender = res.data.sender;
@@ -95,6 +106,20 @@ export default Vue.extend({
             }).catch(() => {
                 this.changeLoading(false);
                 this.$normalToast(this.$t('common.redenvelopefail'));
+            });
+        },
+        getRedEnvelopeForId(id: number) {
+            return this.$api.getRedEnvelopeForId(id).then((res: any) => {
+                this.dataInfo = res.data;
+            });
+        },
+        getData() {
+            const id = Number(this.$route.query.id);
+            this.changeLoading(true);
+            Promise.all([this.getRedEnvelopeForId(id), this.redEnvelopeLogList(id)]).catch(() => {
+                this.$normalToast(this.$t('common.redenvelopefail'));
+            }).finally(() => {
+                this.changeLoading(false);
             });
         },
         scrollHandle(event: any) {

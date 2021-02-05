@@ -234,15 +234,17 @@ const routes: Array<RouteConfig> = [
     },
     {
         path: '/envelope/send',
-        name: 'envelope/send',
+        name: 'envelopeSend',
         component: EnvelopeSend,
         meta: {
             index: 200,
+            keepAlive: true,
+            componentName: 'EnvelopeSend',
         },
     },
     {
         path: '/envelope/logs',
-        name: 'envelope/logs',
+        name: 'envelopeLogs',
         component: EnvelopeLogs,
         meta: {
             index: 400,
@@ -250,7 +252,7 @@ const routes: Array<RouteConfig> = [
     },
     {
         path: '/envelope/detail',
-        name: 'envelope/detail',
+        name: 'envelopeDetail',
         component: EnvelopeDetail,
         meta: {
             index: 500,

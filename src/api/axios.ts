@@ -1,3 +1,4 @@
+import { TranslateResult } from 'vue-i18n';
 import axios, { AxiosRequestConfig } from 'axios';
 import Dialog from 'vant/lib/dialog';
 import i18n from '@/i18n/index';
@@ -18,6 +19,7 @@ axios.defaults.headers.get.Accept = 'application/json';
 interface AxiosConfig extends AxiosRequestConfig{
     cancleId?: string;
     noLang?: boolean;
+    errMsg?: string | TranslateResult;
 }
 
 function resetConfig(config: AxiosConfig, lang: string, Authorization?: string) {
@@ -111,8 +113,10 @@ axiosOfGoLang.interceptors.response.use(
         axiosGoPromiseArr.value = axiosGoPromiseArr.value.filter((item: any) => (response.config as AxiosConfig).cancleId !== item.cancleId);
 
         if (response.data.code !== 0) {
+            console.log(response.config);
             if (response.data.message && /^ERR/.test(response.data.message)) {
-                normalToast(i18n.t(`error.${response.data.message}`));
+                const message = (response.config as AxiosConfig).errMsg || i18n.t(`error.${response.data.message}`);
+                normalToast(message);
             }
             return Promise.reject(response.data);
         }

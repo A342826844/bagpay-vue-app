@@ -12,6 +12,7 @@
         <div @scroll="scrollHandle" class="red-envelope-info">
             <div class="-detail">
                 <h3 ref="title" class="app-size-45 envelope-sender">{{$t('common.envelopeSender', {sender})}}</h3>
+                <p class="default57-color ellipsis-1 app-padding40"></p>
                 <div class="envelope-took-amount">
                     <b class="app-size-100 yellow-color">{{amount}}</b>
                     <span class="envelope-coin color-light">{{coin && coin.toUpperCase()}}</span>
@@ -24,10 +25,10 @@
                 <ul class="red-envelope-ul">
                     <li v-for="item in list" :key="item.nickname" class="red-envelope-li light-grey-bg">
                         <div class=" flex-between-c">
-                            <div>{{item.nickname}}</div>
+                            <div class="app-size-28">{{item.nickname}}</div>
                             <h5>
                                 <img v-show="win === item.nickname" class="app-img-50" src="@/assets/img/common/crown.png" alt="">&nbsp;
-                                <span class="vertical-m">{{item.amount}}</span>
+                                <span class="vertical-m app-size-34">{{item.amount}}</span>
                             </h5>
                         </div>
                         <div class="color-light flex-between-c">

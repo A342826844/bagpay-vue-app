@@ -1,5 +1,6 @@
 {
     "language": "English",
+    "shareRedEnvelopeText": "Please go to Bagpay wallet and enter your password 👉 {cdk} 👈 Get a red envelope https://bagpay.io/",
     "footer": {
         "home": "Home",
         "mine": "Mine"
@@ -8,7 +9,6 @@
         "envelopeSender": "Red envelope of {sender}",
         "envelopeShares": "Received {took_shares} / {shares}",
         "redenvelopefail": "Failed to get red packet information",
-        "shareRedEnvelopeText": "Please go to Bagpay wallet and enter your password 👉 {cdk} 👈 Get a red envelope https://bagpay.io/",
         "redEnvelope": "Red envelope",
         "fixedAmount": "Fixed amount",
         "byLuck": "By Luck",
@@ -546,6 +546,35 @@
     "news": {
         "noticeList": "Notice List",
         "noticeDetail": "Notice Details"
+    },
+    "envelope": {
+        "logs": "Records",
+        "invalidCdk": "Invalid Word",
+        "reSend": "ReSend",
+        "receivedEnvelope": "Receive Red Envelope",
+        "receivedEnvelopeTotal": "Received {total} red envelopes",
+        "sendEnvelopeTotal": "Send a total of {total} red envelopes",
+        "received": "Received",
+        "mineReceived": "Received",
+        "mineSend": "Sent",
+        "sendEnvelope": "Send Envelope",
+        "sendOfEnvelope": "Send a red envelope",
+        "tipForTime": "If not received within 24 hours, the red envelope amount will be refunded",
+        "entryCdkForEnvelope": "Enter the Word and receive the red envelope",
+        "cdkEnvelope": "Word Red Packet",
+        "singleEnvelope": "Single Amount",
+        "allAmount": "Total Amount",
+        "enterAmount": "Enter in the amount",
+        "envelopeNum": "Number of red envelopes",
+        "enterNum": "Enter in the number",
+        "individual": "piece",
+        "blessing": "Blessing",
+        "envelopeCdk": "Red envelope Word",
+        "setEnvelopeCdk": "Set Red Envelope Word",
+        "envelopeIsReady": "The red envelope is ready",
+        "copyCdk": "Copy Word",
+        "shareCdk": "Share Word",
+        "entryCdk": "Enter in the Word"
     },
     "error": {
         "ERR_SERVER_ERROR": "Server internal error",

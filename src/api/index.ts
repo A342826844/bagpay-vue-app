@@ -174,11 +174,13 @@ export const redEnvelopeSend = (data: params) => postGolang('/red_envelope/send'
 // 领取红包(ID)
 export const redEnvelopeTakeForId = (id: number) => postGolang(`/red_envelope/take/${id}`, { id });
 // 领取红包(口令)
-export const redEnvelopeTakeForCak = (data: params) => postGolang('/red_envelope/cdk/take', data);
+export const redEnvelopeTakeForCak = (data: params, config: any) => postGolang('/red_envelope/cdk/take', data, config);
 // 我发送的红包列表
 export const getRedEnvelopeListForSend = (data: params) => getGolang('/red_envelope/list', data);
 // 我领取的红包记录
 export const getRedEnvelopeListForReceived = (data: params) => getGolang('/red_envelope/log/list', data);
+// 我领取的红包记录
+export const getRedEnvelopeForId = (id: number) => getGolang(`/red_envelope/get/${id}`, { id });
 
 // 获取指定红包的领取记录
 export const redEnvelopeLogList = (id: number) => getGolang(`/red_envelope/log/list/${id}`, { id });

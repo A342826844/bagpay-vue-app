@@ -15,7 +15,7 @@
                     </Select>
                 </div>
                 <div class="form-lable flex-between-c">
-                    <div>{{$t('envelope.singleEnvelope')}}</div>
+                    <div>{{form.type ? $t('envelope.allAmount') : $t('envelope.singleEnvelope')}}</div>
                     <div class="form-item-switch" @click="form.type = (form.type ? 0 : 1)">
                         <img src="@/assets/img/common/switch2.png" class="app-img-50" alt="">
                         <span> {{form.type | redEnvelopeType}}</span>
@@ -27,8 +27,7 @@
                     </Inputs>
                 </div>
                 <div class="form-lable flex-between-c">
-                    <!-- TODO: 取消这个事件 -->
-                    <span @click="testHandle">{{$t('envelope.envelopeNum')}}</span>
+                    <span>{{$t('envelope.envelopeNum')}}</span>
                 </div>
                 <div class="form-item">
                     <Inputs decimal="0" v-model="form.shares" :placeholder="$t('envelope.enterNum')">
@@ -81,33 +80,13 @@
                 </div>
             </div>
         </V-Popup>
-        <V-Popup
-            class="send-success"
-            v-model="show"
-            :overlay-style="{ background: 'rgba(62, 62, 62, 0.3)' }"
-            @click-overlay="closedHandle"
-        >
-            <div class="send-success-info">
-                <img class="send-success-bg" src="@/assets/img/envelope/send-s.png" alt="">
-                <div class="send-success-box">
-                    <h5 class="send-success-tip">{{$t('envelope.envelopeIsReady')}}</h5>
-                    <div @click="$copyText(dataInfo.cdk)" class="send-success-btn">
-                        <span class="form-item2-btn btn app-size-45 ">{{$t('envelope.copyCdk')}}</span>
-                    </div>
-                    <div @click="shareHandle(dataInfo.cdk)" class="send-success-btn">
-                        <span class="form-item2-btn btn app-size-45 ">{{$t('envelope.shareCdk')}}</span>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <img @click="closedHandle" class="app-img-50" src="@/assets/img/common/close1.png" alt="">
-            </div>
-        </V-Popup>
+        <SendSuccess :dataInfo="dataInfo" v-model="show"></SendSuccess>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import SendSuccess from './component/SendSuccess.vue';
 
 type data = {
     popup: boolean;
@@ -128,12 +107,15 @@ type data = {
 // TODO
 const defaultLucky: any = {
     'zh-CN': ['恭喜发财，大吉大利'],
-    'en-us': ['May everything turn out as you wish'],
+    en: ['May everything turn out as you wish'],
     'zh-tw': ['恭喜發財，大吉大利'],
 };
 
 export default Vue.extend({
-    name: 'Envelope',
+    name: 'EnvelopeSend',
+    components: {
+        SendSuccess,
+    },
     data(): data {
         return {
             popup: false,
@@ -173,6 +155,8 @@ export default Vue.extend({
             if (from.name === 'choisesymbol') {
                 // eslint-disable-next-line no-param-reassign
                 vm.form.coin = sessionStorage.getItem('symbol');
+            } else {
+                vm.clearHandle();
             }
         });
     },
@@ -202,6 +186,20 @@ export default Vue.extend({
                 return;
             }
             this.popup = true;
+        },
+        clearHandle() {
+            this.form = {
+                cdk: '', // [string] 可选,口令
+                coin: 'usdt', // [string] 币种
+                password: '', // [string] 密码
+                amount: '', // [float64] 金额
+                shares: '', // [int] 份数,至少为1
+                type: 1, // [int] 0.固定金额 1.拼手气
+                text: '', // [string] 消息
+            };
+            this.popup = false;
+            this.show = false;
+            this.luckyText = '';
         },
         redEnvelopeSend() {
             if (!this.form.cdk) {

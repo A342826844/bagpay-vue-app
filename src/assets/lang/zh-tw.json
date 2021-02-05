@@ -1,5 +1,6 @@
 {
     "language": "繁體",
+    "shareRedEnvelopeText": "請前往BagPay錢包-紅包輸入口令👉{cdk}👈領取紅包 https://bagpay.io/",
     "footer": {
         "home": "首頁",
         "mine": "我的"
@@ -8,10 +9,9 @@
         "envelopeSender": "{sender}的紅包",
         "envelopeShares": "已領取{took_shares}/{shares}個",
         "redenvelopefail": "獲取紅包資訊失敗",
-        "shareRedEnvelopeText": "請前往BagPay錢包輸入口令👉{cdk}👈領取紅包 https://bagpay.io/",
         "redEnvelope": "紅包",
         "fixedAmount": "固定金額",
-        "byLuck": "拼手氣",
+        "byLuck": "隨機紅包",
         "updateInfo": "更新內容",
         "thirdLogin": "其它管道登入",
         "send": "發 送",
@@ -545,6 +545,35 @@
     "news": {
         "noticeList": "公告列表",
         "noticeDetail": "公告詳細"
+    },
+    "envelope": {
+        "logs": "紅包記錄",
+        "receivedEnvelope": "領取紅包",
+        "invalidCdk": "無效的口令",
+        "reSend": "繼續發送",
+        "receivedEnvelopeTotal": "共收到{total}個紅包",
+        "sendEnvelopeTotal": "共發出{total}個紅包",
+        "received": "領取",
+        "mineReceived": "我收到的",
+        "mineSend": "我收到的",
+        "sendEnvelope": "發紅包",
+        "sendOfEnvelope": "發送紅包",
+        "tipForTime": "24小時內未被領取，紅包金額將退回",
+        "entryCdkForEnvelope": "輸入口令，領取紅包",
+        "cdkEnvelope": "口令紅包",
+        "singleEnvelope": "單個金額",
+        "allAmount": "總金額",
+        "enterAmount": "填寫金額",
+        "envelopeNum": "紅包個數",
+        "enterNum": "填寫個數",
+        "individual": "個",
+        "blessing": "祝福語",
+        "envelopeCdk": "紅包口令",
+        "setEnvelopeCdk": "設置紅包口令",
+        "envelopeIsReady": "紅包已備好",
+        "copyCdk": "複製口令",
+        "shareCdk": "分享口令",
+        "entryCdk": "填寫口令"
     },
     "error": {
         "ERR_SERVER_ERROR": "服務器內部錯誤",

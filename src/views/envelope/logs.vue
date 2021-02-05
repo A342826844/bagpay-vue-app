@@ -4,7 +4,7 @@
         <div ref="fringe" class="red-envelope-fringe">
             <div class="red-envelope-fringe-info red-bg"></div>
         </div>
-        <div class="red-envelope-info">
+        <div @scroll.capture="scrollLoad" class="red-envelope-info">
             <TabList
                 swipeable
                 size="big"
@@ -12,6 +12,7 @@
                 sticky-top="sub"
                 :defaultVal="active"
                 :tabList="bodyTabList"
+                @change="changeHandle"
             >
                 <div @click="datePicker = true" class="app-padding40 app-size-28 calendar-right" slot="right">
                     {{columns[dateIndex]}} <img class="app-img-50" src="@/assets/img/common/calendar.png" alt="">
@@ -20,38 +21,50 @@
                     <div class="app-margin-t40">
                         <p class="app-size-34">
                             <!-- TODO: -->
-                            <span v-if="item === 'received'">{{$t('envelope.receivedEnvelopeTotal', { total: 12})}}</span>
-                            <span v-if="item === 'send'">{{$t('envelope.sendEnvelopeTotal', { total: 12})}}</span>
+                            <span v-if="item.value === 'received'">{{$t('envelope.receivedEnvelopeTotal', { total: params[active].total})}}</span>
+                            <span v-if="item.value === 'send'">{{$t('envelope.sendEnvelopeTotal', { total: params[active].total})}}</span>
                         </p>
-                        <div class="red-envelope-amount">
-                            <b class="app-size-100 yellow-color">{{amount}}</b>
-                            <span class="envelope-coin color-light app-size-28">USDT{{coin && coin.toUpperCase()}}</span>
+                        <div v-for="sumItem in params[active].sum" :key="sumItem.coin" class="red-envelope-amount">
+                            <b class="app-size-100 yellow-color">{{sumItem.amount}}</b>
+                            <span class="envelope-coin color-light app-size-28">{{sumItem.coin && sumItem.coin.toUpperCase()}}</span>
                         </div>
                     </div>
                     <div class="light-grey-bg red-envelope-empty"></div>
-                    <ul>
-                        <li @click="$router.push(`/envelope/detail?id=${subItem}`)" v-for="subItem in list[item.value]" :key="subItem">
-                            <NCardItem hideTitle>
-                                <template slot="lable">
-                                    <span class="app-size-34 default57-color">{{$t('envelope.cdkEnvelope')}}</span>
-                                    <span class="app-size-34 yellow-color">0.125 USDT</span>
-                                </template>
-                                <template slot="value">
-                                    <span class="app-size-28 default57-color">135****2262</span>
-                                    <span>{{123123 | date('MM-dd hh:mm')}}</span>
-                                </template>
-                            </NCardItem>
-                            <div class="app-padding40">
-                                <div class="border-b"></div>
-                            </div>
-                        </li>
-                    </ul>
+                    <!-- <PullRefresh
+                        v-model="isLoading"
+                        @refresh="onRefresh"
+                    > -->
+                        <ul>
+                            <li
+                                @click="$router.push(`/envelope/detail?id=${subItem.id || subItem.rid}`)"
+                                v-for="subItem in list[item.value]"
+                                :key="subItem.rid"
+                            >
+                                <NCardItem hideTitle>
+                                    <template slot="lable">
+                                        <span class="app-size-34 default57-color">{{$t('envelope.cdkEnvelope')}}</span>
+                                        <span class="app-size-34 yellow-color">{{subItem.amount}} {{coin && coin.toUpperCase()}}</span>
+                                    </template>
+                                    <template slot="value">
+                                        <span>{{subItem.created_at | date('MM-dd hh:mm')}}</span>
+                                        <span v-if="item.value === 'received'" class="app-size-28 default57-color">{{subItem.sender}}</span>
+                                        <span v-else class="app-size-28 default57-color">
+                                            {{subItem.shares === subItem.took_count ? '已完成' : '进行中'}}
+                                        </span>
+                                    </template>
+                                </NCardItem>
+                                <div class="app-padding40">
+                                    <div class="border-b"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    <!-- </PullRefresh> -->
                 </div>
             </TabList>
         </div>
         <V-Popup class="red-envelope-picker" v-model="datePicker">
             <div class="picker-confirm flex-between-c">
-                <div @click="cancelHandle">{{$t('common.cancel')}}</div>
+                <div @click="cancelHandle">{{$t('common.cancle')}}</div>
                 <div @click="confirmHandle" class="primary-color">{{$t('common.ok')}}</div>
             </div>
             <van-picker
@@ -74,9 +87,17 @@ type data = {
     columns: any[];
     datePicker: boolean;
     dateIndex: number;
+    coin: string;
+    amount: number|string;
+    isLoading: boolean;
+    limit: number;
     list: {
         received: any[];
         send: any[];
+    };
+    params: {
+        received: any;
+        send: any;
     };
 }
 
@@ -88,12 +109,30 @@ export default Vue.extend({
     data(): data {
         return {
             datePicker: false,
+            isLoading: false,
             active: 'send',
             columns: [],
             dateIndex: 0,
+            limit: 20,
+            amount: '',
+            coin: '',
             list: {
                 received: [],
                 send: [],
+            },
+            params: {
+                received: {
+                    loadMore: false,
+                    isEnd: false,
+                    total: '',
+                    sum: [],
+                },
+                send: {
+                    loadMore: false,
+                    isEnd: false,
+                    total: '',
+                    sum: [],
+                },
             },
         };
     },
@@ -101,10 +140,10 @@ export default Vue.extend({
         bodyTabList(): any[] {
             return [
                 {
-                    title: '我收到的',
+                    title: this.$t('envelope.mineReceived'),
                     value: 'received',
                 }, {
-                    title: '我发出的',
+                    title: this.$t('envelope.mineSend'),
                     value: 'send',
                 },
             ];
@@ -116,13 +155,12 @@ export default Vue.extend({
     },
     methods: {
         getColumns() {
-            const year = new Date().getFullYear();
-            let startYear = 2020;
-            while (startYear <= year) {
-                this.columns.push(startYear);
-                startYear += 1;
+            let year = new Date().getFullYear();
+            const startYear = 2020;
+            while (year >= startYear) {
+                this.columns.push(year);
+                year -= 1;
             }
-            console.log(this.columns);
         },
         cancelHandle() {
             this.datePicker = false;
@@ -131,34 +169,83 @@ export default Vue.extend({
         confirmHandle() {
             this.datePicker = false;
             this.dateIndex = (this.$refs.datePicker as any).getIndexes();
-            console.log(this.dateIndex);
+            this.getList(true);
         },
-        getList() {
-            const arr = new Array(100).keys();
-            this.list[this.active] = Array.from(arr);
-            // this.getRedEnvelopeListForReceived();
-            this.getRedEnvelopeListForSend();
+        onRefresh() {
+            this.getList(true);
         },
-        getRedEnvelopeListForReceived() {
+        changeHandle(item: any) {
+            console.log(item);
+            this.active = item.value;
+            if (!this.list[this.active].length) {
+                this.getList();
+            }
+        },
+        getList(refresh?: boolean) {
+            if (refresh) {
+                this.params[this.active].isEnd = false;
+            }
+            if (this.active === 'send') {
+                this.getRedEnvelopeListForSend(refresh);
+            } else {
+                this.getRedEnvelopeListForReceived(refresh);
+            }
+        },
+        // 滚动懒加载
+        scrollLoad(event: Event) {
+            const scroll = (event.target as HTMLElement);
+            const { scrollTop, scrollHeight, clientHeight } = scroll;
+            if (
+                (clientHeight + scrollTop > scrollHeight - 100)
+                && (clientHeight + scrollTop !== scrollHeight)
+                && !this.params[this.active].loadMore && !this.params[this.active].isEnd) {
+                this.params[this.active].loadMore = true;
+                this.getList();
+            }
+        },
+
+        getRedEnvelopeListForReceived(refresh?: boolean) {
             const params = {
                 start: new DateForamt(`${this.columns[this.dateIndex]}-01-01 00:00:00`).getTime(),
                 end: new DateForamt(`${this.columns[this.dateIndex] + 1}-01-01 00:00:00`).getTime(),
-                offset: 0,
-                limit: 20,
+                offset: refresh ? 0 : this.list.received.length,
+                limit: this.limit,
             };
             this.$api.getRedEnvelopeListForReceived(params).then((res: any) => {
-                console.log(res);
+                if (refresh) {
+                    this.list.received = res.data.list;
+                } else {
+                    this.list.received = this.list.received.concat(res.data.list);
+                }
+                this.params.received.sum = res.data.sum;
+                this.params.received.total = res.data.total;
+                if (this.list.received.length === res.data.total) {
+                    this.params.received.isEnd = true;
+                }
+            }).finally(() => {
+                this.isLoading = false;
             });
         },
-        getRedEnvelopeListForSend() {
+        getRedEnvelopeListForSend(refresh?: boolean) {
             const params = {
                 start: new DateForamt(`${this.columns[this.dateIndex]}-01-01 00:00:00`).getTime(),
                 end: new DateForamt(`${this.columns[this.dateIndex] + 1}-01-01 00:00:00`).getTime(),
-                offset: 0,
-                limit: 20,
+                offset: refresh ? 0 : this.list.send.length,
+                limit: this.limit,
             };
             this.$api.getRedEnvelopeListForSend(params).then((res: any) => {
-                console.log(res);
+                if (refresh) {
+                    this.list.send = res.data.list;
+                } else {
+                    this.list.send = this.list.send.concat(res.data.list);
+                }
+                this.params.send.total = res.data.total;
+                this.params.send.sum = res.data.sum;
+                if (this.list.send.length === res.data.total) {
+                    this.params.send.isEnd = true;
+                }
+            }).finally(() => {
+                this.isLoading = false;
             });
         },
     },

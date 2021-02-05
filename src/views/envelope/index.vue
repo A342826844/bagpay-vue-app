@@ -55,13 +55,15 @@ export default Vue.extend({
     methods: {
         redEnvelopeTakeForCak() {
             if (!this.cdk) return;
+            let cdk = this.$getRedEnvelopeCdk(this.cdk);
+            cdk = cdk || this.cdk;
             const params = {
-                cdk: this.cdk,
+                cdk,
             };
             if (this._loading) return;
             this.changeLoading(true);
-            this.$api.redEnvelopeTakeForCak(params).then((res: any) => {
-                this.$router.push(`/redEnvelopeLog?id=${res.data.rid}`);
+            this.$api.redEnvelopeTakeForCak(params, { errMsg: this.$t('envelope.invalidCdk') }).then((res: any) => {
+                this.$router.push(`/envelope/detail?id=${res.data.rid}`);
             }).finally(() => {
                 this.changeLoading(false);
             });
@@ -102,7 +104,7 @@ export default Vue.extend({
             -webkit-text-fill-color: transparent;
         }
         &-form{
-            margin-top: 100px;
+                margin-top: 100px;
             .form-item{
                 width: 567px;
                 margin: 0 auto;
@@ -136,6 +138,20 @@ export default Vue.extend({
 
             }
         }
+    }
+}
+.en{
+    .envelope-ctx-title{
+        font-size: 100px;
+    }
+    .envelope-ctx-tip{
+        margin: auto;
+        margin-top: 180px;
+        width: 450px;
+        text-align: center;
+    }
+    .envelope-ctx-form{
+        margin-top: 30px;
     }
 }
 </style>
