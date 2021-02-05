@@ -574,7 +574,11 @@
         "envelopeIsReady": "The red envelope is ready",
         "copyCdk": "Copy Word",
         "shareCdk": "Share Word",
-        "entryCdk": "Enter in the Word"
+        "entryCdk": "Enter in the Word",
+        "placeAmount": "Please enter the red envelope amount",
+        "minShares": "Please send at least 1",
+        "placeCdk": "Please enter the red envelope password",
+        "placeShares": "Please enter the number of red envelopes"
     },
     "error": {
         "ERR_SERVER_ERROR": "Server internal error",

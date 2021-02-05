@@ -573,7 +573,11 @@
         "envelopeIsReady": "紅包已備好",
         "copyCdk": "複製口令",
         "shareCdk": "分享口令",
-        "entryCdk": "填寫口令"
+        "entryCdk": "填寫口令",
+        "placeAmount": "請輸入紅包金額",
+        "minShares": "調皮，最少發1個",
+        "placeCdk": "請輸入紅包口令",
+        "placeShares": "請輸入紅包個數"
     },
     "error": {
         "ERR_SERVER_ERROR": "服務器內部錯誤",

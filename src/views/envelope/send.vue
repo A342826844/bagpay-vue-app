@@ -96,8 +96,8 @@ type data = {
         cdk: string; // [string] 可选,口令
         coin: string; // [string] 币种
         password: string; // [string] 密码
-        amount: string; // [float64] 金额
-        shares: string; // [int] 份数,至少为1
+        amount: string|number; // [float64] 金额
+        shares: string|number; // [int] 份数,至少为1
         type: 0|1; // [int] 0.固定金额 1.拼手气
         text: string; // [string] 消息
     };
@@ -171,16 +171,16 @@ export default Vue.extend({
     },
     methods: {
         verfyValue() {
-            if (!Number(this.form.shares)) {
-                this.$normalToast('请输入红包金额');
+            if (!Number(this.form.amount)) {
+                this.$normalToast(this.$t('envelope.placeAmount'));
                 return;
             }
             if (!Number(this.form.shares)) {
-                this.$normalToast('请输入红包个数');
+                this.$normalToast(this.$t('envelope.placeShares'));
                 return;
             }
             if (Number(this.form.shares) <= 0) {
-                this.$normalToast('调皮，最少发1个');
+                this.$normalToast(this.$t('envelope.minShares'));
                 return;
             }
             this.popup = true;
@@ -201,7 +201,7 @@ export default Vue.extend({
         },
         redEnvelopeSend() {
             if (!this.form.cdk) {
-                this.$normalToast('请输入红包口令');
+                this.$normalToast(this.$t('envelope.placeCdk'));
                 return;
             }
             if (this.form.cdk.length < 6) {
@@ -211,7 +211,11 @@ export default Vue.extend({
             const params = {
                 ...this.form,
                 text: this.form.text || this.luckyText,
+                shares: Number(this.form.shares),
             };
+            if (params.type === 0) {
+                params.amount = Number(params.amount) * params.shares;
+            }
             if (this._loading) return;
             this.changeLoading(true);
             this.$api.redEnvelopeSend(params).then((res: any) => {

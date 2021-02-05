@@ -577,7 +577,11 @@
         "envelopeIsReady": "红包已备好",
         "copyCdk": "复制口令",
         "shareCdk": "分享口令",
-        "entryCdk": "填写口令"
+        "entryCdk": "填写口令",
+        "placeAmount": "请输入红包金额",
+        "minShares": "调皮，最少发1个",
+        "placeCdk": "请输入红包口令",
+        "placeShares": "请输入红包个数"
     },
     "error": {
         "ERR_SERVER_ERROR": "服务器内部错误",

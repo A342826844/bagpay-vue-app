@@ -54,11 +54,11 @@ export default Vue.extend({
     },
     methods: {
         redEnvelopeTakeForCak() {
-            if (!this.cdk) return;
+            if (!this.cdk.trim()) return;
             let cdk = this.$getRedEnvelopeCdk(this.cdk);
             cdk = cdk || this.cdk;
             const params = {
-                cdk,
+                cdk: cdk.trim(),
             };
             if (this._loading) return;
             this.changeLoading(true);
