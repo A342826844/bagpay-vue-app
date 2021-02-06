@@ -170,7 +170,7 @@ export default Vue.extend({
                 }
                 return total + item.amount * (this.rate[item.coin] || 1);
             });
-            return res;
+            return Number(res.toFixed(this.$store.state.unitDecimal));
         },
     },
     created() {

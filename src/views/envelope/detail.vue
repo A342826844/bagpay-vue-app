@@ -39,7 +39,7 @@
                 </ul>
             </div>
         </div>
-        <div v-show="dataInfo.uid === _userInfo.id" class="lxa-footer-btn app-size-34">
+        <div v-show="dataInfo.uid === _userInfo.id && dataInfo.shares !== dataInfo.took_count" class="lxa-footer-btn app-size-34">
             <Button @click="show = true" type="down">{{$t('envelope.reSend')}}</Button>
         </div>
         <SendSuccess :dataInfo="dataInfo" v-model="show"></SendSuccess>

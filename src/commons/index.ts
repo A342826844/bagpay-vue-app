@@ -62,7 +62,6 @@ Vue.prototype.$setRedEnvelopeCdk = function (cdk: string) {
 // 获取红包口令
 // eslint-disable-next-line func-names
 Vue.prototype.$getRedEnvelopeCdk = function (text: string) {
-    console.log(shareRedEnvelope, langs);
     let res = '';
     langs.forEach((item) => {
         const reg = new RegExp(`^${shareRedEnvelope[item].replace('{cdk}', '(.*?)')}$`);

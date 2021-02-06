@@ -96,7 +96,7 @@ export default Vue.extend({
             });
         },
         openHnadle() {
-            this.$api.redEnvelopeTakeForId(this.dataInfo.rid || this.dataInfo.id, { hideErrMsg: true }).then((res: any) => {
+            this.$api.redEnvelopeTakeForId(this.dataInfo.rid || this.dataInfo.id, { hideErrMsg: true }).then(() => {
                 // this.$router.push(`/envelope/detail?id=${res.data.rid}`);
                 setTimeout(() => {
                     this.lookHandle();
