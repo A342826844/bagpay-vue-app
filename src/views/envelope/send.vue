@@ -247,6 +247,7 @@ export default Vue.extend({
         },
         closedHandle() {
             this.show = false;
+            this.show = false;
             this.$router.replace(`/envelope/detail?id=${this.dataInfo.id}`);
         },
     },

@@ -1,6 +1,6 @@
 {
     "language": "繁體",
-    "shareRedEnvelopeText": "請前往BagPay錢包-紅包輸入口令👉{cdk}👈領取紅包 https://bagpay.io/",
+    "shareRedEnvelopeText": "請前往BagPay錢包-紅包輸入口令👉 {cdk} 👈領取紅包 https://bagpay.io/",
     "footer": {
         "home": "首頁",
         "mine": "我的"
