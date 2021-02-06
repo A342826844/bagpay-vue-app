@@ -577,7 +577,10 @@
         "placeAmount": "請輸入紅包金額",
         "minShares": "調皮，最少發1個",
         "placeCdk": "請輸入紅包口令",
-        "placeShares": "請輸入紅包個數"
+        "placeShares": "請輸入紅包個數",
+        "sentOut": "紅包已派完",
+        "lookLuck": "看看朋友手氣",
+        "isReady": "已領取過"
     },
     "error": {
         "ERR_SERVER_ERROR": "服務器內部錯誤",

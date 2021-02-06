@@ -581,7 +581,10 @@
         "placeAmount": "请输入红包金额",
         "minShares": "调皮，最少发1个",
         "placeCdk": "请输入红包口令",
-        "placeShares": "请输入红包个数"
+        "placeShares": "请输入红包个数",
+        "sentOut": "红包已派完",
+        "lookLuck": "看看朋友手气",
+        "isReady": "已领取过"
     },
     "error": {
         "ERR_SERVER_ERROR": "服务器内部错误",

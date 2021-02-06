@@ -172,15 +172,17 @@ export const getArticleDetail = (id: number) => getGolang(`/article/get/${id}`, 
 // 发送红包
 export const redEnvelopeSend = (data: params) => postGolang('/red_envelope/send', data);
 // 领取红包(ID)
-export const redEnvelopeTakeForId = (id: number) => postGolang(`/red_envelope/take/${id}`, { id });
+export const redEnvelopeTakeForId = (id: number, config: any) => postGolang(`/red_envelope/take/${id}`, { id }, config);
 // 领取红包(口令)
-export const redEnvelopeTakeForCak = (data: params, config: any) => postGolang('/red_envelope/cdk/take', data, config);
+export const redEnvelopeTakeForCdk = (data: params, config: any) => postGolang('/red_envelope/cdk/take', data, config);
 // 我发送的红包列表
 export const getRedEnvelopeListForSend = (data: params) => getGolang('/red_envelope/list', data);
 // 我领取的红包记录
 export const getRedEnvelopeListForReceived = (data: params) => getGolang('/red_envelope/log/list', data);
 // 我领取的红包记录
 export const getRedEnvelopeForId = (id: number) => getGolang(`/red_envelope/get/${id}`, { id });
+// 根据口令查询红包详情
+export const getRedEnvelopeForCdk = (data: params) => getGolang('/red_envelope/cdk-get', data);
 
 // 获取指定红包的领取记录
 export const redEnvelopeLogList = (id: number) => getGolang(`/red_envelope/log/list/${id}`, { id });

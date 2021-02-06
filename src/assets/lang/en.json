@@ -578,7 +578,10 @@
         "placeAmount": "Please enter the red envelope amount",
         "minShares": "Please send at least 1",
         "placeCdk": "Please enter the red envelope password",
-        "placeShares": "Please enter the number of red envelopes"
+        "placeShares": "Please enter the number of red envelopes",
+        "Sendout": "red packets have been sent out",
+        "Lookluck": "look at a friend's luck.",
+        "Isready": "received"
     },
     "error": {
         "ERR_SERVER_ERROR": "Server internal error",

@@ -44,7 +44,7 @@
                     <Inputs maxlength="30" v-model="form.text" :placeholder="luckyText"></Inputs>
                 </div>
                 <div class="ellipsis-1">
-                    <b class="app-size-100 yellow-color">{{Number(form.amount) || 0}} </b>
+                    <b class="app-size-100 yellow-color">{{allAmount}} </b>
                     <span class="envelope-coin color-light"> {{form.coin && form.coin.toUpperCase()}}</span>
                 </div>
                 <div class="form-btn">
@@ -166,7 +166,16 @@ export default Vue.extend({
             return '';
         },
         luckyText(): string {
-            return defaultLucky[this.lang];
+            return defaultLucky[this.lang][0];
+        },
+        allAmount(): number {
+            let amount = 0;
+            if (this.form.type === 0) {
+                amount = Number(this.form.amount) * Number(this.form.shares);
+            } else {
+                amount = Number(this.form.amount);
+            }
+            return Number(amount.toFixed(this.coinInfo.decimal)) || 0;
         },
     },
     methods: {
@@ -197,17 +206,16 @@ export default Vue.extend({
             };
             this.popup = false;
             this.show = false;
-            this.luckyText = '';
         },
         redEnvelopeSend() {
             if (!this.form.cdk) {
                 this.$normalToast(this.$t('envelope.placeCdk'));
                 return;
             }
-            if (this.form.cdk.length < 6) {
-                this.$normalToast(this.$t('error.ERR_CDK_TOO_SHORT'));
-                return;
-            }
+            // if (this.form.cdk.length < 6) {
+            //     this.$normalToast(this.$t('error.ERR_CDK_TOO_SHORT'));
+            //     return;
+            // }
             const params = {
                 ...this.form,
                 text: this.form.text || this.luckyText,
@@ -236,9 +244,6 @@ export default Vue.extend({
             }, () => {
                 this.$normalToast(this.$t('common.invitationFail'), 1000);
             });
-        },
-        testHandle() {
-            this.$getRedEnvelopeCdk('请前往BagPay钱包输入口令👉这是领取红包的口令👈领取红包 https://bagpay.io/');
         },
         closedHandle() {
             this.show = false;

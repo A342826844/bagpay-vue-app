@@ -18,7 +18,7 @@
             <div class="envelope-ctx-form">
                 <div class="form-item form-item1 flex-between-c app-size-34">
                     <input class="input" v-model="cdk" :placeholder="$t('envelope.entryCdk')" type="text">
-                    <button @click="redEnvelopeTakeForCak" class="btn primary-color">{{$t('envelope.received')}}</button>
+                    <button @click="getRedEnvelopeForCdk" class="btn primary-color">{{$t('envelope.received')}}</button>
                 </div>
                 <div @click="$router.push('/envelope/send')" class="form-item form-item2">
                     <button class="form-item2-btn btn app-size-45 ">{{$t('envelope.sendEnvelope')}}</button>
@@ -26,7 +26,14 @@
                 </div>
             </div>
         </div>
-        <RedEnvelopesPopup v-model="show"></RedEnvelopesPopup>
+        <RedEnvelopesPopup
+            :dataInfo="dataInfo"
+            v-model="show"
+            :type="popupType"
+            @open="openHnadle"
+            @look-log="lookHandle"
+            ref="redPopup"
+        ></RedEnvelopesPopup>
     </div>
 </template>
 
@@ -40,6 +47,8 @@ type data = {
     title: string;
     show: boolean;
     cdk: string;
+    popupType: number;
+    dataInfo: any;
 }
 
 export default Vue.extend({
@@ -50,10 +59,12 @@ export default Vue.extend({
             title: 'aaa',
             cdk: '',
             show: false,
+            popupType: 1,
+            dataInfo: {},
         };
     },
     methods: {
-        redEnvelopeTakeForCak() {
+        redEnvelopeTakeForCdk() {
             if (!this.cdk.trim()) return;
             let cdk = this.$getRedEnvelopeCdk(this.cdk);
             cdk = cdk || this.cdk;
@@ -62,11 +73,49 @@ export default Vue.extend({
             };
             if (this._loading) return;
             this.changeLoading(true);
-            this.$api.redEnvelopeTakeForCak(params, { errMsg: this.$t('envelope.invalidCdk') }).then((res: any) => {
+            this.$api.redEnvelopeTakeForCdk(params, { errMsg: this.$t('envelope.invalidCdk') }).then((res: any) => {
                 this.$router.push(`/envelope/detail?id=${res.data.rid}`);
             }).finally(() => {
                 this.changeLoading(false);
             });
+        },
+        getRedEnvelopeForCdk() {
+            if (!this.cdk.trim()) return;
+            let cdk = this.$getRedEnvelopeCdk(this.cdk);
+            cdk = cdk || this.cdk;
+            const params = {
+                cdk: cdk.trim(),
+            };
+            if (this._loading) return;
+            this.changeLoading(true);
+            this.$api.getRedEnvelopeForCdk(params).then((res: any) => {
+                this.dataInfo = res.data;
+                this.show = true;
+            }).finally(() => {
+                this.changeLoading(false);
+            });
+        },
+        openHnadle() {
+            this.$api.redEnvelopeTakeForId(this.dataInfo.rid || this.dataInfo.id, { hideErrMsg: true }).then((res: any) => {
+                // this.$router.push(`/envelope/detail?id=${res.data.rid}`);
+                setTimeout(() => {
+                    this.lookHandle();
+                }, 1000);
+                this.show = false;
+            }).catch((err: any) => {
+                setTimeout(() => {
+                    if (err.message === 'ERR_ALREADY_TOOK') {
+                        this.popupType = 3;
+                    }
+                    if (err.message === 'ERR_HAS_NONE') {
+                        this.popupType = 2;
+                    }
+                }, 1500);
+            });
+        },
+        lookHandle() {
+            (this.$refs.redPopup as any).stopHandle();
+            this.$router.push(`/envelope/detail?id=${this.dataInfo.rid || this.dataInfo.id}`);
         },
     },
 });

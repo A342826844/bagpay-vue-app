@@ -24,7 +24,6 @@
                     > -->
                     <div class="app-margin-t40">
                         <p class="app-size-34">
-                            <!-- TODO: -->
                             <span
                                 v-html="$t('envelope.receivedEnvelopeTotal', { total: `<span class=red-color>${params[active].total || 0}</span>`})"
                                 v-if="item.value === 'received'"
@@ -38,7 +37,7 @@
                         </p>
                         <div class="red-envelope-amount">
                             ≈ <b class="app-size-100 yellow-color">{{totalAmount}}</b>
-                            <span class="envelope-coin color-light app-size-28">{{_unit}}</span>
+                            <span class="envelope-coin color-light app-size-28">{{_unitIcon}}</span>
                         </div>
                     </div>
                     <div class="light-grey-bg red-envelope-empty"></div>
@@ -230,11 +229,13 @@ export default Vue.extend({
             });
         },
         confirmHandle() {
-            this.datePicker = false;
-            this.dateIndex = (this.$refs.datePicker as any).getIndexes();
-            this.list.send = [];
-            this.list.received = [];
-            this.getList(true);
+            setTimeout(() => {
+                this.datePicker = false;
+                this.dateIndex = (this.$refs.datePicker as any).getIndexes();
+                this.list.send = [];
+                this.list.received = [];
+                this.getList(true);
+            }, 0);
         },
         onRefresh() {
             this.getList(true);
@@ -360,7 +361,7 @@ export default Vue.extend({
     &-amount{
         margin-bottom: 28px;
         .envelope-coin{
-            margin-left: 40px;
+            margin-left: 20px;
         }
     }
     &-info{
