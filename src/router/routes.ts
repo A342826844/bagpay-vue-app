@@ -32,6 +32,7 @@ import TransferOut from '@/views/home/transferOut.vue'; // 转出
 
 import invitation from './invitation';
 import news from './news';
+import merchant from './merchant';
 
 // 使用这种引入无法读到 component 的name
 // const Login = () => import('@/views/login/index.vue'); // 登录
@@ -653,4 +654,4 @@ const routes: Array<RouteConfig> = [
 
 // routes.push(...invitation);
 
-export default routes.concat(invitation).concat(news);
+export default routes.concat(invitation).concat(news).concat(merchant);

@@ -123,6 +123,7 @@ export default Vue.extend({
     }
     &.fill{
         height: 100%;
+        overflow: scroll;
     }
 }
 </style>

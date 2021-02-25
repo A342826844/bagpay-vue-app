@@ -94,6 +94,11 @@ export default Vue.extend({
         width: 186px;
         height: 70px;
     }
+    &.micro{
+        width: auto;
+        height: 40px;
+        padding: 0 26px;
+    }
     &.auto{
         width: auto;
         padding: 0 45px;

@@ -1,0 +1,187 @@
+<template>
+    <div class="merchant light-grey-bg">
+        <div class="merchant-header">
+            <Headers bold theme="primary">
+                <h4 slot="left">
+                    <span class="app-size-45 vertical-m">商家服务</span>
+                </h4>
+            </Headers>
+            <div class="merchant-header-fringe primary-bg"></div>
+        </div>
+        <div class="merchant-body">
+            <ShowCard class="margin-b40" divider direction="row">
+                <div class="text-align-l" slot="slot1">
+                    <p>账户余额(USDT)</p>
+                    <b class="primary-color app-size-45">72 500.00</b>
+                    <Button class="app-size-22" size="micro">资金管理</Button>
+                </div>
+                <div class="text-align-r" slot="slot2">
+                    <p>今日收款(USDT)</p>
+                    <b @click="$router.push('/merchant/record')" class="primary-color app-size-45">72 500.00</b>
+                    <Button @click="$router.push('/merchant/record')" class="app-size-22" size="micro">收款记录</Button>
+                </div>
+            </ShowCard>
+            <div class="flex-between merchant-body-mark margin-b40">
+                <ShowCard class="mark1 text-align-l">
+                    <h5 class="app-size-28 mark1-title">快速安全</h5>
+                    <div class="flex-between-c">
+                        <img class="img1" src="@/assets/img/merchant/otc.png" alt="">
+                        <p>
+                            ·5分钟内快速到账
+                            <br/>
+                            ·C2C点对点不受监控
+                            <br/>
+                            ·离线蓝牙签名
+                        </p>
+                    </div>
+                </ShowCard>
+                <ShowCard class="mark2">
+                    <img class="img2" src="@/assets/img/merchant/gobal.png" alt="">
+                    <div class="text-align-l">接入API与SDK到您的网站/APP</div>
+                </ShowCard>
+            </div>
+            <ShowCard class="merchant-body-gateway margin-b40">
+                <div class="flex-between app-size-28">
+                    <h5>支付网关</h5>
+                    <div @click="$router.push('/merchant/gateway')">
+                        查看API文档
+                        <img class="app-img-50" src="@/assets/img/common/arrow_right_p.png" alt="">
+                    </div>
+                </div>
+                <div class="text-align-l c9c9c9-color margin-t24">
+                    Bagpay是使用USDT的最佳支付系统,不论收
+                    款或付款,我们通通包办到好,不管您是电脑网
+                    站还是APP,我们都有提供API与SDK的模式
+                    让您快速接入。
+                </div>
+                <div class="path">
+                    <img class="path-img" src="@/assets/img/merchant/path.png" alt="">
+                    <div class="path-lable flex-between-c">
+                        <span>会员</span>
+                        <span>交易所</span>
+                        <span>Bagpay</span>
+                        <span>平台</span>
+                    </div>
+                </div>
+            </ShowCard>
+            <ShowCard class="merchant-body-api margin-b40">
+                <div class="flex-between app-size-28">
+                    <h5>支付网关</h5>
+                    <div @click="$router.push('/merchant/gateway')">
+                        下载API文档
+                        <img class="app-img-50" src="@/assets/img/common/arrow_right_p.png" alt="">
+                    </div>
+                </div>
+                <div class="text-align-l margin-t24">
+                    <ul>
+                        <li class="api-li" v-for="item in 3" :key="item">
+                            <div class="primary-color">CreateLabelTask</div>
+                            <p class="c9c9c9-color api-li-tip">调用CreateLabelTask提交内容结构化任务。</p>
+                        </li>
+                    </ul>
+                </div>
+            </ShowCard>
+            <!-- <div v-for="item in 200" :key="item" >test</div> -->
+        </div>
+        <div class="app-size-34 lxa-footer-btn">
+            <Button @click="$router.push('/merchant/apply')">立即申请</Button>
+        </div>
+    </div>
+</template>
+
+<script lang="ts">
+import Vue from 'vue';
+
+type data = {
+    address: string;
+    loading: boolean;
+    symbol: string;
+    qrValue: string;
+    memo: string;
+    value: string;
+    size: number;
+}
+
+export default Vue.extend({
+    name: 'Merchant',
+    data(): data {
+        return {
+            address: '',
+            symbol: '',
+            loading: true,
+            qrValue: '',
+            value: '',
+            memo: '',
+            size: 100,
+        };
+    },
+});
+</script>
+
+<style lang="less" scoped>
+.merchant{
+    height: 100%;
+    position: relative;
+    overflow: auto;
+    .margin-b40{
+        margin-bottom: 40px;
+    }
+    .margin-t24{
+        margin-top: 24px;
+    }
+    &-header-fringe{
+        height: 220px;
+        border-radius: 0 0 50px 50px;
+    }
+    &-body{
+        position: absolute;
+        // background: pink;
+        max-height: calc(100% - 220px);
+        overflow: scroll;
+        top: 150px;
+        width: 658px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        &-mark{
+            .mark1{
+                width: 430px;
+                &-title{
+                    margin-bottom: 28px;
+                }
+            }
+            .mark2{
+                width: 200px;
+            }
+            .img1{
+                width: 92px;
+                flex-shrink: 0;
+                margin-right: 20px;
+            }
+            .img2{
+                width: 100px;
+            }
+        }
+        &-gateway{
+            .path{
+                width: 580px;
+                margin-top: 52px;
+            }
+            .path-img{
+                width: 100%;
+            }
+            // .path-lable{
+            //     width: 100%;
+            // }
+        }
+        &-api{
+            .api-li{
+                margin-bottom: 32px;
+                &-tip{
+                    margin-top: 20px;
+                }
+            }
+        }
+    }
+}
+</style>
