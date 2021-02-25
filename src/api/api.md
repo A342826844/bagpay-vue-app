@@ -890,6 +890,23 @@ coin: [string] 币种标识
 
 ### 充币
 
+#### 获取币种支持的协议
+
+`[get] /coin/:coin/protocols`
+
+请求参数:
+
+```txt
+coin: [string] 币种标识
+```
+
+返回数据:
+
+```json
+{
+	"any": ["any"]
+}
+```
 #### 获取充币地址
 
 `[get] /deposit/address/:coin`
