@@ -125,11 +125,6 @@ export default Vue.extend({
             this.symbol = this.$store.state.addAddr.symbol || '';
             this.needMede = this.$store.state.addAddr.needMede || '';
         },
-        init() {
-            this.$api.getCoinProtocols({
-                coin: this.symbol,
-            });
-        },
         auth() {
             if (this.isLoading) return;
             const data: Array<any> = [
