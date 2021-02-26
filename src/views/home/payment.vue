@@ -77,6 +77,7 @@ export default Vue.extend({
         this.size = window.innerWidth * 0.42;
         this.symbol = this.$route.query.symbol as string;
         this.getDeposit();
+        // this.$api.getCoinProtocols(this.symbol);
     },
     methods: {
         html2CanvasHnadle() {

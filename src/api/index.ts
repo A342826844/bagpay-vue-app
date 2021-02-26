@@ -136,7 +136,7 @@ export const version = (data: params) => getGolang('/app/version/check', data);
 // 获取所有币种余额
 export const getBalances = (data: params) => postGolang('/user/balances', data);
 // 获取指定币种支持的协议
-export const getCoinProtocols = (data: params) => getGolang(`/coin/${data.coin}/protocols`, data);
+// export const getCoinProtocols = (data: params) => getGolang(`/coin/${data.coin}/protocols`, data);
 // 获取指定币种余额
 export const getCoinBalances = (data: params) => postGolang(`/user/balance/${data.coin}`, data);
 // 获取指定币种余额变动
@@ -147,6 +147,8 @@ export const getCoinHistory = (data: params) => postGolang(`/deposit/history/${d
 export const getWithdrawHistory = (data: params) => postGolang(`/withdraw/history/${data.coin}`, data);
 // 获取所有币种
 export const getCoinList = (data: params) => getGolang('/coin/list', data);
+// // 获取充币地址
+export const getCoinProtocols = (coin: string) => getGolang(`/coin/${coin}/protocols`, { coin });
 // 获取充币地址
 export const getDeposit = (data: params) => getGolang(`/deposit/address/${data.coin}`, data);
 // 提交提币申请

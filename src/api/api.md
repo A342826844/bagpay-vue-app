@@ -825,6 +825,7 @@ limit: [int64] 最大返回条数
 
 ```txt
 coin: [string] 币种标识
+protocol: [string] 协议
 ```
 
 返回数据: CoinInfo
@@ -915,6 +916,7 @@ coin: [string] 币种标识
 
 ```txt
 coin: [string] 币种标识
+protocol: [string] 协议
 ```
 
 返回数据:
@@ -1321,6 +1323,25 @@ id: [int64] otc_merchant的id
 ```
 
 ### 提币
+
+#### 获取提币基础信息
+
+[get] /withdraw/meta/:coin
+
+txt
+coin: [string] 币种
+protocol: [string] 协议
+
+返回数据：
+
+json
+{
+  CoinInfo
+  avaliable: 0, //可用余额
+  amount_24h: 0, //24小时已提币量
+  max_amount_24h: 0, //24小时最大可提币量
+  traded: false, //是否交易过
+}
 
 #### 获取已保存的提币地址
 
