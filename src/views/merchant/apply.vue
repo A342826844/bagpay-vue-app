@@ -52,7 +52,7 @@ type data = {
 }
 
 export default Vue.extend({
-    name: 'Payment',
+    name: 'MerchantApply',
     data(): data {
         return {
             form: {

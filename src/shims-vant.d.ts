@@ -5,3 +5,7 @@ declare module 'vant/lib/pull-refresh'
 declare module 'vant/lib/popup'
 declare module 'vant/lib/uploader'
 declare module 'vant/lib/dialog'
+
+declare module 'v-charts'
+declare module 'v-charts/lib/histogram.common'
+declare module 'v-charts/lib/bar.common'

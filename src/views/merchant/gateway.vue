@@ -41,7 +41,7 @@ type data = {
 }
 
 export default Vue.extend({
-    name: 'Payment',
+    name: 'MerchantGateway',
     data(): data {
         return {
             form: {

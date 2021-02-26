@@ -17,7 +17,7 @@
                         </p>
                     </div>
                     <ul slot="slot2">
-                        <li class="ul-li" v-for="item in 5" :key="item">
+                        <li @click="$router.push(`/merchant/record/detail?id=${item}`)" class="ul-li" v-for="item in 5" :key="item">
                             <div class="flex-between-c">
                                 <span>二维码收款-料子</span>
                                 <b class="app-size-34 primary-color">+363.22</b>
@@ -35,7 +35,11 @@
                         </p>
                     </div>
                     <ul slot="slot2">
-                        <li class="ul-li" v-for="item in 5" :key="item">
+                        <li
+                            class="ul-li"
+                            v-for="item in 5"
+                            :key="item"
+                        >
                             <div class="flex-between-c">
                                 <span>二维码收款-料子</span>
                                 <b class="app-size-34 primary-color">+363.22</b>
@@ -61,7 +65,7 @@ type data = {
 }
 
 export default Vue.extend({
-    name: 'Payment',
+    name: 'MerchantRecord',
     data(): data {
         return {
             form: {

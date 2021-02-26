@@ -12,8 +12,8 @@
             <ShowCard class="margin-b40" divider direction="row">
                 <div class="text-align-l" slot="slot1">
                     <p>账户余额(USDT)</p>
-                    <b class="primary-color app-size-45">72 500.00</b>
-                    <Button class="app-size-22" size="micro">资金管理</Button>
+                    <b @click="$router.push('/merchant/fund?symbol=usdt')" class="primary-color app-size-45">72 500.00</b>
+                    <Button @click="$router.push('/merchant/fund')" class="app-size-22" size="micro">资金管理</Button>
                 </div>
                 <div class="text-align-r" slot="slot2">
                     <p>今日收款(USDT)</p>

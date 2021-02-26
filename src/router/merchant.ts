@@ -7,6 +7,8 @@ const Apply = () => import('@/views/merchant/apply.vue'); // 申请商户
 const Gateway = () => import('@/views/merchant/gateway.vue'); // 交易网关
 const Record = () => import('@/views/merchant/record.vue'); // 收款记录
 const Statistics = () => import('@/views/merchant/statistics.vue'); // 统计
+const RecordDetail = () => import('@/views/merchant/recordDetail.vue'); // 账单详情
+const Fund = () => import('@/views/merchant/fund.vue'); // 账单详情
 
 const routers: Array<RouteConfig> = [
     {
@@ -47,6 +49,22 @@ const routers: Array<RouteConfig> = [
         component: Statistics,
         meta: {
             index: 200,
+        },
+    },
+    {
+        path: '/merchant/record/detail',
+        name: 'merchantRecordDetail',
+        component: RecordDetail,
+        meta: {
+            index: 200,
+        },
+    },
+    {
+        path: '/merchant/fund',
+        name: 'merchantFund',
+        component: Fund,
+        meta: {
+            index: 100,
         },
     },
 
