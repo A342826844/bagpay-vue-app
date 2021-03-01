@@ -4,9 +4,7 @@
             <div :class="hasProtocol ? 'chainshow' : 'chainhide' " class="payment-card">
                 <Select @click="showPopupHandle">
                     <div class="flex-between-c">
-                        <span>
-                            链名称
-                        </span>
+                        <span v-t="'common.chainProtocol'"></span>
                         <span class="vertical-m">
                             {{activeProtocol.protocol && activeProtocol.protocol.toUpperCase()}}
                         </span>

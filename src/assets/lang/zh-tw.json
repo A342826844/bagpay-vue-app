@@ -165,6 +165,7 @@
         "passport": "護照",
         "unrecognized": "無法識別此圖片",
         "collectionFailure": "收付款方式獲取失敗",
+        "chainProtocol": "鏈名稱",
         "erc20Cash": "USDT提現僅支持{protocol}充值的方法，使用（{protocol}）以外的提現暫時無法上帳，請您諒解。",
         "erc20Charge": "請勿向上訴地址充值任何非{protocol}_ {coin}資產，否則資產將不可找回"
     },

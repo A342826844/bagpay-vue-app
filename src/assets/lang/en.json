@@ -164,6 +164,7 @@
         "networkErr": "Network error, try again after refreshing",
         "abnormal": "abnormal",
         "unrecognized": "Unrecognized this picture",
+        "chainProtocol": "Chain name",
         "collectionFailure": "Failed to obtain the collection method",
         "erc20Cash": "USDT withdraw only supports the method of {protocol},it is temporarily impossible to use the currency other than the ({protocol}).",
         "erc20Charge": "Please don't deposit any other digital assets except {protocol}_ {coin} to the above adress."

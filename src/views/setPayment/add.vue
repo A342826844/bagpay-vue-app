@@ -24,9 +24,7 @@
         <div :class="hasProtocol ? 'chainshow' : 'chainhide' " class="form-item">
             <Select @click="showPopupHandle">
                 <div class="flex-between-c">
-                    <span>
-                        链名称
-                    </span>
+                    <span v-t="'common.chainProtocol'"></span>
                     <span class="vertical-m">
                         {{activeProtocol.protocol && activeProtocol.protocol.toUpperCase()}}
                     </span>
@@ -221,6 +219,7 @@ export default Vue.extend({
                     remark: this.form.remark,
                     address: this.form.address,
                     memo: this.form.memoAddr,
+                    protocol: this.activeProtocol.protocol,
                     ...auth,
                 })
                 .then((res: any) => {

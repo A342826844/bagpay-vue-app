@@ -39,9 +39,7 @@
                 <div :class="hasProtocol ? 'chainshow' : 'chainhide' " class="form-item">
                     <Select @click="showPopupHandle">
                         <div class="flex-between-c">
-                            <span>
-                                链名称
-                            </span>
+                            <span v-t="'common.chainProtocol'"></span>
                             <span class="vertical-m">
                                 {{activeProtocol.protocol && activeProtocol.protocol.toUpperCase()}}
                             </span>
@@ -236,7 +234,7 @@ export default Vue.extend({
             if (this.address.address) {
                 this.form.address = this.address.address || '';
                 this.form.memo = this.address.memo || '';
-                this.activeProtocol.protocol = this.hasProtocol ? (this.address.memo || 'erc20') : '';
+                this.activeProtocol.protocol = this.hasProtocol ? (this.address.protocol || 'erc20') : (this.address.protocol || '');
                 this.queryUidByAddress();
             }
         },
