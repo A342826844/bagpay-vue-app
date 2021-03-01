@@ -214,7 +214,7 @@ export default Vue.extend({
             }
             if (from.name === 'scanQRCode' && vm.$route.name === 'transferpayment') {
                 vm.initAddress();
-                vm.getData();
+                vm.getData(from.name);
                 return;
             }
             if (from.name === 'scanQRCode') {
@@ -256,10 +256,12 @@ export default Vue.extend({
                 this.chainPopup = true;
             }
         },
-        getDataHandle() {
+        getDataHandle(name?: string) {
             return this.getCoinProtocols().then((res: any) => {
                 if (res.length) {
-                    this.activeProtocol = { ...res[0] };
+                    if (name !== 'scanQRCode') {
+                        this.activeProtocol = { ...res[0] };
+                    }
                     this.hasProtocol = true;
                     this.chainList = res;
                 } else {
@@ -295,11 +297,11 @@ export default Vue.extend({
                 }
             });
         },
-        getData() {
+        getData(name?: string) {
             this.isLoading = true;
             this.changeLoading(true);
             // this.getDayAmount();
-            Promise.all([this.initUserInfo(), this.getDataHandle()]).then(() => {
+            Promise.all([this.initUserInfo(), this.getDataHandle(name)]).then(() => {
                 this.getWithdraw();
             });
             // this.initUserInfo().then(() => {

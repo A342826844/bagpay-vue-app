@@ -187,6 +187,7 @@ export default Vue.extend({
                         symbol: this.symbol,
                         value: '',
                         memo: this.memo,
+                        protocol: this.activeProtocol.protocol,
                     });
                     this.loading = false;
                 }
