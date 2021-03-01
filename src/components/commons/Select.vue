@@ -1,6 +1,6 @@
 <template>
     <div @click="clickHnadle" class="app-select flex-between-c app-padding40">
-        <div>
+        <div class="flex-item-1 text-align-l">
             <slot></slot>
         </div>
         <img class="app-select-img" src="@/assets/img/common/arrow_right1.png" alt="">

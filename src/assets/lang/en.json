@@ -165,8 +165,8 @@
         "abnormal": "abnormal",
         "unrecognized": "Unrecognized this picture",
         "collectionFailure": "Failed to obtain the collection method",
-        "erc20Cash": "USDT withdraw only supports the method of ERC20,it is temporarily impossible to use the currency other than the (ERC20).",
-        "erc20Charge": "USDT deposit only supports the method of ERC20,it is temporarily impossible to use the currency other than the (ERC20)."
+        "erc20Cash": "USDT withdraw only supports the method of {protocol},it is temporarily impossible to use the currency other than the ({protocol}).",
+        "erc20Charge": "Please don't deposit any other digital assets except {protocol}_ {coin} to the above adress."
     },
     "refresh": {
         "pulling": "Pull down to refresh...",
@@ -237,7 +237,7 @@
         "paymentTip2": "Please do not deposit any assets other than {symbol} to the above address, otherwise the assets will not be retrieved.",
         "paymentTip3": "After recharging to the above address, the confirmation of 1 network node is required to be credited.",
         "serviceCharge": "Handling fee",
-        "paymentTip4": "Up to {txt} can be transferred within 24 hours, You have been transferred out {amount} in 24 hours",
+        "paymentTip4": "Up to {txt}{protocol} can be transferred within 24 hours, You have been transferred out {amount} in 24 hours",
         "paymentTip5": "In order to ensure the safety of funds, when your account security policy changes, password changes, we will manually review the withdrawal, please wait patiently for the staff to contact you by phone or email.",
         "paymentTip6": "Please make sure that the computer and browser are safe to prevent information from being tampered with or leaked.",
         "paymentTip7": "Your current real-name authentication level is not enough\n Please complete advanced real-name first",
