@@ -7,7 +7,7 @@ if (navigator.mediaDevices === undefined) {
 // 一些浏览器部分支持 mediaDevices。我们不能直接给对象设置 getUserMedia
 // 因为这样可能会覆盖已有的属性。这里我们只会在没有getUserMedia属性的时候添加它。
 if (navigator.mediaDevices.getUserMedia === undefined) {
-    navigator.mediaDevices.getUserMedia = function (constraints) {
+    navigator.mediaDevices.getUserMedia = (constraints) => {
         // 首先，如果有getUserMedia的话，就获得它
         const getUserMedia = (navigator as any).webkitGetUserMedia || (navigator as any).mozGetUserMedia;
 

@@ -1,150 +1,100 @@
 <template>
-    <div class="merchant light-grey-bg">
-        <div class="merchant-header">
-            <Headers bold theme="primary">
-                <h4 slot="left">
-                    <span class="app-size-45 vertical-m">统计</span>
-                </h4>
-            </Headers>
-            <div class="merchant-header-fringe primary-bg"></div>
-        </div>
-        <div>
-            <!-- <Histogram :data="datas"></Histogram> -->
-            <!-- <Bar :data="datas"></Bar> -->
-        </div>
-        <div class="app-size-34 lxa-footer-btn">
-            <Button @click="$router.push('/merchant/apply')">立即申请</Button>
+    <div class="merchant-statistics primary-bg flex-column">
+        <Headers bold theme="primary">
+            <h4 slot="left">
+                <span class="app-size-45 vertical-m">统计</span>
+            </h4>
+        </Headers>
+        <div class="merchant-statistics-box flex-item-1 flex-column">
+            <div class="merchant-statistics-tab">
+                <TabList
+                    size="big"
+                    :defaultVal="active"
+                    :tabList="bodyTabList"
+                >
+                    <div slot="right">
+                        <span class="vertical-m">2021年 1月</span>
+                        <img class="app-img-50 vertical-m" src="@/assets/img/common/calendar1.png" alt="">
+                    </div>
+                </TabList>
+            </div>
+            <div class="merchant-statistics-card flex-item-1">
+                <div class="flex-between-c app-padding40">
+                    <div class="text-align-l">
+                        <p class="app-size-28">收入金额(USDT)</p>
+                        <h4 class="app-size-45 primary-color">72 500.00</h4>
+                        <p>1笔</p>
+                    </div>
+                    <div class="text-align-r">
+                        <p class="app-size-28">收入金额(USDT)</p>
+                        <h4 class="app-size-45">72 500.00</h4>
+                        <p>1笔</p>
+                    </div>
+                </div>
+                <div class="app-padding40">
+                    <p class="text-align-l">近5日对比</p>
+                    <div>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-// import Histogram from 'v-charts/lib/histogram.common';
-// import Bar from 'v-charts/lib/bar.common';
 
-// TODO:
 type data = {
-    // datas: any;
-    address: string;
-    loading: boolean;
-    symbol: string;
-    qrValue: string;
-    memo: string;
-    value: string;
-    size: number;
+    active: string;
 }
 
-// const datas = {
-//     columns: ['日期', '访问用户'],
-//     rows: [
-//         { '日期': '2018-05-22', '访问用户': 32371 },
-//         { '日期': '2018-05-22', '访问用户': 32371 },
-//         { '日期': '2018-05-22', '访问用户': 32371 },
-//         { '日期': '2018-05-22', '访问用户': 32371 },
-//         { '日期': '2018-05-22', '访问用户': 32371 },
-//         { '日期': '2018-05-22', '访问用户': 32371 },
-//         { '日期': '2018-05-22', '访问用户': 32371 },
-//         { '日期': '2018-05-22', '访问用户': 32371 },
-//         { '日期': '2018-05-22', '访问用户': 32371 },
-//         { '日期': '2018-05-22', '访问用户': 32371 },
-//         { '日期': '2018-05-22', '访问用户': 32371 },
-//         { '日期': '2018-05-22', '访问用户': 32371 },
-//         { '日期': '2018-05-22', '访问用户': 32371 },
-//         { '日期': '2018-05-22', '访问用户': 32371 },
-//         { '日期': '2018-05-22', '访问用户': 32371 },
-//         { '日期': '2018-05-22', '访问用户': 32371 },
-//         { '日期': '2018-05-22', '访问用户': 32371 },
-//         { '日期': '2018-05-23', '访问用户': 12328 },
-//         { '日期': '2018-05-24', '访问用户': 92381 }
-//     ]
-// };
-
 export default Vue.extend({
-    name: 'MerchantStatistics',
-    components: {
-        // Histogram,
-        // Bar,
-    },
+    name: 'TransferHistory',
     data(): data {
         return {
-            // datas,
-            address: '',
-            symbol: '',
-            loading: true,
-            qrValue: '',
-            value: '',
-            memo: '',
-            size: 100,
+            active: 'day',
         };
+    },
+    computed: {
+        bodyTabList() {
+            return [
+                {
+                    title: '按日',
+                    value: 'day',
+                }, {
+                    title: '按月',
+                    value: 'month',
+                },
+            ];
+        },
     },
 });
 </script>
 
 <style lang="less" scoped>
-.merchant{
+@import '../../assets/less/excludecss/index.less';
+.merchant-statistics{
     height: 100%;
     position: relative;
-    overflow: auto;
-    .margin-b40{
-        margin-bottom: 40px;
-    }
-    .margin-t24{
-        margin-top: 24px;
-    }
-    &-header-fringe{
-        height: 220px;
-        border-radius: 0 0 50px 50px;
-    }
-    &-body{
-        position: absolute;
-        // background: pink;
-        max-height: calc(100% - 220px);
+    &-box{
         overflow: scroll;
-        top: 150px;
-        width: 658px;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-        &-mark{
-            .mark1{
-                width: 430px;
-                &-title{
-                    margin-bottom: 28px;
-                }
-            }
-            .mark2{
-                width: 200px;
-            }
-            .img1{
-                width: 92px;
-                flex-shrink: 0;
-                margin-right: 20px;
-            }
-            .img2{
-                width: 100px;
-            }
-        }
-        &-gateway{
-            .path{
-                width: 580px;
-                margin-top: 52px;
-            }
-            .path-img{
-                width: 100%;
-            }
-            // .path-lable{
-            //     width: 100%;
-            // }
-        }
-        &-api{
-            .api-li{
-                margin-bottom: 32px;
-                &-tip{
-                    margin-top: 20px;
-                }
-            }
-        }
+    }
+    &-tab{
+        margin-top: 72px;
+    }
+    &-card{
+        background: #ffffff;
+        color: #585858;
+        border-radius: 50px 50px 0 0;
+        padding-top: 50px;
+    }
+}
+</style>
+<style lang="less">
+.merchant-statistics-tab{
+    .tab-list .tabbar-p.active, .merchant-statistics .tabbar-p{
+        color: #ffffff;
     }
 }
 </style>

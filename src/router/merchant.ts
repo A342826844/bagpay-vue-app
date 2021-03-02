@@ -9,6 +9,7 @@ const Record = () => import('@/views/merchant/record.vue'); // 收款记录
 const Statistics = () => import('@/views/merchant/statistics.vue'); // 统计
 const RecordDetail = () => import('@/views/merchant/recordDetail.vue'); // 账单详情
 const Fund = () => import('@/views/merchant/fund.vue'); // 账单详情
+const Test = () => import('@/views/merchant/test.vue'); // 账单详情
 
 const routers: Array<RouteConfig> = [
     {
@@ -63,6 +64,14 @@ const routers: Array<RouteConfig> = [
         path: '/merchant/fund',
         name: 'merchantFund',
         component: Fund,
+        meta: {
+            index: 100,
+        },
+    },
+    {
+        path: '/merchant/test',
+        name: 'merchantTest',
+        component: Test,
         meta: {
             index: 100,
         },
