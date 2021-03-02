@@ -139,6 +139,7 @@ export default {
                     this.$store.commit('setAddress', {
                         address: data.address,
                         memo: data.memo,
+                        protocol: data.protocol,
                     });
                     this.$router.replace(`/transfer/payment?symbol=${data.symbol}`);
                     this.goBackHandle();

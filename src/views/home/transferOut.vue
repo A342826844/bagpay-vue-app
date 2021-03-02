@@ -36,6 +36,16 @@
                     </div>
                     </V-Field>
                 </div>
+                <div :class="hasProtocol ? 'chainshow' : 'chainhide' " class="form-item">
+                    <Select @click="showPopupHandle">
+                        <div class="flex-between-c">
+                            <span v-t="'common.chainProtocol'"></span>
+                            <span class="vertical-m">
+                                {{activeProtocol.protocol && activeProtocol.protocol.toUpperCase()}}
+                            </span>
+                        </div>
+                    </Select>
+                </div>
                 <div class="form-item" v-if="charge.need_memo === 1">
                     <div class="lable" v-t="'payment.memoAddr'"></div>
                     <Inputs v-model="form.memo" :placeholder="`${symbol.toUpperCase()} ${$t('payment.memoAddr')}`"></Inputs>
@@ -72,12 +82,15 @@
                     {{$t('home.paymentTip4', {
                             "txt": `${this.maxAmount} ${this.symbol.toUpperCase()}`,
                             amount: `${this.amount} ${this.symbol.toUpperCase()}`,
+                            protocol: activeProtocol.protocol ? `(${activeProtocol.protocol.toUpperCase()})` : '',
                         }
                     )}}
                 </PoptipItem>
-                <PoptipItem v-show="symbol === 'usdt'">
-                    {{$t('common.erc20Cash')}}
-                </PoptipItem>
+                <!-- <PoptipItem v-show="hasProtocol">
+                    {{$t('common.erc20Cash', {
+                        protocol: activeProtocol.protocol && activeProtocol.protocol.toUpperCase()
+                    })}}
+                </PoptipItem> -->
                 <PoptipItem>
                     {{$t('home.paymentTip5')}}
                 </PoptipItem>
@@ -94,6 +107,25 @@
             <Button @click="auth" v-t="'common.ok'" :disabled="!form.address || (charge.need_memo === 1 && !form.memo) || !form.value"></Button>
         </div>
         <user-auth ref="UserAuth" :type="8" @save="saveHandle"></user-auth>
+        <SelectPopup v-model="chainPopup">
+            <SelectPopupItem
+                v-for="item in chainList"
+                :key="item.id"
+                class="select-box"
+                @click="selectChain(item)"
+            >
+                {{ item.protocol.toUpperCase() }}
+            </SelectPopupItem>
+        </SelectPopup><SelectPopup v-model="chainPopup">
+            <SelectPopupItem
+                v-for="item in chainList"
+                :key="item.id"
+                class="select-box"
+                @click="selectChain(item)"
+            >
+                {{ item.protocol.toUpperCase() }}
+            </SelectPopupItem>
+        </SelectPopup>
     </div>
 </template>
 
@@ -109,6 +141,10 @@ type form = {
 }
 
 type data = {
+    chainPopup: boolean; // 显示协议弹出
+    hasProtocol: boolean; // 是否有协议
+    activeProtocol: any; // 所选协议
+    chainList: any[]; // 协议列表
     symbol: string;
     isLoading: boolean;
     innerUser: boolean;
@@ -122,6 +158,10 @@ export default Vue.extend({
     name: 'TransferOut',
     data(): data {
         return {
+            chainPopup: false,
+            hasProtocol: false,
+            activeProtocol: {},
+            chainList: [],
             symbol: this.$route.query.symbol as string,
             isLoading: false,
             innerUser: false,
@@ -167,13 +207,14 @@ export default Vue.extend({
             //         vm.showLvConfirm(vm._userInfo.ver_lv);
             //     }, 100);
             // }
+            // vm.getDataHandle();
             if (from.name === 'addrList') {
                 vm.initAddress();
                 return;
             }
             if (from.name === 'scanQRCode' && vm.$route.name === 'transferpayment') {
                 vm.initAddress();
-                vm.getData();
+                vm.getData(from.name);
                 return;
             }
             if (from.name === 'scanQRCode') {
@@ -193,6 +234,7 @@ export default Vue.extend({
             if (this.address.address) {
                 this.form.address = this.address.address || '';
                 this.form.memo = this.address.memo || '';
+                this.activeProtocol.protocol = this.hasProtocol ? (this.address.protocol || 'erc20') : (this.address.protocol || '');
                 this.queryUidByAddress();
             }
         },
@@ -209,11 +251,42 @@ export default Vue.extend({
             //     this.changeLoading(false);
             // });
         },
+        showPopupHandle() {
+            if (this.hasProtocol) {
+                this.chainPopup = true;
+            }
+        },
+        getDataHandle(name?: string) {
+            return this.getCoinProtocols().then((res: any) => {
+                if (res.length) {
+                    if (name !== 'scanQRCode') {
+                        this.activeProtocol = { ...res[0] };
+                    }
+                    this.hasProtocol = true;
+                    this.chainList = res;
+                } else {
+                    this.activeProtocol = {};
+                    this.hasProtocol = false;
+                    this.chainList = [];
+                }
+            });
+        },
+        getCoinProtocols() {
+            return this.$api.getCoinProtocols(this.symbol).then((res: any) => {
+                if (res.data) return res.data;
+                return [];
+            }).catch(() => []);
+        },
+        selectChain(item: any) {
+            this.activeProtocol = { ...item };
+            this.getWithdraw();
+        },
         queryUidByAddress() {
             if (!this.form.address) return;
             const params = {
                 coin: this.symbol, // 币种
                 address: this.form.address, // 地址
+                protocol: this.activeProtocol.protocol,
                 // protocol: [string] 协议,可选
             };
             this.$api.queryUidByAddress(params).then((res: any) => {
@@ -224,13 +297,16 @@ export default Vue.extend({
                 }
             });
         },
-        getData() {
+        getData(name?: string) {
             this.isLoading = true;
             this.changeLoading(true);
             // this.getDayAmount();
-            this.initUserInfo().then(() => {
+            Promise.all([this.initUserInfo(), this.getDataHandle(name)]).then(() => {
                 this.getWithdraw();
             });
+            // this.initUserInfo().then(() => {
+            //     this.getWithdraw();
+            // });
         },
         // getDayAmount() {
         //     return this.$api.getDayAmount({
@@ -265,7 +341,9 @@ export default Vue.extend({
             }
         },
         getWithdraw() {
+            this.changeLoading(true);
             return this.$api.getWithdraw({
+                protocol: this.activeProtocol.protocol,
                 coin: this.symbol,
             }).then((res: any) => {
                 if (res.data) {
@@ -337,6 +415,7 @@ export default Vue.extend({
             this.isLoading = true;
             this.changeLoading(true);
             this.$api.withdrawSubmit({
+                protocol: this.activeProtocol.protocol,
                 address: this.form.address,
                 memo: this.form.memo,
                 amount: this.form.value,
@@ -365,6 +444,18 @@ export default Vue.extend({
         width: 50px;
     }
     &-form{
+        .chainshow{
+            margin-top: 60px !important;
+            height: 99px;
+            opacity: 1;
+            transition: all 0.3s;
+        }
+        .chainhide{
+            height: 0;
+            transition: all 0.3s;
+            margin-top: 0 !important;
+            opacity: 0;
+        }
         margin-top: 76px;
         .fee_label{
             margin-top: 30px;

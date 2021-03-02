@@ -167,8 +167,9 @@
         "passport": "护照",
         "unrecognized": "无法识别此图片",
         "collectionFailure": "收付款方式获取失败",
-        "erc20Cash": "USDT提币仅支持ERC20充值的方法，使用（ERC20）以外的提币暂时无法上账，请您谅解。",
-        "erc20Charge": "USDT充币仅支持ERC20充值的方法，使用（ERC20）以外的充币暂时无法上账，请您谅解。"
+        "chainProtocol": "链名称",
+        "erc20Cash": "USDT提币仅支持{protocol}充值的方法，使用（{protocol}）以外的提币暂时无法上账，请您谅解。",
+        "erc20Charge": "请勿向上诉地址充值任何非{protocol}_ {coin}资产，否则资产将不可找回"
     },
     "refresh": {
         "pulling": "下拉即可刷新...",
@@ -240,7 +241,7 @@
         "paymentTip3": "充值至上述地址后，需要1个网络节点的确认才能到账。",
         "paymentTip10": "内部转账手续费: {amount}",
         "paymentTip11": "链上转账手续费: {amount}",
-        "paymentTip4": "24小时内最高可转{txt}, 您24小时已转出{amount}",
+        "paymentTip4": "24小时内最高可转{txt}{protocol}, 您24小时已转出{amount}",
         "paymentTip5": "为保障资金安全，当您账户安全策略变更、密码修改、我们会对提币进行人工审核，请耐心等待工作人员电话或邮件联系。",
         "paymentTip6": "请务必确认电脑及浏览器安全，防止信息被篡改或泄露。",
         "paymentTip7": "您当前实名认证等级不够 \n 请先完成高级实名",

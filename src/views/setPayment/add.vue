@@ -21,6 +21,16 @@
             />
           </div>
         </div>
+        <div :class="hasProtocol ? 'chainshow' : 'chainhide' " class="form-item">
+            <Select @click="showPopupHandle">
+                <div class="flex-between-c">
+                    <span v-t="'common.chainProtocol'"></span>
+                    <span class="vertical-m">
+                        {{activeProtocol.protocol && activeProtocol.protocol.toUpperCase()}}
+                    </span>
+                </div>
+            </Select>
+        </div>
         <div class="form-item form-item-card">
           <div class="lable" v-t="'payment.chequesAddr'"></div>
           <V-Field
@@ -66,6 +76,16 @@
     <div class="lxa-footer-btn">
       <Button @click="auth()" v-t="'common.ok'" :disabled="!form.address || (needMede === '1' && !form.memoAddr) || !form.remark"></Button>
     </div>
+    <SelectPopup v-model="chainPopup">
+        <SelectPopupItem
+            v-for="item in chainList"
+            :key="item.id"
+            class="select-box"
+            @click="selectChain(item)"
+        >
+            {{ item.protocol.toUpperCase() }}
+        </SelectPopupItem>
+    </SelectPopup>
   </div>
 </template>
 
@@ -73,6 +93,10 @@
 import Vue from 'vue';
 
 type data = {
+  chainPopup: boolean; // 显示协议弹出
+  hasProtocol: boolean; // 是否有协议
+  activeProtocol: any; // 所选协议
+  chainList: any[]; // 协议列表
   symbol: string;
   needMede: string;
   isLoading: boolean;
@@ -87,6 +111,10 @@ export default Vue.extend({
     name: 'SetPaymentAdd',
     data(): data {
         return {
+            chainPopup: false,
+            hasProtocol: false,
+            activeProtocol: {},
+            chainList: [],
             symbol: '',
             needMede: '',
             isLoading: false,
@@ -103,6 +131,7 @@ export default Vue.extend({
             vm.symbol = to.query.symbol || 'usdt';
             if (from.name === 'choisesymbol') {
                 vm.initPramis();
+                vm.getDataHandle();
             }
             if (from.name === 'scanQRCode') {
                 // eslint-disable-next-line no-param-reassign
@@ -110,9 +139,11 @@ export default Vue.extend({
             }
             if (!(from.name === 'choisesymbol' || from.name === 'scanQRCode' || from.name === 'minesafepass')) {
                 vm.clear();
+                vm.getDataHandle();
             }
         });
     },
+
     methods: {
         clear() {
             this.form = {
@@ -124,6 +155,33 @@ export default Vue.extend({
         initPramis() {
             this.symbol = this.$store.state.addAddr.symbol || '';
             this.needMede = this.$store.state.addAddr.needMede || '';
+        },
+        selectChain(item: any) {
+            this.activeProtocol = { ...item };
+        },
+        showPopupHandle() {
+            if (this.hasProtocol) {
+                this.chainPopup = true;
+            }
+        },
+        getDataHandle() {
+            return this.getCoinProtocols().then((res: any) => {
+                if (res.length) {
+                    this.activeProtocol = { ...res[0] };
+                    this.hasProtocol = true;
+                    this.chainList = res;
+                } else {
+                    this.activeProtocol = {};
+                    this.hasProtocol = false;
+                    this.chainList = [];
+                }
+            });
+        },
+        getCoinProtocols() {
+            return this.$api.getCoinProtocols(this.symbol).then((res: any) => {
+                if (res.data) return res.data;
+                return [];
+            }).catch(() => []);
         },
         auth() {
             if (this.isLoading) return;
@@ -161,6 +219,7 @@ export default Vue.extend({
                     remark: this.form.remark,
                     address: this.form.address,
                     memo: this.form.memoAddr,
+                    protocol: this.activeProtocol.protocol,
                     ...auth,
                 })
                 .then((res: any) => {
@@ -185,6 +244,18 @@ export default Vue.extend({
   &-form {
     margin-top: 58px;
     text-align: left;
+    .chainshow{
+        margin-top: 60px !important;
+        height: 99px;
+        opacity: 1;
+        transition: all 0.3s;
+    }
+    .chainhide{
+        height: 0;
+        transition: all 0.3s;
+        margin-top: 0 !important;
+        opacity: 0;
+    }
     .form-item {
       margin-top: 76px;
       &-select {

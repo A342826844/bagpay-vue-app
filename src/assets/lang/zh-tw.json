@@ -166,8 +166,9 @@
         "passport": "護照",
         "unrecognized": "無法識別此圖片",
         "collectionFailure": "收付款方式獲取失敗",
-        "erc20Cash": "USDT提現僅支持ERC20充值的方法，使用（ERC20）以外的提現暫時無法上帳，請您諒解。",
-        "erc20Charge": "USDT充幣僅支持ERC20充值的方法，使用（ERC20）以外的充幣暫時無法上帳，請您諒解。"
+        "chainProtocol": "鏈名稱",
+        "erc20Cash": "USDT提現僅支持{protocol}充值的方法，使用（{protocol}）以外的提現暫時無法上帳，請您諒解。",
+        "erc20Charge": "請勿向上訴地址充值任何非{protocol}_ {coin}資產，否則資產將不可找回"
     },
     "refresh": {
         "pulling": "下拉即可刷新...",
@@ -237,7 +238,7 @@
         "paymentTip1": "最小轉入金額：0.001{symbol}，小於最小金額的充值將不會上賬",
         "paymentTip2": "請勿向上述地址充值任何非{symbol}資產否則資產將不可找回。",
         "paymentTip3": "充值至上述地址後，需要1個網絡節點的確認才能到賬。",
-        "paymentTip4": "24小時內最高可轉{txt}, 您24小時已轉出{amount}",
+        "paymentTip4": "24小時內最高可轉{txt}{protocol}, 您24小時已轉出{amount}",
         "paymentTip5": "為保障資金安全，當您賬戶安全策略變更、密碼修改、我們會對提幣進行人工審核，請耐心等待工作人員電話或郵件聯繫。",
         "paymentTip6": "請務必確認電腦及瀏覽器安全，防止信息被篡改或洩露。",
         "paymentTip7": "您當前實名認證等級不夠 \n 請先完成高級實名",
