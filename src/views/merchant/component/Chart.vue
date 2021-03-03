@@ -1,16 +1,18 @@
 <template>
-  <v-chart
-    :option="bar"
-    :init-options="initOptions"
-    ref="bar"
-    theme="ovilia-green"
-    class="chart"
-    autoresize
-    :loading="barLoading"
-    :loadingOptions="barLoadingOptions"
-    @zr:click="handleZrClick"
-    @click="handleClick"
-/>
+    <div class="chart-box">
+    <v-chart
+        :option="bar"
+        :init-options="initOptions"
+        ref="bar"
+        theme="ovilia-green"
+        class="chart"
+        autoresize
+        :loading="barLoading"
+        :loadingOptions="barLoadingOptions"
+        @zr:click="handleZrClick"
+        @click="handleClick"
+    />
+    </div>
 </template>
 
 <script>

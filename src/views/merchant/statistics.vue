@@ -32,9 +32,9 @@
                     </div>
                 </div>
                 <div class="app-padding40">
-                    <p class="text-align-l">近5日对比</p>
-                    <div>
-
+                    <!-- <p class="text-align-l">近5日对比</p> -->
+                    <div class="scale-1px merchant-statistics-chart">
+                        <Chart></Chart>
                     </div>
                 </div>
             </div>
@@ -44,6 +44,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import Chart from './component/Chart.vue';
 
 type data = {
     active: string;
@@ -51,6 +52,9 @@ type data = {
 
 export default Vue.extend({
     name: 'TransferHistory',
+    components: {
+        Chart,
+    },
     data(): data {
         return {
             active: 'day',
@@ -88,6 +92,11 @@ export default Vue.extend({
         color: #585858;
         border-radius: 50px 50px 0 0;
         padding-top: 50px;
+    }
+    &-chart{
+        margin-top: 45px;
+        box-shadow: 0px 1px 5px 0px rgba(178, 178, 178, 0.5);
+        border-radius: 15px;
     }
 }
 </style>
