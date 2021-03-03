@@ -11,7 +11,7 @@
             <form @submit.prevent="" class="transfer-out-form app-padding40">
                 <div class="form-item">
                     <div class="lable" v-t="'payment.toAdd'"></div>
-                    <V-Field
+                    <!-- <V-Field
                         v-model="form.address"
                         rows="2"
                         autosize
@@ -34,7 +34,32 @@
                                 }
                             })" alt="">
                     </div>
-                    </V-Field>
+                    </V-Field> -->
+                    <Inputs
+                        v-model="form.address"
+                        :decimal="charge.decimal"
+                        maxlength="64"
+                        @input="queryUidByAddress"
+                        :placeholder="`${symbol.toUpperCase()} ${$t('payment.address')}`"
+                    >
+                        <div class="button_cont">
+                            <img class="app-img-50"
+                                src="@/assets/img/home/assets.png"
+                                v-if="$route.name !== 'transferpayment'"
+                                @click="$router.push({
+                                    path: '/addrList',
+                                    query: {
+                                        symbol: symbol,
+                                        needMemo: charge.need_memo
+                                    }
+                                })" alt="">
+                        </div>
+                        <ul slot="option">
+                            <li>24482484a54f65a45sdwdadw</li>
+                            <li>24482484a54f65a45sdwdadw</li>
+                            <li>24482484a54f65a45sdwdadw</li>
+                        </ul>
+                    </Inputs>
                 </div>
                 <div :class="hasProtocol ? 'chainshow' : 'chainhide' " class="form-item">
                     <Select @click="showPopupHandle">
@@ -486,6 +511,9 @@ export default Vue.extend({
     }
     .actual-receipt{
         margin: 30px 0;
+    }
+    .lxa-footer-btn{
+        padding-top: 0;
     }
 }
 </style>

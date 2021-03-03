@@ -30,6 +30,9 @@
         <span v-show="error" class="app-input-error">{{errorMsg}}</span>
         <span class="app-input-length app-input-right" v-show="isShowLength">{{inputV.length}}/{{maxlength}}</span>
         <slot></slot>
+        <div class="app-input-option">
+            <slot name="option"></slot>
+        </div>
     </div>
 </template>
 
@@ -277,6 +280,18 @@ export default Vue.extend({
         .app-input-error{
             color: @warning;
         }
+    }
+    &-option{
+        position: absolute;
+        z-index: 100;
+        width: 100%;
+        max-height: 300px;
+        overflow: scroll;
+        background: #fff;
+        top: 100%;
+        border-radius: 10px;
+        left: 0;
+        box-shadow: 0px 3px 16px 0px rgba(191, 191, 191, 0.22);
     }
 }
 </style>

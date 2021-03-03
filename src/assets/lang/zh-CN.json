@@ -588,6 +588,19 @@
         "lookLuck": "看看朋友手气",
         "isReady": "已领取过"
     },
+    "merchant": {
+        "title": "商家服务",
+        "fund ": "资金管理",
+        "balance": "账户余额",
+        "balanceToday": "今日收款",
+        "balanceRecord": "收款记录",
+        "safeTip1": "5分钟内快速到账",
+        "safeTip2": "C2C点对点不受监控",
+        "safeTip3": "离线蓝牙签名",
+        "safeTip4": "接入API与SDK到您的网站/APP",
+        "gateway": "支付网关",
+        "fastAndSafe": "快速安全"
+    },
     "error": {
         "ERR_SERVER_ERROR": "服务器内部错误",
         "ERR_PARAMS_ERROR": "参数错误",

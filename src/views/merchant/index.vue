@@ -3,7 +3,7 @@
         <div class="merchant-header">
             <Headers bold theme="primary">
                 <h4 slot="left">
-                    <span class="app-size-45 vertical-m">商家服务</span>
+                    <span class="app-size-45 vertical-m" v-t="'merchant.title'"></span>
                 </h4>
             </Headers>
             <div class="merchant-header-fringe primary-bg"></div>
@@ -11,38 +11,39 @@
         <div class="merchant-body">
             <ShowCard class="margin-b40" divider direction="row">
                 <div class="text-align-l" slot="slot1">
-                    <p>账户余额(USDT) <span class="triangle-r margin-l16"></span></p>
+                    <p>{{$t('merchant.balance')}}(USDT) <span class="triangle-r margin-l16"></span></p>
                     <b @click="$router.push('/merchant/fund?symbol=usdt')" class="primary-color app-size-45">72 500.00</b>
-                    <Button @click="$router.push('/merchant/fund')" class="app-size-22" size="micro">资金管理</Button>
+                    <Button @click="$router.push('/merchant/fund')" class="app-size-22" size="micro">{{$t('merchant.fund')}}</Button>
                 </div>
                 <div class="text-align-r" slot="slot2">
-                    <p>今日收款(USDT) <span class="triangle-r margin-l16"></span></p>
+                    <p>{{$t('merchant.balanceToday')}}(USDT) <span class="triangle-r margin-l16"></span></p>
                     <b @click="$router.push('/merchant/record')" class="primary-color app-size-45">72 500.00</b>
-                    <Button @click="$router.push('/merchant/record')" class="app-size-22" size="micro">收款记录</Button>
+                    <Button @click="$router.push('/merchant/record')" class="app-size-22" size="micro">{{$t('merchant.balanceRecord')}}</Button>
                 </div>
             </ShowCard>
             <div class="flex-between merchant-body-mark margin-b40">
                 <ShowCard class="mark1 text-align-l">
-                    <h5 class="app-size-28 mark1-title">快速安全</h5>
+                    <h5 class="app-size-28 mark1-title">{{$t('merchant.fastAndSafe')}}</h5>
                     <div class="flex-between-c">
                         <img class="img1" src="@/assets/img/merchant/otc.png" alt="">
                         <p>
-                            ·5分钟内快速到账
+                            {{$t('merchant.fastAndSafe')}}
+                            ·{{$t('merchant.safeTip1')}}
                             <br/>
-                            ·C2C点对点不受监控
+                            ·{{$t('merchant.safeTip2')}}
                             <br/>
-                            ·离线蓝牙签名
+                            ·{{$t('merchant.safeTip3')}}
                         </p>
                     </div>
                 </ShowCard>
                 <ShowCard class="mark2">
                     <img class="img2" src="@/assets/img/merchant/gobal.png" alt="">
-                    <div class="text-align-l">接入API与SDK到您的网站/APP</div>
+                    <div class="text-align-l">{{$t('merchant.safeTip4')}}</div>
                 </ShowCard>
             </div>
             <ShowCard class="merchant-body-gateway margin-b40">
                 <div class="flex-between app-size-28">
-                    <h5>支付网关</h5>
+                    <h5>{{$t('merchant.gateway')}}</h5>
                     <div @click="$router.push('/merchant/gateway')">
                         查看API文档
                         <img class="app-img-50" src="@/assets/img/common/arrow_right_p.png" alt="">
