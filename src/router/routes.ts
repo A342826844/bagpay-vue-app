@@ -53,6 +53,8 @@ const Allapplist = () => import('@/views/home/allAppList.vue'); // 选择转出�
 // const Mine = () => import('@/views/mine/index.vue');
 const SafeSetting = () => import('@/views/mine/safeSetting.vue');
 const SafePass = () => import('@/views/mine/safePass.vue');
+const ChangePhone = () => import('@/views/mine/changePhone.vue');
+const BindPhone = () => import('@/views/mine/bindPhone.vue');
 const ForgetSafePass = () => import('@/views/mine/forgetSafePass.vue');
 const SystemSetting = () => import('@/views/mine/systemSetting.vue');
 const Feedback = () => import('@/views/mine/feedback.vue');
@@ -507,6 +509,22 @@ const routes: Array<RouteConfig> = [
         component: SafeSetting,
         meta: {
             index: 50,
+        },
+    },
+    {
+        path: '/mine/changephone',
+        name: 'mineChangePhone',
+        component: ChangePhone,
+        meta: {
+            index: 200,
+        },
+    },
+    {
+        path: '/mine/bindPhone',
+        name: 'mineBindPhone',
+        component: BindPhone,
+        meta: {
+            index: 300,
         },
     },
     {

@@ -2,11 +2,15 @@
   <div class="set-payment-add">
     <TitleHeader :title="$t('mine.safeSetting')">
       <ul class="app-padding40 payment_cont">
-        <li v-if="$hasBindValue(_getPhone)" class="flex-between-c payment_item">
+        <li v-if="$hasBindValue(_getPhone)" @click="$router.push('/mine/changephone')" class="flex-between-c payment_item">
           <div v-t="'mine.phone'"></div>
           <div>
             <span>{{_getPhone | formatName}}</span>
-            <span style="display: inline-block" class="app-img-50"></span>
+            <img
+              class="app-img-50"
+              src="../../assets/img/common/arrow_right.png"
+              alt=""
+            />
           </div>
         </li>
         <li v-if="$hasBindValue(_userInfo.email)" class="flex-between-c payment_item">
