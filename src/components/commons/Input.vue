@@ -30,7 +30,7 @@
         <span v-show="error" class="app-input-error">{{errorMsg}}</span>
         <span class="app-input-length app-input-right" v-show="isShowLength">{{inputV.length}}/{{maxlength}}</span>
         <slot></slot>
-        <div class="app-input-option">
+        <div class="app-input-option" :class="optionSHow ? 'show' : 'hide'">
             <slot name="option"></slot>
         </div>
     </div>
@@ -106,6 +106,9 @@ export default Vue.extend({
         value: {
             type: [Number, String],
             required: true,
+        },
+        optionSHow: {
+            type: Boolean,
         },
     },
     data(): data {
@@ -292,6 +295,18 @@ export default Vue.extend({
         border-radius: 10px;
         left: 0;
         box-shadow: 0px 3px 16px 0px rgba(191, 191, 191, 0.22);
+        &.show{
+            overflow: scroll;
+            max-height: 300px;
+            opacity: 1;
+            transition: all 0.3s;
+        }
+        &.hide{
+            transition: all 0.3s;
+            max-height: 0px;
+            opacity: 0;
+            overflow: hidden;
+        }
     }
 }
 </style>

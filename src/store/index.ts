@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import countryList from '@/commons/country/index';
 import { CountryType, CurrencyTypeMap, Currency } from '@/commons/config/index';
+import modules from './modules';
 
 const symbolListStr = localStorage.getItem('symbolList');
 let symbolList = [];
@@ -39,6 +40,7 @@ const defaultCountry = () => {
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+    modules,
     state: {
         lang,
         loading: false,
@@ -71,6 +73,7 @@ export default new Vuex.Store({
         configCommon, // OTC配置信息
         bankList: [], // 用户绑定的收付款方式
         keepAlive: [], // 使用keepAlive的页面数组
+        addressHistory: [], // 使用过的地址 做本地历史存储
     },
     mutations: {
         /**
@@ -305,7 +308,5 @@ export default new Vuex.Store({
         },
     },
     actions: {
-    },
-    modules: {
     },
 });

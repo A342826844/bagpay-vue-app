@@ -10,7 +10,13 @@
             >
             <form @submit.prevent="" class="transfer-out-form app-padding40">
                 <div class="form-item">
-                    <div class="lable" v-t="'payment.toAdd'"></div>
+                    <div class="lable flex-between-c">
+                        <span @click="testHandle" v-t="'payment.toAdd'"></span>
+                        <div @click="checkoutAddressType" class="primary-color">
+                            <img class="app-img-50" src="@/assets/img/common/switch2.png" alt="">
+                            <span>{{addressType === 1 ? '地址转账' : '账号转账'}}</span>
+                        </div>
+                    </div>
                     <!-- <V-Field
                         v-model="form.address"
                         rows="2"
@@ -39,7 +45,10 @@
                         v-model="form.address"
                         :decimal="charge.decimal"
                         maxlength="64"
+                        :optionSHow="optionSHow"
                         @input="queryUidByAddress"
+                        @blur="addressBlurHandle"
+                        @focus="addressFocusHandle"
                         :placeholder="`${symbol.toUpperCase()} ${$t('payment.address')}`"
                     >
                         <div class="button_cont">
@@ -54,10 +63,16 @@
                                     }
                                 })" alt="">
                         </div>
-                        <ul slot="option">
-                            <li>24482484a54f65a45sdwdadw</li>
-                            <li>24482484a54f65a45sdwdadw</li>
-                            <li>24482484a54f65a45sdwdadw</li>
+                        <ul class="form-item-address-history app-padding40" slot="option">
+                            <li
+                                @click="selectAddressHistory(item)"
+                                class="li-item border-b"
+                                v-for="item in addressHistoryList"
+                                :key="item.address"
+                            >
+                                <img class="app-img-50" src="@/assets/img/common/history.png" alt="">
+                                <span>{{item.address}}</span>
+                            </li>
                         </ul>
                     </Inputs>
                 </div>
@@ -172,10 +187,12 @@ type data = {
     chainList: any[]; // 协议列表
     symbol: string;
     isLoading: boolean;
+    optionSHow: boolean;
     innerUser: boolean;
     amount: number;
     maxAmount: number;
     internal_out_fee: string|number;
+    addressType: 1|2;
     form: form;
 }
 
@@ -189,9 +206,11 @@ export default Vue.extend({
             chainList: [],
             symbol: this.$route.query.symbol as string,
             isLoading: false,
+            optionSHow: false,
             innerUser: false,
             amount: 0,
             maxAmount: 0,
+            addressType: 1,
             internal_out_fee: '--',
             form: {
                 address: '',
@@ -223,6 +242,14 @@ export default Vue.extend({
             }
             return this.$t('common.tranfer');
         },
+        // 获取地址历史记录
+        addressHistoryList(): any[] {
+            const type = this.addressType === 1 ? 'getAddressHistoryList' : 'getAccountHistoryList';
+            return this.$store.getters[type];
+        },
+        // accountHistoryList(): any[] {
+        //     return this.$store.getters['addressHistory/getAccountHistoryList'];
+        // }
     },
     beforeRouteEnter(to, from, next) {
         next((vm: any) => {
@@ -305,6 +332,33 @@ export default Vue.extend({
         selectChain(item: any) {
             this.activeProtocol = { ...item };
             this.getWithdraw();
+        },
+        checkoutAddressType() {
+            if (this.addressType === 1) {
+                this.addressType = 2;
+                return;
+            }
+            this.addressType = 1;
+        },
+        testHandle() {
+            const addressItem = {
+                protocol: this.activeProtocol.protocol,
+                address: this.form.address,
+                coin: this.symbol,
+                memo: this.form.memo,
+                type: this.addressType,
+            };
+            this.$store.commit('addAddressHistory', addressItem);
+        },
+        addressFocusHandle() {
+            this.optionSHow = true;
+        },
+        addressBlurHandle() {
+            this.optionSHow = false;
+        },
+        selectAddressHistory(item: any) {
+            this.form.address = item.address;
+            this.queryUidByAddress();
         },
         queryUidByAddress() {
             if (!this.form.address) return;
@@ -447,6 +501,14 @@ export default Vue.extend({
                 coin: this.symbol,
                 ...auth,
             }).then((res: any) => {
+                const addressItem = {
+                    protocol: this.activeProtocol.protocol,
+                    address: this.form.address,
+                    coin: this.symbol,
+                    type: this.addressType,
+                    memo: this.form.memo,
+                };
+                this.$store.commit('addAddressHistory', addressItem);
                 if (res.code === 0) {
                     this.$router.go(-1);
                 }
@@ -506,6 +568,12 @@ export default Vue.extend({
             .amount-line{
                 padding: 32px 40px 0;
                 background: #F5F7F9;
+            }
+            &-address-history{
+                // background: pink;
+                .li-item{
+                    line-height: 100px;
+                }
             }
         }
     }
