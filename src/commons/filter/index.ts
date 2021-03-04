@@ -415,6 +415,26 @@ Vue.filter('balanceLogType', (state: number) => {
     };
     return i18n.t(states[state]);
 });
+// 返佣类型 CommType
+Vue.filter('monthFilter', (state: number) => {
+	// ArticleTypeArt    = 0  //普通文章
+	// ArticleTypeNotice   = 1  //公告
+    const states: any = {
+        1: 'common.January',
+        2: 'common.February',
+        3: 'common.March',
+        4: 'common.April',
+        5: 'common.May',
+        6: 'common.June',
+        7: 'common.July',
+        8: 'common.August',
+        9: 'common.September',
+        10: 'common.October',
+        11: 'common.November',
+        12: 'common.December',
+    };
+    return i18n.t(states[state]);
+});
 
 // redEnvelopeType 0.固定金额 1.拼手气
 Vue.filter('redEnvelopeType', (state: 0|1) => {

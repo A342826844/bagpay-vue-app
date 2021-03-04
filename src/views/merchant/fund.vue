@@ -3,23 +3,17 @@
         <div class="merchant-fund-header">
             <Headers bold theme="primary">
                 <h4 slot="left">
-                    <span class="app-size-45 vertical-m">商家服务</span>
+                    <span class="app-size-45 vertical-m">{{$t('merchant.title')}}</span>
                 </h4>
             </Headers>
             <div class="merchant-fund-header-fringe primary-bg"></div>
         </div>
         <div class="merchant-fund-body">
             <div class=" app-padding40">
-                <ShowCard class="margin-b40" divider direction="row">
+                <ShowCard class="margin-b40" direction="row">
                     <div class="text-align-l" slot="slot1">
-                        <p>账户余额(USDT)</p>
+                        <p>{{$t('merchant.balance')}}(USDT) <span class="margin-l16"></span></p>
                         <b @click="$router.push('/merchant/fund?symbol=usdt')" class="primary-color app-size-45">72 500.00</b>
-                        <Button @click="$router.push('/merchant/fund')" class="app-size-22" size="micro">资金管理</Button>
-                    </div>
-                    <div class="text-align-r" slot="slot2">
-                        <p>今日收款(USDT)</p>
-                        <b @click="$router.push('/merchant/record')" class="primary-color app-size-45">72 500.00</b>
-                        <Button @click="$router.push('/merchant/record')" class="app-size-22" size="micro">收款记录</Button>
                     </div>
                 </ShowCard>
             </div>
@@ -189,7 +183,7 @@ export default Vue.extend({
         margin-top: 24px;
     }
     &-header-fringe{
-        height: 220px;
+        height: 180px;
         border-radius: 0 0 50px 50px;
     }
     &-body{

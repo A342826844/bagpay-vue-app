@@ -1,10 +1,10 @@
 <template>
     <div class="merchant-record">
         <TitleHeader fill theme="primary" title="收款记录">
-            <span @click="$router.push('/merchant/statistics')" slot="header">统计</span>
-            <span class="merchant-record-title-tip app-size-28" slot="title">共 3 笔</span>
+            <span @click="$router.push('/merchant/statistics')" slot="header">{{$t('merchant.statistics')}}</span>
+            <span class="merchant-record-title-tip app-size-28" slot="title">{{$t('merchant.total', {total: 2})}}</span>
             <div class="merchant-record-title-right" slot="right">
-                <span class="vertical-m">2021年 1月</span>
+                <span class="vertical-m">2021 {{$t('common.year')}} {{5 | monthFilter}}</span>
                 <img class="app-img-50 vertical-m" src="@/assets/img/common/calendar1.png" alt="">
             </div>
             <div class="merchant-record-list app-padding40">

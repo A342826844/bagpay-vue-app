@@ -45,31 +45,28 @@
                 <div class="flex-between app-size-28">
                     <h5>{{$t('merchant.gateway')}}</h5>
                     <div @click="$router.push('/merchant/gateway')">
-                        查看API文档
+                        {{$t('merchant.viewAPI')}}
                         <img class="app-img-50" src="@/assets/img/common/arrow_right_p.png" alt="">
                     </div>
                 </div>
                 <div class="text-align-l c9c9c9-color margin-t24">
-                    Bagpay是使用USDT的最佳支付系统,不论收
-                    款或付款,我们通通包办到好,不管您是电脑网
-                    站还是APP,我们都有提供API与SDK的模式
-                    让您快速接入。
+                    {{$t('merchant.safeTip5')}}
                 </div>
                 <div class="path">
                     <img class="path-img" src="@/assets/img/merchant/path.png" alt="">
                     <div class="path-lable flex-between-c">
-                        <span>会员</span>
-                        <span>交易所</span>
-                        <span>Bagpay</span>
-                        <span>平台</span>
+                        <span>{{$t('merchant.member')}}</span>
+                        <span>{{$t('merchant.exchange')}}</span>
+                        <span>{{$app_mark}}</span>
+                        <span>{{$t('merchant.platform')}}</span>
                     </div>
                 </div>
             </ShowCard>
             <ShowCard class="merchant-body-api margin-b40">
                 <div class="flex-between app-size-28">
-                    <h5>支付网关</h5>
+                    <h5>{{$t('merchant.gateway')}}</h5>
                     <div @click="$router.push('/merchant/gateway')">
-                        下载API文档
+                        {{$t('merchant.downloadAPI')}}
                         <img class="app-img-50" src="@/assets/img/common/arrow_right_p.png" alt="">
                     </div>
                 </div>
@@ -85,7 +82,7 @@
             <!-- <div v-for="item in 200" :key="item" >test</div> -->
         </div>
         <div class="app-size-34 lxa-footer-btn">
-            <Button @click="$router.push('/merchant/apply')">立即申请</Button>
+            <Button @click="$router.push('/merchant/apply')">{{$t('merchant.apply')}}</Button>
         </div>
     </div>
 </template>
