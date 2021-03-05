@@ -1,6 +1,6 @@
 <template>
     <div class="merchant-recorddetail">
-        <TitleHeader title="账单详情">
+        <TitleHeader :title="$t('merchant.recordDetail')">
             <div class="app-padding40">
                 <div class="merchant-recorddetail-top">
                     <h4 class="app-size-34 black-color">料子</h4>
@@ -12,29 +12,29 @@
                 <ShowCard class="scale-1px merchant-recorddetail-card app-size-28" divider>
                     <div slot="slot1">
                         <div class="flex-between-c">
-                            <span>当前状态</span>
+                            <span>{{$t('merchant.currentState')}}</span>
                             <span>已收款</span>
                         </div>
                         <div class="flex-between-c">
-                            <span>收款时间</span>
+                            <span>{{$t('merchant.collectionTime')}}</span>
                             <span>2021-01-05</span>
                         </div>
                         <div class="flex-between-c">
-                            <span>订单金额</span>
+                            <span>{{$t('merchant.amount')}}</span>
                             <span>170.00</span>
                         </div>
                     </div>
                     <div slot="slot2">
                         <div class="flex-between-c">
-                            <span>交易说明</span>
+                            <span>{{$t('merchant.description')}}</span>
                             <span>商品</span>
                         </div>
                         <div class="flex-between-c">
-                            <span>交易订单号</span>
+                            <span>{{$t('merchant.tradeNum')}}</span>
                             <span>295995959595595954</span>
                         </div>
                         <div class="flex-between-c">
-                            <span>商户订单号</span>
+                            <span>{{$t('merchant.merchantNum')}}</span>
                             <span>595955156454165654</span>
                         </div>
                     </div>

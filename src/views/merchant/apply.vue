@@ -1,31 +1,31 @@
 <template>
     <div class="merchant-apply">
-        <TitleHeader title="商户申请">
+        <TitleHeader :title="$t('merchant.applyMerchant')">
         <div class="app-padding40">
             <form @submit.prevent="" class="login-form" action="">
-                <div class="text-align-l app-size-34 merchant-apply-lable">姓名</div>
+                <div class="text-align-l app-size-34 merchant-apply-lable">{{$t('common.name1')}}</div>
                 <Inputs
                     class="login-form-item"
-                    placeholder="请填写真实姓名"
+                    :placeholder="$t('common.nameErr')"
                     clearable
                     v-model="form.name"
                     autocomplete="username"
                     :autofocus="true"
                     type="text"
                 />
-                <div class="text-align-l app-size-34 merchant-apply-lable">联系方式</div>
+                <div class="text-align-l app-size-34 merchant-apply-lable">{{$t('common.contact')}}</div>
                 <Inputs
                     class="login-form-item"
-                    placeholder="请填写联系电话"
+                    :placeholder="$t('common.placeTel')"
                     clearable
                     v-model="form.name"
                     autocomplete="username"
                     type="text"
                 />
-                <div class="text-align-l app-size-34 merchant-apply-lable">网站地址</div>
+                <div class="text-align-l app-size-34 merchant-apply-lable">{{$t('common.webUrl')}}</div>
                 <Inputs
                     class="login-form-item"
-                    placeholder="填写您的平台网址"
+                    :placeholder="$t('common.placeUrl')"
                     clearable
                     v-model="form.name"
                     autocomplete="username"
@@ -35,7 +35,7 @@
         </div>
         </TitleHeader>
         <div class="app-size-34 lxa-footer-btn">
-            <Button @click="$router.push('/merchant/apply')">提 交</Button>
+            <Button @click="$router.push('/merchant/apply')">{{$t('common.submit')}}</Button>
         </div>
     </div>
 </template>

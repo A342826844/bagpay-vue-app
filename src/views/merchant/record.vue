@@ -12,7 +12,7 @@
                     <div class="flex-between-c" slot="slot1">
                         <h5>2021-01-11</h5>
                         <p>
-                            <span>收入</span>
+                            <span>{{$t('merchant.income')}}</span>
                             <span>+726.44 USDT</span>
                         </p>
                     </div>
@@ -30,7 +30,7 @@
                     <div class="flex-between-c" slot="slot1">
                         <h5>2021-01-11</h5>
                         <p>
-                            <span>收入</span>
+                            <span>{{$t('merchant.expenditure')}}</span>
                             <span>+726.44 USDT</span>
                         </p>
                     </div>

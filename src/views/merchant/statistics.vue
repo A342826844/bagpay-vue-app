@@ -2,7 +2,7 @@
     <div class="merchant-statistics primary-bg flex-column">
         <Headers bold theme="primary">
             <h4 slot="left">
-                <span class="app-size-45 vertical-m">统计</span>
+                <span class="app-size-45 vertical-m">{{$t('merchant.statistics')}}</span>
             </h4>
         </Headers>
         <div class="merchant-statistics-box flex-item-1 flex-column">
@@ -13,7 +13,7 @@
                     :tabList="bodyTabList"
                 >
                     <div slot="right">
-                        <span class="vertical-m">2021年 1月</span>
+                        <span class="vertical-m">2021 {{$t('common.year')}} {{5 | monthFilter}}</span>
                         <img class="app-img-50 vertical-m" src="@/assets/img/common/calendar1.png" alt="">
                     </div>
                 </TabList>
@@ -21,14 +21,14 @@
             <div class="merchant-statistics-card flex-item-1">
                 <div class="flex-between-c app-padding40">
                     <div class="text-align-l">
-                        <p class="app-size-28">收入金额(USDT)</p>
+                        <p class="app-size-28">{{$t('merchant.incomeAmoount')}}(USDT)</p>
                         <h4 class="app-size-45 primary-color">72 500.00</h4>
-                        <p>1笔</p>
+                        <p>{{$t('merchant.total1', {total: 2})}}</p>
                     </div>
                     <div class="text-align-r">
-                        <p class="app-size-28">收入金额(USDT)</p>
+                        <p class="app-size-28">{{$t('merchant.expenditureAmount')}}(USDT)</p>
                         <h4 class="app-size-45">72 500.00</h4>
-                        <p>1笔</p>
+                        <p>{{$t('merchant.total1', {total: 3})}}</p>
                     </div>
                 </div>
                 <div class="app-padding40">
@@ -64,10 +64,10 @@ export default Vue.extend({
         bodyTabList() {
             return [
                 {
-                    title: '按日',
+                    title: this.$t('merchant.forDay'),
                     value: 'day',
                 }, {
-                    title: '按月',
+                    title: this.$t('merchant.forMonth'),
                     value: 'month',
                 },
             ];
