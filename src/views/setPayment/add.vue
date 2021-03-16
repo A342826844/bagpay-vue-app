@@ -22,14 +22,21 @@
           </div>
         </div>
         <div :class="hasProtocol ? 'chainshow' : 'chainhide' " class="form-item">
-            <Select @click="showPopupHandle">
+            <!-- <Select @click="showPopupHandle">
                 <div class="flex-between-c">
                     <span v-t="'common.chainProtocol'"></span>
                     <span class="vertical-m">
                         {{activeProtocol.protocol && activeProtocol.protocol.toUpperCase()}}
                     </span>
                 </div>
-            </Select>
+            </Select> -->
+            <ul class="flex-start-c">
+                <li class="app-padding-r40" @click="selectChain(item)" v-for="item in chainList" :key="item.id">
+                    <Button :type="activeProtocol.protocol === item.protocol ? 'primary' : 'disabled'" size="auto">
+                        {{ item.protocol.toUpperCase() }}
+                    </Button>
+                </li>
+            </ul>
         </div>
         <div class="form-item form-item-card">
           <div class="lable" v-t="'payment.chequesAddr'"></div>

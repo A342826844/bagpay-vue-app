@@ -36,7 +36,7 @@
                             <li class="app-padding40 flex-between-c" v-for="(item, index) in rechargeList" :key="index">
                                 <div class="values">
                                     <!-- <h5 class="value green-color">{{$t('payment.transferIn')}}</h5> -->
-                                    <h5 class="status_label" :class="{
+                                    <h5 class="status_label green-color" :class="{
                                         gery: item.status > 0,
                                     }">{{item.status | depositState}}</h5>
                                     <p class="sub-value">{{item.created_at | date('yyyy-MM-dd hh:mm:ss')}}</p>
@@ -56,7 +56,7 @@
                                     <!-- <h5 class="value red-color">
                                         {{$t('payment.transferOut')}}
                                     </h5> -->
-                                    <h5 class="status_label" :class="{
+                                    <h5 class="status_label red-color" :class="{
                                         gery: item.status === 1 || item.status > 2,
                                     }">{{item.status | withdrawState}}</h5>
                                     <p class="sub-value">{{item.created_at | date('yyyy-MM-dd hh:mm:ss')}}</p>
@@ -301,7 +301,6 @@ export default Vue.extend({
                         }
                         .status_label{
                             font-size: 34px;
-                            color:#5894EE;
                             &.grey{
                                 color: #A6A6A6;
                             }

@@ -22,8 +22,11 @@
                     </Select> -->
                 </div>
                 <div class="payment-info-qrcode" :style="{width: `${size + 15}px`, height: `${size + 15}px`}">
+                    <!-- <div class="qrcode-logo">
+                        <img class="app-img-50" src="@/assets/img/logo/logo.png" alt="">
+                    </div> -->
                     <Loading v-show="loading"/>
-                    <QrcodeVue ref="qrcode" v-show="qrValue" foreground="#5894EE" :size="size" :value="qrValue"></QrcodeVue>
+                    <QrcodeVue ref="qrcode" v-show="qrValue" foreground="#DFC086" :size="size" :value="qrValue"></QrcodeVue>
                 </div>
                 <div>
                     <h5 class="payment-info-title" v-t="'payment.paymentAddr'"></h5>
@@ -251,7 +254,20 @@ export default Vue.extend({
             margin: 59px 0 71px;
             display: inline-block;
             padding: 15px;
-            .scale-1px(#98D0FF, 10px);
+            .scale-1px(#DFC086, 10px);
+            .qrcode-logo{
+                position: absolute;
+                z-index: 10;
+                background: #fff;
+                width: 70px;
+                height: 70px;
+                border-radius: 20px;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                margin: auto;
+            }
         }
         &-address{
             margin-top: 29px;

@@ -36,9 +36,9 @@
                         swipeable
                         line-height='0.053333rem'
                         line-width='0.693333rem'
-                        color = '#5894EE'
+                        color = '#DFC086'
                         ref="tabs"
-                        title-active-color='#5894EE'
+                        title-active-color='#DFC086'
                         :swipe-threshold='5'
                         :border='false'
                         @change='changeCoinHandle(item.side)'
