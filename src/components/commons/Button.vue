@@ -3,7 +3,7 @@
         @click="$emit('click')"
         :disabled="disabled"
         class="app-button"
-        :class="[type, size, {disabled}, {border}, {radius}]">
+        :class="[type, size, shape, {disabled}, {border}, {radius}]">
         <slot></slot>
     </button>
 </template>
@@ -34,6 +34,10 @@ export default Vue.extend({
         size: {
             type: String,
             default: 'default', // small, default, large, fill, medium
+        },
+        shape: {
+            type: String,
+            default: '', // l-semicircle, r-semicircle
         },
     },
 });
@@ -68,8 +72,8 @@ export default Vue.extend({
         .green-bg;
     }
     &.info{
-        .info-bg;
-        border-color: @primary;
+        background: #FDF7EB;
+        border-color: #DFC086;
     }
     &.reinfo{
         .info-bg;
@@ -105,6 +109,18 @@ export default Vue.extend({
     &.auto{
         width: auto;
         padding: 0 45px;
+    }
+    &.l-semicircle{
+        border-radius: 100px 0 0 100px;
+        height: 74px;
+        padding: 0 27px 0 53px;
+        line-height: 74px;
+    }
+    &.r-semicircle{
+        border-radius: 0 100px 100px 0;
+        height: 74px;
+        line-height: 74px;
+        padding: 0 53px 0 27px;
     }
 }
 </style>

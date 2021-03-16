@@ -1,9 +1,12 @@
 <template>
     <div class="login">
-        <TitleHeader :title="$t('login.loginTitle')">
-            <span slot="header" @click="type = (1 - type/1)" class="primary-color app-size-34">
+        <TitleHeader no-right-padding :title="$t('login.loginTitle')">
+            <!-- <span slot="header" @click="type = (1 - type/1)" class="primary-color app-size-34">
                 {{type?$t('login.loginPhone'):$t('login.loginEmail')}}
-            </span>
+            </span> -->
+            <Button size="auto"  @click="type = (1 - type/1)" shape="l-semicircle" slot="header">
+                {{type?$t('login.loginPhone'):$t('login.loginEmail')}}
+            </Button>
         </TitleHeader>
         <div class="login-box app-padding40">
             <p class="login-tip">{{$t('login.loginTip')}}(USDT、USDC、TUSD......)</p>
@@ -17,7 +20,7 @@
                     :autofocus="true"
                     autocomplete="username" type="tel"
                 >
-                    <span @click="$router.push('/login/search')" class="primary-color login-form-item-country">+ {{country.tel}} </span>
+                    <span @click="$router.push('/login/search')" class="login-form-item-country">+ {{country.tel}} </span>
                 </Inputs>
                 <Inputs
                     class="login-form-item"
@@ -38,7 +41,7 @@
                 />
             </form>
             <p class="login-box-link">
-                <span @click="goFindAccount" class="primary-color"
+                <span @click="goFindAccount"
                     href="javascript:void(0)" v-t="'login.findAccount'"></span>
             </p>
         </div>
@@ -49,6 +52,7 @@
 </template>
 
 <script lang="ts">
+import Button from '@/components/commons/Button.vue';
 import Vue from 'vue';
 
 type form = {
@@ -64,6 +68,7 @@ type data = {
 }
 
 export default Vue.extend({
+    components: { Button },
     name: 'Login',
     data(): data {
         return {

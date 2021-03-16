@@ -414,8 +414,5 @@ export default Vue.extend({
             height: 68px;
         }
     }
-    &-icon-img{
-
-    }
 }
 </style>

@@ -35,19 +35,19 @@
                 </div>
             </div>
             <Poptip class="payment-poptip">
-                <PoptipItem>
+                <PoptipItem notRed>
                     {{ $t("home.paymentTip1", {"symbol": symbol.toUpperCase()}) }}
                 </PoptipItem>
-                <PoptipItem v-show="!hasProtocol">
+                <PoptipItem notRed v-show="!hasProtocol">
                     {{ $t("home.paymentTip2", {"symbol": symbol.toUpperCase()}) }}
                 </PoptipItem>
-                <PoptipItem v-show="hasProtocol">
+                <PoptipItem notRed v-show="hasProtocol">
                     {{$t('common.erc20Charge', {
                         protocol: activeProtocol.protocol && activeProtocol.protocol.toUpperCase(),
                         coin: symbol && symbol.toUpperCase()
                     })}}
                 </PoptipItem>
-                <PoptipItem>
+                <PoptipItem notRed>
                     {{ $t("home.paymentTip3") }}
                 </PoptipItem>
             </Poptip>

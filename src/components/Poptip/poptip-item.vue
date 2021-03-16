@@ -1,6 +1,6 @@
 <template>
     <p>
-        <span v-show="isInportent" class="isInportent">*</span>
+        <span v-show="isImportent" class="isImportent" :class="{ red: !notRed }">*</span>
         <span><slot></slot></span>
     </p>
 </template>
@@ -8,19 +8,25 @@
 <script>
 export default {
     props: {
-        isInportent: {
+        isImportent: {
             type: Boolean,
             default: true,
+        },
+        notRed: {
+            type: Boolean,
+            default: false,
         },
     },
 };
 </script>
 
 <style lang='less' scoped>
-.isInportent{
-    color: #f00;
+.isImportent{
     margin-right: .6em;
     position: relative;
     top: 10px;
+    &.red{
+        color: #f00;
+    }
 }
 </style>

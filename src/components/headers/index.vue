@@ -11,7 +11,7 @@
         </div>
         <span class="title ellipsis" :style="{opacity: opacityTtitle}" :class="[{'bold-title': bold}]">{{title}}</span>
         <span class="rightTitle" @click="$emit('right-click')">{{value}}</span>
-        <span class="right"><slot></slot></span>
+        <span class="right" :class="{ 'no-padding': noRightPadding }"><slot></slot></span>
     </div>
 </template>
 
@@ -31,6 +31,10 @@ export default Vue.extend({
         theme: {
             type: String,
             default: 'light', // light dark primary red
+        },
+        noRightPadding: {
+            type: Boolean,
+            default: false,
         },
         bold: {
             type: Boolean,
@@ -136,6 +140,9 @@ export default Vue.extend({
     }
     .right {
         float: right;
+        &.no-padding{
+            margin-right: 0;
+        }
     }
 }
 </style>
