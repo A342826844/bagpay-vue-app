@@ -1,18 +1,26 @@
 <template>
     <div class="payment primary-bg">
         <TitleHeader class="payment-body" theme="primary" ref="titleHeader" :title="$t('payment.paymentTitle')">
-            <div :class="hasProtocol ? 'chainshow' : 'chainhide' " class="payment-card">
-                <Select @click="showPopupHandle">
-                    <div class="flex-between-c">
-                        <span v-t="'common.chainProtocol'"></span>
-                        <span class="vertical-m">
-                            {{activeProtocol.protocol && activeProtocol.protocol.toUpperCase()}}
-                        </span>
-                    </div>
-                </Select>
-            </div>
+
             <div class="payment-card payment-info">
                 <h5 class="payment-info-title">{{$t('home.paymentTip') + symbol.toUpperCase()}}</h5>
+                <div :class="hasProtocol ? 'chainshow' : 'chainhide' " class="payment-chain">
+                    <ul class="flex-center">
+                        <li class="payment-chain-item" @click="selectChain(item)" v-for="item in chainList" :key="item.id">
+                            <Button :type="activeProtocol.protocol === item.protocol ? 'primary' : 'disabled'" size="auto">
+                                {{ item.protocol.toUpperCase() }}
+                            </Button>
+                        </li>
+                    </ul>
+                    <!-- <Select @click="showPopupHandle">
+                        <div class="flex-between-c">
+                            <span v-t="'common.chainProtocol'"></span>
+                            <span class="vertical-m">
+                                {{activeProtocol.protocol && activeProtocol.protocol.toUpperCase()}}
+                            </span>
+                        </div>
+                    </Select> -->
+                </div>
                 <div class="payment-info-qrcode" :style="{width: `${size + 15}px`, height: `${size + 15}px`}">
                     <Loading v-show="loading"/>
                     <QrcodeVue ref="qrcode" v-show="qrValue" foreground="#5894EE" :size="size" :value="qrValue"></QrcodeVue>
@@ -215,6 +223,11 @@ export default Vue.extend({
         width: 650px;
         border-radius: 20px;
     }
+    &-chain{
+        &-item{
+            margin: 0 15px;
+        }
+    }
     .chainshow{
         margin-top: 49px;
         height: 99px;
@@ -230,7 +243,7 @@ export default Vue.extend({
     &-info{
         position: relative;
         padding-top: 71px;
-        height: 892px;
+        height: 992px;
         &-title{
             font-size: 34px;
         }

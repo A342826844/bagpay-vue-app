@@ -57,6 +57,10 @@ export default Vue.extend({
     &.primary{
         .primary-bg;
     }
+    &.reprimary{
+        background: @primary;
+        color: @primary-bg;
+    }
     &.down{
         .red-bg;
     }
@@ -64,6 +68,10 @@ export default Vue.extend({
         .green-bg;
     }
     &.info{
+        .info-bg;
+        border-color: @primary;
+    }
+    &.reinfo{
         .info-bg;
         border-color: @primary;
     }

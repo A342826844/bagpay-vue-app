@@ -87,7 +87,7 @@ export default Vue.extend({
         color: #fff;
     }
     &.primary{
-        background: @primary;
+        background: @primary-bg;
         color: #fff;
     }
     &.red{

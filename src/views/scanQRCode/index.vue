@@ -15,7 +15,7 @@
                 <p>{{$t('common.scanTip2')}}</p>
             </div>
             <div class="brower-qr-btn app-size-34">
-                <Button type="info">
+                <Button type="reprimary">
                     <label class="label-btn" for="qrcodeFile">{{$t('common.scanPicture')}}</label>
                     <input @change="changeHandle" id="qrcodeFile" class="brower-qr-file" type="file">
                 </Button>

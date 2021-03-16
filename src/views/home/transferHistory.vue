@@ -9,7 +9,7 @@
             value="账单"
         /> -->
         <div class="transfer-history-box flex-item-1 flex-column">
-            <div class="top_flex app-padding40">
+            <div class="top_flex app-padding40 white-color">
                 <div class="transfer-history-top txt_left">
                     <p class="sub-value">{{$t('common.available')}}</p>
                     <h3 class="value">{{activeSymbol.available}}</h3>
@@ -231,6 +231,8 @@ export default Vue.extend({
 .transfer-history{
     height: 100%;
     position: relative;
+    background: url('../../assets/img/common/bg1.png') repeat;
+    background-size: contain;
     &-box{
         overflow: scroll;
     }

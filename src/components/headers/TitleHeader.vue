@@ -113,9 +113,9 @@ export default Vue.extend({
         }
     }
     &.primary{
-        background: @primary;
+        background: @primary-bg;
         .app-title-headers-title{
-            background: @primary;
+            background: @primary-bg;
         }
         h3{
             color: #ffffff;
