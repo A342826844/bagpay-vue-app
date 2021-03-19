@@ -4,6 +4,7 @@
             :class="[
                 {[`tab-list-size-${size}`] : size},
                 {sticky},
+                {[`theme-${theme}`]: theme}
             ]"
             class="tabbar app-padding40"
         >
@@ -17,7 +18,7 @@
                     'transition-duration': moveIng ? '' : '.3s'
                 }"
                 class="tabbar-p"
-                :class="{active:index==activeIndex}">
+                :class="{active: index==activeIndex}">
                 {{item.title}}
             </p>
         </div>
@@ -29,7 +30,7 @@
             ref="tabbarBody"
             :style="{
                 left: bodyLeft,
-                'transition-duration': moveIng ? '' : '.3s'
+                'transition-duration': moveIng || !bodyTransition ? '' : '.3s'
             }" class="tab-list-body"
         >
             <div
@@ -106,6 +107,18 @@ export default Vue.extend({
         size: {
             type: String,
             default: 'default', // big
+        },
+        theme: {
+            type: String,
+            default: '',
+        },
+        duration: {
+            type: [Number, String],
+            default: '0.3s', // 动画时间
+        },
+        bodyTransition: {
+            type: Boolean,
+            default: true, // 是否开启类容切换动画
         },
         defaultVal: {
             type: [Number, String],
@@ -366,6 +379,7 @@ export default Vue.extend({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+@import '../../assets/less/color.less';
 .tab-list{
     min-height: 100%;
     position: relative;
@@ -428,6 +442,13 @@ export default Vue.extend({
             &:last-child{
                 margin-right: 0;
             }
+        }
+        &.theme-primary{
+            color: #ffffff;
+            .tabbar-p.active{
+                color: @primary;
+            }
+
         }
     }
     &-body{

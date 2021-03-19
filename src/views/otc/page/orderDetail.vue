@@ -7,20 +7,23 @@
                 <span v-if="orderDetail.state === 0" class="red-color order-detail-download" slot="right">{{download | timeDown('mm:ss')}}</span>
             </Titles>
             <div>
-                <div class="order-detail-top flex-between-c app-padding40">
-                    <div class="text-align-l">
-                        <p class="lable" v-t="'otc.totalTurnover'"></p>
-                        <h5 class="primary-color app-size-34">{{ orderDetail.value }}</h5>
-                    </div>
-                    <div class="text-align-l">
-                        <p class="lable" v-t="'otc.buyCurrency'"></p>
-                        <p class="value">{{ orderDetail.coin | toUpperCase }}</p>
-                    </div>
-                    <div class="text-align-r">
-                        <p class="lable" v-t="'otc.orderType'"></p>
-                        <p class="" :class="orderDetail.taker_side|orderSideColor">
-                            {{ orderDetail.taker_side | orderSideUser(orderDetail.taker_id, _userInfo.id)}}
-                        </p>
+                <div class="order-detail-top app-padding40">
+                    <h5 class="text-align-l app-size-28">
+                        <span>您向{{orderDetail.target_nickname}}</span>
+                        <span
+                            :class="orderDetail.taker_side|orderSideColor"
+                        >{{orderDetail.taker_side | orderSideUser(orderDetail.taker_id, _userInfo.id)}}</span>
+                        <span>{{ orderDetail.amount }}{{ orderDetail.coin | toUpperCase }}</span>
+                    </h5>
+                    <div class="flex-between-c margin-t20">
+                        <div class="text-align-l">
+                            <p class="lable" v-t="'otc.orderNum'"></p>
+                            <p class="value">#{{ orderDetail.id }}#</p>
+                        </div>
+                        <div class="text-align-r">
+                            <p class="lable" v-t="'otc.orderTime'"></p>
+                            <p class="value">{{ orderDetail.created_at | date('yyyy-MM-dd hh:mm:ss')}}</p>
+                        </div>
                     </div>
                 </div>
                 <div class="order-detail-list">
@@ -42,46 +45,46 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="app-padding40">
-                            <div class="flex-between-c">
-                                <div class="lable">{{ orderDetail.taker_side | orderSideUserLable(orderDetail.taker_id, _userInfo.id)}}</div>
-                                <div>
-                                    <!-- <span class="vertical-m" v-t="'otc.seeDetails'"></span>
-                                    <img class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt=""> -->
-                                </div>
+                        <div class="list-tag primary-color app-size-34 text-align-l app-padding40">
+                            <span v-show="orderDetail.state === 3 || orderDetail.state === 2">成交总额</span>
+                            <span v-show="orderDetail.state === 0 && orderPayType">请向一下地址付款</span>
+                            <span v-show="orderDetail.state === 1 && orderPayType">等待对方确认收款</span>
+                            <span v-show="orderDetail.state === 0 && !orderPayType">等待对方付款</span>
+                            <span v-show="orderDetail.state === 1 && !orderPayType">确认已收款</span>
+                            <span>: {{orderDetail.value}} {{_unitIcon}}</span>
+                        </div>
+                        <li class="pay-info app-padding40">
+                            <div class="flex-between-c list-item-2">
+                                <span class="lable" v-t="'otc.mode'"></span>
+                                <span class="value">{{payDetail.type | payType}}</span>
                             </div>
                             <div class="flex-between-c list-item-2">
-                                <div class="value ellipsis-1 name-ellipsis">{{orderDetail.target_nickname}}</div>
-                                <div v-if="$hasBindValue(orderDetail.target_phone)" class="value">
-                                    {{orderDetail.target_phone | sliceMoblepre | formatName}}
-                                </div>
-                                <div v-else class="value">
-                                    {{orderDetail.target_email | formatName}}
-                                </div>
+                                <span v-t="'payway.name'"></span>
+                                <span @click="$copyText(payDetail.real_name)" class="primary-color">{{payDetail.real_name}}</span>
                             </div>
-                        </li>
-                        <li class="app-padding40">
-                            <div class="flex-between-c">
-                                <div class="lable" v-t="'otc.orderNum'"> </div>
-                                <div class="value">#{{ orderDetail.id }}#</div>
+                            <div v-if="payDetail.type === 1" class="flex-between-c list-item-2">
+                                <span v-t="'payway.bankDeposit'"></span>
+                                <span @click="$copyText(payDetail.bank)" class="primary-color text">{{payDetail.bank}}</span>
                             </div>
-                            <div class="flex-between-c list-item-2">
-                                <div class="lable" v-t="'otc.orderTime'"></div>
-                                <div class="value">{{ orderDetail.created_at | date('yyyy-MM-dd hh:mm:ss')}}</div>
+                            <div v-if="payDetail.type !== 5" class="flex-between-c list-item-2">
+                                <span v-t="'payway.account'"></span>
+                                <span @click="$copyText(payDetail.account)" class="primary-color text">{{payDetail.account}}</span>
                             </div>
-                        </li>
-                        <li class="app-padding40">
-                            <div class="flex-between-c">
-                                <div class="lable" v-t="'common.payway'"></div>
-                                <div @click="showPayHandle" class="primary-color">
-                                    <span class="vertical-m">{{ orderDetail.pay_type | payType}}</span>
-                                    <img class="app-img-50" src="@/assets/img/common/arrow_right1.png" alt="">
-                                </div>
+                            <div v-if="payDetail.type === 5" class="flex-between-c list-item-2">
+                                <span v-t="'payway.contact'"></span>
+                                <span @click="$copyText(payDetail.account)" class="primary-color text">{{payDetail.account}}</span>
                             </div>
-                            <div class="flex-between-c list-item-2">
-                                <!-- TODO: 支付信息 -->
-                                <div class="value" v-t="'otc.payNum'"></div>
-                                <div class="value">{{ orderDetail.pay_tag }}</div>
+                            <div v-if="payDetail.type === 5" class="flex-between-s list-item-2">
+                                <span v-t="'payway.address'"></span>
+                                <span @click="$copyText(payDetail.bank)" class="primary-color text">{{payDetail.bank}}</span>
+                            </div>
+                            <div v-if="payDetail.type === 5" class="flex-between-s list-item-2">
+                                <span v-t="'payway.fullAddress'"></span>
+                                <span @click="$copyText(payDetail.sub_bank)" class="primary-color text">{{payDetail.sub_bank}}</span>
+                            </div>
+                            <div v-if="payDetail.type === 2 || payDetail.type === 3 || payDetail.type === 4" class="flex-between-c list-item-2">
+                                <span v-t="'payway.qrc'"></span>
+                                <img @click="showPayImg(payDetail.qrc)" class="app-img-50" :src="`${$api.getFile}${payDetail.qrc}`" alt="">
                             </div>
                         </li>
                         <li v-if="orderDetail.appealing" class="app-padding40">
@@ -240,12 +243,17 @@ export default Vue.extend({
         configCommon(): any {
             return this.$store.state.configCommon;
         },
+        // ture: 我给对方打钱
+        // false: 对方给我打钱
+        orderPayType(): boolean {
+            return this.getTakerType(this.orderDetail.taker_side, this.orderDetail.maker_id, this._userInfo.id);
+        },
         showPayBtn(): boolean {
             // state = 0 &&  (购买 || 买入)
             return this.orderDetail.state === 0 && this.getTakerType(this.orderDetail.taker_side, this.orderDetail.maker_id, this._userInfo.id);
         },
         showReleasBtn(): boolean {
-            // state = 2 &&  (出售 || 卖出)
+            // state = 1 &&  (出售 || 卖出)
             return this.orderDetail.state === 1 && !this.getTakerType(this.orderDetail.taker_side, this.orderDetail.maker_id, this._userInfo.id);
         },
     },
@@ -335,6 +343,7 @@ export default Vue.extend({
                 this.changeLoading(false);
                 this.isLoading = false;
                 this.refreshOrderDetail();
+                this.getBankListById();
             });
         },
         showAppealing() {
@@ -559,6 +568,7 @@ export default Vue.extend({
                     padding-top: 43px;
                     padding-bottom: 42px;
                     font-size: 29px;
+                    border-radius: 20px;
                     .lable{
                         color: #A5A5A5;
                     }
@@ -574,6 +584,18 @@ export default Vue.extend({
                     }
                 }
             }
+            .list-tag{
+                height: 140px;
+                margin-top: 40px;
+                background: url('../../../assets/img/otc/order-detail.png') no-repeat;
+                background-size: 100%;
+                line-height: 98px;
+                position: relative;
+                z-index: 10;
+            }
+            .pay-info{
+                margin-top: -18px;
+            }
         }
         &-download{
             font-size: 68px;
@@ -582,6 +604,9 @@ export default Vue.extend({
     }
     .margin-20{
         margin: 0 20px;
+    }
+    .margin-t20{
+        margin-top: 20px;
     }
     .pay-dialog{
         line-height: 80px;

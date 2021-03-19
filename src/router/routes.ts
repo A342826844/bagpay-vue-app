@@ -77,6 +77,7 @@ const SetPaymentEdit = () => import('@/views/setPayment/edit.vue');
 const OtcEntry = () => import('@/views/otc/page/entry.vue');
 const OtcOrder = () => import('@/views/otc/page/order.vue');
 const OtcAdv = () => import('@/views/otc/page/advertising.vue');
+const OtcMerchant = () => import('@/views/otc/page/merchant.vue');
 const AdvManage = () => import('@/views/otc/page/advManage.vue');
 const OtcOrderDetail = () => import('@/views/otc/page/orderDetail.vue');
 const OtcSubmit = () => import('@/views/otc/page/submit.vue');
@@ -357,6 +358,15 @@ const routes: Array<RouteConfig> = [
             index: 20,
             keepAlive: true,
             componentName: 'OtcSubmit',
+        },
+    }, {
+        path: '/otc/merchant',
+        name: 'OtcMerchant',
+        component: OtcMerchant,
+        meta: {
+            index: 20,
+            keepAlive: true,
+            componentName: 'OtcMerchant',
         },
     }, {
         path: '/otc/order/appeal',
