@@ -39,7 +39,7 @@
                             <div class="app-padding-r40" slot="nav-right">
                                 <Button class="app-margin-t16" @click="tradeType = tradeType%2+1" size="mini">
                                     <img class="app-img-50 app-margin-r40" src="@/assets/img/common/switch.png" alt="">
-                                    快捷
+                                    {{$t('otc.shortcut')}}
                                 </Button>
                             </div>
                             <V-Tab
@@ -57,9 +57,9 @@
                                                 :balances="balances"
                                                 :coin="activeSymbol"
                                                 :side="item.side"
-                                                v-if="tradeType === 1"
+                                                v-show="tradeType === 1"
                                             ></QuickTrade>
-                                            <div v-else class="content-list">
+                                            <div v-show="tradeType !== 1" class="content-list">
                                                 <PullRefresh
                                                     v-model="isLoading"
                                                     @refresh="onRefresh"
@@ -565,6 +565,7 @@ export default Vue.extend({
     }
     &-list{
         background: #fff;
+        border-radius: 50px 50px 0 0;
         // padding-top: 26px;
     }
     // &-tab-mini{

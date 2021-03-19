@@ -33,13 +33,13 @@
                 <span>&nbsp;</span>
                 <Button @click="tradeHandle">{{$t('otc.quick')}}{{ side | orderSideType}}</Button>
             </div>
-            <div class="form-box margin-t-48 ">
+            <div class="form-box margin-t-36 ">
                 <div class="app-padding40 flex-between-c">
                     <span v-t="methodType === 1? 'otc.amount' : 'otc.num'"></span>
-                    <span @click="changeMethodType" class="primary-color">按数量购买</span>
+                    <span @click="changeMethodType" class="primary-color">{{methodType === 1 ? $t('otc.byTotal') : $t('otc.byAmount')}}</span>
                 </div>
-                <div class="app-padding40 margin-t-36 flex-between-c">
-                    <span class="app-size-50">{{methodType === 1 ? '$' : (coin && coin.toUpperCase())}}</span>
+                <div class="app-padding40  flex-between-c">
+                    <span class="app-size-45">{{methodType === 1 ? '$' : (coin && coin.toUpperCase())}}</span>
                     <Inputs
                         class="app-size-34"
                         bgColor="transparent"
@@ -57,7 +57,7 @@
                                 <span v-for="item in pay_type" :key="item"> {{item | payType}}</span>
                                 <span v-show="!pay_type.length">{{side === 2 ? $t('common.payway') : $t('otc.payment')}}</span>
                             </div>
-                            <p>2小时到账</p>
+                            <p>{{$t('otc.towHour')}}</p>
                         </div>
                     </Select>
                 </div>

@@ -472,6 +472,15 @@
         "quickTip": "Quick order, match the best price of user's hanging order on demand,",
         "quick": "Quick ",
         "noOrder": "no matching order",
+        "shortcut": "Shortcut ",
+        "byAmount": "By amount",
+        "byTotal": "By total",
+        "towHour": "It will arrive in two hours",
+        "advertising": "OTC",
+        "payToAddress": "Please pay to this",
+        "waitingOther": "Waiting for other party to confirm",
+        "waitingForPayment": "Waiting for payment",
+        "confirmReceipt": "Confirm receipt",
         "placeInput": "P enter {type}"
     },
     "business": {

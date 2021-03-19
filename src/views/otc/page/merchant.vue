@@ -219,7 +219,7 @@ export default Vue.extend({
         },
         bodyTabList(): Array<any> {
             return [{
-                title: '广告',
+                title: this.$t('otc.advertising'),
                 value: 'sideBuyT',
                 side: 2,
             // }, {

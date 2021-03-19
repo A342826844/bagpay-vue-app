@@ -470,6 +470,15 @@
         "quickTip": "極速一鍵下單，按需匹配用戶掛單最随身碟口價",
         "quick": "一鍵",
         "noOrder": "暫無匹配訂單",
+        "shortcut": "快捷",
+        "byAmount": "按金額購買",
+        "byTotal": "按數量購買",
+        "towHour": "2小時到賬",
+        "advertising": "廣告",
+        "payToAddress": "請向以下地址付款",
+        "waitingOther": "等待對方確認收款",
+        "waitingForPayment": "等待對方付款",
+        "confirmReceipt": "確認已收款",
         "placeInput": "請輸入{type}"
     },
     "business": {

@@ -104,7 +104,7 @@ export default Vue.extend({
     &-title{
         background: #ffffff;
         text-align: left;
-        padding-top: 62px;
+        padding-top: 48px;
         // font-weight: bold;
         h3{
             color: #282828;

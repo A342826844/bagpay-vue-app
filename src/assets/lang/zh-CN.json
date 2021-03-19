@@ -474,6 +474,15 @@
         "quickTip": "极速一键下单，按需匹配用户挂单最优盘口价",
         "quick": "一键",
         "noOrder": "暂无匹配订单",
+        "shortcut": "快捷",
+        "byAmount": "按金额购买",
+        "byTotal": "按数量购买",
+        "towHour": "2小时到账",
+        "advertising": "广告",
+        "payToAddress": "请向以下地址付款",
+        "waitingOther": "等待对方确认收款",
+        "waitingForPayment": "等待对方付款",
+        "confirmReceipt": "确认已收款",
         "placeInput": "请输入{type}"
     },
     "business": {

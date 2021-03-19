@@ -9,11 +9,22 @@
             <div>
                 <div class="order-detail-top app-padding40">
                     <h5 class="text-align-l app-size-28">
-                        <span>您向{{orderDetail.target_nickname}}</span>
-                        <span
-                            :class="orderDetail.taker_side|orderSideColor"
-                        >{{orderDetail.taker_side | orderSideUser(orderDetail.taker_id, _userInfo.id)}}</span>
-                        <span>{{ orderDetail.amount }}{{ orderDetail.coin | toUpperCase }}</span>
+                        <div v-show="_lang === 'en'">
+
+                            <span>You </span>
+                            <span
+                                :class="orderDetail.taker_side|orderSideColor"
+                            >{{orderDetail.taker_side | orderSideUser(orderDetail.taker_id, _userInfo.id)}} </span>
+                            <span>{{ orderDetail.amount }} {{ orderDetail.coin | toUpperCase }} </span>
+                            <span> to {{orderDetail.target_nickname}}</span>
+                        </div>
+                        <div v-show="_lang !== 'en'">
+                            <span> 您向{{orderDetail.target_nickname}}</span>
+                            <span
+                                :class="orderDetail.taker_side|orderSideColor"
+                            >{{orderDetail.taker_side | orderSideUser(orderDetail.taker_id, _userInfo.id)}}</span>
+                            <span>{{ orderDetail.amount }}{{ orderDetail.coin | toUpperCase }}</span>
+                        </div>
                     </h5>
                     <div class="flex-between-c margin-t20">
                         <div class="text-align-l">
@@ -46,11 +57,11 @@
                             </div>
                         </li>
                         <div class="list-tag primary-color app-size-34 text-align-l app-padding40">
-                            <span v-show="orderDetail.state === 3 || orderDetail.state === 2">成交总额</span>
-                            <span v-show="orderDetail.state === 0 && orderPayType">请向一下地址付款</span>
-                            <span v-show="orderDetail.state === 1 && orderPayType">等待对方确认收款</span>
-                            <span v-show="orderDetail.state === 0 && !orderPayType">等待对方付款</span>
-                            <span v-show="orderDetail.state === 1 && !orderPayType">确认已收款</span>
+                            <span v-show="orderDetail.state === 3 || orderDetail.state === 2">{{$t('otc.totalTurnover')}}</span>
+                            <span v-show="orderDetail.state === 0 && orderPayType">{{$t('otc.payToAddress')}}</span>
+                            <span v-show="orderDetail.state === 1 && orderPayType">{{$t('otc.waitingOther')}}</span>
+                            <span v-show="orderDetail.state === 0 && !orderPayType">{{$t('otc.waitingForPayment')}}</span>
+                            <span v-show="orderDetail.state === 1 && !orderPayType">{{$t('otc.confirmReceipt')}}</span>
                             <span>: {{orderDetail.value}} {{_unitIcon}}</span>
                         </div>
                         <li class="pay-info app-padding40">

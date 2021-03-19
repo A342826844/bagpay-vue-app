@@ -451,8 +451,9 @@ export default Vue.extend({
         width: 50px;
     }
     &-form{
+        margin-top: 46px;
         .chainshow{
-            margin-top: 60px !important;
+            margin-top: 36px !important;
             height: 99px;
             opacity: 1;
             transition: all 0.3s;
@@ -463,16 +464,15 @@ export default Vue.extend({
             margin-top: 0 !important;
             opacity: 0;
         }
-        margin-top: 76px;
         .fee_label{
             margin-top: 30px;
         }
         .form-item{
             &+.form-item{
-                margin-top: 60px;
+                margin-top: 36px;
             }
             .lable{
-                margin-bottom: 40px;
+                margin-bottom: 28px;
             }
             .amount-input{
                 height: 169px;
@@ -493,6 +493,9 @@ export default Vue.extend({
     }
     .actual-receipt{
         margin: 30px 0;
+    }
+    .lxa-footer-btn{
+        padding-top: 0;
     }
 }
 </style>
