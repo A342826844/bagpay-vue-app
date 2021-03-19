@@ -42,7 +42,7 @@ export const otcDealRelease = (id: number, data: params) => postGolang(`/otc/dea
 // 标记为已付款(仅买家可调用)
 export const otcDealPadi = (id: number) => getGolang(`/otc/deal/paid/${id}`, { id });
 // 广告下单
-export const otcDealSubmit = (data: params) => postGolang('/otc/deal/submit', data);
+export const otcDealSubmit = (data: params) => postGolang('/otc/deal/submit', data, { hideErrMsg: true });
 // 申请商家
 export const otcMerchant = (data: params) => postGolang('/otc/merchant/submit', data);
 // 申请商家更新

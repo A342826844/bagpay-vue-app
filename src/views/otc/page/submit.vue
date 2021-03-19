@@ -295,6 +295,7 @@ export default Vue.extend({
             this.form.pay_type = type;
         },
         selectPayHandle() {
+            if (this._loading) return;
             // this.payPopup = true;
             if (this.orderDetail.type === 2) {
                 this.payPopup = true;
@@ -406,7 +407,7 @@ export default Vue.extend({
                 this.changeLoading(false);
                 this.$router.replace(`/otc/order/detail?id=${res.data.id}`);
             }).catch(() => {
-                this.$normalToast(this.$t('otc.orderFailed'));
+                this.$normalToast(`${this.$t('otc.orderFailed')} 可能对方已解绑当前收款方式`);
                 this.changeLoading(false);
             });
         },

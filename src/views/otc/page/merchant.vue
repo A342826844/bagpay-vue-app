@@ -24,7 +24,7 @@
                 </SubOrderFilter>
             </OrderFilter>
         </Drawer>
-        <TitleHeader>
+        <TitleHeader no-right-padding>
             <template #title>
                 <span class="otc-business-detail-name ellipsis-1">{{merchantInfo.nickname}}</span>
                 <span class="otc-business-detail-tel">{{merchantInfo.phone | sliceMoblepre | formatName}}</span>
@@ -33,7 +33,10 @@
                 <img class="app-img-50" src="../../../assets/img/otc/vfy_business.png" alt="">
                 <img class="app-img-50" src="../../../assets/img/otc/vfy_real.png" alt="">
             </div>
-            <div>
+            <Button size="auto"  @click="$router.push('/otc/adv?symbol=usdt')" shape="l-semicircle" slot="header">
+                {{$t('otc.otcAdv')}}
+            </Button>
+            <div class="content-box">
 
                 <p class="otc-business-detail-time text-align-l app-padding40">
                     {{$t('otc.vfytime')}}:{{merchantInfo.verification_at | date('yyyy-MM-dd hh:mm:ss')}}
@@ -70,12 +73,14 @@
                     size="big"
                     border
                     :defaultVal="side"
+                    sticky
+                    subSticky
                     @on-click="clickHandle"
                     class="otc-business-detail-tabbar"
                     :tabList="bodyTabList"
                     ref="tablist"
                 >
-                    <div slot="right" class="app-padding40 app-margin-t40">
+                    <div slot="tabright" class="app-padding40">
                         <img class="app-img-50"  @click="isShow=!isShow" src="@/assets/img/common/screen.png" alt="">
                     </div>
                     <div class="otc-list" v-for="(item) in bodyTabList" :key="item.value" :slot="item.value">
@@ -217,10 +222,10 @@ export default Vue.extend({
                 title: '广告',
                 value: 'sideBuyT',
                 side: 2,
-            }, {
-                title: '历史',
-                value: 'sideSellT',
-                side: 1,
+            // }, {
+            //     title: '历史',
+            //     value: 'sideSellT',
+            //     side: 1,
             }];
         },
     },
@@ -286,6 +291,10 @@ export default Vue.extend({
                 }
                 if (this.list.length >= res.data.total) {
                     this.isEnd = true;
+                }
+                console.log(this.$refs.tablist);
+                if (this.$refs.tablist) {
+                    (this.$refs.tablist as any).getContentHeight();
                 }
             }).catch(() => {
                 this.changeLoading(false);

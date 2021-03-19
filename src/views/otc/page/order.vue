@@ -44,12 +44,12 @@
                                     <span :class="item.state | otcDealStateColor">{{item.state | otcDealState}}</span>
                                 </template>
                                 <template slot="lable">
-                                    <span>{{$t('common.price')}} ({{_unitIcon}})</span>
+                                    <span>{{$t('common.time')}}</span>
                                     <span>{{$t('otc.num')}} ({{item.coin && item.coin.toUpperCase()}})</span>
-                                    <span>{{$t('otc.turnover')}} ({{_unitIcon}})</span>
+                                    <span>{{$t('otc.totalTurnover')}} ({{_unitIcon}})</span>
                                 </template>
                                 <template slot="value">
-                                    <span>{{item.price}}</span>
+                                    <span>{{item.created_at | date('MM-dd hh:mm')}}</span>
                                     <span>{{item.amount}}</span>
                                     <span>{{item.value}}</span>
                                 </template>

@@ -405,11 +405,13 @@ export default Vue.extend({
                     }
                     return;
                 }
-                this.$normalToast(this.$t('otc.orderInfoFailed'));
+                if (this.$route.name === 'OtcOrderDetail') {
+                    this.$normalToast(this.$t('otc.orderInfoFailed'));
+                }
             }).catch((err: any) => {
                 this.isLoading = false;
                 this.changeLoading(false);
-                if (!err.data) {
+                if (!err.data && this.$route.name === 'OtcOrderDetail') {
                     this.$normalToast(this.$t('otc.orderInfoFailed'));
                 }
             });

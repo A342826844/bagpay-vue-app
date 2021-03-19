@@ -387,7 +387,7 @@ const routes: Array<RouteConfig> = [
         name: 'otcAdv',
         component: OtcAdv,
         meta: {
-            index: 10,
+            index: 30,
             keepAlive: true,
             componentName: 'OtcAdv',
         },

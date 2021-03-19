@@ -5,7 +5,7 @@
         </TopBar>
         <div class="primary-single-bg">
             <div class="flex-between-c app-padding40">
-                <div class="app-margin-t40">
+                <div class="">
                     <!-- TODO: -->
                     <img @click="showMoreHandle(true)" class="otc-top-logo" src="@/assets/img/logo/logo1.png" alt="">
                 </div>
@@ -22,7 +22,7 @@
                 theme="primary"
                 :tabList="bodyTabList"
             >
-                <div class="otc-list app-topo-br50" v-for="(item) in bodyTabList" :key="item.value" :slot="item.value">
+                <div class="otc-list app-top-br50" v-for="(item) in bodyTabList" :key="item.value" :slot="item.value">
                     <div class="otc-tabbar " @scroll.capture="scrollLoad">
                         <V-Tabs
                             v-model="activeSymbol"
@@ -37,7 +37,7 @@
                             @change='changeCoinHandle(item.side)'
                             >
                             <div class="app-padding-r40" slot="nav-right">
-                                <Button @click="tradeType = tradeType%2+1" size="mini">
+                                <Button class="app-margin-t16" @click="tradeType = tradeType%2+1" size="mini">
                                     <img class="app-img-50 app-margin-r40" src="@/assets/img/common/switch.png" alt="">
                                     快捷
                                 </Button>
@@ -553,6 +553,7 @@ export default Vue.extend({
     height: 100%;
     &-top-logo{
         width: 200px;
+        margin-top: 28px;
     }
     &-title{
         color: #575757;
@@ -564,7 +565,7 @@ export default Vue.extend({
     }
     &-list{
         background: #fff;
-        padding-top: 26px;
+        // padding-top: 26px;
     }
     // &-tab-mini{
     //     min-height: auto;
@@ -588,7 +589,7 @@ export default Vue.extend({
         }
     }
     &-tabbar-page{
-        height: calc(100vh - 315px);
+        height: calc(100vh - 385px);
         overflow: scroll;
     }
     .more-shade {

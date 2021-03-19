@@ -4,6 +4,7 @@
             :class="[
                 {[`tab-list-size-${size}`] : size},
                 {sticky},
+                {subSticky},
                 {[`theme-${theme}`]: theme}
             ]"
             class="tabbar app-padding40"
@@ -21,6 +22,9 @@
                 :class="{active: index==activeIndex}">
                 {{item.title}}
             </p>
+            <div class="tab-list-right">
+                <slot name="tabright"></slot>
+            </div>
         </div>
         <div v-show="border" class="app-border-margin16 border-b"></div>
         <div
@@ -141,6 +145,10 @@ export default Vue.extend({
             default: false,
         },
         sticky: {
+            type: Boolean,
+            default: false,
+        },
+        subSticky: {
             type: Boolean,
             default: false,
         },
@@ -409,6 +417,9 @@ export default Vue.extend({
             top: 0;
             z-index: 99;
             background: #ffffff;
+        }
+        &.subSticky{
+            top: 90px;
         }
         &-p{
             // font-size: 28px;
