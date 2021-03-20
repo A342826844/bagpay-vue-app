@@ -59,7 +59,7 @@ export default Vue.extend({
     padding-top: 80px;
     text-align: center;
     & > img {
-        width: 200px;
+        width: 160px;
         height: auto;
     }
     &.small > img {

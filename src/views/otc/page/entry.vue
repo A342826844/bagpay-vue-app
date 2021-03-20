@@ -3,8 +3,8 @@
         <TopBar v-if="_showTopBar">
             <h1 class="app-padding40 app-size-45 text-align-l">OTC</h1>
         </TopBar>
-        <div class="primary-single-bg">
-            <div class="flex-between-c app-padding40">
+        <div class="">
+            <div class="flex-between-c app-padding40 primary-single-bg">
                 <div class="">
                     <!-- TODO: -->
                     <img @click="showMoreHandle(true)" class="otc-top-logo" src="@/assets/img/logo/logo1.png" alt="">
@@ -17,7 +17,7 @@
             <TabList
                 :defaultVal="defaultVal"
                 @on-click="clickHandle"
-                class="otc-tab"
+                class="otc-tab primary-single-bg"
                 :bodyTransition="false"
                 theme="primary"
                 :tabList="bodyTabList"
@@ -345,7 +345,6 @@ export default Vue.extend({
             }
         },
         showMoreHandle(showMore: boolean) {
-            console.log('========');
             if (this.isLoginRouter()) return;
             this.showMore = showMore;
             if (showMore) {
@@ -464,7 +463,6 @@ export default Vue.extend({
             this.resizeTab();
         },
         merchantHandle() {
-            console.log(this._userInfo);
             if (this.merchant.status !== 1) {
                 this.$router.push('/otc/advBusiness');
                 return;

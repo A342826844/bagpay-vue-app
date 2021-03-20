@@ -292,7 +292,6 @@ export default Vue.extend({
                 if (this.list.length >= res.data.total) {
                     this.isEnd = true;
                 }
-                console.log(this.$refs.tablist);
                 if (this.$refs.tablist) {
                     (this.$refs.tablist as any).getContentHeight();
                 }

@@ -406,8 +406,13 @@ export default Vue.extend({
             this.$api.otcDealSubmit(params).then((res: any) => {
                 this.changeLoading(false);
                 this.$router.replace(`/otc/order/detail?id=${res.data.id}`);
-            }).catch(() => {
-                this.$normalToast(`${this.$t('otc.orderFailed')} 可能对方已解绑当前收款方式`);
+            }).catch((err: any) => {
+                console.log(err);
+                if (err.message === 'ERR_PARAMS_ERROR') {
+                    this.$normalToast(`${this.$t('otc.orderFailed')} 可能对方已解绑当前收款方式`);
+                } else {
+                    this.$normalToast(this.$t(`error.${err.message}`));
+                }
                 this.changeLoading(false);
             });
         },

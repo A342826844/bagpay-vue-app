@@ -465,8 +465,8 @@ export default Vue.extend({
                 height: 148px;
                 line-height: 148px;
                 font-size: 64px;
-                border-bottom-left-radius: 0;
-                border-bottom-right-radius: 0;
+                // border-bottom-left-radius: 0;
+                // border-bottom-right-radius: 0;
             }
             .remark-input{
                 border-top-left-radius: 0;
