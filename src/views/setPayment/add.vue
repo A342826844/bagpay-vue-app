@@ -32,7 +32,7 @@
             </Select> -->
             <ul class="flex-start-c">
                 <li class="app-padding-r40" @click="selectChain(item)" v-for="item in chainList" :key="item.id">
-                    <Button :type="activeProtocol.protocol === item.protocol ? 'primary' : 'disabled'" size="auto">
+                    <Button :type="activeProtocol.protocol === item.protocol ? 'primary' : 'disabled'" size="mini">
                         {{ item.protocol.toUpperCase() }}
                     </Button>
                 </li>
@@ -253,7 +253,7 @@ export default Vue.extend({
     text-align: left;
     .chainshow{
         margin-top: 60px !important;
-        height: 99px;
+        height: 70px;
         opacity: 1;
         transition: all 0.3s;
     }

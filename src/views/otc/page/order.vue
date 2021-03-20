@@ -1,5 +1,5 @@
 <template>
-    <div @scroll.capture="scrollLoad" class="adv-manage">
+    <div @scroll.capture="scrollLoad">
         <Drawer position="right" v-model="isShow">
             <OrderFilter :title="$t('common.screen')">
                 <SubOrderFilter :title="$t('common.status')">
@@ -189,14 +189,7 @@ export default Vue.extend({
 </script>
 
 <style lang="less" scoped>
-.adv-manage{
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  background: #fff;
-  overflow: scroll;
-}
+
 .content-list-nodata {
     margin: 28px 0;
 }

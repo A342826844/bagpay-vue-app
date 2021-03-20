@@ -17,7 +17,7 @@ const red = require('@/assets/img/home/red.png');
 // const financial = require('@/assets/img/home/financial.png');
 // const news = require('@/assets/img/home/news.png');
 const book = require('@/assets/img/home/book.png');
-const business = require('@/assets/img/home/business.png');
+// const business = require('@/assets/img/home/business.png');
 const invita = require('@/assets/img/home/invita.png');
 // const tranfer = require('@/assets/img/home/tranfer.png');
 const allApp = require('@/assets/img/common/all-app1.png');
@@ -48,15 +48,15 @@ export default Vue.extend({
         return {
             show: false,
             applicationList: [
-                {
-                    link: '/transferout?symbol=usdt',
-                    img: business,
-                    value: 'merchant',
-                    isDev: true,
-                    needLogin: true,
-                    showOut: true,
-                    title: 'common.merchant',
-                },
+                // {
+                //     link: '/transferout?symbol=usdt',
+                //     img: business,
+                //     value: 'merchant',
+                //     isDev: true,
+                //     needLogin: true,
+                //     showOut: true,
+                //     title: 'common.merchant',
+                // },
                 {
                     link: '/invitation',
                     img: invita,

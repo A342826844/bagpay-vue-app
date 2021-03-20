@@ -63,11 +63,11 @@ export default Vue.extend({
         height: auto;
     }
     &.small > img {
-        width: 160px;
+        width: 150px;
     }
     & > p {
         margin-top: 25px;
-        font-size: 24px;
+        // font-size: 24px;
         color: #575757;
     }
     &.padding-b{

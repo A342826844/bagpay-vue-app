@@ -426,7 +426,7 @@ export default Vue.extend({
             transition-property: all;
             transform : translateZ ( 0 ) ;
             opacity: 0.8;
-            transform: scale(0.8);
+            // transform: scale(0.8);
             transform-origin: bottom left;
             &.active{
                 color: #333;

@@ -39,7 +39,7 @@
                             <div class="app-padding-r40" slot="nav-right">
                                 <Button class="app-margin-t16" @click="tradeType = tradeType%2+1" size="mini">
                                     <img class="app-img-50 app-margin-r40" src="@/assets/img/common/switch.png" alt="">
-                                    {{$t('otc.shortcut')}}
+                                    {{ tradeType !== 1 ? $t('otc.shortcut') : $t('otc.zixuan')}}
                                 </Button>
                             </div>
                             <V-Tab
@@ -50,7 +50,7 @@
                                 :key="index"
                                 title-class="app-margin-l40"
                             >
-                                <transition name="fade">
+                                <transition :name="tradeType === 1 ? '' : 'fade'">
                                     <div class="otc-tabbar-page" v-show="subItem.symbol === activeSymbol">
                                         <div class="otc-tabbar-content bg-white">
                                             <QuickTrade
@@ -590,7 +590,7 @@ export default Vue.extend({
         }
     }
     &-tabbar-page{
-        height: calc(100vh - 385px);
+        height: calc(100vh - 321px);
         overflow: scroll;
     }
     .more-shade {

@@ -13,15 +13,15 @@ export default {
 
 <style lang='less' scoped>
 .app-poptip{
-    padding-top: 60px;
+    padding-top: 48px;
     font-size: 24px;
     font-weight: normal;
-    line-height: 60px;
+    line-height: 50px;
     color: #979797;
     letter-spacing: 0px;
     text-align: left;
     padding-left: 46px;
     padding-right: 32px;
-    margin-bottom: 100px;
+    margin-bottom: 68px;
 }
 </style>

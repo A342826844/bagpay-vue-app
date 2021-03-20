@@ -7,7 +7,7 @@
                 <div :class="hasProtocol ? 'chainshow' : 'chainhide' " class="payment-chain">
                     <ul class="flex-center">
                         <li class="payment-chain-item" @click="selectChain(item)" v-for="item in chainList" :key="item.id">
-                            <Button :type="activeProtocol.protocol === item.protocol ? 'primary' : 'disabled'" size="auto">
+                            <Button :type="activeProtocol.protocol === item.protocol ? 'primary' : 'disabled'" size="mini">
                                 {{ item.protocol.toUpperCase() }}
                             </Button>
                         </li>
@@ -233,7 +233,7 @@ export default Vue.extend({
     }
     .chainshow{
         margin-top: 49px;
-        height: 99px;
+        height: 70px;
         opacity: 1;
         transition: all 0.3s;
     }
