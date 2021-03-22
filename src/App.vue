@@ -314,7 +314,6 @@ export default Vue.extend({
 }
 .slide-right-leave-active {
     opacity: 0;
-    display: none;
     transform: translate3d(100%, 0, 0);
 }
 .slide-left-enter {
@@ -322,7 +321,6 @@ export default Vue.extend({
     transform: translate3d(100%, 0, 0);
 }
 .slide-left-leave-active {
-    display: none;
     opacity: 0;
     transform: translate3d(-100%, 0, 0);
 }
