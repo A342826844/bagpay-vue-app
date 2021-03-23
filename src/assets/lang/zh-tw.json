@@ -2,8 +2,9 @@
     "language": "繁體",
     "shareRedEnvelopeText": "請前往BagPay錢包-紅包輸入口令👉 {cdk} 👈領取紅包 https://bagpay.io/",
     "footer": {
-        "home": "首頁",
-        "mine": "我的"
+        "home": "錢包",
+        "otc": "場外",
+        "mine": "個人"
     },
     "common": {
         "envelopeSender": "{sender}的紅包",

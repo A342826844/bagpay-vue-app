@@ -3,6 +3,7 @@
     "shareRedEnvelopeText": "Please go to Bagpay wallet and enter your password 👉 {cdk} 👈 Get a red envelope https://bagpay.io/",
     "footer": {
         "home": "Home",
+        "otc": "OTC",
         "mine": "Mine"
     },
     "common": {

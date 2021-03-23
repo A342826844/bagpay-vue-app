@@ -57,7 +57,7 @@
                                 <span v-for="item in pay_type" :key="item"> {{item | payType}}</span>
                                 <span v-show="!pay_type.length">{{side === 2 ? $t('common.payway') : $t('otc.payment')}}</span>
                             </div>
-                            <p>{{$t('otc.towHour')}}</p>
+                            <p class="default97-color">{{$t('otc.towHour')}}</p>
                         </div>
                     </Select>
                 </div>
@@ -65,7 +65,7 @@
             <div class="app-size-34 margin-t-48">
                 <Button @click="tradeHandle">{{$t('otc.quick')}}{{ side | orderSideType}}</Button>
             </div>
-            <div class="margin-t-56">
+            <div class="margin-t-56 default97-color">
                 * {{$t('otc.quickTip')}}
             </div>
         </div>
@@ -160,6 +160,10 @@ export default Vue.extend({
         selectPayHandle() {
             if (this.side === 2) {
                 this.payPopup = true;
+                return;
+            }
+            if (!this._isLogin) {
+                this.$loginRoute('/payway/select?type=1');
                 return;
             }
             this.$router.push('/payway/select?type=1');

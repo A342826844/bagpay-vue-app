@@ -10,7 +10,7 @@
                     <img @click="showMoreHandle(true)" class="otc-top-logo" src="@/assets/img/logo/logo1.png" alt="">
                 </div>
                 <div class="app-margin-t40">
-                    <img @click="$router.push('/otc/order')" class="app-img-50" src="@/assets/img/otc/order1.png" alt="">
+                    <img @click="orderRouter" class="app-img-50" src="@/assets/img/otc/order1.png" alt="">
                     <img @click="merchantHandle" class="app-img-50 app-margin-l40" src="@/assets/img/otc/merchant.png" alt="">
                 </div>
             </div>
@@ -36,7 +36,7 @@
                             :border='false'
                             @change='changeCoinHandle(item.side)'
                             >
-                            <div class="app-padding-r40" slot="nav-right">
+                            <div class="app-padding-r40 zixuan-btn">
                                 <Button class="app-margin-t16" @click="tradeType = tradeType%2+1" size="mini">
                                     <img class="app-img-50 app-margin-r40" src="@/assets/img/common/switch.png" alt="">
                                     {{ tradeType !== 1 ? $t('otc.shortcut') : $t('otc.zixuan')}}
@@ -163,11 +163,12 @@ type data = {
     moreShade: Array<any>;
 }
 
-const menuHandle = (data: Array<any>): Array<any> => {
-    if (data.length < 5) {
+const menuHandle = (data: Array<any>, len = 5): Array<any> => {
+    console.log(len);
+    if (data.length < len) {
         return menuHandle(data.concat({
             symbol: '',
-        }));
+        }), len);
     }
     return data;
 };
@@ -273,8 +274,92 @@ export default Vue.extend({
                 ...item,
                 title: item.symbol.toUpperCase(),
             }));
+            coins = coins.concat({
+                confirmations: 1,
+                created_at: '2021-01-07 18:08:25',
+                decimal: 6,
+                enable: 1,
+                enable_otc: 1,
+                id: 88,
+                in_enable: 1,
+                in_min: 0.1,
+                internal_out_fee: 0,
+                master_address: '',
+                name: 'Etherneum',
+                need_memo: 0,
+                otc_fee: 0.001,
+                out_auto: 0,
+                out_enable: 1,
+                out_fee: 0.01,
+                out_max: 1000,
+                out_max_lv_1: 10,
+                out_max_lv_2: 100,
+                out_min: 0.1,
+                server: '',
+                sort: 9,
+                symbol: 'eth',
+                title: 'TTC',
+                updated_at: '2021-01-07 18:11:28',
+            });
+            // coins = coins.concat({
+            //     confirmations: 1,
+            //     created_at: "2021-01-07 18:08:25",
+            //     decimal: 6,
+            //     enable: 1,
+            //     enable_otc: 1,
+            //     id: 55,
+            //     in_enable: 1,
+            //     in_min: 0.1,
+            //     internal_out_fee: 0,
+            //     master_address: "",
+            //     name: "Etherneum",
+            //     need_memo: 0,
+            //     otc_fee: 0.001,
+            //     out_auto: 0,
+            //     out_enable: 1,
+            //     out_fee: 0.01,
+            //     out_max: 1000,
+            //     out_max_lv_1: 10,
+            //     out_max_lv_2: 100,
+            //     out_min: 0.1,
+            //     server: "",
+            //     sort: 9,
+            //     symbol: "eth",
+            //     title: "FFO",
+            //     updated_at: "2021-01-07 18:11:28",
+            // });
+            // coins = coins.concat({
+            //     confirmations: 1,
+            //     created_at: "2021-01-07 18:08:25",
+            //     decimal: 6,
+            //     enable: 1,
+            //     enable_otc: 1,
+            //     id: 99,
+            //     in_enable: 1,
+            //     in_min: 0.1,
+            //     internal_out_fee: 0,
+            //     master_address: "",
+            //     name: "Etherneum",
+            //     need_memo: 0,
+            //     otc_fee: 0.001,
+            //     out_auto: 0,
+            //     out_enable: 1,
+            //     out_fee: 0.01,
+            //     out_max: 1000,
+            //     out_max_lv_1: 10,
+            //     out_max_lv_2: 100,
+            //     out_min: 0.1,
+            //     server: "",
+            //     sort: 9,
+            //     symbol: "eth",
+            //     title: "CCC",
+            //     updated_at: "2021-01-07 18:11:28",
+            // });
+            console.log(coins);
             if (!coins.length) return [];
-            return menuHandle(coins);
+            const validLen = coins.filter((item: any) => item.symbol).length;
+            // console.log(validLen);
+            return menuHandle(coins, (validLen >= 4 ? 6 : undefined));
         },
         userBank(): Array<any> {
             return this.$store.getters.getBankEnableList;
@@ -352,6 +437,13 @@ export default Vue.extend({
             } else {
                 this.$overflowScrolling(true);
             }
+        },
+        orderRouter() {
+            if (!this._isLogin) {
+                this.$loginRoute('/otc/order');
+                return;
+            }
+            this.$router.push('/otc/order');
         },
         goBusinessDetail(item: any) {
             if (this.isLoginRouter()) return;
@@ -463,6 +555,10 @@ export default Vue.extend({
             this.resizeTab();
         },
         merchantHandle() {
+            if (!this._isLogin) {
+                this.$loginRoute('/otc/advBusiness');
+                return;
+            }
             if (this.merchant.status !== 1) {
                 this.$router.push('/otc/advBusiness');
                 return;
@@ -630,6 +726,11 @@ export default Vue.extend({
             }
         }
     }
+    .zixuan-btn{
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
 }
 .fade-enter-active, .fade-leave-active {
     transition: all .5s;
@@ -652,5 +753,26 @@ export default Vue.extend({
 // }
 .otc .van-tabs__nav{
     background: transparent;
+}
+.otc .van-tabs__wrap{
+    padding-top: 20px;
+    &.van-tabs__wrap--scrollable{
+        width: 65%;
+        // background: pink;
+        position: relative;
+        padding-top: 20px;
+        &::after{
+            position: absolute;
+            content: '';
+            right: 0;
+            top: 20px;
+            height: 100px;
+            width: 50px;
+            // background: #fff;
+            // background: linear-gradient(to left, rgba(255, 255, 255, 1) rgba(255, 255, 255, 0));
+            background: linear-gradient(to left, rgba(11,11,11,0.1), rgba(11,11,11,0))
+
+        }
+    }
 }
 </style>
