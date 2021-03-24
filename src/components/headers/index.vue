@@ -1,5 +1,11 @@
 <template>
-    <div class="app-headers app-padding40" :class="[theme, {[`header-position-${position}`]: position}]">
+    <div class="app-headers app-padding40"
+        :class="[
+            theme,
+            {[`header-size-${size}`]: size},
+            {[`header-position-${position}`]: position}
+        ]"
+    >
         <img
             v-if="isBack"
             @click="goback"
@@ -52,6 +58,10 @@ export default Vue.extend({
         position: {
             type: String,
         },
+        size: {
+            type: String,
+            default: 'default', // gigger
+        },
     },
     data() {
         return {
@@ -100,6 +110,10 @@ export default Vue.extend({
     }
     &.header-position-fixed{
         position: fixed;
+    }
+    &.header-size-bigger{
+        height: 120px;
+        line-height: 1.5;
     }
     .rightTitle, .right{
         font-size: 28px;

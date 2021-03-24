@@ -33,7 +33,7 @@ export default Vue.extend({
         },
         size: {
             type: String,
-            default: 'default', // small, default, large, fill, medium
+            default: 'default', // small, default, large, fill, medium, minuscule
         },
         shape: {
             type: String,
@@ -105,6 +105,12 @@ export default Vue.extend({
     &.mini{
         width: 186px;
         height: 70px;
+    }
+    &.minuscule{
+        width: auto;
+        height: auto;
+        // line-height: 2;
+        padding: 12px 24px;
     }
     &.auto{
         width: auto;

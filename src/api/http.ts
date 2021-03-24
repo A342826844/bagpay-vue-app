@@ -21,6 +21,12 @@ export const getJava = (url: string, params?: object) => axiosOfJava({
     method: 'get',
     baseURL: `${process.env.VUE_APP_SERVE_DEV === 'DEV' ? baseURL : process.env.VUE_APP_GOLANG_apiUrl}/promotion`,
 });
+// export const thirdAxios = (url: string, params?: object, option?: any) => axiosOfJava({
+//     url,
+//     params,
+//     method: option.method || 'get',
+//     baseURL: 'https://iapp.anff.io/',
+// });
 
 export const postJava = (url: string, data?: { [x: string]: any } | undefined, config: Config = {}) => {
     let formdata = null;

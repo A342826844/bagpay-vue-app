@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import countryList from '@/commons/country/index';
 import { CountryType, CurrencyTypeMap, Currency } from '@/commons/config/index';
+import modules from './modules';
 
 const symbolListStr = localStorage.getItem('symbolList');
 let symbolList = [];
@@ -39,6 +40,7 @@ const defaultCountry = () => {
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+    modules,
     state: {
         lang,
         loading: false,
@@ -305,7 +307,5 @@ export default new Vuex.Store({
         },
     },
     actions: {
-    },
-    modules: {
     },
 });
