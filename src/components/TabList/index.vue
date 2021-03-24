@@ -419,7 +419,7 @@ export default Vue.extend({
             background: #ffffff;
         }
         &.subSticky{
-            top: 90px;
+            top: 88px;
         }
         &-p{
             // font-size: 28px;

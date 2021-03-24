@@ -6,8 +6,7 @@
         <div class="">
             <div class="flex-between-c app-padding40 primary-single-bg">
                 <div class="">
-                    <!-- TODO: -->
-                    <img @click="showMoreHandle(true)" class="otc-top-logo" src="@/assets/img/logo/logo1.png" alt="">
+                    <img class="otc-top-logo" src="@/assets/img/logo/logo1.png" alt="">
                 </div>
                 <div class="app-margin-t40">
                     <img @click="orderRouter" class="app-img-50" src="@/assets/img/otc/order1.png" alt="">
@@ -48,7 +47,6 @@
                                 :name="subItem.symbol"
                                 :disabled="!subItem.symbol"
                                 :key="index"
-                                title-class="app-margin-l40"
                             >
                                 <transition :name="tradeType === 1 ? '' : 'fade'">
                                     <div class="otc-tabbar-page" v-show="subItem.symbol === activeSymbol">
@@ -164,7 +162,6 @@ type data = {
 }
 
 const menuHandle = (data: Array<any>, len = 5): Array<any> => {
-    console.log(len);
     if (data.length < len) {
         return menuHandle(data.concat({
             symbol: '',
@@ -274,88 +271,6 @@ export default Vue.extend({
                 ...item,
                 title: item.symbol.toUpperCase(),
             }));
-            coins = coins.concat({
-                confirmations: 1,
-                created_at: '2021-01-07 18:08:25',
-                decimal: 6,
-                enable: 1,
-                enable_otc: 1,
-                id: 88,
-                in_enable: 1,
-                in_min: 0.1,
-                internal_out_fee: 0,
-                master_address: '',
-                name: 'Etherneum',
-                need_memo: 0,
-                otc_fee: 0.001,
-                out_auto: 0,
-                out_enable: 1,
-                out_fee: 0.01,
-                out_max: 1000,
-                out_max_lv_1: 10,
-                out_max_lv_2: 100,
-                out_min: 0.1,
-                server: '',
-                sort: 9,
-                symbol: 'eth',
-                title: 'TTC',
-                updated_at: '2021-01-07 18:11:28',
-            });
-            // coins = coins.concat({
-            //     confirmations: 1,
-            //     created_at: "2021-01-07 18:08:25",
-            //     decimal: 6,
-            //     enable: 1,
-            //     enable_otc: 1,
-            //     id: 55,
-            //     in_enable: 1,
-            //     in_min: 0.1,
-            //     internal_out_fee: 0,
-            //     master_address: "",
-            //     name: "Etherneum",
-            //     need_memo: 0,
-            //     otc_fee: 0.001,
-            //     out_auto: 0,
-            //     out_enable: 1,
-            //     out_fee: 0.01,
-            //     out_max: 1000,
-            //     out_max_lv_1: 10,
-            //     out_max_lv_2: 100,
-            //     out_min: 0.1,
-            //     server: "",
-            //     sort: 9,
-            //     symbol: "eth",
-            //     title: "FFO",
-            //     updated_at: "2021-01-07 18:11:28",
-            // });
-            // coins = coins.concat({
-            //     confirmations: 1,
-            //     created_at: "2021-01-07 18:08:25",
-            //     decimal: 6,
-            //     enable: 1,
-            //     enable_otc: 1,
-            //     id: 99,
-            //     in_enable: 1,
-            //     in_min: 0.1,
-            //     internal_out_fee: 0,
-            //     master_address: "",
-            //     name: "Etherneum",
-            //     need_memo: 0,
-            //     otc_fee: 0.001,
-            //     out_auto: 0,
-            //     out_enable: 1,
-            //     out_fee: 0.01,
-            //     out_max: 1000,
-            //     out_max_lv_1: 10,
-            //     out_max_lv_2: 100,
-            //     out_min: 0.1,
-            //     server: "",
-            //     sort: 9,
-            //     symbol: "eth",
-            //     title: "CCC",
-            //     updated_at: "2021-01-07 18:11:28",
-            // });
-            console.log(coins);
             if (!coins.length) return [];
             const validLen = coins.filter((item: any) => item.symbol).length;
             // console.log(validLen);
@@ -767,10 +682,10 @@ export default Vue.extend({
             right: 0;
             top: 20px;
             height: 100px;
-            width: 50px;
+            width: 1px;
             // background: #fff;
             // background: linear-gradient(to left, rgba(255, 255, 255, 1) rgba(255, 255, 255, 0));
-            background: linear-gradient(to left, rgba(11,11,11,0.1), rgba(11,11,11,0))
+            background: #dcdcdc;
 
         }
     }

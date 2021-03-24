@@ -209,7 +209,7 @@ export default Vue.extend({
 @error: #ed4014;
 .app-input{
     width: 100%;
-    height: 99px;
+    height: 90px;
     line-height: 60px;
     background: #F5F7F9;
     border-radius: 10px;

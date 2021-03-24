@@ -385,6 +385,7 @@
         "orderFailed": "下单失败",
         "enterNum": "请输入数量或者金额",
         "enterNum2": "请输入数量",
+        "enterAmount": "请输入金额",
         "selectPayWay": "请选择收付款方式",
         "buyCurrency": "交易币种",
         "orderType": "订单类型",
