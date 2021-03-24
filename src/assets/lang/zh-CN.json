@@ -466,6 +466,8 @@
         "socialAccount": "社交账号",
         "iceName": "紧急联系人姓名",
         "icePhone": "紧急联系人电话",
+        "iceRelation": "与本人关系",
+        "address": "常住地址",
         "deposit": "缴纳保证金",
         "floatingPrice": "浮动价格",
         "fixedPrice": "固定价格",

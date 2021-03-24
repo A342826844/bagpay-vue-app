@@ -458,6 +458,8 @@
         "socialAccount": "社交賬號",
         "iceName": "緊急聯繫人姓名",
         "icePhone": "緊急聯繫人電話",
+        "iceRelation": "與本人關係",
+        "address": "常住地址",
         "deposit": "繳納保證金",
         "floatingPrice": "浮動價格",
         "remark": "備註",

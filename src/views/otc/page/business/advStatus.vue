@@ -7,11 +7,20 @@
     <div class="lxa-footer-btn app-size-34" v-if="status === '2'">
         <Button @click="reset" v-t="'mine.resetReal'"></Button>
     </div>
-    <div v-if="false" class="app-padding40">
+    <div v-show="merchant.status === 0" class="app-padding40">
         <ul class="adv_status-ul scale-1px">
             <li class="adv_status-li flex-between-c app-padding40" v-for="item in list" :key="item.key">
-                <span>{{item.title}}</span>
-                <span>料子</span>
+                <span class="defaultA5-color">
+                    <span v-if="item.value !== 'social'">{{$t(item.title)}}</span>
+                    <span v-else>{{merchant[item.title] | socialType}}</span>
+                </span>
+                <span class="default45-color">
+                    <span v-if="item.value !== 'relation'">{{merchant[item.key]}}</span>
+                    <span v-else>{{merchant[item.key] | relationship}}</span>
+                </span>
+            </li>
+            <li class="text-align-l app-padding40 default45-color">
+                {{merchant.address}}
             </li>
         </ul>
     </div>
@@ -28,27 +37,47 @@ export default Vue.extend({
             statusTxt: '',
             list: [
                 {
-                    title: '姓名',
-                    key: 'name',
+                    title: 'login.phone',
+                    key: 'phone',
                 },
                 {
-                    title: '姓名',
-                    key: 'name',
+                    title: 'login.email',
+                    key: 'email',
                 },
                 {
-                    title: '姓名',
-                    key: 'name',
+                    title: 'social_type', // 社交类型
+                    key: 'social',
+                    value: 'social',
                 },
                 {
-                    title: '姓名',
-                    key: 'name',
+                    title: 'otc.iceName',
+                    key: 'ice_name',
                 },
                 {
-                    title: '姓名',
-                    key: 'name',
+                    title: 'otc.icePhone',
+                    key: 'ice_phone',
+                },
+                {
+                    title: 'otc.iceRelation',
+                    key: 'ice_relation',
+                    value: 'relation',
+                },
+                {
+                    title: 'otc.address',
+                    key: '',
                 },
             ],
         };
+    },
+    computed: {
+        merchant(): any {
+            return this.$store.state.merchant;
+        },
+    },
+    beforeRouteEnter(to, from, next) {
+        next((vm) => {
+            vm.otcGetMerchant();
+        });
     },
     methods: {
         reset() {
