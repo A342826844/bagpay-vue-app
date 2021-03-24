@@ -13,7 +13,7 @@ export default {
 
 <style lang='less' scoped>
 .app-poptip{
-    padding-top: 48px;
+    padding-top: 32px;
     font-size: 24px;
     font-weight: normal;
     line-height: 50px;
@@ -22,6 +22,6 @@ export default {
     text-align: left;
     padding-left: 46px;
     padding-right: 32px;
-    margin-bottom: 68px;
+    margin-bottom: 20px;
 }
 </style>

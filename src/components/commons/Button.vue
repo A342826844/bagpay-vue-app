@@ -49,7 +49,7 @@ export default Vue.extend({
 .app-button{
     border: none;
     outline: none;
-    height: 99px;
+    height: 90px;
     width: 662px;
     text-align: center;
     &.border{

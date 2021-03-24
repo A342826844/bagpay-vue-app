@@ -41,8 +41,8 @@ export default Vue.extend({
     // font-weight: bold;
     .t-h3{
         color: #282828;
-        line-height: 45px;
-        font-size: 45px;
+        line-height: 34px;
+        font-size: 34px;
     }
     &.border-padding{
         padding-bottom: 28px;
