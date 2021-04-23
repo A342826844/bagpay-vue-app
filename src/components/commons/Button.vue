@@ -110,6 +110,7 @@ export default Vue.extend({
         width: auto;
         height: 40px;
         padding: 0 26px;
+    }
     &.minuscule{
         width: auto;
         height: auto;
