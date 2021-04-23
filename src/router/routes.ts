@@ -102,6 +102,8 @@ const EnvelopeDetail = () => import('@/views/envelope/detail.vue'); // 红包详
 const RedEnvelopeLog = () => import('@/views/logs/redEnvelope.vue'); // 抢红包记录
 const UserBalanceLog = () => import('@/views/logs/userBalanceLog.vue'); // 账单
 
+const Chat = () => import('@/views/chat/index.vue'); // 聊天
+
 const routes: Array<RouteConfig> = [
     {
         path: '/',
@@ -666,6 +668,14 @@ const routes: Array<RouteConfig> = [
         component: ScanValue,
         meta: {
             index: 10,
+        },
+    },
+    {
+        path: '/chat',
+        name: 'chat',
+        component: Chat,
+        meta: {
+            index: 1000,
         },
     },
     {

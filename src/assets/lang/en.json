@@ -487,6 +487,8 @@
         "socialAccount": "Social Account",
         "iceName": "Emergency Contact Name",
         "icePhone": "Emergency Contact Phone",
+        "iceRelation": "Relationship with me",
+        "address": "Permanent Address",
         "deposit": "Pay the deposit",
         "floatingPrice": "Floating Price",
         "fixedPrice": "Fixed Price",
