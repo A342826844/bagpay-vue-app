@@ -2,8 +2,9 @@
     "language": "繁體",
     "shareRedEnvelopeText": "請前往BagPay錢包-紅包輸入口令👉 {cdk} 👈領取紅包 https://bagpay.io/",
     "footer": {
-        "home": "首頁",
-        "mine": "我的"
+        "home": "錢包",
+        "otc": "場外",
+        "mine": "個人"
     },
     "common": {
         "envelopeSender": "{sender}的紅包",
@@ -106,6 +107,10 @@
         "tranfer": "轉賬",
         "financial": "理財",
         "news": "資訊",
+        "collection": "收款",
+        "wallet": "錢包",
+        "merchant": "商家服務",
+        "help": "新手幫助",
         "invita": "邀請",
         "cost": "生活繳費",
         "allApp": "全部應用",
@@ -399,6 +404,7 @@
         "orderFailed": "下單失敗",
         "enterNum": "請輸入數量或者金額",
         "enterNum2": "請輸入數量",
+        "enterAmount": "請輸入金額",
         "selectPayWay": "請選擇收付款方式",
         "buyCurrency": "交易幣種",
         "orderType": "訂單類型",
@@ -489,6 +495,16 @@
         "quickTip": "極速一鍵下單，按需匹配用戶掛單最随身碟口價",
         "quick": "一鍵",
         "noOrder": "暫無匹配訂單",
+        "shortcut": "快捷",
+        "zixuan": "自選",
+        "byAmount": "按金額購買",
+        "byTotal": "按數量購買",
+        "towHour": "2小時到賬",
+        "advertising": "廣告",
+        "payToAddress": "請向以下地址付款",
+        "waitingOther": "等待對方確認收款",
+        "waitingForPayment": "等待對方付款",
+        "confirmReceipt": "確認已收款",
         "placeInput": "請輸入{type}"
     },
     "business": {

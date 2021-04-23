@@ -87,9 +87,9 @@ export default Vue.extend({
         return {
             OtcOrderState,
             status: -1,
+            coin: '',
             isShow: false,
             loadMore: false,
-            coin: '',
             limit: 15,
             isEnd: false,
             isLoading: false,

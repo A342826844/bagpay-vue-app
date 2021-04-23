@@ -1,5 +1,5 @@
 <template>
-    <div @scroll.capture="scrollLoad" class="adv-manage">
+    <div @scroll.capture="scrollLoad">
         <Drawer position="right" v-model="isShow">
             <OrderFilter :title="$t('common.screen')">
                 <SubOrderFilter :title="$t('common.status')">
@@ -44,12 +44,12 @@
                                     <span :class="item.state | otcDealStateColor">{{item.state | otcDealState}}</span>
                                 </template>
                                 <template slot="lable">
-                                    <span>{{$t('common.price')}} ({{_unitIcon}})</span>
+                                    <span>{{$t('common.time')}}</span>
                                     <span>{{$t('otc.num')}} ({{item.coin && item.coin.toUpperCase()}})</span>
-                                    <span>{{$t('otc.turnover')}} ({{_unitIcon}})</span>
+                                    <span>{{$t('otc.totalTurnover')}} ({{_unitIcon}})</span>
                                 </template>
                                 <template slot="value">
-                                    <span>{{item.price}}</span>
+                                    <span>{{item.created_at | date('MM-dd hh:mm')}}</span>
                                     <span>{{item.amount}}</span>
                                     <span>{{item.value}}</span>
                                 </template>
@@ -189,14 +189,7 @@ export default Vue.extend({
 </script>
 
 <style lang="less" scoped>
-.adv-manage{
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  background: #fff;
-  overflow: scroll;
-}
+
 .content-list-nodata {
     margin: 28px 0;
 }

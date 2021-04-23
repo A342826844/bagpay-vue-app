@@ -9,7 +9,7 @@
             <slot></slot>
         </div>
         <div class="select-popup-cancle" >
-            <Button size="fill" @click="cancleHandle" type="info" v-t="'common.cancle'"></Button>
+            <Button size="fill" @click="cancleHandle" type="reinfo" v-t="'common.cancle'"></Button>
         </div>
     </V-Popup>
 </template>

@@ -1,5 +1,5 @@
 <template>
-    <div @click="clickHnadle" class="app-select flex-between-c app-padding40">
+    <div :style="{ background: bgColor }" @click="clickHnadle" class="app-select flex-between-c app-padding40">
         <div class="flex-item-1 text-align-l">
             <slot></slot>
         </div>
@@ -12,6 +12,12 @@ import Vue from 'vue';
 
 export default Vue.extend({
     name: 'Select',
+    props: {
+        bgColor: {
+            type: String,
+            default: '#F5F7F9',
+        },
+    },
     methods: {
         clickHnadle() {
             this.$emit('click');

@@ -9,8 +9,8 @@ import '@vant/touch-emulator';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import 'swiper/swiper-bundle.css';
 
-import * as Api from '@/api/index.ts';
-import verification, { hasBindValue } from '@/utils/verification.ts';
+import * as Api from '@/api/index';
+import verification, { hasBindValue } from '@/utils/verification';
 import Headers from '@/components/headers/index.vue';
 import TopBar from '@/components/topBar/index.vue';
 import TitleHeader from '@/components/headers/TitleHeader.vue';
@@ -55,6 +55,7 @@ declare module 'vue/types/vue' {
         _isLogin: boolean;
         _isplus: boolean;
         _unit: string;
+        _lang: string;
         _unitIcon: string;
         _getPhone: string;
         _showTopBar: boolean;
@@ -96,6 +97,9 @@ Vue.mixin({
         },
         _loading() {
             return (this.$store as Store<any>).state.loading;
+        },
+        _lang() {
+            return (this.$store as Store<any>).state.lang;
         },
         _unit() {
             return (this.$store as Store<any>).getters.getCurrencyTypeInfo.coin;

@@ -10,26 +10,16 @@
             >
             <form @submit.prevent="" class="transfer-out-form app-padding40">
                 <div class="form-item">
-                    <div class="lable flex-between-c">
-                        <span @click="testHandle" v-t="'payment.toAdd'"></span>
-                        <div @click="checkoutAddressType" class="primary-color">
-                            <img class="app-img-50" src="@/assets/img/common/switch2.png" alt="">
-                            <span>{{addressType === 1 ? '地址转账' : '账号转账'}}</span>
-                        </div>
-                    </div>
-                    <!-- <V-Field
+                    <div class="lable" v-t="'payment.toAdd'"></div>
+                    <Inputs
                         v-model="form.address"
-                        rows="2"
-                        autosize
-                        type="textarea"
                         maxlength="64"
                         @input="queryUidByAddress"
                         :autofocus="true"
+                        clearable
                         :placeholder="`${symbol.toUpperCase()} ${$t('payment.address')}`"
-                        show-word-limit
                     >
-                    <div slot="button" class="button_cont">
-                        <img class="app-img-50"
+                        <img class="app-img-50 app-margin-l40"
                             src="@/assets/img/home/assets.png"
                             v-if="$route.name !== 'transferpayment'"
                             @click="$router.push({
@@ -39,52 +29,16 @@
                                     needMemo: charge.need_memo
                                 }
                             })" alt="">
-                    </div>
-                    </V-Field> -->
-                    <Inputs
-                        v-model="form.address"
-                        :decimal="charge.decimal"
-                        maxlength="64"
-                        :optionSHow="optionSHow"
-                        @input="queryUidByAddress"
-                        @blur="addressBlurHandle"
-                        @focus="addressFocusHandle"
-                        :placeholder="`${symbol.toUpperCase()} ${$t('payment.address')}`"
-                    >
-                        <div class="button_cont">
-                            <img class="app-img-50"
-                                src="@/assets/img/home/assets.png"
-                                v-if="$route.name !== 'transferpayment'"
-                                @click="$router.push({
-                                    path: '/addrList',
-                                    query: {
-                                        symbol: symbol,
-                                        needMemo: charge.need_memo
-                                    }
-                                })" alt="">
-                        </div>
-                        <ul class="form-item-address-history app-padding40" slot="option">
-                            <li
-                                @click="selectAddressHistory(item)"
-                                class="li-item border-b"
-                                v-for="item in addressHistoryList"
-                                :key="item.address"
-                            >
-                                <img class="app-img-50" src="@/assets/img/common/history.png" alt="">
-                                <span>{{item.address}}</span>
-                            </li>
-                        </ul>
                     </Inputs>
                 </div>
                 <div :class="hasProtocol ? 'chainshow' : 'chainhide' " class="form-item">
-                    <Select @click="showPopupHandle">
-                        <div class="flex-between-c">
-                            <span v-t="'common.chainProtocol'"></span>
-                            <span class="vertical-m">
-                                {{activeProtocol.protocol && activeProtocol.protocol.toUpperCase()}}
-                            </span>
-                        </div>
-                    </Select>
+                    <ul class="flex-start-c">
+                        <li class="app-padding-r40" @click="selectChain(item)" v-for="item in chainList" :key="item.id">
+                            <Button :type="activeProtocol.protocol === item.protocol ? 'primary' : 'disabled'" size="mini">
+                                {{ item.protocol.toUpperCase() }}
+                            </Button>
+                        </li>
+                    </ul>
                 </div>
                 <div class="form-item" v-if="charge.need_memo === 1">
                     <div class="lable" v-t="'payment.memoAddr'"></div>
@@ -531,9 +485,10 @@ export default Vue.extend({
         width: 50px;
     }
     &-form{
+        margin-top: 46px;
         .chainshow{
-            margin-top: 60px !important;
-            height: 99px;
+            margin-top: 36px !important;
+            height: 70px;
             opacity: 1;
             transition: all 0.3s;
         }
@@ -543,23 +498,22 @@ export default Vue.extend({
             margin-top: 0 !important;
             opacity: 0;
         }
-        margin-top: 76px;
         .fee_label{
             margin-top: 30px;
         }
         .form-item{
             &+.form-item{
-                margin-top: 60px;
+                margin-top: 36px;
             }
             .lable{
-                margin-bottom: 40px;
+                margin-bottom: 28px;
             }
             .amount-input{
-                height: 169px;
-                line-height: 169px;
-                font-size: 76px;
-                border-bottom-left-radius: 0;
-                border-bottom-right-radius: 0;
+                height: 148px;
+                line-height: 148px;
+                font-size: 64px;
+                // border-bottom-left-radius: 0;
+                // border-bottom-right-radius: 0;
             }
             .remark-input{
                 border-top-left-radius: 0;

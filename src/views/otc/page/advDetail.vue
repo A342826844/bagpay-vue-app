@@ -1,7 +1,9 @@
 <template>
     <div @scroll.capture="scrollLoad" class="otc-advdetail">
-        <Headers>
-            <span v-show="orderDetail.status === 0" @click="cancelHandle" class="primary-color" v-t="'otc.adoff'"></span>
+        <Headers no-right-padding>
+            <Button size="auto"  v-if="orderDetail.status === 0" @click="cancelHandle" shape="l-semicircle">
+                {{$t('otc.adoff')}}
+            </Button>
         </Headers>
         <PullRefresh fill v-model="isLoading" @refresh="onRefresh">
             <Titles>

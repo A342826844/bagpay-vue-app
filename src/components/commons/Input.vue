@@ -1,5 +1,5 @@
 <template>
-    <div class="app-input app-padding40" :class="{[`show-${errorType}`]: error}">
+    <div :style="{ background: bgColor }" class="app-input app-padding40" :class="{[`show-${errorType}`]: error}">
         <slot name="start"></slot>
         <input
             ref="input"
@@ -61,6 +61,10 @@ export default Vue.extend({
             type: String,
             default: 'text', // text, password
         },
+        bgColor: {
+            type: String,
+            default: '',
+        },
         disabled: {
             type: Boolean,
             default: false,
@@ -68,10 +72,6 @@ export default Vue.extend({
         autofocus: {
             type: Boolean,
             default: false,
-        },
-        selfInput: {
-            type: Boolean,
-            default: false, // 是否在父组件中，用input事件手动设置value
         },
         isShowLength: {
             type: Boolean,
@@ -147,8 +147,6 @@ export default Vue.extend({
                     this.decimalHandle(Number(decimal));
                 }, 0);
             }
-            // 如果设置了这个属性，就需要绑定input事件
-            if (this.selfInput) return;
             if (!equal(value, this.value)) {
                 this.$emit('input', value);
             }
@@ -217,7 +215,7 @@ export default Vue.extend({
 @error: #ed4014;
 .app-input{
     width: 100%;
-    height: 99px;
+    height: 90px;
     line-height: 60px;
     background: #F5F7F9;
     border-radius: 10px;

@@ -132,7 +132,7 @@ export default Vue.extend({
         overflow-y: auto;
         margin-right: 20px;
         img{
-            width: 100px;
+            width: 80px;
             margin-bottom: 60px;
         }
     }

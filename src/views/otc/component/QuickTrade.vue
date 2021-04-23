@@ -1,25 +1,16 @@
 <template>
     <div class="otc-quick-trade">
         <div class="app-padding40">
-            <div class="flex-between-c">
-                <div class=" text-align-l">
-                    <p class="font-28">{{$t('otc.bestPrice')}} <span class="primary-color">{{bestPrice}} $/{{coin && coin.toUpperCase()}}</span></p>
-                    <p v-show="side === 1">{{$t('otc.balance')}}：{{balance}} {{coin && coin.toUpperCase()}}</p>
-                </div>
-                <div>
-                    <!-- <div
-                        class="banks"
-                        :class="item.type === pay_type ? 'primary-border-color' : 'gray-border-color'"
-                        v-for="item in userBank"
-                        @click="pay_type = item.type"
-                        :key="item.type"
-                    >
-                        <img v-show="item.type === pay_type" class="select" src="../../../assets/img/common/switch1.png" alt="">
-                        <img class="banks-img" :src="PayTypeImg[item.type]" alt="">
-                    </div> -->
-                </div>
+            <div class="flex-between-c margin-t-56 flex-wrap-between">
+                <p class="app-line-height50">
+                    {{$t('otc.bestPrice')}}
+                    <span class="primary-color">{{bestPrice}} $/{{coin && coin.toUpperCase()}}</span>
+                </p>
+                <p class="app-line-height50" v-show="side === 1">
+                    {{$t('otc.balance')}}: {{balance}} {{coin && coin.toUpperCase()}}
+            </p>
             </div>
-            <div class="margin-t-36 app-size-34">
+            <div v-if="false" class="margin-t-36 app-size-34">
                 <Inputs
                     decimal
                     v-model="value"
@@ -34,14 +25,7 @@
                     </div>
                 </Inputs>
             </div>
-            <!-- <div class="margin-t-36 flex-between-c">
-                <span></span>
-                <div class="font-28" @click="changeMethodType">
-                    <img class="switch-img" src="../../../assets/img/common/switch.png" alt="">
-                    {{$t('otc.methodType', { type: methodType === 1 ? $t('otc.num') : $t('otc.amount')})}}
-                </div>
-            </div> -->
-            <div class="margin-t-36 app-size-34 flex-between-c">
+            <div v-if="false" class="margin-t-36 app-size-34 flex-between-c">
                 <Select class="select-pay" @click="selectPayHandle">
                     <span v-for="item in pay_type" :key="item">{{item | payType}}</span>
                     <span v-show="!pay_type.length">{{side === 2 ? $t('common.payway') : $t('otc.payment')}}</span>
@@ -49,11 +33,42 @@
                 <span>&nbsp;</span>
                 <Button @click="tradeHandle">{{$t('otc.quick')}}{{ side | orderSideType}}</Button>
             </div>
-            <div class="margin-t-36">
+            <div class="form-box margin-t-36 ">
+                <div class="app-padding40 flex-between-c">
+                    <span v-t="methodType === 1? 'otc.amount' : 'otc.num'"></span>
+                    <span @click="changeMethodType" class="primary-color">{{methodType === 1 ? $t('otc.byTotal') : $t('otc.byAmount')}}</span>
+                </div>
+                <div class="app-padding40  flex-between-c">
+                    <span class="app-size-45">{{methodType === 1 ? '$' : (coin && coin.toUpperCase())}}</span>
+                    <Inputs
+                        class="app-size-34"
+                        bgColor="transparent"
+                        decimal
+                        v-model="value"
+                        :placeholder="$t('otc.placeInput', { type: methodType === 1 ? $t('otc.amount') : $t('otc.num')})"
+                    ></Inputs>
+                </div>
+                <div class="form-box-border border-b"></div>
+                <div >
+                    <Select bgColor="transparent" class="select-pay" @click="selectPayHandle">
+                        <div class="flex-between-c">
+                            <div>
+                                <img class="app-img-50" v-for="item in pay_type" :key="item" :src="PayTypeImg[item]" alt="">
+                                <span v-for="item in pay_type" :key="item"> {{item | payType}}</span>
+                                <span v-show="!pay_type.length">{{side === 2 ? $t('common.payway') : $t('otc.payment')}}</span>
+                            </div>
+                            <p class="default97-color">{{$t('otc.towHour')}}</p>
+                        </div>
+                    </Select>
+                </div>
+            </div>
+            <div class="app-size-34 margin-t-48">
+                <Button @click="tradeHandle">{{$t('otc.quick')}}{{ side | orderSideType}}</Button>
+            </div>
+            <div class="margin-t-56 default97-color">
                 * {{$t('otc.quickTip')}}
             </div>
         </div>
-        <div class="empty margin-t-36"></div>
         <SelectPopup container="#app" v-model="payPopup">
             <SelectPopupItem
                 v-for="item in PayType"
@@ -147,6 +162,10 @@ export default Vue.extend({
                 this.payPopup = true;
                 return;
             }
+            if (!this._isLogin) {
+                this.$loginRoute('/payway/select?type=1');
+                return;
+            }
             this.$router.push('/payway/select?type=1');
         },
         selectPayType(item: number) {
@@ -236,12 +255,17 @@ export default Vue.extend({
 
 <style scoped lang="less">
 .otc-quick-trade{
-    padding-top: 36px;
     .font-28{
         font-size: 28px;
     }
     .margin-t-36{
         margin-top: 36px;
+    }
+    .margin-t-56{
+        margin-top: 56px;
+    }
+    .margin-t-48{
+        margin-top: 48px;
     }
     .form-item-start{
         margin-right: 40px;
@@ -284,6 +308,14 @@ export default Vue.extend({
         height: 17px;
         background: #F4F6F9;
 
+    }
+    .form-box{
+        box-shadow: 0px 1px 5px 0px rgba(178, 178, 178, 0.5);
+        border-radius: 20px;
+        padding-top: 34px;
+        &-border{
+            margin: 0 12px;
+        }
     }
 }
 .select-box{

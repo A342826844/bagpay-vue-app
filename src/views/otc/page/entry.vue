@@ -3,95 +3,97 @@
         <TopBar v-if="_showTopBar">
             <h1 class="app-padding40 app-size-45 text-align-l">OTC</h1>
         </TopBar>
-        <Drawer position="right" v-model="screen">
-            <OrderFilter size='small' :title="$t('common.screen')">
-                <SubOrderFilter :title="$t('common.status')">
-                    <SubOrderFilterItem>待付款</SubOrderFilterItem>
-                    <SubOrderFilterItem :active="true">待付款</SubOrderFilterItem>
-                    <SubOrderFilterItem>待付款</SubOrderFilterItem>
-                </SubOrderFilter>
-                <SubOrderFilter title="币种">
-                    <SubOrderFilterItem>CNY</SubOrderFilterItem>
-                    <SubOrderFilterItem>USDT</SubOrderFilterItem>
-                    <SubOrderFilterItem>待付款</SubOrderFilterItem>
-                </SubOrderFilter>
-            </OrderFilter>
-        </Drawer>
-        <TabList
-            size="big"
-            border
-            :defaultVal="defaultVal"
-            @on-click="clickHandle"
-            class="otc-tab"
-            :tabList="bodyTabList"
-        >
-            <div slot="right" class="otc-header-right">
-                <!-- <img class="app-img-50" @click="screen=true" src="@/assets/img/common/screen.png" alt=""> -->
-                <img class="app-img-50" @click="showMoreHandle(true)" src="@/assets/img/common/more.png" alt="">
+        <div class="">
+            <div class="flex-between-c app-padding40 primary-single-bg">
+                <div class="">
+                    <img class="otc-top-logo" src="@/assets/img/logo/logo1.png" alt="">
+                </div>
+                <div class="app-margin-t40">
+                    <img @click="orderRouter" class="app-img-50" src="@/assets/img/otc/order1.png" alt="">
+                    <img @click="merchantHandle" class="app-img-50 app-margin-l40" src="@/assets/img/otc/merchant.png" alt="">
+                </div>
             </div>
-            <div class="otc-list" v-for="(item) in bodyTabList" :key="item.value" :slot="item.value">
-                <div class="otc-tabbar" @scroll.capture="scrollLoad">
-                    <V-Tabs
-                        v-model="activeSymbol"
-                        swipeable
-                        line-height='0.053333rem'
-                        line-width='0.693333rem'
-                        color = '#5894EE'
-                        ref="tabs"
-                        title-active-color='#5894EE'
-                        :swipe-threshold='5'
-                        :border='false'
-                        @change='changeCoinHandle(item.side)'
-                        >
-                        <V-Tab
-                            v-for="(subItem, index) in coins"
-                            :title="subItem.title"
-                            :name="subItem.symbol"
-                            :disabled="!subItem.symbol"
-                            :key="index"
-                        >
-                            <transition name="fade">
-                                <div class="otc-tabbar-page" v-show="subItem.symbol === activeSymbol">
-                                    <div class="otc-tabbar-content bg-white">
-                                        <div class="content-list">
-                                            <PullRefresh
-                                                v-model="isLoading"
-                                                @refresh="onRefresh"
-                                            >
+            <TabList
+                :defaultVal="defaultVal"
+                @on-click="clickHandle"
+                class="otc-tab primary-single-bg"
+                :bodyTransition="false"
+                theme="primary"
+                :tabList="bodyTabList"
+            >
+                <div class="otc-list app-top-br50" v-for="(item) in bodyTabList" :key="item.value" :slot="item.value">
+                    <div class="otc-tabbar " @scroll.capture="scrollLoad">
+                        <V-Tabs
+                            v-model="activeSymbol"
+                            swipeable
+                            line-height='0.053333rem'
+                            line-width='0.693333rem'
+                            color = '#DFC086'
+                            ref="tabs"
+                            title-active-color='#DFC086'
+                            :swipe-threshold='5'
+                            :border='false'
+                            @change='changeCoinHandle(item.side)'
+                            >
+                            <div class="app-padding-r40 zixuan-btn">
+                                <Button class="app-margin-t16" @click="tradeType = tradeType%2+1" size="mini">
+                                    <img class="app-img-50 app-margin-r40" src="@/assets/img/common/switch.png" alt="">
+                                    {{ tradeType !== 1 ? $t('otc.shortcut') : $t('otc.zixuan')}}
+                                </Button>
+                            </div>
+                            <V-Tab
+                                v-for="(subItem, index) in coins"
+                                :title="subItem.title"
+                                :name="subItem.symbol"
+                                :disabled="!subItem.symbol"
+                                :key="index"
+                            >
+                                <transition :name="tradeType === 1 ? '' : 'fade'">
+                                    <div class="otc-tabbar-page" v-show="subItem.symbol === activeSymbol">
+                                        <div class="otc-tabbar-content bg-white">
                                             <QuickTrade
                                                 :balances="balances"
                                                 :coin="activeSymbol"
                                                 :side="item.side"
+                                                v-show="tradeType === 1"
                                             ></QuickTrade>
-                                            <div
-                                                v-for="renderData in renderData[item.side][activeSymbol]"
-                                                :key="renderData.id"
-                                            >
-                                                <GoodsCard
-                                                    arrow
-                                                    :renderData='renderData'
-                                                    @arrow-click="goBusinessDetail(renderData)"
-                                                    @click="goTradeHandle(renderData)"
-                                                ></GoodsCard>
-                                                <div class="app-border-margin16 border-b"></div>
+                                            <div v-show="tradeType !== 1" class="content-list">
+                                                <PullRefresh
+                                                    v-model="isLoading"
+                                                    @refresh="onRefresh"
+                                                >
+                                                    <div >
+                                                        <div
+                                                            v-for="renderData in renderData[item.side][activeSymbol]"
+                                                            :key="renderData.id"
+                                                        >
+                                                            <GoodsCard
+                                                                arrow
+                                                                :renderData='renderData'
+                                                                @arrow-click="goBusinessDetail(renderData)"
+                                                                @click="goTradeHandle(renderData)"
+                                                            ></GoodsCard>
+                                                            <div class="app-border-margin16 border-b"></div>
+                                                        </div>
+                                                        <div v-if="false" class="loadMore-loading">
+                                                            <Loading type='component' :loading='loadMore'></Loading>
+                                                        </div>
+                                                        <p class="content-list-nodata gray-color" v-show="!_loading && (showDataStatus === 1)">
+                                                            {{$t('common.noMore')}}
+                                                        </p>
+                                                        <NoData v-if="!_loading && (showDataStatus === 0)"/>
+                                                    </div>
+                                                </PullRefresh>
                                             </div>
-                                            <div v-if="false" class="loadMore-loading">
-                                                <Loading type='component' :loading='loadMore'></Loading>
-                                            </div>
-                                            <p class="content-list-nodata gray-color" v-show="!_loading && (showDataStatus === 1)">
-                                                {{$t('common.noMore')}}
-                                            </p>
-                                            <NoData v-if="!_loading && (showDataStatus === 0)"/>
-                                            </PullRefresh>
                                         </div>
                                     </div>
-                                </div>
-                            </transition>
-                        </V-Tab>
-                    </V-Tabs>
+                                </transition>
+                            </V-Tab>
+                        </V-Tabs>
+                    </div>
                 </div>
-            </div>
-        </TabList>
+            </TabList>
+        </div>
         <div class="more-shade" v-show="showMore" @click.self="showMoreHandle(false)">
             <div class="more-content">
                 <div
@@ -112,8 +114,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import { axiosGoPromiseArr } from '@/api/axios';
-import Drawer from '@/components/commons/Drawer.vue';
-import { OrderFilter, SubOrderFilter, SubOrderFilterItem } from '@/components/Orders/index';
 import Loading from '@/components/loading/index.vue';
 import GoodsCard from '../component/GoodsCard.vue';
 import QuickTrade from '../component/QuickTrade.vue';
@@ -133,6 +133,7 @@ type data = {
     activeSymbol: string;
     loadMore: boolean;
     side: 1|2;
+    tradeType: 1|2; // 快捷交易(1)和自选交易(2)
     defaultVal: string;
     limit: number;
     balances: any[];
@@ -160,11 +161,11 @@ type data = {
     moreShade: Array<any>;
 }
 
-const menuHandle = (data: Array<any>): Array<any> => {
-    if (data.length < 5) {
+const menuHandle = (data: Array<any>, len = 5): Array<any> => {
+    if (data.length < len) {
         return menuHandle(data.concat({
             symbol: '',
-        }));
+        }), len);
     }
     return data;
 };
@@ -174,11 +175,7 @@ export default Vue.extend({
     components: {
         GoodsCard,
         QuickTrade,
-        Drawer,
         Loading,
-        OrderFilter,
-        SubOrderFilter,
-        SubOrderFilterItem,
     },
     data(): data {
         return {
@@ -192,6 +189,7 @@ export default Vue.extend({
             defaultVal: 'sideBuyT',
             limit: 10,
             balances: [],
+            tradeType: 1, // 快捷交易和自选交易
             renderData: {
                 1: {},
                 2: {},
@@ -274,7 +272,9 @@ export default Vue.extend({
                 title: item.symbol.toUpperCase(),
             }));
             if (!coins.length) return [];
-            return menuHandle(coins);
+            const validLen = coins.filter((item: any) => item.symbol).length;
+            // console.log(validLen);
+            return menuHandle(coins, (validLen >= 4 ? 6 : undefined));
         },
         userBank(): Array<any> {
             return this.$store.getters.getBankEnableList;
@@ -352,6 +352,13 @@ export default Vue.extend({
             } else {
                 this.$overflowScrolling(true);
             }
+        },
+        orderRouter() {
+            if (!this._isLogin) {
+                this.$loginRoute('/otc/order');
+                return;
+            }
+            this.$router.push('/otc/order');
         },
         goBusinessDetail(item: any) {
             if (this.isLoginRouter()) return;
@@ -462,6 +469,17 @@ export default Vue.extend({
             }
             this.resizeTab();
         },
+        merchantHandle() {
+            if (!this._isLogin) {
+                this.$loginRoute('/otc/advBusiness');
+                return;
+            }
+            if (this.merchant.status !== 1) {
+                this.$router.push('/otc/advBusiness');
+                return;
+            }
+            this.$router.push('/otc/merchant');
+        },
         clickShowMore(item: any) {
             this.showMoreHandle(false);
             if (item.name === 'otcAdv') {
@@ -542,12 +560,22 @@ export default Vue.extend({
 }
 .otc{
     height: 100%;
+    &-top-logo{
+        width: 200px;
+        margin-top: 28px;
+    }
     &-title{
         color: #575757;
     }
     &-tab{
         padding-top: @padding35;
+        // background: #fff;
         min-height: calc(100% - @padding35);
+    }
+    &-list{
+        background: #fff;
+        border-radius: 50px 50px 0 0;
+        // padding-top: 26px;
     }
     // &-tab-mini{
     //     min-height: auto;
@@ -563,6 +591,16 @@ export default Vue.extend({
                 margin-right: 39px;
             }
         }
+    }
+    .content-list{
+        padding-bottom: 150px;
+        &-nodata{
+            margin: 28px 0;
+        }
+    }
+    &-tabbar-page{
+        height: calc(100vh - 321px);
+        overflow: scroll;
     }
     .more-shade {
         position: fixed;
@@ -603,15 +641,10 @@ export default Vue.extend({
             }
         }
     }
-    .content-list{
-        padding-bottom: 150px;
-        &-nodata{
-            margin: 28px 0;
-        }
-    }
-    &-tabbar-page{
-        height: calc(100vh - 315px);
-        overflow: scroll;
+    .zixuan-btn{
+        position: absolute;
+        right: 0;
+        top: 0;
     }
 }
 .fade-enter-active, .fade-leave-active {
@@ -633,4 +666,28 @@ export default Vue.extend({
 //         }
 //     }
 // }
+.otc .van-tabs__nav{
+    background: transparent;
+}
+.otc .van-tabs__wrap{
+    padding-top: 20px;
+    &.van-tabs__wrap--scrollable{
+        width: 65%;
+        // background: pink;
+        position: relative;
+        padding-top: 20px;
+        &::after{
+            position: absolute;
+            content: '';
+            right: 0;
+            top: 20px;
+            height: 100px;
+            width: 1px;
+            // background: #fff;
+            // background: linear-gradient(to left, rgba(255, 255, 255, 1) rgba(255, 255, 255, 0));
+            background: #dcdcdc;
+
+        }
+    }
+}
 </style>

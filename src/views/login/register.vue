@@ -1,9 +1,9 @@
 <template>
   <div class="login">
-    <TitleHeader :title="$t('login.registerTitle')">
-      <span slot="header" @click="type = (1 - type/1)" class="primary-color app-size-34">
-        {{type?$t('login.registerPhone'):$t('login.registerEmail')}}
-      </span>
+    <TitleHeader no-right-padding :title="$t('login.registerTitle')">
+      <Button size="auto"  @click="type = (1 - type/1)" shape="l-semicircle" slot="header">
+          {{type?$t('login.registerPhone'):$t('login.registerEmail')}}
+      </Button>
       <div class="login-box app-padding40">
         <p class="login-tip">
           {{ $t("login.loginTip") }}(USDT、USDC、TUSD......)
@@ -27,7 +27,7 @@
             autocomplete="username"
             type="text"
           >
-            <span @click="$router.push('/login/search')" class="primary-color login-form-item-country">+ {{country.tel}} </span>
+            <span @click="$router.push('/login/search')" class="login-form-item-country">+ {{country.tel}} </span>
           </Inputs>
           <Inputs
             class="login-form-item"

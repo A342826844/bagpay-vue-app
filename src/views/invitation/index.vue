@@ -8,14 +8,14 @@
             <img @click="$router.push('/invitation/help')" src="../../assets/img/common/help.png" class="app-img-50" alt="">
         </Headers>
         <div class="invitation-top primary-bg app-padding40">
-            <div class="flex-between-c title">
+            <div class="flex-between-c title white-color">
                 <div @click="$router.push('/invitation/profit')">
                     {{$t('invitation.allProfit')}}(USDT)
                     <span class="triangle-r invitation-top-triangle"></span>
                 </div>
                 <div>{{$t('invitation.invitToalP')}}</div>
             </div>
-            <div class=" flex-between-c value">
+            <div class=" flex-between-c value white-color">
                 <h5 @click="$router.push('/invitation/profit')">{{extUserData.allComm}}</h5>
                 <h5>{{extUserData.childCount}}</h5>
             </div>

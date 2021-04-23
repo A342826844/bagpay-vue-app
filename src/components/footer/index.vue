@@ -13,7 +13,7 @@
                     :src="item.name !== $route.meta.activeName ? item.defaultIcon : item.activeIcon "
                     :alt="item.title"
                 >
-                <!-- <p class="nav-label" :style="{color: item.name !== $route.meta.name ? '' : '#333333'}">{{item.title}}</p> -->
+                <p class="nav-label" :style="{color: item.name !== $route.meta.activeName ? '' : '#333333'}">{{$t(item.title)}}</p>
             </div>
         </div>
     </footer>
@@ -49,19 +49,19 @@ export default Vue.extend({
                 {
                     path: '/home',
                     name: 'home',
-                    title: 'home',
+                    title: 'footer.home',
                     defaultIcon: assetsN,
                     activeIcon: assetsS,
                 }, {
                     path: '/otc/entry',
                     name: 'otcentry',
-                    title: 'OTC',
+                    title: 'footer.otc',
                     defaultIcon: otcN,
                     activeIcon: otcS,
                 }, {
                     path: '/mine',
                     name: 'mine',
-                    title: 'mine',
+                    title: 'footer.mine',
                     needLogin: true,
                     defaultIcon: mineN,
                     activeIcon: mineS,

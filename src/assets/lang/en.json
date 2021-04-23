@@ -3,6 +3,7 @@
     "shareRedEnvelopeText": "Please go to Bagpay wallet and enter your password 👉 {cdk} 👈 Get a red envelope https://bagpay.io/",
     "footer": {
         "home": "Home",
+        "otc": "OTC",
         "mine": "Mine"
     },
     "common": {
@@ -145,6 +146,10 @@
         "tranfer": "Transfer",
         "financial": "Financing",
         "news": "News",
+        "collection": "Collection",
+        "wallet": "Wallet",
+        "merchant": "Merchant",
+        "help": "Help",
         "invita": "Invite",
         "cost": "Life payment",
         "allApp": "All Apps",
@@ -401,6 +406,7 @@
         "orderFailed": "Order Failed",
         "enterNum": "Please enter the quantity or amount",
         "enterNum2": "Please enter the number",
+        "enterAmount": "Please enter the amount",
         "selectPayWay": "Please select payment",
         "buyCurrency": "Trading Currency",
         "orderType": "Order Type",
@@ -410,7 +416,7 @@
         "remark": "Remark",
         "maxTrade": "Max Trade",
         "minAmount": "Single item minimum",
-        "payAmount": "Payment Amount",
+        "payAmount": "Amount",
         "bus": "Business",
         "deal": "Deal",
         "turnover": "Turnover",
@@ -491,6 +497,16 @@
         "quickTip": "Quick order, match the best price of user's hanging order on demand,",
         "quick": "Quick ",
         "noOrder": "no matching order",
+        "shortcut": "Shortcut ",
+        "byAmount": "By amount",
+        "byTotal": "By total",
+        "towHour": "It will arrive in two hours",
+        "advertising": "OTC",
+        "zixuan": "OTC",
+        "payToAddress": "Please pay to this",
+        "waitingOther": "Waiting for other party to confirm",
+        "waitingForPayment": "Waiting for payment",
+        "confirmReceipt": "Confirm receipt",
         "placeInput": "P enter {type}"
     },
     "business": {

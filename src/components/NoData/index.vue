@@ -59,15 +59,15 @@ export default Vue.extend({
     padding-top: 80px;
     text-align: center;
     & > img {
-        width: 200px;
+        width: 160px;
         height: auto;
     }
     &.small > img {
-        width: 160px;
+        width: 150px;
     }
     & > p {
         margin-top: 25px;
-        font-size: 24px;
+        // font-size: 24px;
         color: #575757;
     }
     &.padding-b{

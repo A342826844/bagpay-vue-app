@@ -8,7 +8,7 @@
 .body_container{
     margin: 0;
     padding: 0;
-    background: url(../img/bg.png) no-repeat;
+    background: url(../img/bg.jpg) no-repeat;
     background-size: 100% 100%;
     width: 100%;
     height: 100%;
@@ -62,7 +62,7 @@
 .blue_title{
     font-weight: bold;
     font-size: 20px;
-    color: #5894EE
+    color: #454545
 }
 
 .btn_box{
@@ -76,11 +76,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #5894EE;
+    color: #DFC086;
     box-sizing: border-box;
     margin: 0 auto 7vw;
     border-radius: 10px;
-    border: 1px solid #5894EE;
+    border: 1px solid #DFC086;
     padding-top: 3vh;
     padding-bottom: 3vh;
     /* padding-left: 13vw;
@@ -91,13 +91,16 @@
 }
 
 .ios_img{
-    background:#5894EE url(../img/appleLogo3x.png) no-repeat 3vw;
+    background:#454545 url(../img/apple.png) no-repeat 3vw;
     background-size: 5vw;
 }
 .loading{
     width: 10vw;
 }
 .android_img{
-    background: url(../img/androidLogo3x.png) no-repeat 3vw;
+    background: url(../img/android.png) no-repeat 3vw;
     background-size: 5vw;
+}
+.swiper-container .swiper-pagination-bullet-active{
+    background: #DFC086;
 }

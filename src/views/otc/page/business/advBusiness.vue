@@ -122,7 +122,6 @@ export default Vue.extend({
   background: url("../../../../assets/img/otc/adv.png") no-repeat;
   background-size: 440px 380px;
   margin-top: 40px;
-  color: #3e80ca;
   .adv_t1 {
     font-size: 64px;
     font-weight: bold;
@@ -139,12 +138,14 @@ export default Vue.extend({
   box-shadow: 1px 4px 13px 0px rgba(198, 194, 216, 0.5);
   .tab_item {
     flex: 0 0 25%;
-    color: #3f80ca;
     font-size: 24px;
     .tab_img {
       height: 60px;
       margin-bottom: 45px;
     }
   }
+}
+.lxa-footer-btn{
+  padding-top: 0;
 }
 </style>

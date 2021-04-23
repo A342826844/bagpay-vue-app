@@ -39,51 +39,69 @@
                     <div class="border-b "></div>
                 </div>
                 <div v-show="orderDetail.remark" class="text-align-l otc-submit-mark app-padding40">
-                    <p class="lable">{{$t('otc.remark')}}</p>
+                    <!-- <p class="lable">{{$t('otc.remark')}}</p> -->
                     <div class="otc-submit-num">
+                        <span class="defaultA5-color">{{$t('otc.remark')}}： </span>
                         {{ orderDetail.remark }}
                     </div>
                 </div>
             </div>
-            <form @submit.prevent="" class="otc-submit-form app-padding40 text-align-l app-size-34">
-                <div class="form-lable flex-between-c">
+            <form @submit.prevent="" class="otc-submit-form app-padding40 text-align-l app-size-28">
+                <!-- <div class="form-lable flex-between-c">
                     <span>{{ orderDetail.type | orderSideType}}{{$t('otc.num')}}</span>
                     <span v-show="orderDetail.type === 1" class="app-size-28">
                         <span v-t="'mine.availableAmount'"></span>:
                         <span class="primary-color">{{balance}}</span>
                         {{orderDetail.coin && orderDetail.coin.toUpperCase()}}
                     </span>
-                </div>
-                <div class="form-lable">
+                </div> -->
+                <div class="form-lable flex-between-c app-padding40">
+                    <span class="form-lable-start">
+                        <span v-show="_lang !== 'en'">{{ orderDetail.type | orderSideType}}</span>
+                        {{$t('otc.num')}}</span>
                     <input
                         class="form-input app-padding40"
                         :decimal="2"
-                        :placeholder="`${$t('otc.maxTrade')}${maxTip} ${orderDetail.coin && orderDetail.coin.toUpperCase()}`"
+                        :placeholder="$t('otc.enterNum2')"
                         v-model="form.amount"
                         @input="inputAmount('amount')"
                     />
                 </div>
-                <div class="form-lable">{{$t('otc.payAmount')}}</div>
-                <div class="form-lable">
+                <p class="form-prompt text-align-r">
+                    {{$t('otc.maxTrade')}} {{maxTip}} {{orderDetail.coin && orderDetail.coin.toUpperCase()}}
+                </p>
+                <!-- <div class="form-lable">{{$t('otc.payAmount')}}</div> -->
+                <div class="form-lable flex-between-c app-padding40">
+                    <span class="form-lable-start">{{$t('otc.payAmount')}}</span>
                     <input
                         class="form-input app-padding40"
                         decimal
-                        :placeholder="`${$t('otc.minAmount')}${minTip} ${_unitIcon}`"
+                        :placeholder="$t('otc.enterAmount')"
                         v-model="form.value"
                         @input="inputAmount('value')"
                     />
                 </div>
-                <div class="form-lable">{{orderDetail.type === 2 ? $t('common.payway') : $t('otc.payment')}}</div>
+                <p class="form-prompt text-align-r">
+                    {{$t('otc.minAmount')}}
+                    {{minTip}}
+                    {{_unitIcon}}
+                </p>
+                <!-- <div class="form-lable">{{orderDetail.type === 2 ? $t('common.payway') : $t('otc.payment')}}</div> -->
                 <div class="form-lable">
                     <Select @click="selectPayHandle">
                         <span v-show="form.pay_type">{{form.pay_type | payType}}</span>
-                        <span v-show="!form.pay_type">{{$t('otc.selectPayWay')}}</span>
+                        <span v-show="!form.pay_type">{{orderDetail.type === 2 ? $t('common.payway') : $t('otc.payment')}}</span>
                     </Select>
                 </div>
-                <p class="flex-between-c fee">
+                <p class="flex-between-c fee font-size-24">
                     <span>{{$t('common.fee')}}: </span>
-                    <span>{{feeValue + (orderDetail.coin && orderDetail.coin.toUpperCase())}}</span>
+                    <span>{{feeValue}}{{(orderDetail.coin && orderDetail.coin.toUpperCase())}}</span>
                 </p>
+                <p v-show="orderDetail.type === 1" class="flex-between-c fee font-size-24">
+                    <span v-t="'mine.availableAmount'"></span>:
+                    <span class="primary-color">{{balance}} {{orderDetail.coin && orderDetail.coin.toUpperCase()}}</span>
+                </p>
+
                 <p
                     v-show="orderDetail.type === 1 && coinInfo.otc_fee"
                     class="red-color form-tip text-align-l"
@@ -94,7 +112,7 @@
             <div>
                 <Poptip>
                     <PoptipItem>
-                        {{$t('common.placeFee')}}: {{coinInfo.otc_fee * 100}} %
+                        {{$t('common.placeFee')}}: {{coinInfo.otc_fee * 100 || 0}} %
                     </PoptipItem>
                     <PoptipItem>
                         {{$t('business.vfiBusTip1')}}
@@ -211,10 +229,10 @@ export default Vue.extend({
             const maxValue = Math.floor(max_value / price);
             // const maxTotal = (total - frozen).toFixed(this.coinInfo.decimal);
             const res = Math.min(Number(maxValue), this.total);
-            return res;
+            return res || '';
         },
         minTip(): any {
-            return (this as any).orderDetail.min_value;
+            return (this as any).orderDetail.min_value || '';
         },
         coinInfo(): CoinInfo {
             return this.$store.getters.getCoinInfo(this.orderDetail.coin);
@@ -224,15 +242,15 @@ export default Vue.extend({
             if (Number(this.form.amount)) {
                 return (Number(this.form.amount) * otc_fee).toFixed(this.coinInfo.decimal);
             }
-            return (0).toFixed(this.coinInfo.decimal);
+            return (0).toFixed(this.coinInfo.decimal) || '';
         },
         total(): number {
-            return Number((this.orderDetail.total - this.orderDetail.filled - this.orderDetail.frozen).toFixed(this.coinInfo.decimal));
+            return Number((this.orderDetail.total - this.orderDetail.filled - this.orderDetail.frozen).toFixed(this.coinInfo.decimal)) || 0;
         },
         maxValue(): number {
             const total = Math.floor(this.total * this.orderDetail.price);
             const max = Math.min(total, this.orderDetail.max_value);
-            return max;
+            return max || 0;
         },
         balance(): number {
             const res = this.balances.find((item) => item.coin === this.orderDetail.coin);
@@ -295,6 +313,7 @@ export default Vue.extend({
             this.form.pay_type = type;
         },
         selectPayHandle() {
+            if (this._loading) return;
             // this.payPopup = true;
             if (this.orderDetail.type === 2) {
                 this.payPopup = true;
@@ -405,8 +424,13 @@ export default Vue.extend({
             this.$api.otcDealSubmit(params).then((res: any) => {
                 this.changeLoading(false);
                 this.$router.replace(`/otc/order/detail?id=${res.data.id}`);
-            }).catch(() => {
-                this.$normalToast(this.$t('otc.orderFailed'));
+            }).catch((err: any) => {
+                console.log(err);
+                if (err.message === 'ERR_PARAMS_ERROR') {
+                    this.$normalToast(`${this.$t('otc.orderFailed')} 可能对方已解绑当前收款方式`);
+                } else {
+                    this.$normalToast(this.$t(`error.${err.message}`));
+                }
                 this.changeLoading(false);
             });
         },
@@ -461,18 +485,26 @@ export default Vue.extend({
     }
     &-box{
         background: #ffffff;
-        padding-top: 40px;
+        padding-top: 36px;
     }
     &-form{
-        margin-top: 34px;
-        padding-top: 53px;
-        padding-bottom: 40px;
+        margin-top: 14px;
+        padding-top: 24px;
+        padding-bottom: 15px;
         background: #ffffff;
         .form-tip{
             font-size: 22px;
         }
+        .form-prompt{
+            margin: 15px 0;
+        }
         .form-lable{
-            margin-bottom: 43px;
+            // margin-bottom: 28px;
+            background: #F5F7F9;
+            &-start{
+                width: 150px;
+                display: inline-block;
+            }
         }
         .form-input{
             height: 99px;
@@ -489,9 +521,8 @@ export default Vue.extend({
         width: 100%;
     }
     .fee{
-        padding-top: 12px;
-        padding-bottom: 12px;
-        font-size: 32px;
+        margin-top: 12px;
+        margin-bottom: 12px;
     }
 }
 </style>

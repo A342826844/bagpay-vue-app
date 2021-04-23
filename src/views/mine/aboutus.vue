@@ -54,7 +54,7 @@ export default Vue.extend({
   &-box {
     margin-top: 58px;
     &-logo {
-      width: 350px;
+      width: 240px;
     }
     &-version {
       margin-top: 35px;

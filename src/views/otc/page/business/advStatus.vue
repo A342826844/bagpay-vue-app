@@ -7,6 +7,14 @@
     <div class="lxa-footer-btn app-size-34" v-if="status === '2'">
         <Button @click="reset" v-t="'mine.resetReal'"></Button>
     </div>
+    <div v-if="false" class="app-padding40">
+        <ul class="adv_status-ul scale-1px">
+            <li class="adv_status-li flex-between-c app-padding40" v-for="item in list" :key="item.key">
+                <span>{{item.title}}</span>
+                <span>料子</span>
+            </li>
+        </ul>
+    </div>
   </div>
 </template>
 
@@ -18,6 +26,28 @@ export default Vue.extend({
         return {
             status: this.$route.query.status,
             statusTxt: '',
+            list: [
+                {
+                    title: '姓名',
+                    key: 'name',
+                },
+                {
+                    title: '姓名',
+                    key: 'name',
+                },
+                {
+                    title: '姓名',
+                    key: 'name',
+                },
+                {
+                    title: '姓名',
+                    key: 'name',
+                },
+                {
+                    title: '姓名',
+                    key: 'name',
+                },
+            ],
         };
     },
     methods: {
@@ -50,6 +80,12 @@ export default Vue.extend({
 <style lang='less' scoped>
     .adv_status{
         height: 100%;
+        &-ul{
+            margin-top: 88px;
+            border-radius: 40px;
+            line-height: 60px;
+            padding: 32px 0;
+        }
     }
     .img_cont{
         margin-top: 200px;

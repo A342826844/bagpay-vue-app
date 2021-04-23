@@ -352,7 +352,9 @@ export default Vue.extend({
                 this.loadMore = false;
                 if (res.data.list) {
                     if (refresh) {
-                        this.renderData[this.side][this.activeSymbol] = res.data.list;
+                        const list = res.data.list.concat(res.data.list).concat(res.data.list).concat(res.data.list).concat(res.data.list)
+                            .concat(res.data.list);
+                        this.renderData[this.side][this.activeSymbol] = list.concat(list).concat(list).concat(list);
                     } else {
                         this.renderData[this.side][this.activeSymbol] = this.renderData[this.side][this.activeSymbol].concat(res.data.list);
                     }

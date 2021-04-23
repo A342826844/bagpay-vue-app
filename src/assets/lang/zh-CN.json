@@ -2,8 +2,9 @@
     "language": "中文",
     "shareRedEnvelopeText": "请前往BagPay钱包-红包 输入口令👉 {cdk} 👈领取红包 https://bagpay.io/",
     "footer": {
-        "home": "首页",
-        "mine": "我的"
+        "home": "钱包",
+        "otc": "场外",
+        "mine": "个人"
     },
     "common": {
         "envelopeSender": "{sender}的红包",
@@ -103,8 +104,12 @@
         "typeNoResponse": "一直不响应",
         "typePaidButNotRelease": "已付款不放币",
         "payment": "付款",
+        "collection": "收款",
+        "wallet": "钱包",
         "tranfer": "转账",
         "financial": "理财",
+        "merchant": "商家服务",
+        "help": "新手帮助",
         "news": "资讯",
         "invita": "邀请",
         "cost": "生活缴费",
@@ -403,6 +408,7 @@
         "orderFailed": "下单失败",
         "enterNum": "请输入数量或者金额",
         "enterNum2": "请输入数量",
+        "enterAmount": "请输入金额",
         "selectPayWay": "请选择收付款方式",
         "buyCurrency": "交易币种",
         "orderType": "订单类型",
@@ -493,6 +499,16 @@
         "quickTip": "极速一键下单，按需匹配用户挂单最优盘口价",
         "quick": "一键",
         "noOrder": "暂无匹配订单",
+        "shortcut": "快捷",
+        "zixuan": "自选",
+        "byAmount": "按金额购买",
+        "byTotal": "按数量购买",
+        "towHour": "2小时到账",
+        "advertising": "广告",
+        "payToAddress": "请向以下地址付款",
+        "waitingOther": "等待对方确认收款",
+        "waitingForPayment": "等待对方付款",
+        "confirmReceipt": "确认已收款",
         "placeInput": "请输入{type}"
     },
     "business": {

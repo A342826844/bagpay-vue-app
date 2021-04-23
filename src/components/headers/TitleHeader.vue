@@ -1,6 +1,14 @@
 <template>
     <div class="app-title-headers" :class="[theme, {fill}]">
-        <Headers ref="headers" v-bind="$attrs" :opacityTtitle="opacity" :title="title" :theme="theme" @back="goback">
+        <Headers
+            :noRightPadding="noRightPadding"
+            ref="headers"
+            v-bind="$attrs"
+            :opacityTtitle="opacity"
+            :title="title"
+            :theme="theme"
+            @back="goback"
+        >
             <slot name="header"></slot>
         </Headers>
         <div
@@ -25,6 +33,10 @@ export default Vue.extend({
     props: {
         title: {
             type: String,
+        },
+        noRightPadding: {
+            type: Boolean,
+            default: false,
         },
         border: {
             type: Boolean,
@@ -92,12 +104,12 @@ export default Vue.extend({
     &-title{
         background: #ffffff;
         text-align: left;
-        padding-top: 62px;
+        padding-top: 48px;
         // font-weight: bold;
         h3{
             color: #282828;
-            line-height: 45px;
-            font-size: 45px;
+            line-height: 34px;
+            font-size: 34px;
         }
         &.border-padding{
             padding-bottom: 28px;
@@ -113,9 +125,9 @@ export default Vue.extend({
         }
     }
     &.primary{
-        background: @primary;
+        background: @primary-bg;
         .app-title-headers-title{
-            background: @primary;
+            background: @primary-bg;
         }
         h3{
             color: #ffffff;

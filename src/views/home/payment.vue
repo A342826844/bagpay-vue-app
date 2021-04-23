@@ -1,21 +1,32 @@
 <template>
     <div class="payment primary-bg">
         <TitleHeader class="payment-body" theme="primary" ref="titleHeader" :title="$t('payment.paymentTitle')">
-            <div :class="hasProtocol ? 'chainshow' : 'chainhide' " class="payment-card">
-                <Select @click="showPopupHandle">
-                    <div class="flex-between-c">
-                        <span v-t="'common.chainProtocol'"></span>
-                        <span class="vertical-m">
-                            {{activeProtocol.protocol && activeProtocol.protocol.toUpperCase()}}
-                        </span>
-                    </div>
-                </Select>
-            </div>
+
             <div class="payment-card payment-info">
                 <h5 class="payment-info-title">{{$t('home.paymentTip') + symbol.toUpperCase()}}</h5>
+                <div :class="hasProtocol ? 'chainshow' : 'chainhide' " class="payment-chain">
+                    <ul class="flex-center">
+                        <li class="payment-chain-item" @click="selectChain(item)" v-for="item in chainList" :key="item.id">
+                            <Button :type="activeProtocol.protocol === item.protocol ? 'primary' : 'disabled'" size="mini">
+                                {{ item.protocol.toUpperCase() }}
+                            </Button>
+                        </li>
+                    </ul>
+                    <!-- <Select @click="showPopupHandle">
+                        <div class="flex-between-c">
+                            <span v-t="'common.chainProtocol'"></span>
+                            <span class="vertical-m">
+                                {{activeProtocol.protocol && activeProtocol.protocol.toUpperCase()}}
+                            </span>
+                        </div>
+                    </Select> -->
+                </div>
                 <div class="payment-info-qrcode" :style="{width: `${size + 15}px`, height: `${size + 15}px`}">
+                    <!-- <div class="qrcode-logo">
+                        <img class="app-img-50" src="@/assets/img/logo/logo.png" alt="">
+                    </div> -->
                     <Loading v-show="loading"/>
-                    <QrcodeVue ref="qrcode" v-show="qrValue" foreground="#5894EE" :size="size" :value="qrValue"></QrcodeVue>
+                    <QrcodeVue ref="qrcode" v-show="qrValue" foreground="#DFC086" :size="size" :value="qrValue"></QrcodeVue>
                 </div>
                 <div>
                     <h5 class="payment-info-title" v-t="'payment.paymentAddr'"></h5>
@@ -27,19 +38,19 @@
                 </div>
             </div>
             <Poptip class="payment-poptip">
-                <PoptipItem>
+                <PoptipItem notRed>
                     {{ $t("home.paymentTip1", {"symbol": symbol.toUpperCase()}) }}
                 </PoptipItem>
-                <PoptipItem v-show="!hasProtocol">
+                <PoptipItem notRed v-show="!hasProtocol">
                     {{ $t("home.paymentTip2", {"symbol": symbol.toUpperCase()}) }}
                 </PoptipItem>
-                <PoptipItem v-show="hasProtocol">
+                <PoptipItem notRed v-show="hasProtocol">
                     {{$t('common.erc20Charge', {
                         protocol: activeProtocol.protocol && activeProtocol.protocol.toUpperCase(),
                         coin: symbol && symbol.toUpperCase()
                     })}}
                 </PoptipItem>
-                <PoptipItem>
+                <PoptipItem notRed>
                     {{ $t("home.paymentTip3") }}
                 </PoptipItem>
             </Poptip>
@@ -215,9 +226,14 @@ export default Vue.extend({
         width: 650px;
         border-radius: 20px;
     }
+    &-chain{
+        &-item{
+            margin: 0 15px;
+        }
+    }
     .chainshow{
         margin-top: 49px;
-        height: 99px;
+        height: 70px;
         opacity: 1;
         transition: all 0.3s;
     }
@@ -230,7 +246,7 @@ export default Vue.extend({
     &-info{
         position: relative;
         padding-top: 71px;
-        height: 892px;
+        height: 992px;
         &-title{
             font-size: 34px;
         }
@@ -238,7 +254,20 @@ export default Vue.extend({
             margin: 59px 0 71px;
             display: inline-block;
             padding: 15px;
-            .scale-1px(#98D0FF, 10px);
+            .scale-1px(#DFC086, 10px);
+            .qrcode-logo{
+                position: absolute;
+                z-index: 10;
+                background: #fff;
+                width: 70px;
+                height: 70px;
+                border-radius: 20px;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                margin: auto;
+            }
         }
         &-address{
             margin-top: 29px;
